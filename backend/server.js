@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = 4000;
 const routes = express.Router();
+const imdb = require('imdb-api');
 
 const Movie = require('./movie.model')
 
@@ -21,6 +22,7 @@ connection.once('open', function () {
 })
 
 routes.route('/').get((req, res) => {
+
     Movie.find((err, movies) => {
         if (err) console.log(err)
         else res.json(movies)
@@ -35,16 +37,24 @@ routes.route('/:id').get((req, res) => {
 })
 
 routes.route('/add').post((req, res) => {
-    console.log(req.body)
     let movie = new Movie(req.body);
+    if (!req.body.img) imdb.get({ name: req.body.title }, { apiKey: '623fca3e' }).then((data) => {
+        movie.img = data.poster
+        saveMovie();
+    }).catch((err) => {
+        res.status(200).json({'status': 'error', 'text': 'Cant find image. Please put custom link or provide english title'})
+        console.log
+    });
+    else {
+        saveMovie();
+    }
 
-    movie.save()
-        .then(m => {
-            res.status(200).json({ 'movie': 'added successfully' });
-        })
-        .catch(err => {
-            res.status(400).send('adding new movie failed');
-        })
+    function saveMovie() {
+        movie.save()
+            .then(m => res.status(200).json({'status': 'success', 'text': 'Movie added successfully'}))
+            .catch(err => res.status(400).send('Adding new movie failed'))
+    }
+
 })
 
 routes.route('/update/:id').post((req, res) => {
@@ -55,9 +65,10 @@ routes.route('/update/:id').post((req, res) => {
             movie.img = req.body.img;
             movie.genre = req.body.genre;
             movie.liked = req.body.liked;
+            movie.watched = req.body.watched;
 
             movie.save()
-                .then(movie => res.json('Movie updated'))
+                .then(movie => res.json({'status': 'success', 'text': 'Movie updated successfully'}))
                 .catch(err => res.status(400).send('Cant update'))
         }
     })
@@ -67,7 +78,7 @@ routes.route('/delete/:id').delete((req, res) => {
     Movie.findById(req.params.id, (err, movie) => {
         if (!movie) res.status(404).send('data not found')
         else movie.remove()
-            .then(movie => res.json('Movie deleted'))
+            .then(movie => res.json({'status': 'success', 'text': 'Movie deleted successfully'}))
             .catch(err => res.status(400).send(err))
     })
 })

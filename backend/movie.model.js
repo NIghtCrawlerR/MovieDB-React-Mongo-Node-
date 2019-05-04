@@ -13,6 +13,9 @@ let Movie = new Schema({
     },
     liked: {
         type: Boolean
+    },
+    watched: {
+        type: Number
     }
 })
 

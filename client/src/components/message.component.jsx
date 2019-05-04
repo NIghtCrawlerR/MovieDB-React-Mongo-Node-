@@ -3,16 +3,17 @@ import './css/message.css';
 
 export default class Message extends Component {
     
-
     render() {
+        const {message} = this.props
         return (
-            <div className="message error">
+            <div className={'message ' + message.status}>
                 <div className="icon">
-                    <i class="fas fa-check-circle"></i>
+                    
+                    <i className="fas fa-check-circle"></i>
                 </div>
                 <div className="ml-4">
-                    <h3>Title</h3>
-                    <p>Message text</p>
+                    <h3>{message.status}</h3>
+                    <p>{message.text}</p>
                 </div>
             </div>
         )

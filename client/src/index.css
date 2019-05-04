@@ -22,13 +22,17 @@ code {
   color: var(--red) !important;
 }
 
-.btn-purple {
+.btn-purple, .bg-purple {
   background-color: rgb(77, 0, 128) !important;
   color: #fff !important;
 }
 
 .content {
   padding: 30px;
+}
+
+.navbar {
+  padding: 10px 30px;
 }
 
 /*checkbox*/

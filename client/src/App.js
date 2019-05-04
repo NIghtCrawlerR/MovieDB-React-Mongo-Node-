@@ -8,42 +8,57 @@ import EditMovie from "./components/edit-movie.component"
 import CreateMovie from "./components/create-movie.component"
 import Message from "./components/message.component"
 
-function showMsg(show) {
-  if (show) return <Message />
+function isMsg(show, msg) {
+  if (show) return <Message message={msg}/>
 }
 
-export default class Movie extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      showMsg: false
+      showMsg: false,
+      message: {
+        'status': 'warning',
+        'text': 'message text'
+      }
     }
+  }
+
+  showMsg(status, text) {
+    this.setState({
+      showMsg: true,
+      message: {
+        'status': status,
+        'text':text
+      }
+    })
+    setTimeout(() => {
+      this.setState({
+        showMsg:false
+      })
+    }, 5000)
   }
 
   render() {
     return (
       <Router>
-
-        <div className="container">
-          <nav className="navbar bg-red">
+        <nav className="navbar bg-red">
             <Link to="/" className="navbar-brand text-white">Movie database</Link>
             <Link to="/create" className="btn btn-sm btn-purple">Add movie</Link>
-          </nav>
-          <div>
-            1. show info msg after actions <br />
+        </nav>
+        <div className="container">
+          
+          <div className="d-none">
             2. add form component same for add and edit <br />
-            3. watched labels <br />
-            4. watched buttons <br />
-            5. filter <br />
           </div>
           <div className="box">
 
-            <Route path="/" exact component={MoviesList} />
-            <Route path="/edit/:id" component={EditMovie} />
-            <Route path="/create" component={CreateMovie} />
+            <Route path="/" exact render={(props) => (<MoviesList {...props} showMsg={this.showMsg.bind(this)} />)} />
+            <Route path="/edit/:id" render={(props) => (<EditMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
+            <Route path="/create"  render={(props) => (<CreateMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
           </div>
-          {showMsg(this.state.showMsg)}
+          {isMsg(this.state.showMsg, this.state.message)}
 
         </div>
       </Router>
