@@ -22,14 +22,7 @@ connection.once('open', function () {
     console.log("MongoDB successfully connected");
 })
 
-if (process.env.NODE_ENV === 'production') {
-    //set static folder
-    app.use(express.static('client/build'));
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-}
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 routes.route('/').get((req, res) => {
 
@@ -95,6 +88,9 @@ routes.route('/delete/:id').delete((req, res) => {
 
 app.use('/movies', routes);
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  });
 
 app.listen(PORT, function () {
     console.log("Server is running on Port: " + PORT);
