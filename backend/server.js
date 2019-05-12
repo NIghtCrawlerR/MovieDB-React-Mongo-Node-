@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const PORT = process.env.PORT || 4000;
 const routes = express.Router();
 const imdb = require('imdb-api');
+const path = require('path')
 
 const Movie = require('./movie.model')
 
@@ -22,15 +23,13 @@ connection.once('open', function () {
 })
 
 if (process.env.NODE_ENV === 'production') {
-    // Exprees will serve up production assets
+    //set static folder
     app.use(express.static('client/build'));
-  
-    // Express serve up index.html file if it doesn't recognize route
-    const path = require('path');
+
     app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
-  }
+}
 
 routes.route('/').get((req, res) => {
 
@@ -53,7 +52,7 @@ routes.route('/add').post((req, res) => {
         movie.img = data.poster
         saveMovie();
     }).catch((err) => {
-        res.status(200).json({'status': 'error', 'text': 'Cant find image. Please put custom link or provide english title'})
+        res.status(200).json({ 'status': 'error', 'text': 'Cant find image. Please put custom link or provide english title' })
         console.log
     });
     else {
@@ -62,7 +61,7 @@ routes.route('/add').post((req, res) => {
 
     function saveMovie() {
         movie.save()
-            .then(m => res.status(200).json({'status': 'success', 'text': 'Movie added successfully'}))
+            .then(m => res.status(200).json({ 'status': 'success', 'text': 'Movie added successfully' }))
             .catch(err => res.status(400).send('Adding new movie failed'))
     }
 
@@ -79,7 +78,7 @@ routes.route('/update/:id').post((req, res) => {
             movie.watched = req.body.watched;
 
             movie.save()
-                .then(movie => res.json({'status': 'success', 'text': 'Movie updated successfully'}))
+                .then(movie => res.json({ 'status': 'success', 'text': 'Movie updated successfully' }))
                 .catch(err => res.status(400).send('Cant update'))
         }
     })
@@ -89,12 +88,13 @@ routes.route('/delete/:id').delete((req, res) => {
     Movie.findById(req.params.id, (err, movie) => {
         if (!movie) res.status(404).send('data not found')
         else movie.remove()
-            .then(movie => res.json({'status': 'success', 'text': 'Movie deleted successfully'}))
+            .then(movie => res.json({ 'status': 'success', 'text': 'Movie deleted successfully' }))
             .catch(err => res.status(400).send(err))
     })
 })
 
 app.use('/movies', routes);
+
 
 app.listen(PORT, function () {
     console.log("Server is running on Port: " + PORT);
