@@ -22,7 +22,6 @@ connection.once('open', function () {
     console.log("MongoDB successfully connected");
 })
 
-app.use(express.static(path.join(__dirname, 'client/build')));
 
 routes.route('/').get((req, res) => {
 
@@ -88,9 +87,7 @@ routes.route('/delete/:id').delete((req, res) => {
 
 app.use('/movies', routes);
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
-  });
+
 
 app.listen(PORT, function () {
     console.log("Server is running on Port: " + PORT);
