@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -7,7 +9,8 @@ const PORT = process.env.PORT || 4000;
 const routes = require('./routes/routes')
 const path = require('path')
 
-const dbUrl = 'mongodb://NightCrawler:F9V6U0XxMmOZEVeA@ds155714.mlab.com:55714/movies'
+
+const dbUrl = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds155714.mlab.com:55714/movies`
 
 app.use(cors());
 app.use(bodyParser.json());
