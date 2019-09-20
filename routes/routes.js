@@ -1,11 +1,18 @@
 module.exports = (function(){
     const express = require('express')
+    const session = require('express-session')
     const router = express.Router();
     const imdb = require('imdb-api');
     const Movie = require('../models/movie.model')
+    const UserSession = require('../models/user.session.model')
+
+    const apiKey = '623fca3e'
     
     router.route('/').get((req, res) => {
-    
+        //req.session.user = 'Session User'
+        console.log('------UserSession-----')
+        console.log(UserSession.userId)
+        console.log('------UserSession-----')
         Movie.find((err, movies) => {
             if (err) console.log(err)
             else res.json(movies)
@@ -21,7 +28,7 @@ module.exports = (function(){
     
     router.route('/add').post((req, res) => {
         let movie = new Movie(req.body);
-        if (!req.body.img) imdb.get({ name: req.body.title }, { apiKey: '623fca3e' }).then((data) => {
+        if (!req.body.img) imdb.get({ name: req.body.title }, { apiKey: apiKey }).then((data) => {
             movie.img = data.poster
             saveMovie();
         }).catch((err) => {
