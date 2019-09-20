@@ -1,4 +1,4 @@
-module.exports = (function(){
+module.exports = (function () {
     const express = require('express')
     const session = require('express-session')
     const router = express.Router();
@@ -7,25 +7,26 @@ module.exports = (function(){
     const UserSession = require('../models/user.session.model')
 
     const apiKey = '623fca3e'
-    
-    router.route('/').get((req, res) => {
-        //req.session.user = 'Session User'
-        console.log('------UserSession-----')
-        console.log(UserSession.userId)
-        console.log('------UserSession-----')
+
+    function ensureAuth(req, res, next) {
+        console.log('ensureAuth')
+        next()
+    }
+
+    router.get('/', ensureAuth, (req, res) => {
         Movie.find((err, movies) => {
             if (err) console.log(err)
             else res.json(movies)
         })
     })
-    
+
     router.route('/:id').get((req, res) => {
         let id = req.params.id;
         Movie.findById(id, (err, movie) => {
             res.json(movie)
         })
     })
-    
+
     router.route('/add').post((req, res) => {
         let movie = new Movie(req.body);
         if (!req.body.img) imdb.get({ name: req.body.title }, { apiKey: apiKey }).then((data) => {
@@ -38,15 +39,15 @@ module.exports = (function(){
         else {
             saveMovie();
         }
-    
+
         function saveMovie() {
             movie.save()
                 .then(m => res.status(200).json({ 'status': 'success', 'text': 'Movie added successfully' }))
                 .catch(err => res.status(400).send('Adding new movie failed'))
         }
-    
+
     })
-    
+
     router.route('/update/:id').post((req, res) => {
         Movie.findById(req.params.id, (err, movie) => {
             if (!movie) res.status(404).send('data not found')
@@ -56,14 +57,14 @@ module.exports = (function(){
                 movie.genre = req.body.genre;
                 movie.liked = req.body.liked;
                 movie.watched = req.body.watched;
-    
+
                 movie.save()
                     .then(movie => res.json({ 'status': 'success', 'text': 'Movie updated successfully' }))
                     .catch(err => res.status(400).send('Cant update'))
             }
         })
     })
-    
+
     router.route('/delete/:id').delete((req, res) => {
         Movie.findById(req.params.id, (err, movie) => {
             if (!movie) res.status(404).send('data not found')

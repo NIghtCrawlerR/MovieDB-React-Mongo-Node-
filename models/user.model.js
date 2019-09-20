@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema({
     signUpDate: {
         type: Date,
         default: Date.now()
+    },
+    movies: {
+        type: Array,
+        default: []
     }
 })
 

@@ -22,7 +22,7 @@ export default class Form extends Component {
     }
 
     componentDidMount() {
-        // console.log(this.props)
+        console.log(this.props)
     }
 
     changeHandler(e) {
@@ -44,7 +44,12 @@ export default class Form extends Component {
            axios.post('http://localhost:4000/api/users/login', {email: this.state.email, password: this.state.password})
             .then((res) => {
                 if (res.data.success) {
-                    setInStorage('app_data', { token: res.data.token })
+                    setInStorage('app_data', { 
+                        token: res.data.token,
+                        userId: res.data.userId
+                    })
+                    this.props.history.push('/')
+
                 } else {
                     this.setState({
                         errorMessage: res.data.message

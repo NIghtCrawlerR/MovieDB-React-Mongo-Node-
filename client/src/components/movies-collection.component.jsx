@@ -71,25 +71,6 @@ export default class MoviesList extends Component {
             .catch(err => console.log(err))
     }
 
-    addToCollection(id) {
-        let appData = getFromStorage('app_data')
-        if (appData.movies) {
-            if(!appData.movies.includes(id)) appData.movies.push(id)
-            else {
-                // const i = appData.movies.indexOf(id)
-                appData.movies = appData.movies.filter(movieId => movieId != id)
-            }
-        }
-        else appData.movies = [id]
-        setInStorage('app_data', appData)
-     
-        axios.post('http://localhost:4000/api/users/movies/add',
-            { userId: getFromStorage('app_data').userId, movies: appData.movies })
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-        // console.log(id)
-    }
-
     clickHandler(id, mode) {
         switch (mode) {
             case 'delete':
@@ -101,9 +82,6 @@ export default class MoviesList extends Component {
             case 'setWatch':
                 this.setWatch(id);
                 break;
-            case 'addToCollection':
-                this.addToCollection(id);
-                break;
             default:
                 return;
         }
@@ -111,12 +89,19 @@ export default class MoviesList extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/movies')
+        const appData = getFromStorage('app_data')
+        if(!appData) {
+            window.location.href = '/'
+            return !1
+        }
+        axios.post('http://localhost:4000/api/users/movies/get', { userId: appData.userId })
             .then(res => {
+                // this.getCollection(res.data.movies)
                 this.setState({
-                    movies: res.data,
-                    filtered: res.data
+                    movies: res.data.movies,
+                    filtered: res.data.movies
                 })
+                console.log(res)
             })
             .catch(err => console.log(err))
     }
@@ -127,7 +112,7 @@ export default class MoviesList extends Component {
                 <Filter filter={this.filter.bind(this)} />
                 <div className="mt-3 movies_wrap">
                     {this.state.filtered.map(movie => {
-                        return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />
+                        return <Movie {...movie} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />
                     })}
                 </div>
             </div>

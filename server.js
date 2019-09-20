@@ -11,6 +11,7 @@ const routes = require('./routes/routes')
 // const routesUser = require('./routes/user')
 const path = require('path')
 const session = require('express-session')
+const cookieSession = require('cookie-session')
 const errorHandler = require('errorhandler')
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -23,9 +24,22 @@ app.use(require('morgan')('dev'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 app.use(cookieParser())
+// app.use(express.cookieParser('secret'));
 
 //session
-app.use(session({secret: 'ssshhhhh'}));
+app.use(session(
+    {
+        secret: 'ssshhhhh',
+        resave: true,
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 60000,
+            test: 'tst',
+            expires: new Date(Date.now() + (30 * 86400 * 1000)),
+        },
+    }
+));
+
 
 //Connect database
 mongoose.connect(dbUrl, { useNewUrlParser: true });
@@ -44,6 +58,7 @@ require('./models/user.model')
 // require('./config/passport')
 
 app.use(express.static(path.join(__dirname, 'client/build')));
+
 
 app.use('/movies', routes);
 // app.use('/user', routesUser);

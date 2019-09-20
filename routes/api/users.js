@@ -1,7 +1,67 @@
 const express = require('express')
 const router = express.Router();
 const User = require('../../models/user.model')
+const Movie = require('../../models/movie.model')
 const UserSession = require('../../models/user.session.model')
+const mongoose = require('mongoose')
+
+router.post('/movies/add', (req, res) => {
+    console.log(req.body.movies)
+    User.findOneAndUpdate({
+        _id: req.body.userId
+    }, {
+            $set: {
+                movies: req.body.movies
+            }
+        }, null, (err, user) => {
+            // console.log(user)
+            if (err) {
+                console.log(err);
+                return res.send({
+                    success: false,
+                    message: 'Error: Server error'
+                });
+            }
+            return res.send({
+                success: true,
+                message: 'Movie added to collection successfully'
+            });
+        })
+})
+
+router.post('/movies/get', (req, res) => {
+    const userId = req.body.userId
+    User.find({ _id: userId }, (err, user) => {
+        console.log(user)
+        if (err) {
+            return res.send({
+                succes: false,
+                message: 'Error: Server error. ' + err
+            })
+        }
+        if (req.body.getIds) {
+            return res.send({
+                succes: true,
+                message: 'Success',
+                movies: user[0].movies
+            })
+        } else {
+            let arr = user[0].movies.map(movie => mongoose.Types.ObjectId(movie))
+            Movie.find({
+                '_id': {
+                    $in: arr
+                }
+            }, function (err, docs) {
+                return res.send({
+                    succes: true,
+                    message: 'Success',
+                    movies: docs
+                })
+            });
+        }
+    })
+    console.log(req.body)
+})
 
 router.post('/login', (req, res) => {
     console.log('-----LOGIN----')
@@ -38,7 +98,8 @@ router.post('/login', (req, res) => {
         }
 
         const user = users[0]
-
+        console.log('-----user-----')
+        console.log(user)
         if (!user.validatePassword(password)) {
             return res.send({
                 success: false,
@@ -61,7 +122,8 @@ router.post('/login', (req, res) => {
             return res.send({
                 success: true,
                 message: 'Valid sign in',
-                token: doc._id
+                token: doc._id,
+                userId: user._id
             })
         })
 
@@ -172,117 +234,11 @@ router.get('/verify', (req, res, next) => {
             // DO ACTION
             return res.send({
                 success: true,
-                message: 'Good'
+                message: 'Good',
+                userData: sessions[0]
             });
         }
     });
 })
 
 module.exports = router;
-// const mongoose = require('mongoose');
-// const passport = require('passport');
-// const router = require('express').Router();
-// const auth = require('../auth');
-// const Users = mongoose.model('Users');
-
-// //POST new user route (optional, everyone has access)
-// router.post('/', auth.optional, (req, res, next) => {
-//     const { body: { user } } = req;
-
-//     if (!user.email) {
-//         return res.status(422).json({
-//             errors: {
-//                 email: 'is required',
-//             },
-//         });
-//     }
-
-//     if (!user.password) {
-//         return res.status(422).json({
-//             errors: {
-//                 password: 'is required',
-//             },
-//         });
-//     }
-
-//     const finalUser = new Users(user);
-
-//     finalUser.setPassword(user.password);
-//     console.log('------finalUser-------')
-//     console.log(finalUser)
-//     console.log('------finalUser-------')
-//     return finalUser.save()
-//         .then((res) => {
-//             console.log('------res-------')
-//             console.log(res)
-//             console.log('------res-------')
-//             res.json({ user: finalUser.toAuthJSON() })
-//         })
-//         .catch(err => {
-//             console.log('------err-------')
-//             console.log(err)
-//             console.log('------err-------')
-//             res.json({ error: err })
-//         })
-// });
-
-// //POST login route (optional, everyone has access)
-// router.post('/login', auth.optional, (req, res, next) => {
-//     const { body: { user } } = req;
-
-//     if (!user.email) {
-//         return res.status(422).json({
-//             errors: {
-//                 email: 'is required',
-//             },
-//         });
-//     }
-
-//     if (!user.password) {
-//         return res.status(422).json({
-//             errors: {
-//                 password: 'is required',
-//             },
-//         });
-//     }
-
-//     return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
-//         console.log('------passportUser-------')
-//         console.log(passportUser)
-//         if (err) {
-//             return next(err);
-//         }
-
-//         if (passportUser) {
-//             const user = passportUser;
-//             user.token = passportUser.generateJWT();
-
-//             return res.json({ user: user.toAuthJSON() });
-//         }
-
-//         return status(400).info;
-//         // if (err) { return next(err); }
-//         // if (!user) { return res.redirect('/login'); }
-//         // req.logIn(user, function (err) {
-//         //     if (err) { return next(err); }
-//         //     return res.redirect('/users/' + user.username);
-//         //     // return res.json({ user: user.toAuthJSON() });
-//         // });
-//     })(req, res, next);
-// });
-
-// //GET current route (required, only authenticated users have access)
-// router.get('/current', auth.required, (req, res, next) => {
-//     const { payload: { id } } = req;
-
-//     return Users.findById(id)
-//         .then((user) => {
-//             if (!user) {
-//                 return res.sendStatus(400);
-//             }
-
-//             return res.json({ user: user.toAuthJSON() });
-//         });
-// });
-
-// module.exports = router;
