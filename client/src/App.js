@@ -1,7 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import './App.css';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Provider } from 'react-redux'
 
 import MoviesList from "./components/movies-list.component"
 import MoviesCollection from "./components/movies-collection.component"
@@ -11,8 +10,14 @@ import Message from "./components/message.component"
 import Auth from "./components/auth"
 
 import axios from 'axios'
+import store from './store'
+
 
 import { setInStorage, getFromStorage, removeFromStorage } from './utils/storage'
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import './App.css';
+
 
 function isMsg(show, msg) {
   if (show) return <Message message={msg} />
@@ -102,53 +107,56 @@ export default class App extends React.Component {
       return (<p>Loading...</p>)
     } else {
       return (
-        <Router>
-          <nav className="navbar bg-red">
-            <Link to="/" className="navbar-brand text-white">Movie database</Link>
-            <div>
-              {!this.state.isLogin ? (
-                <div>
-                  <Link to="/login" className="btn btn-sm btn-purple mr-2">Login</Link>
-                  <Link to="/register" className="btn btn-sm btn-purple mr-2">Register</Link>
-                </div>
-              ) : (
+        <Provider store={store}>
+          <Router>
+            <nav className="navbar bg-red">
+              <Link to="/" className="navbar-brand text-white">Movie database</Link>
+              <div>
+                {!this.state.isLogin ? (
                   <div>
-                    <Link to="/create" className="btn btn-sm btn-purple mr-2">Add movie</Link>
-                    <span className="dropdown dropleft">
-                      <span className="action text-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i className="fas fa-user-circle"></i>
-                      </span>
-                      <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                        <Link to="/collection" className="dropdown-item text-info">Collection</Link>
-                        {/* <div onClick={this.logout}><i className="fas fa-sign-out-alt white"></i></div> */}
-                        <Link to="/logout" className="dropdown-item text-info" onClick={this.logout}>Logout</Link>
-                      </div>
-                    </span>
+                    <Link to="/login" className="btn btn-sm btn-purple mr-2">Login</Link>
+                    <Link to="/register" className="btn btn-sm btn-purple mr-2">Register</Link>
                   </div>
+                ) : (
+                    <div>
+                      <Link to="/create" className="btn btn-sm btn-purple mr-2">Add movie</Link>
+                      <span className="dropdown dropleft">
+                        <span className="action text-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i className="fas fa-user-circle"></i>
+                        </span>
+                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                )}
+                          <Link to="/collection" className="dropdown-item text-info">Collection</Link>
+                          {/* <div onClick={this.logout}><i className="fas fa-sign-out-alt white"></i></div> */}
+                          <Link to="/logout" className="dropdown-item text-info" onClick={this.logout}>Logout</Link>
+                        </div>
+                      </span>
+                    </div>
+
+                  )}
+              </div>
+            </nav>
+            <div className="container">
+
+              <div className="d-none">
+                2. add form component same for add and edit <br />
+              </div>
+              <div className="box">
+
+                <Route path="/" exact render={(props) => (<MoviesList {...props} showMsg={this.showMsg.bind(this)} />)} />
+                <Route path="/collection" render={(props) => (<MoviesCollection {...props} showMsg={this.showMsg.bind(this)} />)} />
+                <Route path="/edit/:id" render={(props) => (<EditMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
+                <Route path="/create" render={(props) => (<CreateMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
+                <Route path="/login" render={(props) => (<Auth {...props} loginForm showMsg={this.showMsg.bind(this)} />)} />
+                <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
+              </div>
+              {isMsg(this.state.showMsg, this.state.message)}
+
             </div>
-          </nav>
-          <div className="container">
+            {/* { this.state.isLogin ? '' : <Redirect exact from="/" to="/login" /> } */}
+          </Router>
+        </Provider>
 
-            <div className="d-none">
-              2. add form component same for add and edit <br />
-            </div>
-            <div className="box">
-
-              <Route path="/" exact render={(props) => (<MoviesList {...props} showMsg={this.showMsg.bind(this)} />)} />
-              <Route path="/collection" render={(props) => (<MoviesCollection {...props} showMsg={this.showMsg.bind(this)} />)} />
-              <Route path="/edit/:id" render={(props) => (<EditMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
-              <Route path="/create" render={(props) => (<CreateMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
-              <Route path="/login" render={(props) => (<Auth {...props} loginForm showMsg={this.showMsg.bind(this)} />)} />
-              <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
-            </div>
-            {isMsg(this.state.showMsg, this.state.message)}
-
-          </div>
-          {/* { this.state.isLogin ? '' : <Redirect exact from="/" to="/login" /> } */}
-        </Router>
       );
     }
 

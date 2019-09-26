@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import axios from 'axios';
 
-import { setInStorage, getFromStorage } from '../utils/storage'
+import { setInStorage } from '../utils/storage'
 
 export default class Form extends Component {
     constructor(props) {
@@ -44,11 +44,13 @@ export default class Form extends Component {
            axios.post('http://localhost:4000/api/users/login', {email: this.state.email, password: this.state.password})
             .then((res) => {
                 if (res.data.success) {
+                    console.log(res.data)
                     setInStorage('app_data', { 
                         token: res.data.token,
-                        userId: res.data.userId
+                        userId: res.data.userId,
+                        movies: res.data.movies
                     })
-                    this.props.history.push('/')
+                   this.props.history.push('/')
 
                 } else {
                     this.setState({

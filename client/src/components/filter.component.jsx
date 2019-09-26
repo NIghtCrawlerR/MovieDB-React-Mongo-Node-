@@ -7,7 +7,7 @@ export default class Filter extends Component {
 
         this.state = {
             activeFilters: {
-                
+
             }
         }
     }
@@ -19,12 +19,12 @@ export default class Filter extends Component {
     filter(e) {
         let name = e.target.name,
             key = e.target.type === 'checkbox' ? e.target.checked : e.target.value.toLowerCase()
-        
+
         let filter = this.state.activeFilters;
 
-        if(key) filter[name] = key
+        if (key) filter[name] = key
         else delete filter[name]
-     
+
         this.props.filter(filter)
     }
 
@@ -61,19 +61,24 @@ export default class Filter extends Component {
                                 <option value="western">Western</option>
                             </select>
                         </div>
+                        {
+                            this.props.usersCollection ?
+                                <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                                    <div className="row">
+                                        <div className="col-sm-6 col-xs-6 mt-1 mb-1">
+                                            <select name="watched" className="form-control">
+                                                <option value="">All (watched/not watched)</option>
+                                                <option value="1">Watched</option>
+                                                <option value="0">Not watched</option>
+                                            </select>
+                                        </div>
+                                        <div className="col-sm-6 col-xs-6 mt-1 mb-1">
+                                            <span><input type="checkbox" id="liked" name="liked" /><label htmlFor="liked">Liked</label></span>
+                                        </div>
+                                    </div>
+                                </div> : null
+                        }
 
-                        <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 mt-1 mb-1">
-                        <select name="watched" className="form-control">
-                            <option value="">All (watched/not watched)</option>
-                            <option value="1">Watched</option>
-                            <option value="0">Not watched</option>
-                        </select>
-                            {/* <span className="mr-4"><input type="checkbox" id="watched" name="watched" /><label htmlFor="watched">Watched</label></span> */}
-                           
-                        </div>
-                        <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 mt-1 mb-1">
-                             <span><input type="checkbox" id="liked" name="liked" /><label htmlFor="liked">Liked</label></span>
-                        </div>
                         <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 mt-1 mb-1">
                             <input type="text" className="form-control" name="title" placeholder="Search" />
                         </div>

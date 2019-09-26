@@ -5,7 +5,7 @@ import './css/movie.css';
 
 import Filter from "./filter.component"
 
-import { setInStorage, getFromStorage } from '../utils/storage'
+import { getFromStorage } from '../utils/storage'
 
 export default class MoviesList extends Component {
     constructor(props) {
@@ -24,7 +24,7 @@ export default class MoviesList extends Component {
             filtered: this.state.movies.filter(item => {
                 return filterKeys.every(key => {
                     if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
-                    else return item[key] == filter[key]
+                    else return item[key] === filter[key]
                 })
             })
         })
@@ -109,7 +109,7 @@ export default class MoviesList extends Component {
     render() {
         return (
             <div>
-                <Filter filter={this.filter.bind(this)} />
+                <Filter usersCollection filter={this.filter.bind(this)} />
                 <div className="mt-3 movies_wrap">
                     {this.state.filtered.map(movie => {
                         return <Movie {...movie} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />

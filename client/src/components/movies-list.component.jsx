@@ -5,9 +5,11 @@ import './css/movie.css';
 
 import Filter from "./filter.component"
 
-import { setInStorage, getFromStorage } from '../utils/storage'
+import { connect } from 'react-redux'
+import store from '../store'
+import { fetchPosts, fetchMovies } from '../actions/postActions'
 
-export default class MoviesList extends Component {
+class MoviesList extends Component {
     constructor(props) {
         super(props);
 
@@ -24,7 +26,7 @@ export default class MoviesList extends Component {
             filtered: this.state.movies.filter(item => {
                 return filterKeys.every(key => {
                     if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
-                    else return item[key] == filter[key]
+                    else return item[key] === filter[key]
                 })
             })
         })
@@ -43,66 +45,11 @@ export default class MoviesList extends Component {
                 this.props.showMsg(res.data.status, res.data.text)
             })
     }
-    setLike(id) {
-        this.setState({
-            movies: this.state.movies.map(m => {
-                if (m._id === id) m.liked = !m.liked
-                return m
-            })
-        })
-        let el = this.state.movies.filter(m => m._id === id)[0]
-
-        axios.post('http://localhost:4000/movies/update/' + id, el)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-    }
-
-    setWatch(id) {
-        this.setState({
-            movies: this.state.movies.map(m => {
-                if (m._id === id) m.watched = !m.watched
-                return m
-            })
-        })
-        let el = this.state.movies.filter(m => m._id === id)[0]
-
-        axios.post('http://localhost:4000/movies/update/' + id, el)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-    }
-
-    addToCollection(id) {
-        let appData = getFromStorage('app_data')
-        if (appData.movies) {
-            if(!appData.movies.includes(id)) appData.movies.push(id)
-            else {
-                // const i = appData.movies.indexOf(id)
-                appData.movies = appData.movies.filter(movieId => movieId != id)
-            }
-        }
-        else appData.movies = [id]
-        setInStorage('app_data', appData)
-     
-        axios.post('http://localhost:4000/api/users/movies/add',
-            { userId: getFromStorage('app_data').userId, movies: appData.movies })
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-        // console.log(id)
-    }
 
     clickHandler(id, mode) {
         switch (mode) {
             case 'delete':
                 this.onDelete(id);
-                break;
-            case 'setLike':
-                this.setLike(id);
-                break;
-            case 'setWatch':
-                this.setWatch(id);
-                break;
-            case 'addToCollection':
-                this.addToCollection(id);
                 break;
             default:
                 return;
@@ -110,15 +57,22 @@ export default class MoviesList extends Component {
 
     }
 
+    componentWillMount() {
+        
+        this.props.fetchMovies()
+        console.log(store.getState())
+        // setTimeout(() => console.log(this.props), 300)
+    }
     componentDidMount() {
-        axios.get('http://localhost:4000/movies')
-            .then(res => {
-                this.setState({
-                    movies: res.data,
-                    filtered: res.data
-                })
-            })
-            .catch(err => console.log(err))
+        console.log(this.props)
+        // axios.get('http://localhost:4000/movies')
+        //     .then(res => {
+        //         this.setState({
+        //             movies: res.data,
+        //             filtered: res.data
+        //         })
+        //     })
+        //     .catch(err => console.log(err))
     }
 
     render() {
@@ -126,11 +80,17 @@ export default class MoviesList extends Component {
             <div>
                 <Filter filter={this.filter.bind(this)} />
                 <div className="mt-3 movies_wrap">
-                    {this.state.filtered.map(movie => {
+                    {this.props.movies ? this.props.movies.map(movie => {
                         return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />
-                    })}
+                    }) : null}
                 </div>
             </div>
         )
     }
 }
+
+const mapStateToProps = state => ({
+    movies: state.app.movies
+})
+
+export default connect(mapStateToProps, { fetchMovies })(MoviesList)
