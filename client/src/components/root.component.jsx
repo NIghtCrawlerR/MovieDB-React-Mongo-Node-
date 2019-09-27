@@ -1,25 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { Provider } from 'react-redux'
 
-import MoviesList from "./components/movies-list.component"
-import MoviesCollection from "./components/movies-collection.component"
-import EditMovie from "./components/edit-movie.component"
-import CreateMovie from "./components/create-movie.component"
-import Message from "./components/message.component"
-import Auth from "./components/auth"
+import MoviesList from "./movies-list.component"
+import MoviesCollection from "./movies-collection.component"
+import EditMovie from "./edit-movie.component"
+import CreateMovie from "./create-movie.component"
+import Message from "./message.component"
+import Auth from "./auth"
 
 import axios from 'axios'
-import store from './store'
 
+import { setInStorage, getFromStorage, removeFromStorage } from '../utils/storage'
 
-import { setInStorage, getFromStorage, removeFromStorage } from './utils/storage'
-
-import "bootstrap/dist/css/bootstrap.min.css";
-import './App.css';
-
-
-function isMsg(show, msg) {
+function showStatusMessage(show, msg) {
   if (show) return <Message message={msg} />
 }
 
@@ -107,7 +100,7 @@ export default class App extends React.Component {
       return (<p>Loading...</p>)
     } else {
       return (
-        <Provider store={store}>
+      
           <Router>
             <nav className="navbar bg-red">
               <Link to="/" className="navbar-brand text-white">Movie database</Link>
@@ -150,12 +143,12 @@ export default class App extends React.Component {
                 <Route path="/login" render={(props) => (<Auth {...props} loginForm showMsg={this.showMsg.bind(this)} />)} />
                 <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
               </div>
-              {isMsg(this.state.showMsg, this.state.message)}
+              {showStatusMessage(this.state.showMsg, this.state.message)}
 
             </div>
             {/* { this.state.isLogin ? '' : <Redirect exact from="/" to="/login" /> } */}
           </Router>
-        </Provider>
+     
 
       );
     }
