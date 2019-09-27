@@ -12,10 +12,12 @@ let Movie = new Schema({
         type: String
     },
     liked: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     watched: {
-        type: Number
+        type: Number,
+        default: 0
     }
 })
 

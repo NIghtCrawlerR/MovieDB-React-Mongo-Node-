@@ -16,7 +16,7 @@ module.exports = (function () {
     router.get('/', ensureAuth, (req, res) => {
         Movie.find((err, movies) => {
             if (err) console.log(err)
-            else res.json(movies)
+            else res.json(movies.reverse())
         })
     })
 
