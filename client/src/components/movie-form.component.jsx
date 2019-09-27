@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import axios from 'axios';
 
-export default class Form extends Component {
+import { connect } from 'react-redux';
+import { getMovieById, editMovie, addMovie } from '../actions/movieActions'
+
+import { genres } from '../utils/genres'
+
+class Form extends Component {
     constructor(props) {
         super(props);
 
@@ -12,20 +17,14 @@ export default class Form extends Component {
         this.state = {
             title: '',
             img: '',
-            genre: '',
-            liked: false,
-            watched: 0
+            genre: ''
         }
     }
 
     changeHandler(e) {
-        let name = e.target.name,
-            val = e.target.value
-
-        let newState = {}
-        newState[name] = val
-
-        this.setState(newState)
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
     onSubmit(e) {
@@ -33,19 +32,21 @@ export default class Form extends Component {
         const newMovie = {}
         for (let key in this.state) newMovie[key] = this.state[key]
 
+        if (!newMovie.img) newMovie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
+
         if (this.props.mode === 'edit') {
-            axios.post('http://localhost:4000/movies/update/' + this.state.id, newMovie)
-                .then(res => this.props.showMsg(res.data.status, res.data.text))
+            this.props.editMovie(this.props.movie._id, newMovie)
+                .then(res => {
+                    this.props.showMsg(res.data.status, res.data.text)
+                })
         }
         else {
-            axios.post('http://localhost:4000/movies/add', newMovie)
+            this.props.addMovie(newMovie)
                 .then(res => {
                     this.setState({
                         title: '',
                         img: '',
-                        genre: '',
-                        liked: false,
-                        watched: 0
+                        genre: ''
                     })
                     this.props.showMsg(res.data.status, res.data.text)
                 })
@@ -54,24 +55,23 @@ export default class Form extends Component {
 
     componentDidMount() {
         if (this.props.mode === 'edit') {
-            axios.get('http://localhost:4000/movies/' + this.props.id)
-                .then(response => {
+            this.props.getMovieById(this.props.id)
+                .then(res => {
                     this.setState({
-                        id: this.props.id,
-                        title: response.data.title,
-                        img: response.data.img,
-                        genre: response.data.genre,
-                        liked: response.data.liked,
-                        watched: response.data.watched
+                        title: res.data.title,
+                        img: res.data.img,
+                        genre: res.data.genre
                     })
+                    console.log(res)
                 })
-                .catch((err) => console.log(err))
         }
     }
 
     render() {
+        const { title, genre, img } = this.state
         return (
             <div>
+                {genre}
                 <div className="d-flex justify-content-between">
                     <h3>{this.props.mode === 'edit' ? 'Edit movie' : 'Add new movie'}</h3>
                     <Link className="btn btn-outline-info" to="/"><i className="fas fa-arrow-left mr-2"></i> Go back</Link>
@@ -81,40 +81,21 @@ export default class Form extends Component {
                     <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <label><b>Title</b></label>
-                            <input className="form-control" type="text" name="title" onChange={this.changeHandler} value={this.state.title} required />
+                            <input className="form-control" type="text" name="title" onChange={this.changeHandler} value={title || ''} required />
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <label><b>Genre</b></label>
-                            <select className="form-control" name="genre" onChange={this.changeHandler} value={this.state.genre} >
-                                <option value=""></option>
-                                <option value="action">Action</option>
-                                <option value="adventure">Adventure</option>
-                                <option value="animation">Animation</option>
-                                <option value="biography">Biography</option>
-                                <option value="comedy">Comedy</option>
-                                <option value="crime">Crime</option>
-                                <option value="documentary">Documentary</option>
-                                <option value="drama">Drama</option>
-                                <option value="family">Family</option>
-                                <option value="fantasy">Fantasy</option>
-                                <option value="film-noir">Film-Noir</option>
-                                <option value="history">History</option>
-                                <option value="horror">Horror</option>
-                                <option value="musical">Musical</option>
-                                <option value="mystery">Mystery</option>
-                                <option value="romance">Romance</option>
-                                <option value="sci-fi">Sci-Fi</option>
-                                <option value="sport">Sport</option>
-                                <option value="thriller">Thriller</option>
-                                <option value="war">War</option>
-                                <option value="western">Western</option>
+                            <select className="form-control" name="genre" onChange={this.changeHandler} value={genre || ''} >
+                                {genres.map((genre, i) => {
+                                    return <option value={genre} key={i}>{genre}</option>
+                                })}
                             </select>
                         </div>
                     </div>
 
                     <br />
                     <label><b>Image link </b>(provide this link if you have non english title or api return error)</label>
-                    <input className="form-control" type="text" name="img" onChange={this.changeHandler} value={this.state.img} />
+                    <input className="form-control" type="text" name="img" onChange={this.changeHandler} value={img || ''} />
                     <br />
 
 
@@ -124,3 +105,13 @@ export default class Form extends Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    movie: state.app.movie
+})
+
+export default connect(mapStateToProps, {
+    getMovieById,
+    editMovie,
+    addMovie
+})(Form)

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
-import postReducers from './postReducers'
+import movieReducers from './movieReducers'
+import userReducers from './userReducers'
 
-export default combineReducers({ app: postReducers })
+export default combineReducers({ app: movieReducers, user: userReducers })
