@@ -7,6 +7,8 @@ import { getMovieById, editMovie, addMovie } from '../actions/movieActions'
 
 import { genres } from '../utils/genres'
 
+import store from '../store'
+
 class Form extends Component {
     constructor(props) {
         super(props);
@@ -17,7 +19,8 @@ class Form extends Component {
         this.state = {
             title: '',
             img: '',
-            genre: ''
+            genre: '',
+            loading: false
         }
     }
 
@@ -29,6 +32,8 @@ class Form extends Component {
 
     onSubmit(e) {
         e.preventDefault()
+
+        this.setState({ loading: true })
         const newMovie = {}
         for (let key in this.state) newMovie[key] = this.state[key]
 
@@ -37,6 +42,7 @@ class Form extends Component {
         if (this.props.mode === 'edit') {
             this.props.editMovie(this.props.movie._id, newMovie)
                 .then(res => {
+                    this.setState({ loading: false })
                     this.props.showMsg(res.data.status, res.data.text)
                 })
         }
@@ -46,7 +52,8 @@ class Form extends Component {
                     this.setState({
                         title: '',
                         img: '',
-                        genre: ''
+                        genre: '',
+                        loading: false
                     })
                     this.props.showMsg(res.data.status, res.data.text)
                 })
@@ -69,9 +76,17 @@ class Form extends Component {
 
     render() {
         const { title, genre, img } = this.state
+
         return (
-            <div>
-                {genre}
+            <div className="content movie-form__wrap">
+                {this.state.loading ?
+                    <div className="spinner__wrap">
+                        <div className="text-center py-5">
+                            <div className="spinner-border text-primary" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div> : null}
                 <div className="d-flex justify-content-between">
                     <h3>{this.props.mode === 'edit' ? 'Edit movie' : 'Add new movie'}</h3>
                     <Link className="btn btn-outline-info" to="/"><i className="fas fa-arrow-left mr-2"></i> Go back</Link>
@@ -103,6 +118,8 @@ class Form extends Component {
                 </form>
             </div>
         )
+
+
     }
 }
 

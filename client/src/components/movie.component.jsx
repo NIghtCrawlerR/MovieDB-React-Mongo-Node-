@@ -5,7 +5,12 @@ import './css/movie.css';
 import { setInStorage, getFromStorage } from '../utils/storage'
 import axios from 'axios'
 
-export default class Movie extends Component {
+import { connect } from 'react-redux'
+import store from '../store'
+
+import { userAddMovie } from '../actions/userActions'
+
+class Movie extends Component {
     constructor(props) {
         super(props);
 
@@ -13,11 +18,12 @@ export default class Movie extends Component {
             isInCollection: false
         }
 
-        this.onDelete = this.onDelete.bind(this)
+        this.deleteFromDB = this.deleteFromDB.bind(this)
+        this.deleteFromCollection = this.deleteFromCollection.bind(this)
         this.addToCollection = this.addToCollection.bind(this)
     }
 
-    onDelete() {
+    deleteFromDB() {
         this.props.onClick(this.props._id, 'delete')
     }
 
@@ -29,41 +35,43 @@ export default class Movie extends Component {
     }
 
     componentDidMount() {
-        const appData = getFromStorage('app_data')
-        if(!appData) return !1
-
-        this.setState({ isInCollection: appData.movies.includes(this.props._id) })
+        // const appData = getFromStorage('app_data')
+        // if(!appData) return !1
+        // setTimeout(() => {
+        //     console.log(this.props)
+        // }, 500)
     }
 
     addToCollection() {
-        // this.props.onClick(this.props._id, 'addToCollection')
-        let id = this.props._id
-        let appData = getFromStorage('app_data')
-        if(!appData) {
+        const { _id, user } = this.props
+
+        let movies = user.movies
+
+        if (!user.isLogin) {
             alert('Login to add movie to your collection.')
             return !1
         }
-        if (appData.movies) {
-            if (!appData.movies.includes(id)) appData.movies.push(id)
+        if (movies) {
+            if (!movies.includes(_id)) movies.push(_id)
             else {
                 // const i = appData.movies.indexOf(id)
-                appData.movies = appData.movies.filter(movieId => movieId !== id)
+                movies = movies.filter(movieId => movieId !== _id)
             }
         }
-        else appData.movies = [id]
-        setInStorage('app_data', appData)
+        else movies = [_id]
+        this.props.userAddMovie(user.userId, movies)
+    }
 
-        axios.post('http://localhost:4000/api/users/movies/add',
-            { userId: getFromStorage('app_data').userId, movies: appData.movies })
-            .then(res => {
-                this.setState({ isInCollection: !this.state.isInCollection })
-                console.log(res)
-            })
-            .catch(err => console.log(err))
+    deleteFromCollection() {
+        const { _id, user } = this.props
+        let movies = user.movies
+        console.log(user)
+        // movies = movies.filter(movieId => movieId !== _id)
+        // this.props.userAddMovie(user.userId, movies)
     }
 
     render() {
-        const { title, img, genre, liked, watched, _id, userCollection } = this.props
+        const { title, img, genre, liked, watched, _id, userCollection, user } = this.props
         let i = img || 'https://uoslab.com/images/tovary/no_image.jpg'
         return (
             <div className="movie_item">
@@ -80,9 +88,10 @@ export default class Movie extends Component {
                         <span className="badge badge-info">{genre}</span>
                         {userCollection ?
                             <span className="like-btn text-red" title="like" onClick={this.setLike.bind(this)}><i className={liked ? "fas fa-heart" : "far fa-heart"}></i></span>
-                            : this.state.isInCollection ?
-                                <span className="like-btn"><i className="fas fa-star text-warning"></i></span> :
-                                null
+                            : user ?
+                                user.movies.includes(this.props._id) ?
+                                    <span className="like-btn"><i className="fas fa-star text-warning"></i></span> :
+                                    null : null
                         }
                     </div>
                 </div>
@@ -101,16 +110,29 @@ export default class Movie extends Component {
                             <div>
                                 <span className="dropdown-item text-info" onClick={this.addToCollection}>
                                     <i className="fas fa-plus mr-2"></i>
-                                    {this.state.isInCollection ? 'Remove from collection' : 'Add to collection'}
+                                    {user ?
+                                        user.movies.includes(this.props._id) ?
+                                            'Remove from collection' : 'Add to collection' : ''}
                                 </span>
                                 <Link to={'/edit/' + _id} className="dropdown-item text-info"><i className="fas fa-pen mr-2"></i> Edit</Link>
                             </div>
                         }
+                        {userCollection ?
+                            <span className="dropdown-item text-danger" onClick={this.deleteFromCollection}><i className="fas fa-trash-alt mr-2"></i> Delete from collection</span> :
+                            <span className="dropdown-item text-danger" onClick={this.deleteFromDB}><i className="fas fa-trash-alt mr-2"></i> Delete</span>
+                        }
 
-                        <span className="dropdown-item text-danger" onClick={this.onDelete}><i className="fas fa-trash-alt mr-2"></i> Delete</span>
                     </div>
                 </div>
             </div>
         )
     }
 }
+
+const mapStateToProps = state => ({
+    user: state.user
+})
+
+export default connect(mapStateToProps, {
+    userAddMovie
+})(Movie)

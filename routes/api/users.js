@@ -39,26 +39,28 @@ router.post('/movies/get', (req, res) => {
                 message: 'Error: Server error. ' + err
             })
         }
-        if (req.body.getIds) {
+        // if (req.body.getIds) {
+        //     return res.send({
+        //         succes: true,
+        //         message: 'Success',
+        //         movies: user[0].movies
+        //     })
+        // } else {
+        console.log('------user[0].movies-----')
+        console.log(user[0].movies)
+        let arr = user[0].movies.map(movie => mongoose.Types.ObjectId(movie))
+        Movie.find({
+            '_id': {
+                $in: arr
+            }
+        }, function (err, docs) {
             return res.send({
                 succes: true,
                 message: 'Success',
-                movies: user[0].movies
+                movies: docs
             })
-        } else {
-            let arr = user[0].movies.map(movie => mongoose.Types.ObjectId(movie))
-            Movie.find({
-                '_id': {
-                    $in: arr
-                }
-            }, function (err, docs) {
-                return res.send({
-                    succes: true,
-                    message: 'Success',
-                    movies: docs
-                })
-            });
-        }
+        });
+        //}
     })
     console.log(req.body)
 })
@@ -240,6 +242,31 @@ router.get('/verify', (req, res, next) => {
             });
         }
     });
+})
+
+router.get('/current', (req, res) => {
+    const { query } = req;
+    const { userId } = query;
+    console.log(userId)
+    User.find({ _id: userId }, (err, user) => {
+        if (err) {
+            return res.send({
+                succes: false,
+                message: 'Error: Server error. ' + err
+            })
+        }
+        const currentUser = {
+            email: user[0].email,
+            movies: user[0].movies,
+            signUpDate: user[0].signUpDate,
+            id: user[0]._id
+        }
+        return res.send({
+            succes: true,
+            message: 'Success',
+            data: currentUser
+        })
+    })
 })
 
 module.exports = router;

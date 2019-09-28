@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 // import store from '../store'
 // import axios from 'axios';
 import { getMovies, deleteMovie } from '../actions/movieActions'
+import { userGet } from '../actions/userActions'
 
 class MoviesList extends Component {
     constructor(props) {
@@ -15,7 +16,8 @@ class MoviesList extends Component {
 
         this.state = {
             movies: [],
-            filtered: []
+            filtered: [],
+            loading: false
         }
     }
 
@@ -55,38 +57,53 @@ class MoviesList extends Component {
     }
 
     getMovies() {
+        this.setState({ loading: true })
         this.props.getMovies()
             .then(res => {
                 this.setState({
                     movies: res.data,
-                    filtered: res.data
+                    filtered: res.data,
+                    loading: false
                 })
             })
     }
 
     componentWillMount() {
         this.getMovies()
+        this.props.userGet(this.props.user.userId)
+        console.log(this.props)
     }
 
     render() {
         return (
             <div>
                 <Filter filter={this.filter.bind(this)} />
-                <div className="mt-3 movies_wrap">
-                    {this.state.filtered ? this.state.filtered.map(movie => {
-                        return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />
-                    }) : null}
-                </div>
+                {this.state.loading ?
+                    <div className="text-center py-5">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div> :
+                    <div className="mt-3 movies_wrap">
+                        {this.state.movies ? this.state.filtered.map(movie => {
+                            return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />
+                        }) : <p>List is empty. Add movie</p>}
+                    </div>
+                }
+
+
             </div>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    movies: state.app.movies
+    movies: state.app.movies,
+    user: state.user
 })
 
 export default connect(mapStateToProps, {
     getMovies,
-    deleteMovie
+    deleteMovie,
+    userGet
 })(MoviesList)

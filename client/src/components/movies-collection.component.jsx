@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from 'axios';
 import Movie from './movie.component';
 import './css/movie.css';
@@ -7,13 +8,19 @@ import Filter from "./filter.component"
 
 import { getFromStorage } from '../utils/storage'
 
-export default class MoviesList extends Component {
+import { connect } from 'react-redux'
+import { userGetMovies } from '../actions/userActions'
+
+import store from '../store'
+
+class MoviesCollection extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             movies: [],
-            filtered: []
+            filtered: [],
+            loading: false
         }
     }
 
@@ -89,33 +96,63 @@ export default class MoviesList extends Component {
     }
 
     componentDidMount() {
-        const appData = getFromStorage('app_data')
-        if(!appData) {
-            window.location.href = '/'
+        //VERTICAL LIMIT
+        //FLASHFORWARD
+        //WAR PHOTOGRAPHER
+        //ЧЕЛОВЕК – ШВЕЙЦАРСКИЙ НОЖ
+        //УЧИТЕЛЬ НА ЗАМЕНУ
+        //ЧЕЛОВЕК-ПАУК: ЧЕРЕЗ ВСЕЛЕННЫЕ
+        this.setState({
+            loading: true
+        })
+        const token = getFromStorage('token')
+        if (!token) {
+            this.props.history.push('/')
             return !1
         }
-        axios.post('http://localhost:4000/api/users/movies/get', { userId: appData.userId })
+
+        this.props.userGetMovies(store.getState().user.userId)
             .then(res => {
-                // this.getCollection(res.data.movies)
                 this.setState({
                     movies: res.data.movies,
-                    filtered: res.data.movies
+                    filtered: res.data.movies,
+                    loading: false
                 })
-                console.log(res)
             })
-            .catch(err => console.log(err))
     }
 
     render() {
         return (
             <div>
                 <Filter usersCollection filter={this.filter.bind(this)} />
-                <div className="mt-3 movies_wrap">
-                    {this.state.filtered.map(movie => {
-                        return <Movie {...movie} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />
-                    })}
-                </div>
+                {this.state.loading ?
+                    <div className="text-center py-5">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div> :
+                    <div className="mt-3 movies_wrap">
+
+                        {this.state.movies.length > 0 ? this.state.filtered.map(movie => {
+                            return <Movie {...movie} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />
+                        }) :
+                            <div>
+                                <p>Your collection is empty.</p>
+                                <Link to="/">Go to main list</Link>
+                            </div>}
+                    </div>
+                }
+
+
             </div>
         )
     }
 }
+
+const mapStateToProps = state => ({
+    userData: state.user.data
+})
+
+export default connect(mapStateToProps, {
+    userGetMovies
+})(MoviesCollection)
