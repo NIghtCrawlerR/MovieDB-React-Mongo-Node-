@@ -48,7 +48,8 @@ router.post('/movies/get', (req, res) => {
         // } else {
         console.log('------user[0].movies-----')
         console.log(user[0].movies)
-        let arr = user[0].movies.map(movie => mongoose.Types.ObjectId(movie))
+        let arr = user[0].movies.map(movie => movie.id)
+        arr = arr.map(movie => mongoose.Types.ObjectId(movie))
         Movie.find({
             '_id': {
                 $in: arr
@@ -57,7 +58,8 @@ router.post('/movies/get', (req, res) => {
             return res.send({
                 succes: true,
                 message: 'Success',
-                movies: docs
+                movies: user[0].movies,
+                moviesList: docs
             })
         });
         //}
@@ -126,7 +128,7 @@ router.post('/login', (req, res) => {
                 message: 'Valid sign in',
                 token: doc._id,
                 userId: user._id,
-                movies: user.movies
+                // movies: user.movies
             })
         })
 
@@ -231,7 +233,7 @@ router.get('/verify', (req, res, next) => {
         if (sessions.length != 1) {
             return res.send({
                 success: false,
-                message: 'Error: Invalid'
+                message: 'Error: Invalid session'
             });
         } else {
             // DO ACTION

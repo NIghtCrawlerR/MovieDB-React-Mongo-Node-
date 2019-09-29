@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Movie from './movie.component';
 import './css/movie.css';
 
@@ -70,8 +71,7 @@ class MoviesList extends Component {
 
     componentWillMount() {
         this.getMovies()
-        this.props.userGet(this.props.user.userId)
-        console.log(this.props)
+        // this.props.userGet(this.props.user.userId)
     }
 
     render() {
@@ -85,9 +85,14 @@ class MoviesList extends Component {
                         </div>
                     </div> :
                     <div className="mt-3 movies_wrap">
-                        {this.state.movies ? this.state.filtered.map(movie => {
+                        {this.state.movies.length > 0 ? this.state.filtered.map(movie => {
                             return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />
-                        }) : <p>List is empty. Add movie</p>}
+                        }) : 
+                        <div>
+                            <p>List is empty.</p>
+                            <Link to="/create">Add movie</Link>
+                        </div>
+                        }
                     </div>
                 }
 

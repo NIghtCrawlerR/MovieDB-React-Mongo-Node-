@@ -26,6 +26,8 @@ class RootComponent extends React.Component {
         super(props);
 
         this.logout = this.logout.bind(this)
+        this.showMsg = this.showMsg.bind(this)
+        this.updateUser = this.updateUser.bind(this)
 
         this.state = {
             showMsg: false,
@@ -52,7 +54,7 @@ class RootComponent extends React.Component {
         }, 5000)
     }
 
-    componentDidMount() {
+    updateUser() {
         const token = getFromStorage('token')
         if (!token) {
             this.setState({ loading: false })
@@ -62,13 +64,21 @@ class RootComponent extends React.Component {
         //verify user
         this.props.verifyUser(token)
             .then(user => {
+                if(!user.data.success) throw new Error('err')
                 this.setState({ loading: false })
             })
             .then(() => {
-                this.props.userGet(store.getState().user.userId)
+                this.props.userGet(store.getState().user.userId) //get user data
                     .then(() => console.log(this.props))
-
             })
+            .catch(err => {
+                this.showMsg('error', 'Error: Server error. Unable to get user. Try to login again')
+                this.setState({ loading: false })
+            })
+    }
+
+    componentDidMount() {
+        this.updateUser()
     }
 
     logout(e) {
@@ -102,17 +112,17 @@ class RootComponent extends React.Component {
                                     <Link to="/register" className="btn btn-sm btn-purple mr-2">Register</Link>
                                 </div>
                             ) : (
-                                    <div>
+                                    <div className="d-flex align-items-center">
                                         <Link to="/create" className="btn btn-sm btn-purple mr-2">Add movie</Link>
                                         <span className="dropdown dropleft">
-                                            <span className="action text-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span className="action text-white navbar__user-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i className="fas fa-user-circle"></i>
                                             </span>
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <div className="dropdown-item text-info">
+                                                <div className="user-menu__email text-info">
                                                 { this.props.user.data ? this.props.user.data.email : '' }
                                                 </div>
-                                                <div class="dropdown-divider"></div>
+                                                <div className="dropdown-divider"></div>
                                                 <Link to="/collection" className="dropdown-item text-info">Collection</Link>
                                                 {/* <div onClick={this.logout}><i className="fas fa-sign-out-alt white"></i></div> */}
                                                 <Link to="/logout" className="dropdown-item text-info" onClick={this.logout}>Logout</Link>
@@ -134,7 +144,7 @@ class RootComponent extends React.Component {
                             <Route path="/collection" render={(props) => (<MoviesCollection {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/edit/:id" render={(props) => (<EditMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/create" render={(props) => (<CreateMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/login" render={(props) => (<Auth {...props} loginForm showMsg={this.showMsg.bind(this)} />)} />
+                            <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
                         </div>
                         {showStatusMessage(this.state.showMsg, this.state.message)}

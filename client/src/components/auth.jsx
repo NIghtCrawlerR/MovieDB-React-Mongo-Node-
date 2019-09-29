@@ -49,6 +49,7 @@ class AuthForm extends Component {
                 .then(res => {
                     setInStorage('token', res.data.token)
                     this.setState({ loading: false })
+                    this.props.updateUser()
                     this.props.history.push('/')
                 })
         } else {

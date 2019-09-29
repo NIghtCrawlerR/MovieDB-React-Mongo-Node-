@@ -65,8 +65,8 @@ export const verifyUser = token => dispatch => {
                         isLogin: true,
                         userId: res.data.userData.userId
                     })
-                    resolve(res)
                 }
+                resolve(res)
             })
             .catch(err => {
                 console.log(err)
@@ -80,7 +80,7 @@ export const userGet = userId => dispatch => {
         axios.get('http://localhost:4000/api/users/current?userId=' + userId)
             .then(res => {
                 const user = res.data
-                console.log(user)
+                console.log('userGet', user)
                 dispatch({
                     type: USER_GET,
                     data: user.data,
@@ -94,29 +94,41 @@ export const userGet = userId => dispatch => {
 
 export const userAddMovie = (userId, movies) => dispatch => {
     console.log('userAddMovie', movies)
-
-    axios.post('http://localhost:4000/api/users/movies/add',
-        { userId: userId, movies: movies })
-        .then(res => {
-            dispatch({
-                type: USER_ADD_MOVIE,
-                movies: movies
-            })
-        })
-        .catch(err => console.log(err))
-}
-
-export const userGetMovies = userId => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4000/api/users/movies/get',
-            { userId: userId })
+        axios.post('http://localhost:4000/api/users/movies/add',
+            { userId: userId, movies: movies })
             .then(res => {
                 dispatch({
-                    type: USER_GET_MOVIES,
-                    movies: []
+                    type: USER_ADD_MOVIE,
+                    movies: movies
                 })
-                resolve(res)
+                resolve({ success: true })
             })
             .catch(err => console.log(err))
     })
+
 }
+
+// export const userGetMovies = userId => dispatch => {
+//     return new Promise((resolve, reject) => {
+//         axios.post('http://localhost:4000/api/users/movies/get',
+//             { userId: userId })
+//             .then(res => {
+//                 console.log('userGetMovies', res)
+//                 let movies = res.data.movies
+//                 let moviesList = res.data.moviesList
+//                 // moviesList = moviesList.map((movie, i) => {
+//                 //     movie.liked = movies[i].liked
+//                 //     movie.watched = movies[i].watched
+//                 //     return movie
+//                 // })
+//                 dispatch({
+//                     type: USER_GET_MOVIES,
+//                     movies: movies,
+//                     // moviesList: moviesList
+//                 })
+//                 resolve(res)
+//             })
+//             .catch(err => console.log(err))
+//     })
+// }

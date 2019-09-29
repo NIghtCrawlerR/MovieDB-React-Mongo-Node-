@@ -37,7 +37,7 @@ class Form extends Component {
         const newMovie = {}
         for (let key in this.state) newMovie[key] = this.state[key]
 
-        if (!newMovie.img) newMovie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
+        // if (!newMovie.img) newMovie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
 
         if (this.props.mode === 'edit') {
             this.props.editMovie(this.props.movie._id, newMovie)

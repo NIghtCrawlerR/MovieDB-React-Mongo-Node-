@@ -9,13 +9,15 @@ import Filter from "./filter.component"
 import { getFromStorage } from '../utils/storage'
 
 import { connect } from 'react-redux'
-import { userGetMovies } from '../actions/userActions'
+// import { userGetMovies } from '../actions/userActions'
 
 import store from '../store'
 
 class MoviesCollection extends Component {
     constructor(props) {
         super(props);
+
+        this.updateCollection = this.updateCollection.bind(this)
 
         this.state = {
             movies: [],
@@ -25,6 +27,7 @@ class MoviesCollection extends Component {
     }
 
     filter(filter) {
+        console.log(filter)
         let filterKeys = Object.keys(filter)
 
         this.setState({
@@ -95,6 +98,11 @@ class MoviesCollection extends Component {
 
     }
 
+    updateCollection(movies) {
+        console.log('updateCollection', movies)
+    }
+
+
     componentDidMount() {
         //VERTICAL LIMIT
         //FLASHFORWARD
@@ -110,18 +118,13 @@ class MoviesCollection extends Component {
             this.props.history.push('/')
             return !1
         }
-
-        this.props.userGetMovies(store.getState().user.userId)
-            .then(res => {
-                this.setState({
-                    movies: res.data.movies,
-                    filtered: res.data.movies,
-                    loading: false
-                })
-            })
+        this.setState({
+            loading: false
+        })
     }
 
     render() {
+        const { user } = this.props
         return (
             <div>
                 <Filter usersCollection filter={this.filter.bind(this)} />
@@ -132,14 +135,15 @@ class MoviesCollection extends Component {
                         </div>
                     </div> :
                     <div className="mt-3 movies_wrap">
-
-                        {this.state.movies.length > 0 ? this.state.filtered.map(movie => {
-                            return <Movie {...movie} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />
+                        {user.movies.length !== 0 ? user.movies.map(movie => {
+                            return <Movie {...movie} updateCollection={this.updateCollection} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />
                         }) :
                             <div>
                                 <p>Your collection is empty.</p>
                                 <Link to="/">Go to main list</Link>
-                            </div>}
+                            </div>
+                        }
+
                     </div>
                 }
 
@@ -150,9 +154,9 @@ class MoviesCollection extends Component {
 }
 
 const mapStateToProps = state => ({
-    userData: state.user.data
+    user: state.user
 })
 
 export default connect(mapStateToProps, {
-    userGetMovies
+    // userGetMovies
 })(MoviesCollection)

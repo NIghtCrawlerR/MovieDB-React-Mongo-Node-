@@ -12,19 +12,21 @@ const initialState = {
     data: {},
     token: '',
     isLogin: false,
-    movies: []
+    movies: [],
+    moviesList: []
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case USER_GET:
+            // console.log('USER_GET', action)
             return {
                 ...state,
                 data: action.data,
                 movies: action.movies
             }
         case USER_ADD_MOVIE:
-            console.log(action)
+            // console.log('USER_ADD_MOVIE', action)
             return {
                 ...state,
                 movies: action.movies
@@ -45,17 +47,20 @@ export default function (state = initialState, action) {
                 isLogin: action.isLogin
             }
         case USER_VERIFY:
+            // console.log('USER_VERIFY', action)
             return {
                 ...state,
                 isLogin: action.isLogin,
                 userId: action.userId,
                 data: action.payload
             }
-        case USER_GET_MOVIES:
-            return {
-                ...state,
-                movies: action.movies
-            }
+        // case USER_GET_MOVIES:
+        //     console.log('USER_GET_MOVIES', action)
+        //     return {
+        //         ...state,
+        //         movies: action.movies,
+        //         // moviesList: action.moviesList
+        //     }
         default:
             return state
     }

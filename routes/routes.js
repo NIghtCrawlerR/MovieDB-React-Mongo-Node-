@@ -29,16 +29,32 @@ module.exports = (function () {
 
     router.route('/add').post((req, res) => {
         let movie = new Movie(req.body);
-        if (!req.body.img) imdb.get({ name: req.body.title }, { apiKey: apiKey }).then((data) => {
-            movie.img = data.poster
-            saveMovie();
-        }).catch((err) => {
-            res.status(200).json({ 'status': 'error', 'text': 'Cant find image. Please put custom link or provide english title' })
-            console.log
-        });
-        else {
-            saveMovie();
-        }
+        
+        const title = req.body.title.toLowerCase()
+        Movie.find({ title: title }, (err, movie) => {
+            if (err) {
+                return res.status(500).json({ 'status': 'error', 'text': 'Error: Server error' })
+            } else if(movie.length > 0) {
+                return res.status(200).json({ 'status': 'error', 'text': 'Error: Movie is already exists' })
+            }
+
+            if (!req.body.img) imdb.get({ name: title }, { apiKey: apiKey }).then((data) => {
+                console.log(data)
+                movie.img = data.poster
+                console.log('----movie----')
+                console.log(movie)
+                saveMovie();
+            }).catch((err) => {
+                console.log(err)
+                movie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
+                saveMovie();
+                // res.status(200).json({ 'status': 'error', 'text': 'Cant find image. Please put custom link or provide english title' })
+                // console.log
+            });
+            else {
+                saveMovie();
+            }
+        })
 
         function saveMovie() {
             movie.save()
