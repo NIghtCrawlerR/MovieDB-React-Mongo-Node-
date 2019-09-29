@@ -5,7 +5,8 @@ import {
     USER_VERIFY,
     USER_GET_MOVIES,
     USER_GET,
-    USER_ADD_MOVIE
+    USER_ADD_MOVIE,
+    FILTER
 } from '../actions/types'
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
     token: '',
     isLogin: false,
     movies: [],
-    moviesList: []
+    moviesList: [], //remove this
+    filteredMovies: []
 }
 
 export default function (state = initialState, action) {
@@ -23,13 +25,15 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 data: action.data,
-                movies: action.movies
+                movies: action.movies,
+                filteredMovies: action.movies
             }
         case USER_ADD_MOVIE:
             // console.log('USER_ADD_MOVIE', action)
             return {
                 ...state,
-                movies: action.movies
+                movies: action.movies,
+                filteredMovies: action.movies
             }
         case USER_SIGN_IN:
             return {
@@ -53,6 +57,13 @@ export default function (state = initialState, action) {
                 isLogin: action.isLogin,
                 userId: action.userId,
                 data: action.payload
+            }
+        case FILTER:
+            console.log(action)
+            return {
+                ...state,
+                movies: action.movies,
+                filteredMovies: action.filteredMovies
             }
         // case USER_GET_MOVIES:
         //     console.log('USER_GET_MOVIES', action)

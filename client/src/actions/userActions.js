@@ -5,11 +5,31 @@ import {
     USER_VERIFY,
     USER_GET_MOVIES,
     USER_GET,
-    USER_ADD_MOVIE
+    USER_ADD_MOVIE,
+    FILTER
 } from './types'
 
 import axios from 'axios'
 import { bindActionCreators } from 'C:/Users/User/AppData/Local/Microsoft/TypeScript/3.5/node_modules/redux';
+
+export const filterMovies = (movies, filter) => dispatch => {
+    console.log(movies, filter)
+    let filtered = []
+    let filterKeys = Object.keys(filter)
+
+    filtered = movies.filter(item => {
+        return filterKeys.every(key => {
+            if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
+            else return item[key] === filter[key]
+        })
+    })
+    console.log(filtered)
+    dispatch({
+        type: FILTER,
+        movies: movies,
+        filteredMovies: filtered
+    })
+}
 
 export const login = user => dispatch => {
     return new Promise((resolve, reject) => {
@@ -20,15 +40,12 @@ export const login = user => dispatch => {
                         type: USER_LOG_IN,
                         token: res.data.token,
                         userId: res.data.userId,
-                        movies: res.data.movies
+                        movies: res.data.movies,
+                        filteredMovies: res.data.movies
                     })
                     resolve(res)
-                } else {
-                    // this.setState({
-                    //     errorMessage: res.data.message
-                    // })
                 }
-                console.log(res)
+                resolve(res)
             })
             .catch((err) => console.log(err))
     })
@@ -84,7 +101,8 @@ export const userGet = userId => dispatch => {
                 dispatch({
                     type: USER_GET,
                     data: user.data,
-                    movies: user.data.movies
+                    movies: user.data.movies,
+                    filteredMovies: res.data.movies
                 })
                 resolve(res)
             })
@@ -100,7 +118,8 @@ export const userAddMovie = (userId, movies) => dispatch => {
             .then(res => {
                 dispatch({
                     type: USER_ADD_MOVIE,
-                    movies: movies
+                    movies: movies,
+                    filteredMovies: movies
                 })
                 resolve({ success: true })
             })

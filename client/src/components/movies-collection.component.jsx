@@ -9,7 +9,7 @@ import Filter from "./filter.component"
 import { getFromStorage } from '../utils/storage'
 
 import { connect } from 'react-redux'
-// import { userGetMovies } from '../actions/userActions'
+import { filterMovies } from '../actions/userActions'
 
 import store from '../store'
 
@@ -27,17 +27,19 @@ class MoviesCollection extends Component {
     }
 
     filter(filter) {
-        console.log(filter)
-        let filterKeys = Object.keys(filter)
+        // console.log(filter)
+        this.props.filterMovies(this.props.user.movies, filter)
+        setTimeout(() => console.log(this.props), 1000)
+        // let filterKeys = Object.keys(filter)
 
-        this.setState({
-            filtered: this.state.movies.filter(item => {
-                return filterKeys.every(key => {
-                    if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
-                    else return item[key] === filter[key]
-                })
-            })
-        })
+        // this.setState({
+        //     filtered: this.state.movies.filter(item => {
+        //         return filterKeys.every(key => {
+        //             if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
+        //             else return item[key] === filter[key]
+        //         })
+        //     })
+        // })
     }
 
     onDelete(id) {
@@ -135,13 +137,14 @@ class MoviesCollection extends Component {
                         </div>
                     </div> :
                     <div className="mt-3 movies_wrap">
-                        {user.movies.length !== 0 ? user.movies.map(movie => {
+                        {user.filteredMovies.length !== 0 ? user.filteredMovies.map(movie => {
                             return <Movie {...movie} updateCollection={this.updateCollection} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />
-                        }) :
-                            <div>
-                                <p>Your collection is empty.</p>
-                                <Link to="/">Go to main list</Link>
-                            </div>
+                        }) : user.movies.length === 0 ?
+                                <div>
+                                    <p>Your collection is empty.</p>
+                                    <Link to="/">Go to main list</Link>
+                                </div> :
+                                <p>No result</p>
                         }
 
                     </div>
@@ -158,5 +161,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-    // userGetMovies
+    filterMovies
 })(MoviesCollection)

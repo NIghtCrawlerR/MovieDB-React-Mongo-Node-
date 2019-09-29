@@ -85,18 +85,17 @@ class MoviesList extends Component {
                         </div>
                     </div> :
                     <div className="mt-3 movies_wrap">
-                        {this.state.movies.length > 0 ? this.state.filtered.map(movie => {
+                        {this.state.filtered.length !== 0 ? this.state.filtered.map(movie => {
                             return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />
-                        }) : 
-                        <div>
-                            <p>List is empty.</p>
-                            <Link to="/create">Add movie</Link>
-                        </div>
+                        }) : this.state.movies.length === 0 ?
+                                <div>
+                                    <p>List is empty.</p>
+                                    <Link to="/create">Add movie</Link>
+                                </div> :
+                                <p>No result</p>
                         }
                     </div>
                 }
-
-
             </div>
         )
     }

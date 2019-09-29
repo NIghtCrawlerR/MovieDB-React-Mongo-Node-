@@ -109,7 +109,7 @@ class Form extends Component {
                     </div>
 
                     <br />
-                    <label><b>Image link </b>(provide this link if you have non english title or api return error)</label>
+                    <label><b>Image link</b></label>
                     <input className="form-control" type="text" name="img" onChange={this.changeHandler} value={img || ''} />
                     <br />
 

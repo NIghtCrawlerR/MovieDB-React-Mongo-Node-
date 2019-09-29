@@ -32,6 +32,7 @@ module.exports = (function () {
         
         const title = req.body.title.toLowerCase()
         Movie.find({ title: title }, (err, movie) => {
+            
             if (err) {
                 return res.status(500).json({ 'status': 'error', 'text': 'Error: Server error' })
             } else if(movie.length > 0) {

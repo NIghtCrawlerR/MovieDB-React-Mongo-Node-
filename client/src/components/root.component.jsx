@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import { Router, Route, Link } from "react-router-dom";
+import history from '../history'
 import MoviesList from "./movies-list.component"
 import MoviesCollection from "./movies-collection.component"
 import EditMovie from "./edit-movie.component"
@@ -86,7 +86,7 @@ class RootComponent extends React.Component {
         this.props.logout(getFromStorage('token'))
             .then(res => {
                 removeFromStorage('token')
-                // this.props.history.push('/')
+                history.push('/')
             })
     }
 
@@ -102,7 +102,7 @@ class RootComponent extends React.Component {
         } else {
             return (
 
-                <Router>
+                <Router history={history}>
                     <nav className="navbar bg-red">
                         <Link to="/" className="navbar-brand text-white">Movie database</Link>
                         <div>
