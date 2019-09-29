@@ -27,19 +27,7 @@ class MoviesCollection extends Component {
     }
 
     filter(filter) {
-        // console.log(filter)
         this.props.filterMovies(this.props.user.movies, filter)
-        setTimeout(() => console.log(this.props), 1000)
-        // let filterKeys = Object.keys(filter)
-
-        // this.setState({
-        //     filtered: this.state.movies.filter(item => {
-        //         return filterKeys.every(key => {
-        //             if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
-        //             else return item[key] === filter[key]
-        //         })
-        //     })
-        // })
     }
 
     onDelete(id) {

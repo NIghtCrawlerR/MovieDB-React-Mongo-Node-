@@ -13,7 +13,6 @@ import axios from 'axios'
 import { bindActionCreators } from 'C:/Users/User/AppData/Local/Microsoft/TypeScript/3.5/node_modules/redux';
 
 export const filterMovies = (movies, filter) => dispatch => {
-    console.log(movies, filter)
     let filtered = []
     let filterKeys = Object.keys(filter)
 
@@ -23,7 +22,7 @@ export const filterMovies = (movies, filter) => dispatch => {
             else return item[key] === filter[key]
         })
     })
-    console.log(filtered)
+
     dispatch({
         type: FILTER,
         movies: movies,
@@ -97,7 +96,6 @@ export const userGet = userId => dispatch => {
         axios.get('http://localhost:4000/api/users/current?userId=' + userId)
             .then(res => {
                 const user = res.data
-                console.log('userGet', user)
                 dispatch({
                     type: USER_GET,
                     data: user.data,
@@ -111,7 +109,6 @@ export const userGet = userId => dispatch => {
 }
 
 export const userAddMovie = (userId, movies) => dispatch => {
-    console.log('userAddMovie', movies)
     return new Promise((resolve, reject) => {
         axios.post('http://localhost:4000/api/users/movies/add',
             { userId: userId, movies: movies })
@@ -127,27 +124,3 @@ export const userAddMovie = (userId, movies) => dispatch => {
     })
 
 }
-
-// export const userGetMovies = userId => dispatch => {
-//     return new Promise((resolve, reject) => {
-//         axios.post('http://localhost:4000/api/users/movies/get',
-//             { userId: userId })
-//             .then(res => {
-//                 console.log('userGetMovies', res)
-//                 let movies = res.data.movies
-//                 let moviesList = res.data.moviesList
-//                 // moviesList = moviesList.map((movie, i) => {
-//                 //     movie.liked = movies[i].liked
-//                 //     movie.watched = movies[i].watched
-//                 //     return movie
-//                 // })
-//                 dispatch({
-//                     type: USER_GET_MOVIES,
-//                     movies: movies,
-//                     // moviesList: moviesList
-//                 })
-//                 resolve(res)
-//             })
-//             .catch(err => console.log(err))
-//     })
-// }

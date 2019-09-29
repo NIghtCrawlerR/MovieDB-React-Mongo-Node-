@@ -3,7 +3,6 @@ import {
     USER_LOG_IN,
     USER_LOG_OUT,
     USER_VERIFY,
-    USER_GET_MOVIES,
     USER_GET,
     USER_ADD_MOVIE,
     FILTER
@@ -14,14 +13,12 @@ const initialState = {
     token: '',
     isLogin: false,
     movies: [],
-    moviesList: [], //remove this
     filteredMovies: []
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case USER_GET:
-            // console.log('USER_GET', action)
             return {
                 ...state,
                 data: action.data,
@@ -29,7 +26,6 @@ export default function (state = initialState, action) {
                 filteredMovies: action.movies
             }
         case USER_ADD_MOVIE:
-            // console.log('USER_ADD_MOVIE', action)
             return {
                 ...state,
                 movies: action.movies,
@@ -51,7 +47,6 @@ export default function (state = initialState, action) {
                 isLogin: action.isLogin
             }
         case USER_VERIFY:
-            // console.log('USER_VERIFY', action)
             return {
                 ...state,
                 isLogin: action.isLogin,
@@ -59,19 +54,11 @@ export default function (state = initialState, action) {
                 data: action.payload
             }
         case FILTER:
-            console.log(action)
             return {
                 ...state,
                 movies: action.movies,
                 filteredMovies: action.filteredMovies
             }
-        // case USER_GET_MOVIES:
-        //     console.log('USER_GET_MOVIES', action)
-        //     return {
-        //         ...state,
-        //         movies: action.movies,
-        //         // moviesList: action.moviesList
-        //     }
         default:
             return state
     }

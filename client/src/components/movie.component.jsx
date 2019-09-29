@@ -62,7 +62,6 @@ class Movie extends Component {
         } else {
             switch (toggle) {
                 case 'like':
-                    // console.log(movies[i])
                     movies[i].liked = !movies[i].liked
                     break;
                 case 'watch':

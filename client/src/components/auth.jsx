@@ -25,10 +25,6 @@ class AuthForm extends Component {
         }
     }
 
-    componentDidMount() {
-        console.log(this.props)
-    }
-
     changeHandler(e) {
         let name = e.target.name,
             val = e.target.value

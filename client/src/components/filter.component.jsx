@@ -13,10 +13,6 @@ export default class Filter extends Component {
             }
         }
     }
-    setChecked(e) {
-        // e.target.value = e.target.value == '0' ? '0' : '0'
-        // console.log(e.target.checked)
-    }
 
     filter(e) {
         let name = e.target.name,

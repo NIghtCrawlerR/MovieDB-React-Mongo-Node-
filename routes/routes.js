@@ -40,17 +40,12 @@ module.exports = (function () {
             }
 
             if (!req.body.img) imdb.get({ name: title }, { apiKey: apiKey }).then((data) => {
-                console.log(data)
                 movie.img = data.poster
-                console.log('----movie----')
-                console.log(movie)
                 saveMovie();
             }).catch((err) => {
                 console.log(err)
                 movie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
                 saveMovie();
-                // res.status(200).json({ 'status': 'error', 'text': 'Cant find image. Please put custom link or provide english title' })
-                // console.log
             });
             else {
                 saveMovie();
