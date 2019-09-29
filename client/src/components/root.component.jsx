@@ -7,13 +7,8 @@ import EditMovie from "./edit-movie.component"
 import CreateMovie from "./create-movie.component"
 import Message from "./message.component"
 import Auth from "./auth"
-
-import axios from 'axios'
-
 import store from '../store'
-
 import { getFromStorage, removeFromStorage } from '../utils/storage'
-
 import { connect } from 'react-redux'
 import { verifyUser, logout, userGet } from '../actions/userActions'
 

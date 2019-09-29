@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import './css/movie.css';
-
-import { setInStorage, getFromStorage } from '../utils/storage'
-import axios from 'axios'
-
 import { connect } from 'react-redux'
-import store from '../store'
-
 import { userAddMovie } from '../actions/userActions'
+import './css/movie.css';
 
 class Movie extends Component {
     constructor(props) {

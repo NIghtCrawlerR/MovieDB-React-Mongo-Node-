@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import './css/filter.css'
-
 import { genres } from '../utils/genres'
+import './css/filter.css'
 
 export default class Filter extends Component {
     constructor(props) {

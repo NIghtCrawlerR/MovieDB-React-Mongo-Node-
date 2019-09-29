@@ -3,6 +3,10 @@
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NIghtCrawlerR/MovieDB-React-Mongo-Node-.git"
+  },
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
