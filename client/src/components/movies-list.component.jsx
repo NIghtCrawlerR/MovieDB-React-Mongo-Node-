@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Movie from './movie.component';
-import './css/movie.css';
-
 import Filter from "./filter.component"
-
 import { connect } from 'react-redux'
-// import store from '../store'
-// import axios from 'axios';
 import { getMovies, deleteMovie } from '../actions/movieActions'
 import { userGet } from '../actions/userActions'
+import './css/movie.css';
 
 class MoviesList extends Component {
     constructor(props) {
