@@ -7,7 +7,6 @@ import {
     NEW_POST
 } from './types'
 import axios from 'axios'
-import { resolve } from 'dns';
 
 
 export const getMovies = () => dispatch => {

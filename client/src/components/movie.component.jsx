@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
 import { userAddMovie } from '../actions/userActions'
 import './css/movie.css';
@@ -60,6 +60,8 @@ class Movie extends Component {
                     break;
                 case 'watch':
                     movies[i].watched = !movies[i].watched
+                    break;
+                default:
                     break;
             }
         }

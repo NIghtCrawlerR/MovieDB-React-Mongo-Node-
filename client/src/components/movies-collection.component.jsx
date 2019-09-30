@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from 'axios';
 import Movie from './movie.component';
 import Filter from "./filter.component"
@@ -30,7 +30,10 @@ class MoviesCollection extends Component {
         if (isDel) axios.delete('http://localhost:4000/movies/delete/' + id)
             .then(res => {
                 let idx
-                this.state.movies.map((m, i) => { if (m._id === id) idx = i })
+                this.state.movies.map((m, i) => { 
+                    if (m._id === id) idx = i
+                    return m
+                 })
                 this.state.movies.splice(idx, 1)
                 this.setState({
                     filtered: this.state.movies

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Movie from './movie.component';
 import Filter from "./filter.component"
 import { connect } from 'react-redux'

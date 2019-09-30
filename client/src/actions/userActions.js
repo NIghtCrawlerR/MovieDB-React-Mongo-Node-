@@ -3,14 +3,12 @@ import {
     USER_LOG_IN,
     USER_LOG_OUT,
     USER_VERIFY,
-    USER_GET_MOVIES,
     USER_GET,
     USER_ADD_MOVIE,
     FILTER
 } from './types'
 
 import axios from 'axios'
-import { bindActionCreators } from 'C:/Users/User/AppData/Local/Microsoft/TypeScript/3.5/node_modules/redux';
 
 export const filterMovies = (movies, filter) => dispatch => {
     let filtered = []
@@ -52,6 +50,9 @@ export const login = user => dispatch => {
 
 export const register = () => dispatch => {
     console.log('register')
+    dispatch({
+        type: USER_SIGN_IN
+    })
 }
 
 export const logout = token => dispatch => {
