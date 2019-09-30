@@ -4,11 +4,12 @@ import {
     EDIT_MOVIE,
     DELETE_MOVIE,
     ADD_MOVIE,
-    NEW_POST
+    FILTER
 } from '../actions/types'
 
 const initialState = {
-    movies: [],
+    list: [],
+    filtered: [],
     movie: {},
     item: {}
 }
@@ -18,7 +19,8 @@ export default function (state = initialState, action) {
         case GET_MOVIES:
             return {
                 ...state,
-                movies: action.payload
+                list: action.payload,
+                filtered: action.payload
             }
         case GET_MOVIE_BY_ID:
             return {
@@ -32,17 +34,19 @@ export default function (state = initialState, action) {
         case DELETE_MOVIE:
             return {
                 ...state,
-                movies: state.movies.filter(movie => movie._id !== action.id)
+                list: state.list.filter(movie => movie._id !== action.id),
+                filtered: state.list.filter(movie => movie._id !== action.id),
             }
         case ADD_MOVIE:
             return {
                 ...state,
                 movie: action.payload
             }
-        case NEW_POST:
+        case FILTER:
             return {
                 ...state,
-                item: action.payload
+                movies: action.movies,
+                filtered: action.filtered
             }
         default:
             return state

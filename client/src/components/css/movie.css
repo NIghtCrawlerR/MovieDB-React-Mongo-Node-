@@ -69,6 +69,7 @@ h3 {
 
 .movie_info__bottom {
     display: flex;
+    align-items: center;
     margin-top: auto;
 }
 
@@ -76,6 +77,10 @@ h3 {
     font-size: 16px;
     flex-grow: 1;
     text-transform: uppercase;
+}
+
+.movie-form__poster img {
+    max-width: 100px;
 }
 
 .action {

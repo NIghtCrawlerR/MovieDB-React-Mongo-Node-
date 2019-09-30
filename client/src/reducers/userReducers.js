@@ -44,7 +44,12 @@ export default function (state = initialState, action) {
         case USER_LOG_OUT:
             return {
                 ...state,
-                isLogin: action.isLogin
+                // isLogin: action.isLogin,
+                data: {},
+                token: '',
+                isLogin: false,
+                movies: [],
+                filteredMovies: []
             }
         case USER_VERIFY:
             return {

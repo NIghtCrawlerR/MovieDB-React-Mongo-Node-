@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Movie from './movie.component';
 import Filter from "./filter.component"
 import { connect } from 'react-redux'
-import { getMovies, deleteMovie } from '../actions/movieActions'
+import { getMovies, deleteMovie, filterMovies } from '../actions/movieActions'
 import { userGet } from '../actions/userActions'
 import './css/movie.css';
 
@@ -19,16 +19,17 @@ class MoviesList extends Component {
     }
 
     filter(filter) {
-        let filterKeys = Object.keys(filter)
+        this.props.filterMovies(this.props.movies.list, filter)
+        // let filterKeys = Object.keys(filter)
 
-        this.setState({
-            filtered: this.state.movies.filter(item => {
-                return filterKeys.every(key => {
-                    if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
-                    else return item[key] === filter[key]
-                })
-            })
-        })
+        // this.setState({
+        //     filtered: this.state.movies.filter(item => {
+        //         return filterKeys.every(key => {
+        //             if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
+        //             else return item[key] === filter[key]
+        //         })
+        //     })
+        // })
     }
 
     deleteMovie(id) {
@@ -57,6 +58,7 @@ class MoviesList extends Component {
         this.setState({ loading: true })
         this.props.getMovies()
             .then(res => {
+                console.log(this.props)
                 this.setState({
                     movies: res.data,
                     filtered: res.data,
@@ -71,6 +73,7 @@ class MoviesList extends Component {
     }
 
     render() {
+        const { movies } = this.props
         return (
             <div>
                 <Filter filter={this.filter.bind(this)} />
@@ -81,9 +84,9 @@ class MoviesList extends Component {
                         </div>
                     </div> :
                     <div className="mt-3 movies_wrap">
-                        {this.state.filtered.length !== 0 ? this.state.filtered.map(movie => {
+                        { movies.filtered.length !== 0 ? movies.filtered.map(movie => {
                             return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />
-                        }) : this.state.movies.length === 0 ?
+                        }) : movies.list.length === 0 ?
                                 <div>
                                     <p>List is empty.</p>
                                     <Link to="/create">Add movie</Link>
@@ -98,12 +101,13 @@ class MoviesList extends Component {
 }
 
 const mapStateToProps = state => ({
-    movies: state.app.movies,
+    movies: state.app,
     user: state.user
 })
 
 export default connect(mapStateToProps, {
     getMovies,
     deleteMovie,
-    userGet
+    userGet,
+    filterMovies
 })(MoviesList)

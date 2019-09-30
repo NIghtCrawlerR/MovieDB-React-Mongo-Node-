@@ -62,7 +62,11 @@ export const logout = token => dispatch => {
                 if (res.data.success) {
                     dispatch({
                         type: USER_LOG_OUT,
-                        isLogin: false
+                        data: {},
+                        token: '',
+                        isLogin: false,
+                        movies: [],
+                        filteredMovies: []
                     })
                     resolve(res)
                 }

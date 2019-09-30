@@ -4,10 +4,28 @@ import {
     EDIT_MOVIE,
     DELETE_MOVIE,
     ADD_MOVIE,
-    NEW_POST
+    NEW_POST,
+    FILTER
 } from './types'
 import axios from 'axios'
 
+export const filterMovies = (movies, filter) => dispatch => {
+    let filtered = []
+    let filterKeys = Object.keys(filter)
+
+    filtered = movies.filter(item => {
+        return filterKeys.every(key => {
+            if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
+            else return item[key] === filter[key]
+        })
+    })
+
+    dispatch({
+        type: FILTER,
+        movies: movies,
+        filtered: filtered
+    })
+}
 
 export const getMovies = () => dispatch => {
     return new Promise((resolve, reject) => {
@@ -15,11 +33,15 @@ export const getMovies = () => dispatch => {
             .then(res => {
                 dispatch({
                     type: GET_MOVIES,
-                    payload: res.data
+                    payload: res.data,
+                    list: res.data
                 })
                 resolve(res)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                resolve(err)
+            })
     })
 
 

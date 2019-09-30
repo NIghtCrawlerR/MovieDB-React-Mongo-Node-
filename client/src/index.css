@@ -3,6 +3,11 @@
   --red: #ec174f;
 }
 
+html {
+  overflow-y: scroll; 
+  overflow-y: overlay;
+}
+
 body {
   color: #333;
   margin: 0;
@@ -84,3 +89,6 @@ input[type=checkbox]:checked + label:after {
   transform: rotate(45deg);
 }
 
+input[data-error=true] {
+  border-color: #ec174f;
+}
