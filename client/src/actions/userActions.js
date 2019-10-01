@@ -30,7 +30,7 @@ export const filterMovies = (movies, filter) => dispatch => {
 
 export const login = user => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4000/api/users/login', user)
+        axios.post('/api/users/login', user)
             .then((res) => {
                 if (res.data.success) {
                     dispatch({
@@ -57,7 +57,7 @@ export const register = () => dispatch => {
 
 export const logout = token => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4000/api/users/logout?token=' + token)
+        axios.get('/api/users/logout?token=' + token)
             .then(res => {
                 if (res.data.success) {
                     dispatch({
@@ -78,7 +78,7 @@ export const logout = token => dispatch => {
 
 export const verifyUser = token => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4000/api/users/verify?token=' + token)
+        axios.get('/api/users/verify?token=' + token)
             .then(res => {
                 if (res.data.success) {
                     dispatch({
@@ -98,7 +98,7 @@ export const verifyUser = token => dispatch => {
 
 export const userGet = userId => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4000/api/users/current?userId=' + userId)
+        axios.get('/api/users/current?userId=' + userId)
             .then(res => {
                 const user = res.data
                 dispatch({
@@ -115,7 +115,7 @@ export const userGet = userId => dispatch => {
 
 export const userAddMovie = (userId, movies) => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4000/api/users/movies/add',
+        axios.post('/api/users/movies/add',
             { userId: userId, movies: movies })
             .then(res => {
                 dispatch({

@@ -32,7 +32,7 @@ class Form extends Component {
         this.setState({ titleError: false })
 
         const title = this.state.title.toLowerCase()
-        axios.post('http://localhost:4000/movies/check', {title: title})
+        axios.post('/movies/check', {title: title})
             .then(res => {
                 if(res.data.image) {
                     this.setState({ img: res.data.image })

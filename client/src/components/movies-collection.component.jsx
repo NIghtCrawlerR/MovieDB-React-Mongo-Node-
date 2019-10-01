@@ -27,7 +27,7 @@ class MoviesCollection extends Component {
 
     onDelete(id) {
         let isDel = window.confirm('Are you sure?')
-        if (isDel) axios.delete('http://localhost:4000/movies/delete/' + id)
+        if (isDel) axios.delete('/movies/delete/' + id)
             .then(res => {
                 let idx
                 this.state.movies.map((m, i) => { 
@@ -50,7 +50,7 @@ class MoviesCollection extends Component {
         })
         let el = this.state.movies.filter(m => m._id === id)[0]
 
-        axios.post('http://localhost:4000/movies/update/' + id, el)
+        axios.post('/movies/update/' + id, el)
             .then(res => console.log(res))
             .catch(err => console.log(err))
     }
@@ -64,7 +64,7 @@ class MoviesCollection extends Component {
         })
         let el = this.state.movies.filter(m => m._id === id)[0]
 
-        axios.post('http://localhost:4000/movies/update/' + id, el)
+        axios.post('/movies/update/' + id, el)
             .then(res => console.log(res))
             .catch(err => console.log(err))
     }

@@ -29,7 +29,7 @@ export const filterMovies = (movies, filter) => dispatch => {
 
 export const getMovies = () => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4000/movies')
+        axios.get('/movies')
             .then(res => {
                 dispatch({
                     type: GET_MOVIES,
@@ -49,7 +49,7 @@ export const getMovies = () => dispatch => {
 
 export const getMovieById = id => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4000/movies/' + id)
+        axios.get('/movies/' + id)
             .then(response => {
                 dispatch({
                     type: GET_MOVIE_BY_ID,
@@ -66,7 +66,7 @@ export const getMovieById = id => dispatch => {
 
 export const editMovie = (id, movie) => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4000/movies/update/' + id, movie)
+        axios.post('/movies/update/' + id, movie)
             .then(response => {
                 dispatch({
                     type: EDIT_MOVIE,
@@ -82,7 +82,7 @@ export const editMovie = (id, movie) => dispatch => {
 
 export const addMovie = (movie) => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4000/movies/add', movie)
+        axios.post('/movies/add', movie)
             .then(response => {
                 dispatch({
                     type: ADD_MOVIE,
@@ -98,7 +98,7 @@ export const addMovie = (movie) => dispatch => {
 
 export const deleteMovie = id => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.delete('http://localhost:4000/movies/delete/' + id)
+        axios.delete('/movies/delete/' + id)
             .then(res => {
                 dispatch({
                     type: DELETE_MOVIE,

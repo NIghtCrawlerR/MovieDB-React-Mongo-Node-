@@ -57,7 +57,7 @@ class AuthForm extends Component {
                     console.log(err)
                 })
         } else {
-            axios.post('http://localhost:4000/api/users/register', { email: this.state.email, password: this.state.password })
+            axios.post('/api/users/register', { email: this.state.email, password: this.state.password })
                 .then((res) => {
 
                     this.setState({ loading: false })
