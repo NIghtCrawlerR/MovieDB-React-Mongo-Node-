@@ -1,4 +1,7 @@
-require('dotenv').config()
+const isProduction = process.env.NODE_ENV === 'production';
+if(!isProduction) {
+    require('dotenv').config()
+}
 
 const express = require('express');
 const app = express();
@@ -14,9 +17,7 @@ const session = require('express-session')
 const cookieSession = require('cookie-session')
 const errorHandler = require('errorhandler')
 
-const isProduction = process.env.NODE_ENV === 'production';
-
-const dbUrl = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds155714.mlab.com:55714/movies`
+const dbUrl = process.env.DB_URI
 
 //Middleware
 app.use(cors());
