@@ -27,6 +27,16 @@ module.exports = (function () {
         })
     })
 
+    router.route('/check').post((req, res) => {
+        const title = req.body.title
+        console.log(title)
+        imdb.get({ name: title }, { apiKey: apiKey }).then((data) => {
+            return res.status(200).json({ 'status': 'success', 'image': data.poster })
+        }).catch((err) => {
+            return res.status(500).json({ 'status': 'error', 'text': err.message })
+        });
+    })
+
     router.route('/add').post((req, res) => {
         let movie = new Movie(req.body);
         
@@ -39,17 +49,19 @@ module.exports = (function () {
                 return res.status(200).json({ 'status': 'error', 'text': 'Error: Movie is already exists' })
             }
 
-            if (!req.body.img) imdb.get({ name: title }, { apiKey: apiKey }).then((data) => {
-                movie.img = data.poster
-                saveMovie();
-            }).catch((err) => {
-                console.log(err)
-                movie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
-                saveMovie();
-            });
-            else {
-                saveMovie();
-            }
+            saveMovie();
+
+            // if (!req.body.img) imdb.get({ name: title }, { apiKey: apiKey }).then((data) => {
+            //     movie.img = data.poster
+            //     saveMovie();
+            // }).catch((err) => {
+            //     console.log(err)
+            //     movie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
+            //     saveMovie();
+            // });
+            // else {
+            //     saveMovie();
+            // }
         })
 
         function saveMovie() {

@@ -34,7 +34,6 @@ app.use(session(
         saveUninitialized: true,
         cookie: {
             maxAge: 60000,
-            test: 'tst',
             expires: new Date(Date.now() + (30 * 86400 * 1000)),
         },
     }
@@ -49,45 +48,43 @@ connection.once('open', function () {
     console.log("MongoDB successfully connected");
 })
 
-if (!isProduction) {
-    app.use(errorHandler());
-}
+// if (!isProduction) {
+//     app.use(errorHandler());
+// }
 
 //Models & routes
 require('./models/user.model')
-// require('./config/passport')
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 app.use('/movies', routes);
-// app.use('/user', routesUser);
 app.use(require('./routes/index'));
 
 //Error handlers & middlewares
-if (!isProduction) {
-    app.use((err, req, res) => {
-        res.status(err.status || 500);
+// if (!isProduction) {
+//     app.use((err, req, res) => {
+//         res.status(err.status || 500);
 
-        res.json({
-            errors: {
-                message: err.message,
-                error: err,
-            },
-        });
-    });
-}
+//         res.json({
+//             errors: {
+//                 message: err.message,
+//                 error: err,
+//             },
+//         });
+//     });
+// }
 
-app.use((err, req, res) => {
-    res.status(err.status || 500);
+// app.use((err, req, res) => {
+//     res.status(err.status || 500);
 
-    res.json({
-        errors: {
-            message: err.message,
-            error: {},
-        },
-    });
-});
+//     res.json({
+//         errors: {
+//             message: err.message,
+//             error: {},
+//         },
+//     });
+// });
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
