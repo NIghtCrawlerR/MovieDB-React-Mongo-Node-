@@ -15,15 +15,15 @@ module.exports = (function () {
     function checkAccess(req, res, next) {
         const groupsPermissions = JSON.parse(process.env.USER_GROUPS)
         const { userId, action } = req.query
-    
+
         User.find({ _id: userId }, (err, user) => {
             if (err) {
                 res.status(500).json({ 'status': 'error', 'text': 'Error: Server error' })
             }
-            if(!groupsPermissions) res.status(500).json({ 'status': 'error', 'text': 'Error: Data not found' })
+            if (!groupsPermissions) res.status(500).json({ 'status': 'error', 'text': 'Error: Data not found' })
             const userGroup = user[0].group
             const hasAccess = groupsPermissions[userGroup].includes(action)
-            
+
             if (hasAccess) next()
             else res.status(403).json({ 'status': 'error', 'text': 'Error: You have no permission' })
         })
@@ -53,7 +53,7 @@ module.exports = (function () {
         });
     })
 
-    router.post('/add', checkAccess, (req, res) => {
+    router.route('/add').post(checkAccess, (req, res) => {
         let movie = new Movie(req.body);
 
         const title = req.body.title.toLowerCase()
@@ -75,7 +75,7 @@ module.exports = (function () {
         }
     })
 
-    router.post('/update/:id', checkAccess, (req, res) => {
+    router.route('/update/:id').post(checkAccess, (req, res) => {
         Movie.findById(req.params.id, (err, movie) => {
             if (!movie) res.status(404).send('data not found')
             else {
@@ -92,15 +92,13 @@ module.exports = (function () {
         })
     })
 
-    router.delete('/delete/:id', checkAccess, (req, res, next) => {
+    router.route('/delete/:id').delete(checkAccess, (req, res, next) => {
         Movie.findById(req.params.id, (err, movie) => {
             if (!movie) res.status(404).send('data not found')
             else movie.remove()
                 .then(movie => res.json({ 'status': 'success', 'text': 'Movie deleted successfully' }))
                 .catch(err => res.status(500).json({ 'status': 'error', 'text': err.message }))
         })
-
-
     })
 
     return router

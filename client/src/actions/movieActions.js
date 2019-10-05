@@ -109,7 +109,7 @@ export const addMovie = (movie, userId) => dispatch => {
 export const deleteMovie = (id, userId) => dispatch => {
     return new Promise((resolve, reject) => {
         const userData = { userId: userId, action: 'delete' }
-        axios.delete('/api/movies/delete/' + id, { params: userData })
+        axios.delete('http://localhost:4000/api/movies/delete/' + id, { params: userData })
             .then(res => {
                 dispatch({
                     type: DELETE_MOVIE,
