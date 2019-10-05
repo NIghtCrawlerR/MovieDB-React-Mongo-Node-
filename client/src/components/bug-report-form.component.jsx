@@ -54,7 +54,7 @@ export default class BugReportForm extends Component {
                         </div>
                     </div> : null}
                 <div className="d-flex justify-content-between">
-                    <h3>{this.props.mode === 'edit' ? 'Edit movie' : 'Add new movie'}</h3>
+                    <h3>Bug report</h3>
                     <Link className="btn btn-outline-info" to="/"><i className="fas fa-arrow-left mr-2"></i> Go back</Link>
                 </div>
                 <br />
