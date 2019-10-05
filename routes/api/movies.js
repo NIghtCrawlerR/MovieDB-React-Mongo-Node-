@@ -13,7 +13,11 @@ module.exports = (function () {
     const apiKey = '623fca3e'
 
     function checkAccess(req, res, next) {
-        const groupsPermissions = JSON.parse(process.env.USER_GROUPS)
+        let groupsPermissions = {}
+        process.env.USER_GROUPS.split('///').map(group => {
+            groupsPermissions[group.split('//')[0]] = group.split('//')[1]
+        })
+        
         const { userId, action } = req.query
 
         User.find({ _id: userId }, (err, user) => {
@@ -22,7 +26,7 @@ module.exports = (function () {
             }
             if (!groupsPermissions) res.status(500).json({ 'status': 'error', 'text': 'Error: Data not found' })
             const userGroup = user[0].group
-            const hasAccess = groupsPermissions[userGroup].includes(action)
+            const hasAccess = groupsPermissions[userGroup] && groupsPermissions[userGroup].includes(action)
 
             if (hasAccess) next()
             else res.status(403).json({ 'status': 'error', 'text': 'Error: You have no permission' })
