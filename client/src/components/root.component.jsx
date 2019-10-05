@@ -12,8 +12,10 @@ import { getFromStorage, removeFromStorage } from '../utils/storage'
 import { connect } from 'react-redux'
 import { verifyUser, logout, userGet } from '../actions/userActions'
 
+import axios from 'axios'
 function showStatusMessage(show, msg) {
-    if (show) return <Message message={msg} />
+    // if (show) return <Message message={msg}/>
+    return show
 }
 
 class RootComponent extends React.Component {
@@ -28,25 +30,42 @@ class RootComponent extends React.Component {
             showMsg: false,
             message: {
                 'status': 'warning',
-                'text': 'message text'
+                'text': 'message text',
+                'accessError': false
             },
             loading: true
         }
     }
 
-    showMsg(status, text) {
+    hideMsg() {
+        this.setState({ showMsg: false })
+    }
+    showMsg(status, text, accessError, timeout) {
+
         this.setState({
             showMsg: true,
             message: {
                 'status': status,
-                'text': text
+                'text': text,
+                'accessError': accessError
             }
         })
         setTimeout(() => {
             this.setState({
                 showMsg: false
             })
-        }, 5000)
+        }, timeout || 5000)
+    }
+
+    sendRequest() {
+        axios.get('/api/users/access/get', { params: { email: this.props.user.data.email } })
+            .then((res) => {
+                this.showMsg(res.data.status, res.data.text)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
     }
 
     updateUser() {
@@ -59,7 +78,7 @@ class RootComponent extends React.Component {
         //verify user
         this.props.verifyUser(token)
             .then(user => {
-                if(!user.data.success) throw new Error('err')
+                if (!user.data.success) throw new Error('err')
                 this.setState({ loading: false })
             })
             .then(() => {
@@ -88,11 +107,11 @@ class RootComponent extends React.Component {
     render() {
         if (this.state.loading) {
             return (
-            <div className="text-center py-5">
-                <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
+                <div className="text-center py-5">
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
                 </div>
-            </div>
             )
         } else {
             return (
@@ -115,7 +134,7 @@ class RootComponent extends React.Component {
                                             </span>
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <div className="user-menu__email text-info">
-                                                { this.props.user.data ? this.props.user.data.email : '' }
+                                                    {this.props.user.data ? this.props.user.data.email : ''}
                                                 </div>
                                                 <div className="dropdown-divider"></div>
                                                 <Link to="/collection" className="dropdown-item text-info">Collection</Link>
@@ -142,8 +161,16 @@ class RootComponent extends React.Component {
                             <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
                         </div>
-                        {showStatusMessage(this.state.showMsg, this.state.message)}
-
+                        {/* {showStatusMessage(this.state.showMsg, this.state.message)} */}
+                        {
+                            this.state.showMsg ?
+                                <Message
+                                    message={this.state.message}
+                                    close={this.hideMsg.bind(this)}
+                                    sendRequest={this.sendRequest.bind(this)}
+                                /> :
+                                null
+                        }
                     </div>
                     {/* { this.state.isLogin ? '' : <Redirect exact from="/" to="/login" /> } */}
                 </Router>

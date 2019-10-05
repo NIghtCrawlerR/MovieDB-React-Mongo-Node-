@@ -66,7 +66,7 @@ class Form extends Component {
         for (let key in this.state) newMovie[key] = this.state[key]
 
         // if (!newMovie.img) newMovie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
-        console.log( this.props)
+        console.log(this.props)
         if (this.props.mode === 'edit') {
             this.props.editMovie(this.props.movie._id, newMovie, this.props.user.userId)
                 .then(res => {
@@ -75,8 +75,9 @@ class Form extends Component {
                 })
                 .catch(err => {
                     this.setState({ loading: false })
-                    this.props.showMsg(err.response.data.status || 'error',
-                        err.response.data.text || 'Something went wrong')
+                    const { status, text, accessError } = err.response.data
+                    let timeout = accessError ? 15000 : 5000
+                    this.props.showMsg(status || 'error', text || 'Something went wrong', accessError, timeout)
                 })
         }
         else {
@@ -92,8 +93,9 @@ class Form extends Component {
                 })
                 .catch(err => {
                     this.setState({ loading: false })
-                    this.props.showMsg(err.response.data.status || 'error',
-                        err.response.data.text || 'Something went wrong')
+                    const { status, text, accessError } = err.response.data
+                    let timeout = accessError ? 15000 : 5000
+                    this.props.showMsg(status || 'error', text || 'Something went wrong', accessError, timeout)
                 })
         }
     }

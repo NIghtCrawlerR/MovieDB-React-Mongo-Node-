@@ -29,8 +29,9 @@ class MoviesList extends Component {
                 this.props.showMsg(res.data.status, res.data.text)
             })
             .catch(err => {
-                this.props.showMsg(err.response.data.status || 'error', 
-                err.response.data.text || 'Something went wrong')
+                const { status, text, accessError } = err.response.data
+                let timeout = accessError ? 15000 : 5000
+                this.props.showMsg(status || 'error', text || 'Something went wrong', accessError, timeout)
             })
     }
 
@@ -74,7 +75,7 @@ class MoviesList extends Component {
                         </div>
                     </div> :
                     <div className="mt-3 movies_wrap">
-                        { movies.filtered.length !== 0 ? movies.filtered.map(movie => {
+                        {movies.filtered.length !== 0 ? movies.filtered.map(movie => {
                             return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />
                         }) : movies.list.length === 0 ?
                                 <div>

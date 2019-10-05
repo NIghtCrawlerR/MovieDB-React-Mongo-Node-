@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -31,6 +31,7 @@
     "mongodb": "^3.2.3",
     "mongoose": "^5.5.5",
     "morgan": "^1.9.1",
+    "node-telegram-bot-api": "^0.30.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   },

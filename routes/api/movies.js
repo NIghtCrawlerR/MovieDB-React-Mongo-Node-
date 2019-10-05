@@ -27,13 +27,14 @@ module.exports = (function () {
             if (!groupsPermissions) res.status(500).json({ 'status': 'error', 'text': 'Error: Data not found' })
             const userGroup = user[0].group
             const hasAccess = groupsPermissions[userGroup] && groupsPermissions[userGroup].includes(action)
-
+            console.log('check access')
             if (hasAccess) next()
-            else res.status(403).json({ 'status': 'error', 'text': 'Error: You have no permission' })
+            else res.status(403).json({ 'status': 'error', 'text': 'Error: You have no permission.', 'accessError': true })
         })
     }
 
     router.get('/', (req, res) => {
+        console.log('get movies')
         Movie.find((err, movies) => {
             if (err) console.log(err)
             else res.json(movies.reverse())
@@ -101,7 +102,10 @@ module.exports = (function () {
             if (!movie) res.status(404).send('data not found')
             else movie.remove()
                 .then(movie => res.json({ 'status': 'success', 'text': 'Movie deleted successfully' }))
-                .catch(err => res.status(500).json({ 'status': 'error', 'text': err.message }))
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({ 'status': 'error', 'text': err.message })
+                })
         })
     })
 

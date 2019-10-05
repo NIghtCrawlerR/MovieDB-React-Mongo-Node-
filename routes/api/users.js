@@ -4,27 +4,28 @@ const User = require('../../models/user.model')
 const Movie = require('../../models/movie.model')
 const UserSession = require('../../models/user.session.model')
 const mongoose = require('mongoose')
+const bot = require('../../bot')
 
 router.post('/movies/add', (req, res) => {
     User.findOneAndUpdate({
         _id: req.body.userId
     }, {
-            $set: {
-                movies: req.body.movies
-            }
-        }, null, (err, user) => {
-            if (err) {
-                console.log(err);
-                return res.send({
-                    success: false,
-                    message: 'Error: Server error'
-                });
-            }
+        $set: {
+            movies: req.body.movies
+        }
+    }, null, (err, user) => {
+        if (err) {
+            console.log(err);
             return res.send({
-                success: true,
-                message: 'Movie added to collection successfully'
+                success: false,
+                message: 'Error: Server error'
             });
-        })
+        }
+        return res.send({
+            success: true,
+            message: 'Movie added to collection successfully'
+        });
+    })
 })
 
 router.post('/movies/get', (req, res) => {
@@ -178,22 +179,22 @@ router.get('/logout', (req, res, next) => {
         _id: token,
         isDeleted: false
     }, {
-            $set: {
-                isDeleted: true
-            }
-        }, null, (err, session) => {
-            if (err) {
-                console.log(err);
-                return res.send({
-                    success: false,
-                    message: 'Error: Server error'
-                });
-            }
+        $set: {
+            isDeleted: true
+        }
+    }, null, (err, session) => {
+        if (err) {
+            console.log(err);
             return res.send({
-                success: true,
-                message: 'Good'
+                success: false,
+                message: 'Error: Server error'
             });
-        })
+        }
+        return res.send({
+            success: true,
+            message: 'Good'
+        });
+    })
 })
 
 router.get('/verify', (req, res, next) => {
@@ -251,6 +252,15 @@ router.get('/current', (req, res) => {
             data: currentUser
         })
     })
+})
+
+router.route('/access/get').get((req, res) => {
+    const email = req.query.email
+    bot.sendMessage({
+        text: `Get access request: user ${email} wants to get permission.`,
+        email: email
+    })
+    res.json({ 'status': 'success', 'text': 'Request was send successfully' })
 })
 
 module.exports = router;
