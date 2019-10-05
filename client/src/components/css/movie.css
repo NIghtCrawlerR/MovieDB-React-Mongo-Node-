@@ -19,8 +19,17 @@ h3 {
     justify-content: center;
 }
 
+.user-menu .dropdown-menu {
+    min-width: 260px;
+    left: auto !important;
+    right: 0 !important;
+}
+
 .user-menu__email {
     padding: .25rem 1.5rem;
+}
+.bugreport__textarea {
+    min-height: 190px;
 }
 
 .navbar__user-icon i {
@@ -111,6 +120,43 @@ h3 {
     left: -35px;
     top: 25px;
     width: 150px;
+}
+
+.bug-report-button {
+    position: fixed;
+    display: block;
+    bottom: 20px;
+    left: 20px;
+    cursor: pointer;
+    background: #ec174f;
+    color: #fff !important;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    transition: all .3s;
+}
+.bug-report-button:hover {
+    box-shadow: 0 0 15px 5px #d0bbc0;
+}
+.bug-report-button:hover .bug-report-button__tooltip {
+    opacity: 1;
+}
+.bug-report-button__tooltip {
+    position: absolute;
+    font-size: 13px;
+    background: #333;
+    width: 230px;
+    left: 0;
+    top: -30px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: all .3s;
+    pointer-events: none;
 }
 
 @media screen and (max-width: 1200px) {

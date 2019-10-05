@@ -244,7 +244,8 @@ router.get('/current', (req, res) => {
             email: user[0].email,
             movies: user[0].movies,
             signUpDate: user[0].signUpDate,
-            id: user[0]._id
+            id: user[0]._id,
+            group: user[0].group
         }
         return res.send({
             succes: true,

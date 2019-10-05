@@ -152,7 +152,7 @@ class Form extends Component {
                                 <div className="col-sm-12">
                                     <label>
                                         <b>Image link</b> <br />
-                                        <small>Fing image api works only for correct english titles</small>
+                                        <small>Find image api works only for correct english titles</small>
                                     </label>
                                 </div>
                                 <div className="col-xs-9 col-sm-9 col=md-9 col-lg-9">

@@ -7,6 +7,7 @@ import EditMovie from "./edit-movie.component"
 import CreateMovie from "./create-movie.component"
 import Message from "./message.component"
 import Auth from "./auth"
+import BugReportForm from "./bug-report-form.component"
 import store from '../store'
 import { getFromStorage, removeFromStorage } from '../utils/storage'
 import { connect } from 'react-redux'
@@ -105,6 +106,7 @@ class RootComponent extends React.Component {
     }
 
     render() {
+
         if (this.state.loading) {
             return (
                 <div className="text-center py-5">
@@ -128,13 +130,25 @@ class RootComponent extends React.Component {
                             ) : (
                                     <div className="d-flex align-items-center">
                                         <Link to="/create" className="btn btn-sm btn-purple mr-2">Add movie</Link>
-                                        <span className="dropdown dropleft">
+                                        <span className="dropdown user-menu">
                                             <span className="action text-white navbar__user-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i className="fas fa-user-circle"></i>
                                             </span>
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <div className="user-menu__email text-info">
-                                                    {this.props.user.data ? this.props.user.data.email : ''}
+                                                <div className="user-menu__email text-default">
+                                                    {this.props.user.data ?
+                                                        <div>
+                                                            <b>{this.props.user.data.email}</b> <br />
+                                                            <small>
+                                                                <b>User group:</b> {this.props.user.data.group} <br />
+                                                                <b>Permissions:</b> {this.props.user.data.group === 'admin' ?
+                                                                    'Edit movie, add movie' : this.props.user.data.group === 'user' ?
+                                                                        '-' : 'All'
+                                                                }
+                                                            </small>
+
+                                                        </div>
+                                                        : ''}
                                                 </div>
                                                 <div className="dropdown-divider"></div>
                                                 <Link to="/collection" className="dropdown-item text-info">Collection</Link>
@@ -160,6 +174,7 @@ class RootComponent extends React.Component {
                             <Route path="/create" render={(props) => (<CreateMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
+                            <Route path="/bug-report" render={(props) => (<BugReportForm {...props} showMsg={this.showMsg.bind(this)} />)} />
                         </div>
                         {/* {showStatusMessage(this.state.showMsg, this.state.message)} */}
                         {
@@ -172,6 +187,10 @@ class RootComponent extends React.Component {
                                 null
                         }
                     </div>
+                    <Link to="/bug-report" className="bug-report-button">
+                        <i className="fa fa-bug" aria-hidden="true"></i>
+                        <p className="bug-report-button__tooltip">If you find bugs please let me know</p>
+                    </Link>
                     {/* { this.state.isLogin ? '' : <Redirect exact from="/" to="/login" /> } */}
                 </Router>
 
