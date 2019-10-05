@@ -39,7 +39,7 @@ class Movie extends Component {
         }
 
         let i = movies.findIndex(movie => movie.id === _id)
-        
+
         if (typeof toggle !== 'string') {
 
             if (i === -1) {
@@ -98,27 +98,33 @@ class Movie extends Component {
                             <span className="action text-muted" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i className="fas fa-ellipsis-v"></i>
                             </span>
-                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                {userCollection ?
-                                    <span className="dropdown-item text-info" onClick={this.setWatch.bind(this)}>
-                                        <i className="far fa-eye mr-2"></i>
-                                        {watched ? 'Unset watched' : 'Mark as watched'}
-                                    </span>
+                            <div className="dropdown-menu dropdown-menu-right " aria-labelledby="dropdownMenuButton">
+                                {this.props.user.userId ?
+                                    userCollection ?
+                                        <div>
+                                            <span className="dropdown-item text-info" onClick={this.setWatch.bind(this)}>
+                                                <i className="far fa-eye mr-2"></i>
+                                                {watched ? 'Unset watched' : 'Mark as watched'}
+                                            </span>
+                                            <span className="dropdown-item text-danger" onClick={this.deleteFromCollection}><i className="fas fa-trash-alt mr-2"></i> Delete from collection</span>
+                                        </div>
+                                        :
+                                        <div>
+                                            <span className="dropdown-item text-info" onClick={this.updateMovieCollection}>
+                                                <i className="fas fa-plus mr-2"></i>
+                                                {user ?
+                                                    user.movies.findIndex(movie => movie.id === _id) !== -1 ?
+                                                        'Remove from collection' : 'Add to collection' : ''}
+                                            </span>
+                                            <Link to={'/edit/' + _id} className="dropdown-item text-info"><i className="fas fa-pen mr-2"></i> Edit</Link>
+                                            <span className="dropdown-item text-danger" onClick={this.deleteFromDB}><i className="fas fa-trash-alt mr-2"></i> Delete</span>
+                                        </div>
+
                                     :
-                                    <div>
-                                        <span className="dropdown-item text-info" onClick={this.updateMovieCollection}>
-                                            <i className="fas fa-plus mr-2"></i>
-                                            {user ?
-                                                user.movies.findIndex(movie => movie.id === _id) !== -1 ?
-                                                    'Remove from collection' : 'Add to collection' : ''}
-                                        </span>
-                                        <Link to={'/edit/' + _id} className="dropdown-item text-info"><i className="fas fa-pen mr-2"></i> Edit</Link>
-                                    </div>
-                                }
-                                {userCollection ?
-                                    <span className="dropdown-item text-danger" onClick={this.deleteFromCollection}><i className="fas fa-trash-alt mr-2"></i> Delete from collection</span> :
-                                    <span className="dropdown-item text-danger" onClick={this.deleteFromDB}><i className="fas fa-trash-alt mr-2"></i> Delete</span>
-                                }
+                                    <span className="dropdown-item text-info">
+                                        <Link to="/login">Login to get access to actions</Link>
+                                    </span>}
+
 
                             </div>
                         </div>

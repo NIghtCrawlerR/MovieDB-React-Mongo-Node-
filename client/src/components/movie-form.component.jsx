@@ -25,21 +25,21 @@ class Form extends Component {
 
     findImage(e) {
         e.preventDefault()
-        if(!this.state.title) {
+        if (!this.state.title) {
             this.setState({ titleError: true })
             return !1
         }
         this.setState({ titleError: false })
 
         const title = this.state.title.toLowerCase()
-        axios.post('/movies/check', {title: title})
+        axios.post('/api/movies/check', { title: title })
             .then(res => {
-                if(res.data.image) {
+                if (res.data.image) {
                     this.setState({ img: res.data.image })
                 } else {
-                    this.props.showMsg('error', 'Error: No image found')   
+                    this.props.showMsg('error', 'Error: No image found')
                 }
-                
+
                 console.log(res)
             })
             .catch(err => {
@@ -52,12 +52,12 @@ class Form extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
-        
+
     }
 
     onSubmit(e) {
         e.preventDefault()
-        if(!this.state.title) {
+        if (!this.state.title) {
             this.setState({ titleError: true })
             return !1
         }
@@ -66,16 +66,21 @@ class Form extends Component {
         for (let key in this.state) newMovie[key] = this.state[key]
 
         // if (!newMovie.img) newMovie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
-
+        console.log( this.props)
         if (this.props.mode === 'edit') {
-            this.props.editMovie(this.props.movie._id, newMovie)
+            this.props.editMovie(this.props.movie._id, newMovie, this.props.user.userId)
                 .then(res => {
                     this.setState({ loading: false })
                     this.props.showMsg(res.data.status, res.data.text)
                 })
+                .catch(err => {
+                    this.setState({ loading: false })
+                    this.props.showMsg(err.response.data.status || 'error',
+                        err.response.data.text || 'Something went wrong')
+                })
         }
         else {
-            this.props.addMovie(newMovie)
+            this.props.addMovie(newMovie, this.props.user.userId)
                 .then(res => {
                     this.setState({
                         title: '',
@@ -84,6 +89,11 @@ class Form extends Component {
                         loading: false
                     })
                     this.props.showMsg(res.data.status, res.data.text)
+                })
+                .catch(err => {
+                    this.setState({ loading: false })
+                    this.props.showMsg(err.response.data.status || 'error',
+                        err.response.data.text || 'Something went wrong')
                 })
         }
     }
@@ -138,7 +148,10 @@ class Form extends Component {
                         <div className="col-lg-12 mt-3">
                             <div className="row">
                                 <div className="col-sm-12">
-                                    <label><b>Image link</b></label>
+                                    <label>
+                                        <b>Image link</b> <br />
+                                        <small>Fing image api works only for correct english titles</small>
+                                    </label>
                                 </div>
                                 <div className="col-xs-9 col-sm-9 col=md-9 col-lg-9">
                                     <input className="form-control" type="text" name="img" onChange={this.changeHandler} value={img || ''} />
@@ -171,7 +184,8 @@ class Form extends Component {
 }
 
 const mapStateToProps = state => ({
-    movie: state.app.movie
+    movie: state.app.movie,
+    user: state.user
 })
 
 export default connect(mapStateToProps, {

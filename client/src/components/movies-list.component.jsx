@@ -20,27 +20,17 @@ class MoviesList extends Component {
 
     filter(filter) {
         this.props.filterMovies(this.props.movies.list, filter)
-        // let filterKeys = Object.keys(filter)
-
-        // this.setState({
-        //     filtered: this.state.movies.filter(item => {
-        //         return filterKeys.every(key => {
-        //             if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
-        //             else return item[key] === filter[key]
-        //         })
-        //     })
-        // })
     }
 
     deleteMovie(id) {
         const confirm = window.confirm('Are you sure?')
-        if (confirm) this.props.deleteMovie(id)
+        if (confirm) this.props.deleteMovie(id, this.props.user.userId)
             .then(res => {
-                this.setState({
-                    movies: this.props.movies,
-                    filtered: this.props.movies
-                })
                 this.props.showMsg(res.data.status, res.data.text)
+            })
+            .catch(err => {
+                this.props.showMsg(err.response.data.status || 'error', 
+                err.response.data.text || 'Something went wrong')
             })
     }
 

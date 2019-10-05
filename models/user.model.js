@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema({
     movies: {
         type: Array,
         default: []
+    },
+    group: {
+        type: String,
+        default: 'user'
     }
 })
 

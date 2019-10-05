@@ -4,7 +4,6 @@ import {
     EDIT_MOVIE,
     DELETE_MOVIE,
     ADD_MOVIE,
-    NEW_POST,
     FILTER
 } from './types'
 import axios from 'axios'
@@ -29,7 +28,7 @@ export const filterMovies = (movies, filter) => dispatch => {
 
 export const getMovies = () => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.get('/movies')
+        axios.get('/api/movies')
             .then(res => {
                 dispatch({
                     type: GET_MOVIES,
@@ -40,7 +39,7 @@ export const getMovies = () => dispatch => {
             })
             .catch(err => {
                 console.log(err)
-                resolve(err)
+                reject(err)
             })
     })
 
@@ -49,7 +48,7 @@ export const getMovies = () => dispatch => {
 
 export const getMovieById = id => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.get('/movies/' + id)
+        axios.get('/api/movies/' + id)
             .then(response => {
                 dispatch({
                     type: GET_MOVIE_BY_ID,
@@ -58,15 +57,19 @@ export const getMovieById = id => dispatch => {
                 })
                 resolve(response)
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+                reject(err)
+            })
     })
 
 
 }
 
-export const editMovie = (id, movie) => dispatch => {
+export const editMovie = (id, movie, userId) => dispatch => {
+    const userData = { userId: userId, action: 'edit' }
     return new Promise((resolve, reject) => {
-        axios.post('/movies/update/' + id, movie)
+        axios.post('/api/movies/update/' + id, movie, { params: userData })
             .then(response => {
                 dispatch({
                     type: EDIT_MOVIE,
@@ -75,14 +78,18 @@ export const editMovie = (id, movie) => dispatch => {
                 })
                 resolve(response)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                reject(err)
+            })
     })
 
 }
 
-export const addMovie = (movie) => dispatch => {
+export const addMovie = (movie, userId) => dispatch => {
+    const userData = { userId: userId, action: 'add' }
     return new Promise((resolve, reject) => {
-        axios.post('/movies/add', movie)
+        axios.post('/api/movies/add', movie, { params: userData })
             .then(response => {
                 dispatch({
                     type: ADD_MOVIE,
@@ -90,15 +97,19 @@ export const addMovie = (movie) => dispatch => {
                 })
                 resolve(response)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                reject(err)
+            })
     })
 
 
 }
 
-export const deleteMovie = id => dispatch => {
+export const deleteMovie = (id, userId) => dispatch => {
     return new Promise((resolve, reject) => {
-        axios.delete('/movies/delete/' + id)
+        const userData = { userId: userId, action: 'delete' }
+        axios.delete('/api/movies/delete/' + id, { params: userData })
             .then(res => {
                 dispatch({
                     type: DELETE_MOVIE,
@@ -106,15 +117,10 @@ export const deleteMovie = id => dispatch => {
                 })
                 resolve(res)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                reject(err)
+            })
     })
 
-}
-
-export const createPost = (postData) => dispatch => {
-    console.log('createPost')
-    dispatch({
-        type: NEW_POST,
-        payload: ['new post']
-    })
 }

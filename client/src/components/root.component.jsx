@@ -99,7 +99,7 @@ class RootComponent extends React.Component {
 
                 <Router history={history}>
                     <nav className="navbar bg-red">
-                        <Link to="/" className="navbar-brand text-white">Movie database</Link>
+                        <Link to="/" className="navbar-brand text-white">Movie DB</Link>
                         <div>
                             {!this.props.user.isLogin ? (
                                 <div>

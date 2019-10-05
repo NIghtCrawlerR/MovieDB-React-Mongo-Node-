@@ -1,19 +1,38 @@
 module.exports = (function () {
+    const isProduction = process.env.NODE_ENV === 'production';
+    if (!isProduction) {
+        require('dotenv').config()
+    }
     const express = require('express')
     const session = require('express-session')
     const router = express.Router();
     const imdb = require('imdb-api');
-    const Movie = require('../models/movie.model')
-    const UserSession = require('../models/user.session.model')
+    const Movie = require('../../models/movie.model')
+    const UserSession = require('../../models/user.session.model')
+    const User = require('../../models/user.model')
+    // const checkAccess = require('./checkAccess')
 
     const apiKey = '623fca3e'
 
-    function ensureAuth(req, res, next) {
-        console.log('ensureAuth')
-        next()
+    function checkAccess(req, res, next) {
+        const groupsPermissions = JSON.parse(process.env.USER_GROUPS)
+        const { userId, action } = req.query
+        console.log(req.query)
+        console.log(req.body)
+        User.find({ _id: userId }, (err, user) => {
+            if (err) {
+                res.status(500).json({ 'status': 'error', 'text': 'Error: Server error' })
+            }
+            const userGroup = user[0].group
+            const hasAccess = groupsPermissions[userGroup].includes(action)
+            console.log('hasAccess', hasAccess)
+            // return hasAccess
+            if (hasAccess) next()
+            else res.status(500).json({ 'status': 'error', 'text': 'Error: You have no permission' })
+        })
     }
 
-    router.get('/', ensureAuth, (req, res) => {
+    router.get('/', (req, res) => {
         Movie.find((err, movies) => {
             if (err) console.log(err)
             else res.json(movies.reverse())
@@ -37,31 +56,19 @@ module.exports = (function () {
         });
     })
 
-    router.route('/add').post((req, res) => {
+    router.post('/add', checkAccess, (req, res) => {
         let movie = new Movie(req.body);
-        
+
         const title = req.body.title.toLowerCase()
         Movie.find({ title: title }, (err, movie) => {
-            
+
             if (err) {
                 return res.status(500).json({ 'status': 'error', 'text': 'Error: Server error' })
-            } else if(movie.length > 0) {
+            } else if (movie.length > 0) {
                 return res.status(200).json({ 'status': 'error', 'text': 'Error: Movie is already exists' })
             }
 
             saveMovie();
-
-            // if (!req.body.img) imdb.get({ name: title }, { apiKey: apiKey }).then((data) => {
-            //     movie.img = data.poster
-            //     saveMovie();
-            // }).catch((err) => {
-            //     console.log(err)
-            //     movie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
-            //     saveMovie();
-            // });
-            // else {
-            //     saveMovie();
-            // }
         })
 
         function saveMovie() {
@@ -69,10 +76,9 @@ module.exports = (function () {
                 .then(m => res.status(200).json({ 'status': 'success', 'text': 'Movie added successfully' }))
                 .catch(err => res.status(400).send('Adding new movie failed'))
         }
-
     })
 
-    router.route('/update/:id').post((req, res) => {
+    router.post('/update/:id', checkAccess, (req, res) => {
         Movie.findById(req.params.id, (err, movie) => {
             if (!movie) res.status(404).send('data not found')
             else {
@@ -89,13 +95,18 @@ module.exports = (function () {
         })
     })
 
-    router.route('/delete/:id').delete((req, res) => {
+    router.delete('/delete/:id', checkAccess, (req, res, next) => {
+
+        // const hasAccess = checkAccess(req.query.userId, 'root')
+        // console.log('hasAccess', hasAccess)
         Movie.findById(req.params.id, (err, movie) => {
             if (!movie) res.status(404).send('data not found')
             else movie.remove()
                 .then(movie => res.json({ 'status': 'success', 'text': 'Movie deleted successfully' }))
                 .catch(err => res.status(400).send(err))
         })
+
+
     })
 
     return router

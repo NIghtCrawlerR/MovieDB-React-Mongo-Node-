@@ -10,12 +10,8 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 4000;
-const routes = require('./routes/routes')
-// const routesUser = require('./routes/user')
 const path = require('path')
 const session = require('express-session')
-const cookieSession = require('cookie-session')
-const errorHandler = require('errorhandler')
 
 const dbUrl = process.env.DB_URI
 
@@ -25,7 +21,6 @@ app.use(require('morgan')('dev'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 app.use(cookieParser())
-// app.use(express.cookieParser('secret'));
 
 //session
 app.use(session(
@@ -49,43 +44,12 @@ connection.once('open', function () {
     console.log("MongoDB successfully connected");
 })
 
-// if (!isProduction) {
-//     app.use(errorHandler());
-// }
-
 //Models & routes
 require('./models/user.model')
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-
-app.use('/movies', routes);
 app.use(require('./routes/index'));
-
-//Error handlers & middlewares
-// if (!isProduction) {
-//     app.use((err, req, res) => {
-//         res.status(err.status || 500);
-
-//         res.json({
-//             errors: {
-//                 message: err.message,
-//                 error: err,
-//             },
-//         });
-//     });
-// }
-
-// app.use((err, req, res) => {
-//     res.status(err.status || 500);
-
-//     res.json({
-//         errors: {
-//             message: err.message,
-//             error: {},
-//         },
-//     });
-// });
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
