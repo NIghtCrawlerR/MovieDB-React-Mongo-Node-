@@ -4,11 +4,9 @@ module.exports = (function () {
         require('dotenv').config()
     }
     const express = require('express')
-    const session = require('express-session')
     const router = express.Router();
     const imdb = require('imdb-api');
     const Movie = require('../../models/movie.model')
-    const UserSession = require('../../models/user.session.model')
     const User = require('../../models/user.model')
     // const checkAccess = require('./checkAccess')
 
@@ -17,18 +15,17 @@ module.exports = (function () {
     function checkAccess(req, res, next) {
         const groupsPermissions = JSON.parse(process.env.USER_GROUPS)
         const { userId, action } = req.query
-        console.log(req.query)
-        console.log(req.body)
+    
         User.find({ _id: userId }, (err, user) => {
             if (err) {
                 res.status(500).json({ 'status': 'error', 'text': 'Error: Server error' })
             }
+            if(!groupsPermissions) res.status(500).json({ 'status': 'error', 'text': 'Error: Data not found' })
             const userGroup = user[0].group
             const hasAccess = groupsPermissions[userGroup].includes(action)
-            console.log('hasAccess', hasAccess)
-            // return hasAccess
+            
             if (hasAccess) next()
-            else res.status(500).json({ 'status': 'error', 'text': 'Error: You have no permission' })
+            else res.status(403).json({ 'status': 'error', 'text': 'Error: You have no permission' })
         })
     }
 
@@ -74,7 +71,7 @@ module.exports = (function () {
         function saveMovie() {
             movie.save()
                 .then(m => res.status(200).json({ 'status': 'success', 'text': 'Movie added successfully' }))
-                .catch(err => res.status(400).send('Adding new movie failed'))
+                .catch(err => res.status(500).json({ 'status': 'error', 'text': err.message }))
         }
     })
 
@@ -90,20 +87,17 @@ module.exports = (function () {
 
                 movie.save()
                     .then(movie => res.json({ 'status': 'success', 'text': 'Movie updated successfully' }))
-                    .catch(err => res.status(400).send('Cant update'))
+                    .catch(err => res.status(500).json({ 'status': 'error', 'text': err.message }))
             }
         })
     })
 
     router.delete('/delete/:id', checkAccess, (req, res, next) => {
-
-        // const hasAccess = checkAccess(req.query.userId, 'root')
-        // console.log('hasAccess', hasAccess)
         Movie.findById(req.params.id, (err, movie) => {
             if (!movie) res.status(404).send('data not found')
             else movie.remove()
                 .then(movie => res.json({ 'status': 'success', 'text': 'Movie deleted successfully' }))
-                .catch(err => res.status(400).send(err))
+                .catch(err => res.status(500).json({ 'status': 'error', 'text': err.message }))
         })
 
 
