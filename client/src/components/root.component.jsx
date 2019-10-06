@@ -14,10 +14,7 @@ import { connect } from 'react-redux'
 import { verifyUser, logout, userGet } from '../actions/userActions'
 
 import axios from 'axios'
-function showStatusMessage(show, msg) {
-    // if (show) return <Message message={msg}/>
-    return show
-}
+import './css/footer.css'
 
 class RootComponent extends React.Component {
     constructor(props) {
@@ -176,7 +173,7 @@ class RootComponent extends React.Component {
                             <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/bug-report" render={(props) => (<BugReportForm {...props} showMsg={this.showMsg.bind(this)} />)} />
                         </div>
-                        {/* {showStatusMessage(this.state.showMsg, this.state.message)} */}
+                      
                         {
                             this.state.showMsg ?
                                 <Message
@@ -191,7 +188,27 @@ class RootComponent extends React.Component {
                         <i className="fa fa-bug" aria-hidden="true"></i>
                         <p className="bug-report-button__tooltip">If you find bugs please let me know</p>
                     </Link>
-                    {/* { this.state.isLogin ? '' : <Redirect exact from="/" to="/login" /> } */}
+                    <footer className="footer">
+                        <div className="footer__contacts">
+                            <p>
+                                <a href="tel:+380973606572"><i className="fas fa-phone"></i> +380973606572</a>
+                            </p>
+                            <p>
+                                <a href="mailto:angelina.ratnykova@gmail.com"><i className="fas fa-envelope"></i> angelina.ratnykova@gmail.com</a>
+                            </p>
+                        </div>
+                        <div className="footer__social">
+                            <a href="https://github.com/NIghtCrawlerR" target="_blank" rel="noopener noreferrer">
+                                <i className="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/angelina-ratnykova-338154135/" target="_blank" rel="noopener noreferrer">
+                                <i className="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://www.facebook.com/angelina.ratnicova" target="_blank" rel="noopener noreferrer">
+                                <i className="fab fa-facebook-square"></i>
+                            </a>
+                        </div>
+                    </footer>
                 </Router>
 
 

@@ -91,9 +91,12 @@ export const addMovie = (movie, userId) => dispatch => {
     return new Promise((resolve, reject) => {
         axios.post('/api/movies/add', movie, { params: userData })
             .then(response => {
+                console.log(response.data)
+                console.log(movie)
                 dispatch({
                     type: ADD_MOVIE,
-                    payload: response.data
+                    payload: response.data,
+                    movie: movie
                 })
                 resolve(response)
             })

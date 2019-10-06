@@ -3,9 +3,13 @@
   --red: #ec174f;
 }
 
+body, html {
+  height: 100%;
+}
+
 html {
   overflow-y: scroll; 
-  overflow-y: overlay;
+  /* overflow-y: overlay; */
 }
 
 body {
@@ -17,6 +21,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 code {

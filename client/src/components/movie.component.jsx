@@ -76,7 +76,6 @@ class Movie extends Component {
         movies = movies.filter(movie => movie.id !== _id)
 
         this.props.userAddMovie(user.userId, movies)
-            .then(() => this.props.updateCollection(movies))
     }
 
     render() {

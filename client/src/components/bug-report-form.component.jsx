@@ -19,11 +19,11 @@ export default class BugReportForm extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
-        console.log(this.state)
     }
 
     onSubmit(e) {
         e.preventDefault()
+        this.setState ({ loading: true })
         const report = {
             email: this.state.email,
             title: this.state.title,
@@ -32,9 +32,16 @@ export default class BugReportForm extends Component {
         }
         axios.post('/api/movies/bugreport', report)
             .then(res => {
+                this.setState ({ 
+                    email: '',
+                    title: '',
+                    body: '',
+                    loading: false 
+                })
                 this.props.showMsg(res.data.status, res.data.text)
             })
             .catch(err => {
+                this.setState ({ loading: false })
                 this.props.showMsg('Error', 'Something went wrong')
             })
     }

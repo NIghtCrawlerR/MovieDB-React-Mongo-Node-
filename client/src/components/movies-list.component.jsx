@@ -51,8 +51,8 @@ class MoviesList extends Component {
             .then(res => {
                 console.log(this.props)
                 this.setState({
-                    movies: res.data,
-                    filtered: res.data,
+                    // movies: res.data,
+                    // filtered: res.data,
                     loading: false
                 })
             })
@@ -60,7 +60,6 @@ class MoviesList extends Component {
 
     componentWillMount() {
         this.getMovies()
-        // this.props.userGet(this.props.user.userId)
     }
 
     render() {
@@ -75,7 +74,7 @@ class MoviesList extends Component {
                         </div>
                     </div> :
                     <div className="mt-3 movies_wrap">
-                        {movies.filtered.length !== 0 ? movies.filtered.map(movie => {
+                        {movies.filtered && movies.filtered.length !== 0 ? movies.filtered.map(movie => {
                             return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />
                         }) : movies.list.length === 0 ?
                                 <div>

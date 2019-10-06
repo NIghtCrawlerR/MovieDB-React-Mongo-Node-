@@ -11,8 +11,6 @@ import {
 import axios from 'axios'
 
 export const filterMovies = (movies, filter) => dispatch => {
-    console.log(filter)
-    // if(filter.watched) filter.watched = typeof filter.watched === 'string' && filter.watched === 'true' 
     let filtered = []
     let filterKeys = Object.keys(filter)
 

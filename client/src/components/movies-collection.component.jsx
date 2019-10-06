@@ -12,8 +12,6 @@ class MoviesCollection extends Component {
     constructor(props) {
         super(props);
 
-        this.updateCollection = this.updateCollection.bind(this)
-
         this.state = {
             movies: [],
             filtered: [],
@@ -86,29 +84,14 @@ class MoviesCollection extends Component {
 
     }
 
-    updateCollection(movies) {
-        console.log('updateCollection', movies)
-    }
-
-
     componentDidMount() {
-        //VERTICAL LIMIT
-        //FLASHFORWARD
-        //WAR PHOTOGRAPHER
-        //ЧЕЛОВЕК – ШВЕЙЦАРСКИЙ НОЖ
-        //УЧИТЕЛЬ НА ЗАМЕНУ
-        //ЧЕЛОВЕК-ПАУК: ЧЕРЕЗ ВСЕЛЕННЫЕ
-        this.setState({
-            loading: true
-        })
+        this.setState({ loading: true })
         const token = getFromStorage('token')
         if (!token) {
             this.props.history.push('/')
             return !1
         }
-        this.setState({
-            loading: false
-        })
+        this.setState({ loading: false })
     }
 
     render() {
@@ -123,8 +106,8 @@ class MoviesCollection extends Component {
                         </div>
                     </div> :
                     <div className="mt-3 movies_wrap">
-                        {user.filteredMovies.length !== 0 ? user.filteredMovies.map(movie => {
-                            return <Movie {...movie} updateCollection={this.updateCollection} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />
+                        {user.filteredMovies && user.filteredMovies.length !== 0 ? user.filteredMovies.map(movie => {
+                            return <Movie {...movie} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />
                         }) : user.movies.length === 0 ?
                                 <div>
                                     <p>Your collection is empty.</p>
