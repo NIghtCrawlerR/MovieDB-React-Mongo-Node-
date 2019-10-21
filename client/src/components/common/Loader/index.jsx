@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './index.css'
 
-export default class Loader extends React.Component {
+export default class Loader extends Component {
     render() {
         return (
             <div className="spinner__wrap">

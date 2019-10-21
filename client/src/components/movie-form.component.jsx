@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getMovieById, editMovie, addMovie } from '../actions/movieActions'
 import { genres } from '../utils/genres'
@@ -68,7 +67,6 @@ class Form extends Component {
         this.setState({ loading: true })
         const newMovie = {}
         for (let key in this.state) newMovie[key] = this.state[key]
-
 
         if (this.props.mode === 'edit') {
             this.props.editMovie(this.props.movie._id, newMovie, this.props.user.userId)

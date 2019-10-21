@@ -1,6 +1,6 @@
 {
   "name": "mern-movie-db",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "private": true,
   "dependencies": {
     "@types/bootstrap": "^4.3.1",
@@ -13,7 +13,8 @@
     "react-scripts": "3.0.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "uuid": "^3.3.3"
   },
   "proxy": "https://mern-movie-db.herokuapp.com/",
   "scripts": {

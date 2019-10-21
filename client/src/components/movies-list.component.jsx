@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import Movie from './Movie'
-// import Filter from "./filter.component"
 import Filter from './MovieFilter'
 import { connect } from 'react-redux'
 import { getMovies, deleteMovie, filterMovies } from '../actions/movieActions'
@@ -49,17 +48,14 @@ class MoviesList extends Component {
         this.setState({ loading: true })
         this.props.getMovies()
             .then(res => {
-                console.log(this.props)
                 this.setState({
-                    // movies: res.data,
-                    // filtered: res.data,
                     loading: false
                 })
             })
     }
 
-    componentWillMount() {
-        this.getMovies()
+    componentDidMount() {
+        if(this.props.movies.list.length === 0) this.getMovies()
     }
 
     render() {

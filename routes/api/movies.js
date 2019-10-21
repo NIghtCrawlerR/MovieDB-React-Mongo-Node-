@@ -61,7 +61,7 @@ module.exports = (function () {
 
     router.route('/add').post(checkAccess, (req, res) => {
         let movie = new Movie(req.body);
-
+        console.log(movie)
         const title = req.body.title.toLowerCase()
         Movie.find({ title: title }, (err, movie) => {
 
@@ -76,7 +76,7 @@ module.exports = (function () {
 
         function saveMovie() {
             movie.save()
-                .then(m => res.status(200).json({ 'status': 'success', 'text': 'Movie added successfully' }))
+                .then(m => res.status(200).json({ 'status': 'success', 'text': 'Movie added successfully', 'movie': movie }))
                 .catch(err => res.status(500).json({ 'status': 'error', 'text': err.message }))
         }
     })
@@ -92,7 +92,7 @@ module.exports = (function () {
                 movie.watched = req.body.watched;
 
                 movie.save()
-                    .then(movie => res.json({ 'status': 'success', 'text': 'Movie updated successfully' }))
+                    .then(movie => res.json({ 'status': 'success', 'text': 'Movie updated successfully', 'movie': movie }))
                     .catch(err => res.status(500).json({ 'status': 'error', 'text': err.message }))
             }
         })

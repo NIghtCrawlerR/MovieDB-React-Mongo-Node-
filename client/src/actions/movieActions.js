@@ -8,6 +8,8 @@ import {
 } from './types'
 import axios from 'axios'
 
+const host = 'http://localhost:4000'
+
 export const filterMovies = (movies, filter) => dispatch => {
     let filtered = []
     let filterKeys = Object.keys(filter)
@@ -74,7 +76,8 @@ export const editMovie = (id, movie, userId) => dispatch => {
                 dispatch({
                     type: EDIT_MOVIE,
                     id: id,
-                    payload: response.data
+                    payload: response.data,
+                    movie: response.data.movie
                 })
                 resolve(response)
             })
@@ -87,16 +90,15 @@ export const editMovie = (id, movie, userId) => dispatch => {
 }
 
 export const addMovie = (movie, userId) => dispatch => {
+    
     const userData = { userId: userId, action: 'add' }
     return new Promise((resolve, reject) => {
         axios.post('/api/movies/add', movie, { params: userData })
             .then(response => {
-                console.log(response.data)
-                console.log(movie)
                 dispatch({
                     type: ADD_MOVIE,
                     payload: response.data,
-                    movie: movie
+                    movie: response.data.movie
                 })
                 resolve(response)
             })

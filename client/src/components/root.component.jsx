@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Link } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 import history from '../history'
 import MoviesList from "./movies-list.component"
 import MoviesCollection from "./movies-collection.component"

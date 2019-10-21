@@ -27,7 +27,8 @@ export default class Message extends Component {
                 </div>
                 {message.accessError ?
                     <div>
-                        <a href="#" onClick={this.sendRequest.bind(this)}>Contact administrator to get access</a>
+                        <p>Contact administrator to get access</p>
+                        <button className="btn btn-info" onClick={this.sendRequest.bind(this)}>Require access</button>
                     </div> : null}
             </div>
         )

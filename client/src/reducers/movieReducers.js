@@ -28,8 +28,16 @@ export default function (state = initialState, action) {
                 movie: action.payload
             }
         case EDIT_MOVIE:
+            const i = state.list.findIndex(x => x._id === action.movie._id);
+            function edit(items) {
+                items[i] = action.movie
+                return items
+            }
+            const newList = edit(state.list)
             return {
-                ...state
+                ...state,
+                list: newList,
+                filter: newList
             }
         case DELETE_MOVIE:
             return {
@@ -40,6 +48,8 @@ export default function (state = initialState, action) {
         case ADD_MOVIE:
             return {
                 ...state,
+                list: [action.movie, ...state.list],
+                filtered: [action.movie, ...state.list],
                 movie: action.payload
             }
         case FILTER:

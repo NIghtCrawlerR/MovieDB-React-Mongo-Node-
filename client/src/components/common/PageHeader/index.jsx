@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import './index.css'
 
-export default class PageHeader extends React.Component {
+export default class PageHeader extends Component {
     render() {
         return (
             <div className="d-flex justify-content-between align-items-center">
