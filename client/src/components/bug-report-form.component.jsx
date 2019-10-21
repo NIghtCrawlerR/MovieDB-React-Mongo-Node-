@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-
+import Input from './common/Input'
+import Loader from './common/Loader'
+import PageHeader from './common/PageHeader'
 import axios from 'axios'
 
 export default class BugReportForm extends Component {
@@ -23,7 +25,7 @@ export default class BugReportForm extends Component {
 
     onSubmit(e) {
         e.preventDefault()
-        this.setState ({ loading: true })
+        this.setState({ loading: true })
         const report = {
             email: this.state.email,
             title: this.state.title,
@@ -32,16 +34,16 @@ export default class BugReportForm extends Component {
         }
         axios.post('/api/movies/bugreport', report)
             .then(res => {
-                this.setState ({ 
+                this.setState({
                     email: '',
                     title: '',
                     body: '',
-                    loading: false 
+                    loading: false
                 })
                 this.props.showMsg(res.data.status, res.data.text)
             })
             .catch(err => {
-                this.setState ({ loading: false })
+                this.setState({ loading: false })
                 this.props.showMsg('Error', 'Something went wrong')
             })
     }
@@ -52,34 +54,20 @@ export default class BugReportForm extends Component {
 
         return (
             <div className="content movie-form__wrap">
-                {this.state.loading ?
-                    <div className="spinner__wrap">
-                        <div className="text-center py-5">
-                            <div className="spinner-border text-primary" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>
-                        </div>
-                    </div> : null}
-                <div className="d-flex justify-content-between">
-                    <h3>Bug report</h3>
-                    <Link className="btn btn-outline-info" to="/"><i className="fas fa-arrow-left mr-2"></i> Go back</Link>
-                </div>
+                {this.state.loading ? <Loader /> : null}
+                <PageHeader title="Bug report" />
                 <br />
                 <form onSubmit={this.onSubmit.bind(this)} >
                     <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3">
-                            <label>
-                                <b>Title</b> <br />
+                            <Input label="Title" name="title" value={title} onChange={this.changeHandler.bind(this)} required description={
                                 <small>Short description of the bug</small>
-                            </label>
-                            <input className="form-control" type="text" name="title" onChange={this.changeHandler.bind(this)} value={title || ''} required />
+                            } />
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3">
-                            <label>
-                                <b>Email</b> <br/>
+                            <Input label="Email" name="email" value={email} onChange={this.changeHandler.bind(this)} required description={
                                 <small>Provide your contact info</small>
-                            </label>
-                            <input className="form-control" type="text" name="email" onChange={this.changeHandler.bind(this)} value={email || ''} required />
+                            } />
                         </div>
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3">
                             <label>
