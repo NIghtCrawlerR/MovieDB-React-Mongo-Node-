@@ -121,7 +121,7 @@ class RootComponent extends React.Component {
                 <Router history={history}>
                     <Header {...this.props} onClick={this.logout}/>
                     
-                    <div className="container">
+                    <div className="container-fluid">
                         <div className="box">
 
                             <Route path="/" exact render={(props) => (<MoviesList {...props} showMsg={this.showMsg.bind(this)} />)} />

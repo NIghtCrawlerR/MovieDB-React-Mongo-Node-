@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import Movie from './Movie'
+import MoviesPopular from './MoviesPopular'
 import Filter from './MovieFilter'
 import { connect } from 'react-redux'
 import { getMovies, deleteMovie, filterMovies } from '../actions/movieActions'
@@ -81,6 +82,7 @@ class MoviesList extends Component {
                         }
                     </div>
                 }
+                <MoviesPopular />
             </div>
         )
     }
