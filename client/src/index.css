@@ -47,8 +47,13 @@ code {
   padding: 30px;
 }
 
-.navbar {
-  padding: 10px 30px;
+.action {
+  cursor: pointer;
+  padding: 3px 7px;
+}
+
+.dropdown-item {
+  cursor: pointer;
 }
 
 /*checkbox*/

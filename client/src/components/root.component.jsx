@@ -3,12 +3,15 @@ import { Router, Route, Link } from "react-router-dom";
 import history from '../history'
 import MoviesList from "./movies-list.component"
 import MoviesCollection from "./movies-collection.component"
-import EditMovie from "./edit-movie.component"
-import CreateMovie from "./create-movie.component"
-import Message from "./message.component"
-import Auth from "./auth"
 import BugReportForm from "./bug-report-form.component"
+
+import Message from './StatusMessage'
+import Auth from './Auth'
+import Header from './Header'
 import Footer from './Footer'
+import MovieForm from './movie-form.component'
+import BugReportButton from './BugReportButton'
+
 import store from '../store'
 import { getFromStorage, removeFromStorage } from '../utils/storage'
 import { connect } from 'react-redux'
@@ -116,55 +119,15 @@ class RootComponent extends React.Component {
             return (
 
                 <Router history={history}>
-                    <nav className="navbar bg-red">
-                        <Link to="/" className="navbar-brand text-white">Movie DB</Link>
-                        <div>
-                            {!this.props.user.isLogin ? (
-                                <div>
-                                    <Link to="/login" className="btn btn-sm btn-purple mr-2">Login</Link>
-                                    <Link to="/register" className="btn btn-sm btn-purple mr-2">Register</Link>
-                                </div>
-                            ) : (
-                                    <div className="d-flex align-items-center">
-                                        <Link to="/create" className="btn btn-sm btn-purple mr-2">Add movie</Link>
-                                        <span className="dropdown user-menu">
-                                            <span className="action text-white navbar__user-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i className="fas fa-user-circle"></i>
-                                            </span>
-                                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <div className="user-menu__email text-default">
-                                                    {this.props.user.data ?
-                                                        <div>
-                                                            <b>{this.props.user.data.email}</b> <br />
-                                                            <small>
-                                                                <b>User group:</b> {this.props.user.data.group} <br />
-                                                                <b>Permissions:</b> {this.props.user.data.group === 'admin' ?
-                                                                    'Edit movie, add movie' : this.props.user.data.group === 'user' ?
-                                                                        '-' : 'All'
-                                                                }
-                                                            </small>
-
-                                                        </div>
-                                                        : ''}
-                                                </div>
-                                                <div className="dropdown-divider"></div>
-                                                <Link to="/collection" className="dropdown-item text-info">Collection</Link>
-                                                {/* <div onClick={this.logout}><i className="fas fa-sign-out-alt white"></i></div> */}
-                                                <Link to="/logout" className="dropdown-item text-info" onClick={this.logout}>Logout</Link>
-                                            </div>
-                                        </span>
-                                    </div>
-
-                                )}
-                        </div>
-                    </nav>
+                    <Header {...this.props} onClick={this.logout}/>
+                    
                     <div className="container">
                         <div className="box">
 
                             <Route path="/" exact render={(props) => (<MoviesList {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/collection" render={(props) => (<MoviesCollection {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/edit/:id" render={(props) => (<EditMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/create" render={(props) => (<CreateMovie {...props} showMsg={this.showMsg.bind(this)} />)} />
+                            <Route path="/edit/:id" render={(props) => (<MovieForm mode="edit" {...props} showMsg={this.showMsg.bind(this)} />)} />
+                            <Route path="/create" render={(props) => (<MovieForm mode ="create" {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/bug-report" render={(props) => (<BugReportForm {...props} showMsg={this.showMsg.bind(this)} />)} />
@@ -180,10 +143,7 @@ class RootComponent extends React.Component {
                                 null
                         }
                     </div>
-                    <Link to="/bug-report" className="bug-report-button">
-                        <i className="fa fa-bug" aria-hidden="true"></i>
-                        <p className="bug-report-button__tooltip">If you find bugs please let me know</p>
-                    </Link>
+                    <BugReportButton />
                     <Footer />
                 </Router>
 

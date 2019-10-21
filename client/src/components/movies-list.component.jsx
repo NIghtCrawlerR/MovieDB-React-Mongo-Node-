@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import Movie from './movie.component';
-import Filter from "./filter.component"
+import Movie from './Movie'
+// import Filter from "./filter.component"
+import Filter from './MovieFilter'
 import { connect } from 'react-redux'
 import { getMovies, deleteMovie, filterMovies } from '../actions/movieActions'
 import { userGet } from '../actions/userActions'
-import './css/movie.css';
-
-import Loader from './common/Loader'
 
 class MoviesList extends Component {
     constructor(props) {
@@ -69,10 +67,12 @@ class MoviesList extends Component {
         return (
             <div>
                 <Filter filter={this.filter.bind(this)} />
-                
                 {this.state.loading ?
-                    <Loader />
-                    :
+                    <div className="text-center py-5">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div> :
                     <div className="mt-3 movies_wrap">
                         {movies.filtered && movies.filtered.length !== 0 ? movies.filtered.map(movie => {
                             return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />

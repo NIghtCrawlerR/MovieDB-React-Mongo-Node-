@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
-import { userAddMovie } from '../actions/userActions'
-import './css/movie.css';
+import { userAddMovie } from '../../actions/userActions'
+// import './css/movie.css';
+import './index.css'
 
 class Movie extends Component {
     constructor(props) {

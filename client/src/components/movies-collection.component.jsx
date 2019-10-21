@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import Movie from './movie.component';
-import Filter from "./filter.component"
+import Movie from './Movie'
+import Filter from './MovieFilter'
 import { getFromStorage } from '../utils/storage'
 import { connect } from 'react-redux'
 import { filterMovies } from '../actions/userActions'
-import './css/movie.css';
 
 class MoviesCollection extends Component {
     constructor(props) {

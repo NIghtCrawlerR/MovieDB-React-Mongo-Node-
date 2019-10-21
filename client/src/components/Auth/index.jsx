@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-import { setInStorage } from '../utils/storage'
+import { setInStorage } from '../../utils/storage'
 
 import { connect } from 'react-redux'
-import { login } from '../actions/userActions'
+import { login } from '../../actions/userActions'
+import Loader from '../common/Loader'
+import PageHeader from '../common/PageHeader'
+import Input from '../common/Input'
 
 class AuthForm extends Component {
     constructor(props) {
@@ -79,38 +82,23 @@ class AuthForm extends Component {
 
         return (
             <div className="content">
-                {
-                    this.state.loading ?
-                        <div className="spinner__wrap">
-                            <div className="text-center py-5">
-                                <div className="spinner-border text-primary" role="status">
-                                    <span className="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                        </div> : null
-                }
-                <div className="d-flex justify-content-between">
-                    <h3>{this.props.loginForm ? 'Login' : 'Register'}</h3>
-                    <Link className="btn btn-outline-info" to="/"><i className="fas fa-arrow-left mr-2"></i> Go back</Link>
-                </div>
+                {this.state.loading ? <Loader /> : null}
+                <PageHeader title={this.props.loginForm ? 'Login' : 'Register'} />
+
                 <br />
                 <form onSubmit={this.onSubmit} >
-
-                    <label>Email</label>
-                    <input className="form-control" type="text" name="email" onChange={this.changeHandler} value={this.state.email} required />
-                    <small className="text-red">{this.state.emailErrorMessage}</small>
+                    <Input label="Email" name="email" value={this.state.email} onChange={this.changeHandler} required
+                        errorMessage={<small className="text-red">{this.state.emailErrorMessage}</small>}
+                    />
                     <br />
-                    <label>Password</label>
-                    <input className="form-control" type="password" name="password" onChange={this.changeHandler} value={this.state.password} required />
-                    <small className="text-red">{this.state.passwordErrorMessage}</small>
+                    <Input label="Password" type="password" name="password" value={this.state.password} onChange={this.changeHandler} required
+                        errorMessage={<small className="text-red">{this.state.passwordErrorMessage}</small>}
+                    />
                     <br />
-                    {isReg ? (
-                        <div>
-                            <label>Confirm Password</label>
-                            <input className="form-control" type="password" name="passwordConfirm" onChange={this.changeHandler} value={this.state.passwordConfirm} required={this.props.registerForm} />
-                            <br />
-                        </div>
-                    ) : ('')}
+                    {isReg ?
+                        <Input label="Confirm Password" type="password" name="passwordConfirm" value={this.state.passwordConfirm} onChange={this.changeHandler} required
+                            errorMessage={<small className="text-red">{this.state.passwordErrorMessage}</small>}
+                        /> : null}
 
                     <div>
                         <small className="text-red">{this.state.errorMessage}</small>

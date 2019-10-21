@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getMovieById, editMovie, addMovie } from '../actions/movieActions'
 import { genres } from '../utils/genres'
+import Loader from './common/Loader'
+import PageHeader from './common/PageHeader'
+import Input from './common/Input'
 
 import axios from 'axios'
 
@@ -19,7 +22,8 @@ class Form extends Component {
             img: '',
             genre: '',
             loading: false,
-            titleError: false
+            titleError: false,
+            test: ''
         }
     }
 
@@ -65,8 +69,7 @@ class Form extends Component {
         const newMovie = {}
         for (let key in this.state) newMovie[key] = this.state[key]
 
-        // if (!newMovie.img) newMovie.img = 'https://uoslab.com/images/tovary/no_image.jpg'
-        console.log(this.props)
+
         if (this.props.mode === 'edit') {
             this.props.editMovie(this.props.movie._id, newMovie, this.props.user.userId)
                 .then(res => {
@@ -102,12 +105,16 @@ class Form extends Component {
 
     componentDidMount() {
         if (this.props.mode === 'edit') {
-            this.props.getMovieById(this.props.id)
+            this.setState({
+                loading: true
+            })
+            this.props.getMovieById(this.props.match.params.id)
                 .then(res => {
                     this.setState({
                         title: res.data.title,
                         img: res.data.img,
-                        genre: res.data.genre
+                        genre: res.data.genre,
+                        loading: false
                     })
                     console.log(res)
                 })
@@ -116,27 +123,16 @@ class Form extends Component {
 
     render() {
         const { title, genre, img } = this.state
-
+        const { mode } = this.props
         return (
             <div className="content movie-form__wrap">
-                {this.state.loading ?
-                    <div className="spinner__wrap">
-                        <div className="text-center py-5">
-                            <div className="spinner-border text-primary" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>
-                        </div>
-                    </div> : null}
-                <div className="d-flex justify-content-between">
-                    <h3>{this.props.mode === 'edit' ? 'Edit movie' : 'Add new movie'}</h3>
-                    <Link className="btn btn-outline-info" to="/"><i className="fas fa-arrow-left mr-2"></i> Go back</Link>
-                </div>
+                {this.state.loading ? <Loader /> : null}
+                <PageHeader title={mode === 'edit' ? 'Edit movie' : 'Add new movie'} />
                 <br />
                 <form onSubmit={this.onSubmit} >
                     <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3">
-                            <label><b>Title</b></label>
-                            <input className="form-control" data-error={this.state.titleError} type="text" name="title" onChange={this.changeHandler} value={title || ''} />
+                            <Input label="Title" name="title" value={title} onChange={this.changeHandler} />
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3">
                             <label><b>Genre</b></label>
@@ -149,22 +145,16 @@ class Form extends Component {
                         </div>
                         <div className="col-lg-12 mt-3">
                             <div className="row">
-                                <div className="col-sm-12">
-                                    <label>
-                                        <b>Image link</b> <br />
-                                        <small>Find image api works only for correct english titles</small>
-                                    </label>
-                                </div>
                                 <div className="col-xs-9 col-sm-9 col=md-9 col-lg-9">
-                                    <input className="form-control" type="text" name="img" onChange={this.changeHandler} value={img || ''} />
+                                    <Input label="Image link" name="img" value={img} onChange={this.changeHandler} description={
+                                        <small>Image api works only for correct english titles</small>
+                                    } />
                                 </div>
-                                <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                    <button type="button" className="btn btn-info" onClick={this.findImage}>Find img</button>
+                                <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3 d-flex">
+                                    <button type="button" className="btn btn-info mt-auto" onClick={this.findImage}>Find img</button>
                                 </div>
                             </div>
                         </div>
-
-
 
                         {img !== '' ?
                             <div className="col-lg-12 mt-3 movie-form__poster">
@@ -174,9 +164,7 @@ class Form extends Component {
                         }
                     </div>
 
-
-
-                    <input type="submit" className="btn btn-purple mt-3" value={this.props.mode === 'edit' ? 'Edit' : 'Create'} />
+                    <input type="submit" className="btn btn-purple mt-3" value={mode === 'edit' ? 'Edit' : 'Create'} />
                 </form>
             </div>
         )

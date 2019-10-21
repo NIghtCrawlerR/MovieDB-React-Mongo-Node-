@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
-import { genres } from '../utils/genres'
-import './css/filter.css'
+import { genres } from '../../utils/genres'
+import './index.css'
 
 export default class Filter extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            activeFilters: {
-
-            }
-        }
-    }
-
     filter(e) {
         let name = e.target.name,
             key = e.target.type === 'checkbox' ? e.target.checked : e.target.value.toLowerCase()
 
-        let filter = this.state.activeFilters;
+        const filter = {};
 
         if (key) filter[name] = key
         else delete filter[name]
 
         this.props.filter(filter)
     }
-
-
 
     render() {
         return (

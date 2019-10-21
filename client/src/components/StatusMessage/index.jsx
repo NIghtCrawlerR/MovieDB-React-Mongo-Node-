@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './css/message.css';
+import './index.css';
 
 export default class Message extends Component {
     close() {
@@ -28,10 +28,7 @@ export default class Message extends Component {
                 {message.accessError ?
                     <div>
                         <a href="#" onClick={this.sendRequest.bind(this)}>Contact administrator to get access</a>
-                         </div> : null}
-
-
-
+                    </div> : null}
             </div>
         )
     }
