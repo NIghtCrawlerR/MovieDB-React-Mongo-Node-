@@ -8,13 +8,13 @@ import CreateMovie from "./create-movie.component"
 import Message from "./message.component"
 import Auth from "./auth"
 import BugReportForm from "./bug-report-form.component"
+import Footer from './Footer'
 import store from '../store'
 import { getFromStorage, removeFromStorage } from '../utils/storage'
 import { connect } from 'react-redux'
 import { verifyUser, logout, userGet } from '../actions/userActions'
 
 import axios from 'axios'
-import './css/footer.css'
 
 class RootComponent extends React.Component {
     constructor(props) {
@@ -159,10 +159,6 @@ class RootComponent extends React.Component {
                         </div>
                     </nav>
                     <div className="container">
-
-                        <div className="d-none">
-                            2. add form component same for add and edit <br />
-                        </div>
                         <div className="box">
 
                             <Route path="/" exact render={(props) => (<MoviesList {...props} showMsg={this.showMsg.bind(this)} />)} />
@@ -188,27 +184,7 @@ class RootComponent extends React.Component {
                         <i className="fa fa-bug" aria-hidden="true"></i>
                         <p className="bug-report-button__tooltip">If you find bugs please let me know</p>
                     </Link>
-                    <footer className="footer">
-                        <div className="footer__contacts">
-                            <p>
-                                <a href="tel:+380973606572"><i className="fas fa-phone"></i> +380973606572</a>
-                            </p>
-                            <p>
-                                <a href="mailto:angelina.ratnykova@gmail.com"><i className="fas fa-envelope"></i> angelina.ratnykova@gmail.com</a>
-                            </p>
-                        </div>
-                        <div className="footer__social">
-                            <a href="https://github.com/NIghtCrawlerR" target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-github"></i>
-                            </a>
-                            <a href="https://www.linkedin.com/in/angelina-ratnykova-338154135/" target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-linkedin"></i>
-                            </a>
-                            <a href="https://www.facebook.com/angelina.ratnicova" target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-facebook-square"></i>
-                            </a>
-                        </div>
-                    </footer>
+                    <Footer />
                 </Router>
 
 

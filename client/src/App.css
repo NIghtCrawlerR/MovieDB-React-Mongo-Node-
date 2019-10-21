@@ -36,6 +36,7 @@ body {
 }
 
 .box {
+  position: relative;
   border-radius: 4px;
   box-shadow: 0 1px 3px 0 rgba(40,35,80,.28);
   background-color: #fff;
