@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import Input from './common/Input'
 import Loader from './common/Loader'
-import PageHeader from './common/PageHeader'
+import PageTitle from './common/PageTitle'
 import axios from 'axios'
 
 export default class BugReportForm extends Component {
@@ -53,9 +53,9 @@ export default class BugReportForm extends Component {
         const { title, body, email } = this.state
 
         return (
-            <div className="content movie-form__wrap">
+            <div className="form__wrap content movie-form__wrap">
                 {this.state.loading ? <Loader /> : null}
-                <PageHeader title="Bug report" />
+                <PageTitle title="Bug report" />
                 <br />
                 <form onSubmit={this.onSubmit.bind(this)} >
                     <div className="row">

@@ -1,6 +1,3 @@
-export const FETCH_POSTS = 'FETCH_POSTS'
-export const NEW_POST = 'NEW_POST'
-
 export const GET_MOVIES = 'GET_MOVIES'
 export const GET_MOVIE_BY_ID = 'GET_MOVIE_BY_ID'
 export const EDIT_MOVIE = 'EDIT_MOVIE'
@@ -15,3 +12,8 @@ export const USER_GET_MOVIES = 'USER_GET_MOVIES'
 export const USER_GET = 'USER_GET'
 export const USER_ADD_MOVIE = 'USER_ADD_MOVIE'
 export const FILTER = 'FILTER'
+
+export const GET_TOP_MOVIES = 'GET_TOP_MOVIES'
+export const GET_POPULAR_MOVIES = 'GET_POPULAR_MOVIES'
+export const GET_TOP_TV = 'GET_TOP_TV'
+export const GET_POPULAR_TV = 'GET_POPULAR_TV'

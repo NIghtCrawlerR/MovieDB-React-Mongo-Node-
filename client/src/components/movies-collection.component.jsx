@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Movie from './Movie'
 import Filter from './MovieFilter'
+import PageHeader from './common/PageHeader'
 import { getFromStorage } from '../utils/storage'
 import { connect } from 'react-redux'
 import { filterMovies } from '../actions/userActions'
@@ -27,10 +28,10 @@ class MoviesCollection extends Component {
         if (isDel) axios.delete('/movies/delete/' + id)
             .then(res => {
                 let idx
-                this.state.movies.map((m, i) => { 
+                this.state.movies.map((m, i) => {
                     if (m._id === id) idx = i
                     return m
-                 })
+                })
                 this.state.movies.splice(idx, 1)
                 this.setState({
                     filtered: this.state.movies
@@ -97,29 +98,34 @@ class MoviesCollection extends Component {
         const { user } = this.props
         return (
             <div>
-                <Filter usersCollection filter={this.filter.bind(this)} />
-                {this.state.loading ?
-                    <div className="text-center py-5">
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                    </div> :
-                    <div className="mt-3 movies_wrap">
-                        {user.filteredMovies && user.filteredMovies.length !== 0 ? user.filteredMovies.map(movie => {
-                            return <Movie {...movie} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />
-                        }) : user.movies.length === 0 ?
-                                <div>
-                                    <p>Your collection is empty.</p>
-                                    <Link to="/">Go to main list</Link>
-                                </div> :
-                                <p>No result</p>
+                <PageHeader title="Personal wishlist" />
+                <div className="container-fluid">
+                    <div className="content-box">
+                        {/* <Filter usersCollection filter={this.filter.bind(this)} /> */}
+                        {this.state.loading ?
+                            <div className="text-center py-5">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </div>
+                            </div> :
+                            <div className="mt-3 movies_wrap">
+                                {user.filteredMovies && user.filteredMovies.length !== 0 ? user.filteredMovies.map(movie => {
+                                    return <Movie {...movie} userCollection key={movie._id} onClick={this.clickHandler.bind(this)} />
+                                }) : user.movies.length === 0 ?
+                                        <div>
+                                            <p>Your collection is empty.</p>
+                                            <Link to="/">Go to main list</Link>
+                                        </div> :
+                                        <p>No result</p>
+                                }
+
+                            </div>
                         }
-
                     </div>
-                }
-
+                </div>
 
             </div>
+
         )
     }
 }

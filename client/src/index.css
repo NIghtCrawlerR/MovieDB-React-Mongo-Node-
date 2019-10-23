@@ -56,6 +56,28 @@ code {
   cursor: pointer;
 }
 
+.form__wrap {
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 rgba(40,35,80,.28);
+  background-color: #fff;
+  max-width: 800px;
+  width: 94%;
+  margin: 50px auto 0 auto;
+  position: relative;
+}
+
+.content-box {
+  position: relative;
+  /* border-radius: 4px;
+  box-shadow: 0 1px 3px 0 rgba(40,35,80,.28);
+  background-color: #fff;
+  margin-top: 50px; */
+}
+
+.pointer {
+  cursor: pointer;
+}
+
 /*checkbox*/
 input[type=checkbox] {
   position: absolute;

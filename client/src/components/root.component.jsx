@@ -1,7 +1,8 @@
 import React from 'react';
 import { Router, Route } from "react-router-dom";
 import history from '../history'
-import MoviesList from "./movies-list.component"
+import Homepage from "./homepage"
+import MoviesCatalog from './movies-catalog.component'
 import MoviesCollection from "./movies-collection.component"
 import BugReportForm from "./bug-report-form.component"
 
@@ -119,30 +120,27 @@ class RootComponent extends React.Component {
             return (
 
                 <Router history={history}>
-                    <Header {...this.props} onClick={this.logout}/>
-                    
-                    <div className="container-fluid">
-                        <div className="box">
+                    <Header {...this.props} onClick={this.logout} />
 
-                            <Route path="/" exact render={(props) => (<MoviesList {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/collection" render={(props) => (<MoviesCollection {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/edit/:id" render={(props) => (<MovieForm mode="edit" {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/create" render={(props) => (<MovieForm mode ="create" {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/bug-report" render={(props) => (<BugReportForm {...props} showMsg={this.showMsg.bind(this)} />)} />
-                        </div>
-                      
-                        {
-                            this.state.showMsg ?
-                                <Message
-                                    message={this.state.message}
-                                    close={this.hideMsg.bind(this)}
-                                    sendRequest={this.sendRequest.bind(this)}
-                                /> :
-                                null
-                        }
-                    </div>
+                    <Route path="/" exact render={(props) => (<Homepage {...props} showMsg={this.showMsg.bind(this)} />)} />
+                    <Route path="/movies" render={(props) => (<MoviesCatalog {...props} showMsg={this.showMsg.bind(this)} />)} />
+                    <Route path="/collection" render={(props) => (<MoviesCollection {...props} showMsg={this.showMsg.bind(this)} />)} />
+                    <Route path="/edit/:id" render={(props) => (<MovieForm mode="edit" {...props} showMsg={this.showMsg.bind(this)} />)} />
+                    <Route path="/create" render={(props) => (<MovieForm mode="create" {...props} showMsg={this.showMsg.bind(this)} />)} />
+                    <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
+                    <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
+                    <Route path="/bug-report" render={(props) => (<BugReportForm {...props} showMsg={this.showMsg.bind(this)} />)} />
+
+                    {
+                        this.state.showMsg ?
+                            <Message
+                                message={this.state.message}
+                                close={this.hideMsg.bind(this)}
+                                sendRequest={this.sendRequest.bind(this)}
+                            /> :
+                            null
+                    }
+
                     <BugReportButton />
                     <Footer />
                 </Router>

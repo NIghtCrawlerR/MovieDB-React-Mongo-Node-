@@ -6,7 +6,7 @@ import { setInStorage } from '../../utils/storage'
 import { connect } from 'react-redux'
 import { login } from '../../actions/userActions'
 import Loader from '../common/Loader'
-import PageHeader from '../common/PageHeader'
+import PageTitle from '../common/PageTitle'
 import Input from '../common/Input'
 
 class AuthForm extends Component {
@@ -80,9 +80,9 @@ class AuthForm extends Component {
         const isReg = this.props.registerForm
 
         return (
-            <div className="content">
+            <div className="form__wrap content">
                 {this.state.loading ? <Loader /> : null}
-                <PageHeader title={this.props.loginForm ? 'Login' : 'Register'} />
+                <PageTitle title={this.props.loginForm ? 'Login' : 'Register'} />
 
                 <br />
                 <form onSubmit={this.onSubmit} >

@@ -1,0 +1,56 @@
+.popular__wrap {
+    padding: 30px 30px 70px;
+}
+
+.popular__wrap .movie_item {
+    max-width: 230px;
+}
+
+.slick-arrow {
+    position: absolute;
+    top: -40px;
+    right: 20px;
+    border: 1px solid #bdbdbd;
+    padding: 8px 20px;
+    height: auto;
+    width: auto;
+    transition: all .3s;
+}
+
+.slick-dots {
+    bottom: -40px;
+}
+
+.slick-arrow::before {
+    background: transparent;
+    color: #bdbdbd;
+    border-top: 2px solid #bdbdbd;
+    border-left: 2px solid #bdbdbd;
+    width: 9px;
+    height: 9px;
+    display: block;
+    opacity: 1;
+    transition: all .3s;
+}
+
+.slick-arrow:hover {
+    border-color: #333;
+    z-index: 1;
+}
+.slick-arrow:hover::before {
+    border-color: #333;
+}
+
+.slick-arrow.slick-prev {
+    left: auto;
+    right: 70px;
+}
+
+.slick-arrow.slick-prev::before {
+    content: '';
+    transform: rotate(-45deg);
+}
+.slick-arrow.slick-next::before {
+    content: '';
+    transform: rotate(135deg);
+}

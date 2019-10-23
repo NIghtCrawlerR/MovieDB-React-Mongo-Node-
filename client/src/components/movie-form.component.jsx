@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getMovieById, editMovie, addMovie } from '../actions/movieActions'
 import { genres } from '../utils/genres'
 import Loader from './common/Loader'
-import PageHeader from './common/PageHeader'
+import PageTitle from './common/PageTitle'
 import Input from './common/Input'
 
 import axios from 'axios'
@@ -123,9 +123,9 @@ class Form extends Component {
         const { title, genre, img } = this.state
         const { mode } = this.props
         return (
-            <div className="content movie-form__wrap">
+            <div className="form__wrap content movie-form__wrap">
                 {this.state.loading ? <Loader /> : null}
-                <PageHeader title={mode === 'edit' ? 'Edit movie' : 'Add new movie'} />
+                <PageTitle title={mode === 'edit' ? 'Edit movie' : 'Add new movie'} />
                 <br />
                 <form onSubmit={this.onSubmit} >
                     <div className="row">

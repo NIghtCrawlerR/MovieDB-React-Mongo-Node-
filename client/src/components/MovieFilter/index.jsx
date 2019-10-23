@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import { genres } from '../../utils/genres'
 import './index.css'
 
@@ -49,6 +50,11 @@ export default class Filter extends Component {
                         <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 my-1 filter__search-input">
                             <input type="text" className="form-control" name="title" placeholder="Search" />
                         </div>
+                        {!this.props.usersCollection ?
+                            <Link to="/create" className="btn btn-sm btn-purple">Add movie</Link> :
+                            null
+                        }
+
                     </div>
                 </form>
 

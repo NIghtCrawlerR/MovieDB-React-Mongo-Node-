@@ -35,6 +35,10 @@ body {
   margin-bottom: 80px;
 }
 
+.container-fluid {
+  max-width: 1600px;
+}
+
 .box {
   position: relative;
   border-radius: 4px;

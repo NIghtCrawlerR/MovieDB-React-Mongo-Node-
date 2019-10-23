@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import Movie from './Movie'
-import MoviesPopular from './MoviesPopular'
 import Filter from './MovieFilter'
+import PageHeader from './common/PageHeader'
 import { connect } from 'react-redux'
 import { getMovies, deleteMovie, filterMovies } from '../actions/movieActions'
 import { userGet } from '../actions/userActions'
 
-class MoviesList extends Component {
+class MoviesCatalog extends Component {
     constructor(props) {
         super(props);
 
@@ -56,33 +56,40 @@ class MoviesList extends Component {
     }
 
     componentDidMount() {
-        if(this.props.movies.list.length === 0) this.getMovies()
+        if (this.props.movies.list.length === 0) this.getMovies()
     }
 
     render() {
         const { movies } = this.props
         return (
-            <div>
-                <Filter filter={this.filter.bind(this)} />
-                {this.state.loading ?
-                    <div className="text-center py-5">
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                    </div> :
-                    <div className="mt-3 movies_wrap">
-                        {movies.filtered && movies.filtered.length !== 0 ? movies.filtered.map(movie => {
-                            return <Movie {...movie} key={movie._id} onClick={this.clickHandler.bind(this)} />
-                        }) : movies.list.length === 0 ?
-                                <div>
-                                    <p>List is empty.</p>
-                                    <Link to="/create">Add movie</Link>
-                                </div> :
-                                <p>No result</p>
+            <div className="mb-5">
+                <PageHeader title="Movie catalog" breadcrumbs={['Home', 'Movie catalog']} />
+                <div className="container-fluid">
+                    <div className="content-box">
+
+                        {/* <Filter filter={this.filter.bind(this)} /> */}
+                        {this.state.loading ?
+                            <div className="text-center py-5">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </div>
+                            </div> :
+                            <React.Fragment>
+                                <div className="mt-3 movies_wrap">
+                                    {movies.filtered && movies.filtered.length !== 0 ? movies.filtered.map(movie => {
+                                        return <Movie {...movie} key={movie._id} id={movie._id} onClick={this.clickHandler.bind(this)} />
+                                    }) : movies.list.length === 0 ?
+                                            <div>
+                                                <p>List is empty.</p>
+                                                <Link to="/create">Add movie</Link>
+                                            </div> :
+                                            <p>No result</p>
+                                    }
+                                </div>
+                            </React.Fragment>
                         }
                     </div>
-                }
-                <MoviesPopular />
+                </div>
             </div>
         )
     }
@@ -98,4 +105,4 @@ export default connect(mapStateToProps, {
     deleteMovie,
     userGet,
     filterMovies
-})(MoviesList)
+})(MoviesCatalog)
