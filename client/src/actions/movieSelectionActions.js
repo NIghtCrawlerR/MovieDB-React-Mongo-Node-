@@ -7,8 +7,8 @@ import {
 
 import axios from 'axios'
 
-const baseUrl = 'https://api.themoviedb.org/3'
-const apiKey = 'f173a387483cd86fc18ab172d5d822ae'
+const baseUrl = process.env.REACT_APP_MOVIE_DB_URL
+const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
 const lang = 'ru'
 
 export const getTopMovies = () => dispatch => {

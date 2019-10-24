@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import MoviesSlider from './MoviesSlider'
 import PageHeader from './common/PageHeader'
-import axios from 'axios'
 import { connect } from 'react-redux'
 import { getTopMovies, getPopularMovies, getTopTV, getPopularTV } from '../actions/movieSelectionActions'
 

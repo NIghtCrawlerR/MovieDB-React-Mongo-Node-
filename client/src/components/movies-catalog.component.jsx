@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import Movie from './Movie'
-import Filter from './MovieFilter'
+// import Filter from './MovieFilter'
 import PageHeader from './common/PageHeader'
 import { connect } from 'react-redux'
 import { getMovies, deleteMovie, filterMovies } from '../actions/movieActions'

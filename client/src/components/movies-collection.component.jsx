@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import Movie from './Movie'
-import Filter from './MovieFilter'
+// import Filter from './MovieFilter'
 import PageHeader from './common/PageHeader'
 import { getFromStorage } from '../utils/storage'
 import { connect } from 'react-redux'

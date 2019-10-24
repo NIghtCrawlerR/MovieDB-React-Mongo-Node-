@@ -94,6 +94,7 @@ class RootComponent extends React.Component {
     }
 
     componentDidMount() {
+        console.log(process.env)
         this.updateUser()
     }
 
