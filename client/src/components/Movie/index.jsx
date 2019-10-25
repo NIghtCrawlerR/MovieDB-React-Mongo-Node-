@@ -84,7 +84,7 @@ class Movie extends Component {
     render() {
         const { title, name, img, genre, liked, watched, _id, userCollection, user } = this.props
         let i = img || 'https://uoslab.com/images/tovary/no_image.jpg'
-
+      
         return (
             <div className="movie_item">
                 <div className="movie_img">

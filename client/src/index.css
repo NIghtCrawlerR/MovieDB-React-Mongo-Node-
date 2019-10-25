@@ -23,10 +23,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
+#root, .main-content {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.main-content {
+  margin-left: 60px;
+  margin-top: 60px;
+}
+
+.app {
+  min-height: 100%;
 }
 
 code {

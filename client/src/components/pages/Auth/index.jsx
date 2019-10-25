@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { setInStorage } from '../../utils/storage'
+import { setInStorage } from '../../../utils/storage'
 
 import { connect } from 'react-redux'
-import { login } from '../../actions/userActions'
-import Loader from '../common/Loader'
-import PageTitle from '../common/PageTitle'
-import Input from '../common/Input'
+import { login } from '../../../actions/userActions'
+import Loader from '../../common/Loader'
+import PageTitle from '../../common/PageTitle'
+import Input from '../../common/Input'
 
 class AuthForm extends Component {
     constructor(props) {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Input from './common/Input'
-import Loader from './common/Loader'
-import PageTitle from './common/PageTitle'
+import Input from '../../common/Input'
+import Loader from '../../common/Loader'
+import PageTitle from '../../common/PageTitle'
 import axios from 'axios'
 
 export default class BugReportForm extends Component {

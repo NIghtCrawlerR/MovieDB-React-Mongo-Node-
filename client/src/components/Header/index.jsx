@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import './index.css'
 
 export default class Header extends React.Component {
@@ -11,17 +11,13 @@ export default class Header extends React.Component {
         return (
             <nav className="header navbar bg-red">
                 <div className="container-fluid">
-                    <div className="nav-items">
-                        {/* <Link to="/" className="navbar-brand text-white">Movie DB</Link> */}
-                        <NavLink exact to="/" className="navbar-brand text-white">Home</NavLink>
-                        <NavLink activeClassName="active" to="/movies" className="text-white">Movies catalog</NavLink>
-                    </div>
-
+                    <div></div>
                     <div>
                         {!this.props.user.isLogin ? (
-                            <div>
-                                <Link to="/login" className="btn btn-sm btn-purple mr-2">Login</Link>
-                                <Link to="/register" className="btn btn-sm btn-purple mr-2">Register</Link>
+                            <div className="sign-in-buttons">
+                                <Link to="/login">Login</Link>
+                                |
+                                <Link to="/register">Register</Link>
                             </div>
                         ) : (
                                 <div className="d-flex align-items-center">

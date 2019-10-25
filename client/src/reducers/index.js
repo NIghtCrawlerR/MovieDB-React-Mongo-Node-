@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import movieReducers from './movieReducers'
-import movieSelectionReducers from './movieSelectionReducers'
+import itemsCollectionsReducers from './itemsCollectionsReducers'
 import userReducers from './userReducers'
 
 export default combineReducers({ 
     app: movieReducers, 
-    movieSelection: movieSelectionReducers,
+    movieSelection: itemsCollectionsReducers,
     user: userReducers 
 })

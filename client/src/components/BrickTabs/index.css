@@ -1,0 +1,55 @@
+.tabs {
+    margin: 50px 0;
+}
+
+.tabs .title {
+    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+}
+
+.tabs .card {
+    position: relative;
+    border: 0;
+    overflow: hidden;
+    background: #15363d; /* Old browsers */
+    /* background: -webkit-linear-gradient(-45deg, #15363d 0%,#183e46 12%,#1a444c 25%,#14343a 39%,#0f262b 50%,#0d2227 51%,#09181b 60%,#0e252a 76%,#0b1d21 91%,#0a191c 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#15363d', endColorstr='#0a191c',GradientType=1 ); */
+}
+
+.tabs .card-body {
+    position: relative;
+    border: 0;
+    padding: 40px 30px;
+}
+
+.card {
+    transition: all .3s;
+}
+
+.card:hover {
+    background: #98b2eb !important;
+}
+
+.card img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    opacity: .4;
+}
+
+.card:hover {
+    box-shadow: 0 0 15px 5px #c7c7c7;
+}
+
+.nav-link.active .card {
+    box-shadow: 0 0 15px 5px #c7c7c7;
+}
+
+.nav-link.active img {
+    opacity: 1;
+}

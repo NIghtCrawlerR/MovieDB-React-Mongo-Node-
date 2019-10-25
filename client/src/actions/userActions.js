@@ -101,7 +101,7 @@ export const userGet = userId => dispatch => {
         axios.get('/api/users/current?userId=' + userId)
             .then(res => {
                 const user = res.data
-                console.log(user)
+               
                 dispatch({
                     type: USER_GET,
                     data: user.data,
