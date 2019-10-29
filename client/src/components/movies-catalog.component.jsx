@@ -4,7 +4,7 @@ import Movie from './Movie'
 // import Filter from './MovieFilter'
 import PageHeader from './common/PageHeader'
 import { connect } from 'react-redux'
-import { getMovies, deleteMovie, filterMovies } from '../actions/movieActions'
+import { getMovies, filterMovies } from '../actions/movieActions'
 import { userGet } from '../actions/userActions'
 
 class MoviesCatalog extends Component {
@@ -12,8 +12,6 @@ class MoviesCatalog extends Component {
         super(props);
 
         this.state = {
-            movies: [],
-            filtered: [],
             loading: false
         }
     }
@@ -22,27 +20,8 @@ class MoviesCatalog extends Component {
         this.props.filterMovies(this.props.movies.list, filter)
     }
 
-    deleteMovie(id) {
-        const confirm = window.confirm('Are you sure?')
-        if (confirm) this.props.deleteMovie(id, this.props.user.userId)
-            .then(res => {
-                this.props.showMsg(res.data.status, res.data.text)
-            })
-            .catch(err => {
-                const { status, text, accessError } = err.response.data
-                let timeout = accessError ? 15000 : 5000
-                this.props.showMsg(status || 'error', text || 'Something went wrong', accessError, timeout)
-            })
-    }
-
     clickHandler(id, mode) {
-        switch (mode) {
-            case 'delete':
-                this.deleteMovie(id)
-                break;
-            default:
-                return;
-        }
+   
     }
 
     getMovies() {
@@ -77,7 +56,7 @@ class MoviesCatalog extends Component {
                             <React.Fragment>
                                 <div className="mt-3 movies_wrap">
                                     {movies.filtered && movies.filtered.length !== 0 ? movies.filtered.map(movie => {
-                                        return <Movie {...movie} key={movie._id} id={movie._id} onClick={this.clickHandler.bind(this)} />
+                                        return <Movie {...movie} img={`http://image.tmdb.org/t/p/w300${movie.poster_path}`} key={movie.id} id={movie._id || movie.id} onClick={this.clickHandler.bind(this)} />
                                     }) : movies.list.length === 0 ?
                                             <div>
                                                 <p>List is empty.</p>
@@ -102,7 +81,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     getMovies,
-    deleteMovie,
     userGet,
     filterMovies
 })(MoviesCatalog)

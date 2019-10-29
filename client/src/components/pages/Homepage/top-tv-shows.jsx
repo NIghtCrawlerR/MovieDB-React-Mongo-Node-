@@ -10,18 +10,24 @@ class TVShows extends Component {
         super()
 
         this.state = {
-            tabs: ['Top rated TV shows', 'Popular TV shows']
+            tabs: [{
+                title: 'Top rated TV shows',
+                value: 'top_rated'
+            }, {
+                title: 'Popular TV shows',
+                value: 'popular'
+            }]
         }
     }
-    componentDidMount() {
-        if (Object.keys(this.props.selections.tv).length === 0) {
-            this.props.getTV('top_rated')
-            this.props.getTV('popular')
-        }
-    }
+    // componentDidMount() {
+    //     if (Object.keys(this.props.selections.tv).length === 0) {
+    //         this.props.getTV('top_rated')
+    //         this.props.getTV('popular')
+    //     }
+    // }
     render() {
         return (
-            <ItemsList tabs={this.state.tabs} items={this.props.selections.tv} />
+            <ItemsList type="tv" tabs={this.state.tabs} />
         )
     }
 }

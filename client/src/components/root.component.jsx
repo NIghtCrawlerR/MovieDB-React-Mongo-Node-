@@ -4,20 +4,22 @@ import { Redirect } from 'react-router'
 import history from '../history'
 import Homepage from "./pages/Homepage"
 import MoviesCatalog from './movies-catalog.component'
-import MoviesCollection from "./movies-collection.component"
+// import MoviesCollection from "./movies-collection.component"
+import Wishlist from './pages/Wishlist'
 import BugReport from "./pages/BugReport"
 
 import Message from './StatusMessage'
 import Auth from './pages/Auth'
-import Header from './Header'
-import Sidebar from './Sidebar'
-import Footer from './Footer'
+import Header from './partials/Header'
+import Sidebar from './partials/Sidebar'
+import Footer from './partials/Footer'
 import MovieForm from './movie-form.component'
 
 import store from '../store'
 import { getFromStorage, removeFromStorage } from '../utils/storage'
 import { connect } from 'react-redux'
 import { verifyUser, logout, userGet } from '../actions/userActions'
+import { getGenres } from '../actions/itemsCollectionsActions'
 
 import axios from 'axios'
 
@@ -82,11 +84,14 @@ class RootComponent extends React.Component {
         this.props.verifyUser(token)
             .then(user => {
                 if (!user.data.success) throw new Error('err')
-                this.setState({ loading: false })
+
             })
             .then(() => {
                 this.props.userGet(store.getState().user.userId) //get user data
-                    .then(() => console.log(this.props))
+                    .then(() => {
+                        this.setState({ loading: false })
+                        console.log('userGet', this.props)
+                    })
             })
             .catch(err => {
                 this.showMsg('error', 'Error: Server error. Unable to get user. Try to login again')
@@ -94,10 +99,10 @@ class RootComponent extends React.Component {
             })
     }
 
-    
+
 
     componentDidMount() {
-        console.log(this.props)
+        this.props.getGenres('movie')
         this.updateUser()
     }
 
@@ -106,7 +111,7 @@ class RootComponent extends React.Component {
         this.props.logout(getFromStorage('token'))
             .then(res => {
                 removeFromStorage('token')
-                history.push('/')
+                history.push('/home')
             })
     }
 
@@ -123,17 +128,16 @@ class RootComponent extends React.Component {
 
             return (
                 <Router history={history}>
-                    <Redirect from="/" to="/home" />
+                    {/* <Redirect from="/" to="/home" /> */}
                     <div className="app">
                         <div className="sidebar__wrap p-0">
                             <Sidebar />
                         </div>
                         <div className="main-content p-0">
                             <Header {...this.props} onClick={this.logout} />
-                            
                             <Route path="/home" render={(props) => (<Homepage {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/movies" render={(props) => (<MoviesCatalog {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/collection" render={(props) => (<MoviesCollection {...props} showMsg={this.showMsg.bind(this)} />)} />
+                            <Route path="/wishlist" render={(props) => (<Wishlist {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/edit/:id" render={(props) => (<MovieForm mode="edit" {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/create" render={(props) => (<MovieForm mode="create" {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
@@ -161,11 +165,13 @@ class RootComponent extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    user: state.user
+    user: state.user,
+    genres: state.movieSelection.genres
 })
 
 export default connect(mapStateToProps, {
     verifyUser,
     logout,
-    userGet
+    userGet,
+    getGenres
 })(RootComponent)

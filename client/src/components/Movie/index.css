@@ -11,6 +11,7 @@
 }
 
 .movie_item {
+    position: relative;
     border: 1px solid rgba(0,0,0,.125);
     /* border-radius: .25rem; */
     display: flex;
@@ -46,9 +47,9 @@
     padding: 10px;
 }
 
-.movie_info__top {
-    display: flex;
-    align-items: flex-start;
+.movie__genres {
+    font-size: 14px;
+    font-style: italic;
 }
 
 .movie_info__bottom {

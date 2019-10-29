@@ -21,7 +21,7 @@ export default class Homepage extends Component {
 
     render() {
         if (this.props.history.location.pathname === '/home') {
-            return <Redirect to='/home/top-movies' />;
+            return <Redirect from="/home" to='/home/top-movies' />;
         }
         return (
             <div className="mb-5">
@@ -37,30 +37,21 @@ export default class Homepage extends Component {
                             <li>доработать валидацию форм</li>
                             <li>языки</li>
                             <li>админка</li>
-                            <li>не подгружать все коллекции сразу. по клику на таб</li>
-
+                            <li>редиректы на главной</li>
+                            <li>пагинация</li>
+                            <li>при наведении на фильм показывать полное название</li>
+                            <li>при клике на фильм переход на страницу с описанием и трейлером</li>
+                            <li>фильтр</li>
+                            <li>делиться фильмами с пользователями</li>
+                            <li>уведомления</li>
+                            <li>сделать все табы на главной роутами</li>
                         </ul>
                     </div>
-                    {/* <Tabs onSelect={this.switchTabs.bind(this)} render={activeTab => (
-                        <ItemsList activeTab={activeTab} />
-                    )} /> */}
 
                     <BrickTabs onSelect={this.switchTabs.bind(this)} />
                     <Route path={`/home/top-movies`} exact component={MovieList} />
                     <Route path={`/home/top-tv-shows`} component={TVShowsList} />
                     <Route path={`/home/top-games`} component={GamesList} />
-                    {/* {this.state.activeTab === 'movies' ?
-                        <MovieList /> : null
-                    }
-                    {this.state.activeTab === 'tv' ?
-                        <TVShowsList /> : null
-                    }
-                    {this.state.activeTab === 'games' ?
-                        <GamesList /> : null
-                    }
-                    {this.state.activeTab === 'books' ?
-                        'No content' : null
-                    } */}
                 </div>
             </div>
 

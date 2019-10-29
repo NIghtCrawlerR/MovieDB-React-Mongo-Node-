@@ -48,7 +48,7 @@ class AuthForm extends Component {
                     if (res.data.success) {
                         setInStorage('token', res.data.token)
                         this.props.updateUser()
-                        this.props.history.push('/')
+                        this.props.history.push('/home')
                     }
                     else {
                         this.setState({ errorMessage: res.data.message })
@@ -59,7 +59,7 @@ class AuthForm extends Component {
                     console.log(err)
                 })
         } else {
-            axios.post('/api/users/register', { email: this.state.email, password: this.state.password })
+            axios.post('http://localhost:4000/api/users/register', { email: this.state.email, password: this.state.password })
                 .then((res) => {
 
                     this.setState({ loading: false })

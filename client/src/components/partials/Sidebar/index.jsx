@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import ListGroup from 'react-bootstrap/ListGroup';
 import './index.css'
 
@@ -39,7 +39,7 @@ export default class Sidebar extends React.Component {
                     {this.state.navigation.map((item, i) => {
                         return (
                             <ListGroup.Item key={i}>
-                                <NavLink exact={item.name==='Home'} activeClassName="active" to={item.link}>
+                                <NavLink activeClassName="active" to={item.link}>
                                     <i className={item.icon}></i>
                                 </NavLink>
                             </ListGroup.Item>

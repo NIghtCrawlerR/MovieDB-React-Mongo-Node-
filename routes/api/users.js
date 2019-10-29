@@ -6,6 +6,7 @@ const UserSession = require('../../models/user.session.model')
 const mongoose = require('mongoose')
 const bot = require('../../bot')
 
+
 router.post('/movies/add', (req, res) => {
     User.findOneAndUpdate({
         _id: req.body.userId
@@ -28,32 +29,32 @@ router.post('/movies/add', (req, res) => {
     })
 })
 
-router.post('/movies/get', (req, res) => {
-    const userId = req.body.userId
-    User.find({ _id: userId }, (err, user) => {
-        if (err) {
-            return res.send({
-                succes: false,
-                message: 'Error: Server error. ' + err
-            })
-        }
+// router.post('/movies/get', (req, res) => {
+//     const userId = req.body.userId
+//     User.find({ _id: userId }, (err, user) => {
+//         if (err) {
+//             return res.send({
+//                 succes: false,
+//                 message: 'Error: Server error. ' + err
+//             })
+//         }
 
-        let arr = user[0].movies.map(movie => movie.id)
-        arr = arr.map(movie => mongoose.Types.ObjectId(movie))
-        Movie.find({
-            '_id': {
-                $in: arr
-            }
-        }, function (err, docs) {
-            return res.send({
-                succes: true,
-                message: 'Success',
-                movies: user[0].movies,
-                moviesList: docs
-            })
-        });
-    })
-})
+//         let arr = user[0].movies.map(movie => movie.id)
+//         arr = arr.map(movie => mongoose.Types.ObjectId(movie))
+//         Movie.find({
+//             '_id': {
+//                 $in: arr
+//             }
+//         }, function (err, docs) {
+//             return res.send({
+//                 succes: true,
+//                 message: 'Success',
+//                 movies: user[0].movies,
+//                 moviesList: docs
+//             })
+//         });
+//     })
+// })
 
 router.post('/login', (req, res) => {
     let { email, password } = req.body
@@ -199,7 +200,7 @@ router.get('/logout', (req, res, next) => {
 router.get('/verify', (req, res, next) => {
     const { query } = req;
     const { token } = query;
-   
+
     UserSession.find({
         _id: token,
         isDeleted: false
@@ -235,9 +236,13 @@ router.get('/current', (req, res) => {
                 message: 'Error: Server error. ' + err
             })
         }
+       
         const currentUser = {
             email: user[0].email,
             movies: user[0].movies,
+            games: user[0].games,
+            tv: user[0].tv,
+            books: user[0].books,
             signUpDate: user[0].signUpDate,
             id: user[0]._id,
             group: user[0].group

@@ -2,23 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let Movie = new Schema({
-    title: {
-        type: String
-    },
-    img: {
-        type: String
-    },
-    genre: {
-        type: String
-    },
-    liked: {
-        type: Boolean,
-        default: false
-    },
-    watched: {
-        type: Number,
-        default: 0
-    }
+    id: Number,
+    title: String,
+    name: String,
+    poster_path: String,
+    background_image: String,
+    genre_ids: Array,
+    genres: Array,
+    vote_average: String,
+    rating: String,
+    itemType: String
 })
 
 module.exports = mongoose.model('Movie', Movie)

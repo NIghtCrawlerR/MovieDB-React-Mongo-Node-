@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getMovieById, editMovie, addMovie } from '../actions/movieActions'
+import { getMovieById, editMovie } from '../actions/movieActions'
 import { genres } from '../utils/genres'
 import Loader from './common/Loader'
 import PageTitle from './common/PageTitle'
@@ -81,24 +81,24 @@ class Form extends Component {
                     this.props.showMsg(status || 'error', text || 'Something went wrong', accessError, timeout)
                 })
         }
-        else {
-            this.props.addMovie(newMovie, this.props.user.userId)
-                .then(res => {
-                    this.setState({
-                        title: '',
-                        img: '',
-                        genre: '',
-                        loading: false
-                    })
-                    this.props.showMsg(res.data.status, res.data.text)
-                })
-                .catch(err => {
-                    this.setState({ loading: false })
-                    const { status, text, accessError } = err.response.data
-                    let timeout = accessError ? 15000 : 5000
-                    this.props.showMsg(status || 'error', text || 'Something went wrong', accessError, timeout)
-                })
-        }
+        // else {
+        //     this.props.addMovie(newMovie, this.props.user.userId)
+        //         .then(res => {
+        //             this.setState({
+        //                 title: '',
+        //                 img: '',
+        //                 genre: '',
+        //                 loading: false
+        //             })
+        //             this.props.showMsg(res.data.status, res.data.text)
+        //         })
+        //         .catch(err => {
+        //             this.setState({ loading: false })
+        //             const { status, text, accessError } = err.response.data
+        //             let timeout = accessError ? 15000 : 5000
+        //             this.props.showMsg(status || 'error', text || 'Something went wrong', accessError, timeout)
+        //         })
+        // }
     }
 
     componentDidMount() {
@@ -178,6 +178,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     getMovieById,
-    editMovie,
-    addMovie
+    editMovie
 })(Form)

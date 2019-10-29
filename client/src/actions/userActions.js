@@ -4,13 +4,14 @@ import {
     USER_LOG_OUT,
     USER_VERIFY,
     USER_GET,
-    USER_ADD_MOVIE,
     FILTER
 } from './types'
 
 import axios from 'axios'
 
-export const filterMovies = (movies, filter) => dispatch => {
+const host = 'http://localhost:4000'
+
+export const filterMovies = (movies, filter) => dispatch => { // ?
     let filtered = []
     let filterKeys = Object.keys(filter)
 
@@ -96,37 +97,23 @@ export const verifyUser = token => dispatch => {
 
 }
 
-export const userGet = userId => dispatch => {
+export const userGet = userId => dispatch => { //get current user data
     return new Promise((resolve, reject) => {
-        axios.get('/api/users/current?userId=' + userId)
+        axios.get(host + '/api/users/current?userId=' + userId)
             .then(res => {
                 const user = res.data
-               
+
                 dispatch({
                     type: USER_GET,
                     data: user.data,
                     movies: user.data.movies,
+                    games: user.data.games,
+                    tv: user.data.tv,
+                    books: user.data.books,
                     filteredMovies: res.data.movies
                 })
                 resolve(res)
             })
             .catch(err => console.log(err))
     })
-}
-
-export const userAddMovie = (userId, movies) => dispatch => {
-    return new Promise((resolve, reject) => {
-        axios.post('/api/users/movies/add',
-            { userId: userId, movies: movies })
-            .then(res => {
-                dispatch({
-                    type: USER_ADD_MOVIE,
-                    movies: movies,
-                    filteredMovies: movies
-                })
-                resolve({ success: true })
-            })
-            .catch(err => console.log(err))
-    })
-
 }

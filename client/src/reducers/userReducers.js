@@ -4,8 +4,8 @@ import {
     USER_LOG_OUT,
     USER_VERIFY,
     USER_GET,
-    USER_ADD_MOVIE,
-    FILTER
+    FILTER,
+    UPDATE_WISHLIST
 } from '../actions/types'
 
 const initialState = {
@@ -13,22 +13,33 @@ const initialState = {
     token: '',
     isLogin: false,
     movies: [],
+    tv: [],
+    games: [],
+    books: [],
     filteredMovies: []
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case UPDATE_WISHLIST:
+            let list = [...state[action.collection]] || []
+            if(list.includes(action.item.id)) {
+                list.splice( list.indexOf(action.item.id), 1 )
+            } else {
+                list.push(action.item.id)
+            }
+            return{ 
+                ...state,
+                [action.collection]: list
+            }
         case USER_GET:
             return {
                 ...state,
                 data: action.data,
                 movies: action.movies,
-                filteredMovies: action.movies
-            }
-        case USER_ADD_MOVIE:
-            return {
-                ...state,
-                movies: action.movies,
+                games: action.games,
+                tv: action.tv,
+                books: action.books,
                 filteredMovies: action.movies
             }
         case USER_SIGN_IN:

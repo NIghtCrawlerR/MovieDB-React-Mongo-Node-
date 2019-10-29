@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Tabs from '../../common/Tabs'
 import ItemsList from '../../ItemsList'
 import { connect } from 'react-redux'
 import {
@@ -10,22 +11,25 @@ class Games extends Component {
         super()
 
         this.state = {
-            tabs: ['Must play', 'Top games of 2017', 'Epic games']
+            tabs: [{
+                title: 'Must play',
+                value: 'must-play'
+            }, {
+                title: 'Top games of 2017',
+                value: 'top-games-of-2017'
+            }, {
+                title: 'Epic games',
+                value: 'epic-games-6'
+            }]
         }
     }
-    componentDidMount() {
-        if (Object.keys(this.props.selections.games).length === 0) {
-            this.props.getGames('must-play')
-            this.props.getGames('top-games-of-2017')
-            this.props.getGames('epic-games-6')
-        }
-        setTimeout(() => {
-            console.log(this.props)
-        }, 400)
-    }
+
     render() {
         return (
-            <ItemsList tabs={this.state.tabs} items={this.props.selections.games} />
+            <React.Fragment>
+                {/* <Tabs path="home/games" tabs={this.state.tabs} /> */}
+                <ItemsList type="games" tabs={this.state.tabs} />
+            </React.Fragment>
         )
     }
 }

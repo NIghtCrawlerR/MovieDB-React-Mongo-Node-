@@ -42,7 +42,7 @@ export default class Header extends React.Component {
                                                     : ''}
                                             </div>
                                             <div className="dropdown-divider"></div>
-                                            <Link to="/collection" className="dropdown-item text-info">My wishlist</Link>
+                                            <Link to="/wishlist" className="dropdown-item text-info">My wishlist</Link>
                                             <Link to="/logout" className="dropdown-item text-info" onClick={this.logout.bind(this)}>Logout</Link>
                                         </div>
                                     </span>

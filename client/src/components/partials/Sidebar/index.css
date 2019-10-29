@@ -3,6 +3,7 @@
     background: #202020;
     position: fixed;
     width: 60px;
+    z-index: 101;
 }
 
 .sidebar .list-group-item {
@@ -23,6 +24,7 @@
 
 .sidebar .list-group-item a.active {
     background: #333;
+    color: #ec174f;
 }
 
 .sidebar .list-group-item a:hover {
@@ -30,7 +32,7 @@
     text-decoration: none;
 }
 
-.sidebar .list-group-item i {
+.sidebar .list-group-item a {
     font-size: 20px;
     color: #fff;
 }

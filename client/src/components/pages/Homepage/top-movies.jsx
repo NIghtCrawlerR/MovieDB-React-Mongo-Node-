@@ -10,19 +10,34 @@ class Movies extends Component {
         super()
 
         this.state = {
-            tabs: ['Top rated movies', 'Popular movies', 'Upcoming movies']
+            tabs: [{
+                title: 'Top rated movies',
+                value: 'top_rated'
+            }, {
+                title: 'Popular movies',
+                value: 'popular'
+            }, {
+                title: 'Upcoming movies',
+                value: 'upcoming'
+            }]
         }
     }
-    componentDidMount() {
-        if (Object.keys(this.props.selections.movies).length === 0) {
-            this.props.getMovies('top_rated')
-            this.props.getMovies('popular')
-            this.props.getMovies('upcoming')
-        }
+    switchTab(e) {
+        console.log(e)
     }
+    // componentDidMount() {
+    //     console.log('mount')
+    //     this.props.getMovies('top_rated')
+    //     const { collections } = this.props.selections
+    //     // if ( collections && collections.movies.top_rated.length === 0) {
+    //     this.props.getMovies('top_rated')
+    //     // this.props.getMovies('popular')
+    //     // this.props.getMovies('upcoming')
+    //     // }
+    // }
     render() {
         return (
-            <ItemsList tabs={this.state.tabs} items={this.props.selections.movies} />
+            <ItemsList type="movies" tabs={this.state.tabs} />
         )
     }
 }
