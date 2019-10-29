@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Route } from "react-router-dom";
 import { Redirect } from 'react-router'
 import BrickTabs from '../../BrickTabs'
-import MovieList from './top-movies'
-import TVShowsList from './top-tv-shows'
-import GamesList from './top-games'
+import Page from './Page'
 
 export default class Homepage extends Component {
     constructor(props) {
@@ -21,7 +19,7 @@ export default class Homepage extends Component {
 
     render() {
         if (this.props.history.location.pathname === '/home') {
-            return <Redirect from="/home" to='/home/top-movies' />;
+            return <Redirect from="/home" to='/home/movies' />;
         }
         return (
             <div className="mb-5">
@@ -44,14 +42,12 @@ export default class Homepage extends Component {
                             <li>фильтр</li>
                             <li>делиться фильмами с пользователями</li>
                             <li>уведомления</li>
-                            <li>сделать все табы на главной роутами</li>
+                            <li>define exact routes on main page</li>
                         </ul>
                     </div>
 
                     <BrickTabs onSelect={this.switchTabs.bind(this)} />
-                    <Route path={`/home/top-movies`} exact component={MovieList} />
-                    <Route path={`/home/top-tv-shows`} component={TVShowsList} />
-                    <Route path={`/home/top-games`} component={GamesList} />
+                    <Route path="/home/:page" component={Page} />
                 </div>
             </div>
 

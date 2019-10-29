@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Movie from './Movie'
 // import Filter from './MovieFilter'
 import PageHeader from './common/PageHeader'
+import Loader from './common/Loader'
 import { connect } from 'react-redux'
 import { getMovies, filterMovies } from '../actions/movieActions'
 import { userGet } from '../actions/userActions'
@@ -48,15 +49,11 @@ class MoviesCatalog extends Component {
 
                         {/* <Filter filter={this.filter.bind(this)} /> */}
                         {this.state.loading ?
-                            <div className="text-center py-5">
-                                <div className="spinner-border text-primary" role="status">
-                                    <span className="sr-only">Loading...</span>
-                                </div>
-                            </div> :
+                            <Loader /> :
                             <React.Fragment>
                                 <div className="mt-3 movies_wrap">
                                     {movies.filtered && movies.filtered.length !== 0 ? movies.filtered.map(movie => {
-                                        return <Movie {...movie} img={`http://image.tmdb.org/t/p/w300${movie.poster_path}`} key={movie.id} id={movie._id || movie.id} onClick={this.clickHandler.bind(this)} />
+                                        return <Movie type="movies" {...movie} img={`http://image.tmdb.org/t/p/w300${movie.poster_path}`} key={movie.id} id={movie._id || movie.id} onClick={this.clickHandler.bind(this)} />
                                     }) : movies.list.length === 0 ?
                                             <div>
                                                 <p>List is empty.</p>

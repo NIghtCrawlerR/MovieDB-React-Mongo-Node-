@@ -20,23 +20,23 @@ export default class BrickButtons extends React.Component {
                 {
                     title: 'Movies',
                     value: 'movies',
-                    link: 'top-movies',
+                    link: 'movies',
                     exact: 'true',
                     img: bg1
                 }, {
                     title: 'TV shows',
                     value: 'tv',
-                    link: 'top-tv-shows',
+                    link: 'tv',
                     img: bg2
                 }, {
                     title: 'Games',
                     value: 'games',
-                    link: 'top-games',
+                    link: 'games',
                     img: bg3
                 }, {
                     title: 'Books',
                     value: 'books',
-                    link: 'top-books',
+                    link: 'books',
                     img: bg4
                 }
             ],
