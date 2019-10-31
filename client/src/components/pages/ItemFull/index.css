@@ -1,0 +1,31 @@
+.item_full img {
+    max-width: 100%;
+}
+
+.item_full .overview {
+    position: relative;
+    cursor: pointer;
+    line-height: 25px;
+}
+
+.item_full .overview.short {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* display: -webkit-box; */
+    /* -webkit-line-clamp: 5; */
+    
+    max-height: calc(24px*5);
+}
+
+.item_full .overview.short::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+    left: 0;
+    background: rgba(255, 255, 255, .5);
+    background: linear-gradient(to top, rgba(245, 245, 247, .7) 50%, rgba(245, 245, 247, .1) 100%);
+}
+
+/* .item_full .stores {} */

@@ -81,7 +81,7 @@ class AuthForm extends Component {
 
         return (
             <div className="form__wrap content">
-                {this.state.loading ? <Loader /> : null}
+                {this.state.loading ? <Loader overlay /> : null}
                 <PageTitle title={this.props.loginForm ? 'Login' : 'Register'} />
 
                 <br />

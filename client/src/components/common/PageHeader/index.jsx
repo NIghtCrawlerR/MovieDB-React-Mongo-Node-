@@ -5,9 +5,10 @@ import './index.css'
 
 export default class PageHeader extends Component {
     render() {
+        const background = this.props.image ? this.props.image : bg 
         return (
             <div className="page-header">
-                <img src={bg} alt="" />
+                <img src={background} alt="" />
                 <div className="container-fluid">
                     <div className="page-header__content">
                         <div className="breadcrumbs">

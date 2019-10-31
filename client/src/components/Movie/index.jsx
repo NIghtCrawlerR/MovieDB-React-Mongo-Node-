@@ -38,13 +38,13 @@ class Movie extends Component {
     }
 
     addToWishlist() {
-        const { id, user, type, title, name, genre_ids, genres, poster_path, background_image, vote_average, rating } = this.props
+        const { id, user, type, title, name, genre_ids, genres, poster_path, background_image, vote_average, rating, slug } = this.props
 
         if (!user.isLogin) {
             alert('Login to add movie to your collection.')
             return !1
         }
-    
+
         const newItem = {
             id: id,
             title: title || null,
@@ -55,6 +55,7 @@ class Movie extends Component {
             background_image: background_image || null,
             vote_average: vote_average || null,
             rating: rating || null,
+            slug: slug || null,
             itemType: type
         }
 
@@ -74,32 +75,30 @@ class Movie extends Component {
     }
 
     render() {
-        const { type, title, name, img, liked, watched, _id, id, userCollection, user, genre_ids } = this.props
+        const { type, title, name, img, liked, watched, slug, id, userCollection, user, genre_ids } = this.props
         let i = img || 'https://uoslab.com/images/tovary/no_image.jpg'
         let itemGenres = []
         if (genre_ids && this.props.moviesGenres) {
             // console.log(genre_ids)
             itemGenres = genre_ids.map((id, i) => {
-                // console.log(this.props.moviesGenres.find(genre => genre.id === id))
                 const obj = this.props.moviesGenres.find(genre => genre.id === id)
                 return obj ? obj.name : null
-                // return ''
             })
         } else if (this.props.genres) {
             itemGenres = this.props.genres.map(genre => genre.name)
         }
-
+        const searchItem = slug ? slug : id
         return (
+
             <div className="movie_item">
+
+
                 <div className="movie_img">
-                    {watched && userCollection
-                        ? <div className="movie--watched bg-purple">Watched</div>
-                        : null}
-                    <img src={i} alt="img" />
+                    <Link to={`/details/${type}/${searchItem}`}><img src={i} alt="img" /></Link>
                 </div>
                 <div className="movie_info">
                     <div className="movie_info__top">
-                        <h3>{title || name}</h3>
+                        <h3><Link to={`/details/${type}/${searchItem}`}>{title || name}</Link></h3>
                         {itemGenres.length > 0 ?
                             <p className="movie__genres">
                                 <span>{itemGenres.join(', ')}</span>
@@ -112,17 +111,15 @@ class Movie extends Component {
                             {
                                 userCollection ?
                                     <React.Fragment>
-                                        <span className="text-info pointer mx-2" onClick={this.setWatch.bind(this)}>
+                                        <span className="text-info pointer mx-2">
                                             <i className={watched ? "fas fa-eye" : "far fa-eye"}></i>
                                         </span>
-                                        <span className="text-red pointer mx-2" title="like" onClick={this.setLike.bind(this)}>
+                                        <span className="text-red pointer mx-2" title="like">
                                             <i className={liked ? "fas fa-heart" : "far fa-heart"}></i>
                                         </span>
                                     </React.Fragment> : null
                             }
-                            <span className="text-info pointer mx-2">
-                                <Link to={'/edit/' + _id} className="text-info"><i className="fas fa-info mr-2"></i></Link>
-                            </span>
+
                             {
                                 user ?
                                     user[type].includes(id) ?

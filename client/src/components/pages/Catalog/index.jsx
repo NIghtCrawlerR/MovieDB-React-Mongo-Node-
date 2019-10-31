@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import Movie from './Movie'
-// import Filter from './MovieFilter'
-import PageHeader from './common/PageHeader'
-import Loader from './common/Loader'
+import Movie from '../../Movie'
+import Filter from '../../MovieFilter'
+import PageHeader from '../../common/PageHeader'
+import Loader from '../../common/Loader'
+import Pagination from '../../common/Pagination'
 import { connect } from 'react-redux'
-import { getMovies, filterMovies } from '../actions/movieActions'
-import { userGet } from '../actions/userActions'
+import { getMovies, filterMovies } from '../../../actions/movieActions'
+import { userGet } from '../../../actions/userActions'
 
-class MoviesCatalog extends Component {
+class Catalog extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            loading: false
+            loading: false,
+            pageCount: 1
         }
     }
 
@@ -22,25 +24,45 @@ class MoviesCatalog extends Component {
     }
 
     clickHandler(id, mode) {
-   
+
     }
 
-    getMovies() {
+    changePage(page) {
+        this.props.history.push({
+            search: `?page=${page.selected + 1}`
+        })
+    }
+
+    getMovies(currentPage) {
         this.setState({ loading: true })
-        this.props.getMovies()
+        this.props.getMovies(currentPage)
             .then(res => {
                 this.setState({
-                    loading: false
+                    loading: false,
+                    pageCount: res.total_pages
                 })
             })
     }
 
+    componentDidUpdate(prevProps) {
+        const { location } = this.props
+
+        const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
+
+        if (location.search !== prevProps.location.search) {
+            this.getMovies(currentPage)
+        }
+    }
+
     componentDidMount() {
-        if (this.props.movies.list.length === 0) this.getMovies()
+        const { location } = this.props
+        const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
+        if (this.props.movies.list.length === 0) this.getMovies(currentPage)
     }
 
     render() {
-        const { movies } = this.props
+        const { movies, location } = this.props
+        const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
         return (
             <div className="mb-5">
                 <PageHeader title="Movie catalog" breadcrumbs={['Home', 'Movie catalog']} />
@@ -62,6 +84,10 @@ class MoviesCatalog extends Component {
                                             <p>No result</p>
                                     }
                                 </div>
+                                {this.state.pageCount > 1 ?
+                                    < Pagination pageCount={this.state.pageCount} currentPage={currentPage} changePage={this.changePage.bind(this)} />
+                                    : null
+                                }
                             </React.Fragment>
                         }
                     </div>
@@ -80,4 +106,4 @@ export default connect(mapStateToProps, {
     getMovies,
     userGet,
     filterMovies
-})(MoviesCatalog)
+})(Catalog)

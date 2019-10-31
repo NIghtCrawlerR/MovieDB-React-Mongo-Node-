@@ -1,19 +1,19 @@
 import React from 'react';
-import { Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { Redirect } from 'react-router'
 import history from '../history'
 import Homepage from "./pages/Homepage"
-import MoviesCatalog from './movies-catalog.component'
-// import MoviesCollection from "./movies-collection.component"
+import Catalog from './pages/Catalog'
 import Wishlist from './pages/Wishlist'
 import BugReport from "./pages/BugReport"
-
-import Message from './StatusMessage'
 import Auth from './pages/Auth'
+import ItemFull from './pages/ItemFull'
+
 import Header from './partials/Header'
 import Sidebar from './partials/Sidebar'
 import Footer from './partials/Footer'
-import MovieForm from './movie-form.component'
+
+import Message from './StatusMessage'
 
 import store from '../store'
 import { getFromStorage, removeFromStorage } from '../utils/storage'
@@ -90,7 +90,6 @@ class RootComponent extends React.Component {
                 this.props.userGet(store.getState().user.userId) //get user data
                     .then(() => {
                         this.setState({ loading: false })
-                        console.log('userGet', this.props)
                     })
             })
             .catch(err => {
@@ -116,6 +115,9 @@ class RootComponent extends React.Component {
     }
 
     render() {
+        if(this.props.history.location.pathname === '/') {
+            return <Redirect to="/home" />    
+        }
         if (this.state.loading) {
             return (
                 <div className="text-center py-5">
@@ -127,19 +129,16 @@ class RootComponent extends React.Component {
         } else {
 
             return (
-                <Router history={history}>
-                    {/* <Redirect from="/" to="/home" /> */}
                     <div className="app">
                         <div className="sidebar__wrap p-0">
                             <Sidebar />
                         </div>
                         <div className="main-content p-0">
                             <Header {...this.props} onClick={this.logout} />
+                            <Route path={`/details/:page/:id`} render={(props) => (<ItemFull {...props} />)} />
                             <Route path="/home" render={(props) => (<Homepage {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/movies" render={(props) => (<MoviesCatalog {...props} showMsg={this.showMsg.bind(this)} />)} />
+                            <Route path="/movies" render={(props) => (<Catalog {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/wishlist" render={(props) => (<Wishlist {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/edit/:id" render={(props) => (<MovieForm mode="edit" {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/create" render={(props) => (<MovieForm mode="create" {...props} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg.bind(this)} />)} />
@@ -157,7 +156,7 @@ class RootComponent extends React.Component {
                             <Footer />
                         </div>
                     </div>
-                </Router>
+               
             );
         }
 

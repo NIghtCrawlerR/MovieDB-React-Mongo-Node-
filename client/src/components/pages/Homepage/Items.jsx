@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import Movie from '../../Movie'
-import PageTitle from '../../common/PageTitle'
-import ReactPaginate from 'react-paginate';
 import Loader from '../../common/Loader'
 import Pagination from '../../common/Pagination'
+
+import ItemsList from '../../ItemsList'
 
 import { connect } from 'react-redux'
 import {
@@ -95,18 +94,9 @@ class List extends Component {
         return (
             <div className="top-list mt-4">
                 <React.Fragment>
+                    {this.state.loading ? <Loader /> : null}
 
-                    <div className="movies_wrap">
-                        {this.state.loading ? <Loader /> : null}
-                        {
-                            collections[page][collection] ?
-                                collections[page][collection].map((movie, i) => {
-                                    return <Movie {...movie} type={page} img={movie.poster_path ? `http://image.tmdb.org/t/p/w300${movie.poster_path}` : movie.background_image} key={movie.id} _id={movie.id} />
-                                })
-                                :
-                                null
-                        }
-                    </div>
+                    <ItemsList items={collections[page][collection]} type={page} />
 
                     {this.state.pageCount > 1 ?
                         < Pagination pageCount={this.state.pageCount} currentPage={currentPage} changePage={this.changePage.bind(this)} />

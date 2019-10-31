@@ -1,7 +1,10 @@
 import React from 'react';
+import { Router, Route } from "react-router-dom";
+import { Redirect } from 'react-router'
 import { Provider } from 'react-redux'
 import RootComponent from "./components/root.component"
 import store from './store'
+import history from './history'
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
@@ -10,7 +13,10 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <RootComponent />
+        <Router history={history}>
+          <Route path="/" render={(props) => (<RootComponent {...props} />)} />
+          
+        </Router>
       </Provider>
     );
   }

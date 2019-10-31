@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
+import { Redirect } from 'react-router'
 import axios from 'axios';
 import Movie from '../../Movie'
 // import Filter from './MovieFilter'
 import PageHeader from '../../common/PageHeader'
 import Tabs from '../../common/Tabs'
-import List from './List'
+import Items from './Items'
 import { getFromStorage } from '../../../utils/storage'
 import { connect } from 'react-redux'
 import {
@@ -38,48 +39,6 @@ class Wishlist extends Component {
         this.props.filterMovies(this.props.user.movies, filter)
     }
 
-    setLike(id) {
-        this.setState({
-            movies: this.state.movies.map(m => {
-                if (m._id === id) m.liked = !m.liked
-                return m
-            })
-        })
-        let el = this.state.movies.filter(m => m._id === id)[0]
-
-        axios.post('/movies/update/' + id, el)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-    }
-
-    setWatch(id) {
-        this.setState({
-            movies: this.state.movies.map(m => {
-                if (m._id === id) m.watched = !m.watched
-                return m
-            })
-        })
-        let el = this.state.movies.filter(m => m._id === id)[0]
-
-        axios.post('/movies/update/' + id, el)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-    }
-
-    clickHandler(id, mode) {
-        switch (mode) {
-            case 'setLike':
-                this.setLike(id);
-                break;
-            case 'setWatch':
-                this.setWatch(id);
-                break;
-            default:
-                return;
-        }
-
-    }
-
     componentDidMount() {
         const token = getFromStorage('token')
         if (!token) {
@@ -89,12 +48,15 @@ class Wishlist extends Component {
     }
 
     render() {
+        if (this.props.history.location.pathname === '/wishlist') {
+            return <Redirect to='/wishlist/movies' />;
+        }
         return (
             <div>
                 <PageHeader title="Personal wishlist" />
                 <div className="container-fluid">
                     <Tabs path="wishlist" tabs={this.state.tabs} />
-                    <Route path="/wishlist/:collection" render={(props) => (<List {...props} user={this.props.user} />)} />
+                    <Route path="/wishlist/:collection" render={(props) => (<Items {...props} user={this.props.user} />)} />
                 </div>
             </div>
 

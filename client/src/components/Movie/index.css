@@ -4,6 +4,8 @@
 }
 
 .movies_wrap {
+    min-height: 100px;
+    position: relative;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 30px;
@@ -43,7 +45,6 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    min-height: 90px;
     padding: 10px;
 }
 

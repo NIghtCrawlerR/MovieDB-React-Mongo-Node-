@@ -34,41 +34,58 @@ export const getGenres = (collection) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const getMovies = (collection) => dispatch => {
-    axios.get(`${movieApiRoot}/movie/${collection}?api_key=${apiKey}&language=${lang}&page=1`)
-        .then(res => {
-            dispatch({
-                type: GET_MOVIES_COLLECTIONS,
-                movies: res.data.results,
-                collection: collection
+export const getMovies = (collection, page) => dispatch => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${movieApiRoot}/movie/${collection}?api_key=${apiKey}&language=${lang}&page=${page}`)
+            .then(res => {
+                dispatch({
+                    type: GET_MOVIES_COLLECTIONS,
+                    movies: res.data.results,
+                    collection: collection
+                })
+                resolve({ data: res.data })
             })
-        })
-        .catch(err => console.log(err))
+            .catch(err => {
+                reject(err)
+            })
+    })
+
 }
 
-export const getTV = (collection) => dispatch => {
-    axios.get(`${movieApiRoot}/tv/${collection}?api_key=${apiKey}&language=${lang}&page=1`)
-        .then(res => {
-            dispatch({
-                type: GET_TV_COLLECTIONS,
-                tv: res.data.results,
-                collection: collection
+export const getTV = (collection, page) => dispatch => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${movieApiRoot}/tv/${collection}?api_key=${apiKey}&language=${lang}&page=${page}`)
+            .then(res => {
+                dispatch({
+                    type: GET_TV_COLLECTIONS,
+                    tv: res.data.results,
+                    collection: collection
+                })
+                resolve({ data: res.data })
             })
-        })
-        .catch(err => console.log(err))
+            .catch(err => {
+                reject(err)
+            })
+    })
+
 }
 
-export const getGames = (collection) => dispatch => {
-    // /collections/games-to-check-out/games
-    axios.get(`${gameApiRoot}/collections/${collection}/games`)
-        .then(res => {
-            dispatch({
-                type: GET_GAMES_COLLECTIONS,
-                games: res.data.results,
-                collection: collection
+export const getGames = (collection, page) => dispatch => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${gameApiRoot}/collections/${collection}/games?page=${page}&page_size=18`)
+            .then(res => {
+                dispatch({
+                    type: GET_GAMES_COLLECTIONS,
+                    games: res.data.results,
+                    collection: collection
+                })
+                resolve({ data: res.data })
             })
-        })
-        .catch(err => console.log(err))
+            .catch(err => {
+                reject(err)
+            })
+    })
+
 }
 
 export const addItemToWishlist = (collection, item, userId) => dispatch => {
@@ -112,7 +129,6 @@ export const deleteItemToWishlist = (collection, itemId, userId) => dispatch => 
 }
 
 export const getWishlist = (itemType, items) => dispatch => { //get wishlist items by id arr
-    console.log(itemType)
     return new Promise((resolve, reject) => {
         axios.post(host + '/api/wishlist/get',
             { items: items, itemType: itemType })
