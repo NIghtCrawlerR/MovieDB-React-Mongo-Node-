@@ -1,0 +1,67 @@
+import {
+    GET_MOVIES_TV,
+    GET_GAMES,
+    FILTER
+} from './types'
+import axios from 'axios'
+
+const movieApiRoot = process.env.REACT_APP_MOVIE_DB_URL
+const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
+const lang = 'ru'
+
+export const filterMovies = (movies, filter) => dispatch => {
+    let filtered = []
+    let filterKeys = Object.keys(filter)
+
+    filtered = movies.filter(item => {
+        return filterKeys.every(key => {
+            if (key === 'title') return item[key].toLowerCase().indexOf(filter[key]) !== -1
+            else return item[key] === filter[key]
+        })
+    })
+
+    dispatch({
+        type: FILTER,
+        movies: movies,
+        filtered: filtered
+    })
+}
+
+export const getMoviesTv = (type, page) => dispatch => {
+
+    return new Promise((resolve, reject) => {
+        let pageType = type 
+        if(pageType === 'movies') pageType = 'movie'
+        console.log('type', type)
+        axios.get(`${movieApiRoot}/discover/${pageType}?api_key=${apiKey}&language=${lang}&sort_by=popularity.desc&include_adult=true&include_video=false&page=${page}`)
+            .then(res => {
+                dispatch({
+                    type: GET_MOVIES_TV,
+                    pageType: type,
+                    list: res.data.results
+                })
+                resolve(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+                reject(err)
+            })
+    })
+}
+
+export const getGames = (pageNumber, pageSize) => dispatch => {
+    return new Promise((resolve, reject) => {
+        axios.get(`https://rawg.io/api/games?page=${pageNumber}&page_size=18`)
+            .then(res => {
+                dispatch({
+                    type: GET_GAMES,
+                    games: res.data.results
+                })
+                resolve(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+                reject(err)
+            })
+    })
+}

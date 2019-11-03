@@ -104,7 +104,7 @@ export const addItemToWishlist = (collection, item, userId) => dispatch => {
     })
 }
 
-export const deleteItemToWishlist = (collection, itemId, userId) => dispatch => {
+export const deleteItemFromWishlist = (collection, itemId, userId) => dispatch => {
     return new Promise((resolve, reject) => {
         axios.post(host + '/api/wishlist/delete',
             { collection: collection, itemId: itemId, userId: userId })

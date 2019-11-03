@@ -11,6 +11,7 @@ let Movie = new Schema({
     genres: Array,
     vote_average: String,
     rating: String,
+    slug: String,
     itemType: String
 })
 

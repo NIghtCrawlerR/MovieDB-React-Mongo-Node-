@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import SearchField from '../../SearchField'
 import './index.css'
 
 export default class Header extends React.Component {
@@ -11,7 +12,9 @@ export default class Header extends React.Component {
         return (
             <nav className="header navbar bg-red">
                 <div className="container-fluid">
-                    <div></div>
+                    <div>
+                        <SearchField />
+                    </div>
                     <div>
                         {!this.props.user.isLogin ? (
                             <div className="sign-in-buttons">

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 import { Redirect } from 'react-router'
-import axios from 'axios';
-import Movie from '../../Movie'
 // import Filter from './MovieFilter'
 import PageHeader from '../../common/PageHeader'
 import Tabs from '../../common/Tabs'

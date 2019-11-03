@@ -5,12 +5,13 @@ const Movie = require('../../models/movie.model')
 
 router.post('/get', (req, res) => {
     const { items, itemType } = req.body;
-    
+    console.log(items, itemType)
     Movie.find({
         'id': {
-            $in: items
+            $in: items,
         }, 
         'itemType': itemType
+        
     }, function (err, docs) {
         return res.send({
             succes: true,

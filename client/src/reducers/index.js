@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import movieReducers from './movieReducers'
+import movieReducers from './catalogReducers'
 import itemsCollectionsReducers from './itemsCollectionsReducers'
 import userReducers from './userReducers'
 

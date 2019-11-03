@@ -15,16 +15,22 @@ export default class Sidebar extends React.Component {
                 }, {
                     name: 'Movies catalog',
                     icon: 'fas fa-film',
-                    link: '/movies'
+                    link: '/catalog/movies'
+                }, {
+                    name: 'TV Series catalog',
+                    icon: 'fas fa-tv',
+                    link: '/catalog/tv'
                 }, {
                     name: 'Games catalog',
                     icon: 'fas fa-gamepad',
-                    link: '/games'
-                }, {
-                    name: 'Books catalog',
-                    icon: 'fas fa-book-open',
-                    link: '/books'
-                }, {
+                    link: '/catalog/games'
+                }, 
+                // {
+                //     name: 'Books catalog',
+                //     icon: 'fas fa-book-open',
+                //     link: '/catalog/books'
+                // }, 
+                {
                     name: 'Bug report',
                     icon: 'fas fa-bug',
                     link: '/bug-report'

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router'
 import { Route } from 'react-router-dom'
 import Tabs from '../../common/Tabs'
-import List from './List'
-
 import Items from './Items'
 
 export default class Page extends Component {

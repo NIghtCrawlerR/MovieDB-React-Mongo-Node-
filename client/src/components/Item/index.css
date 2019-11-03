@@ -24,13 +24,14 @@
     margin: 0 auto;
     background: #fff;
     padding: 10px 6px;
+    color: #333;
 }
 
 .movie_img {
     overflow: hidden;
     position: relative;
-    max-height: 300px;
-    height: 100%;
+    /* max-height: 300px;
+    height: 100%; */
     /* width: 100px;*/
 }
 
@@ -39,6 +40,12 @@
     max-height: 300px;
     width: 100%;
     object-fit: contain;
+}
+
+.movie_item.games img {
+    max-height: 160px;
+    min-height: 160px;
+    object-fit: cover;
 }
 
 .movie_info {
@@ -51,6 +58,14 @@
 .movie__genres {
     font-size: 14px;
     font-style: italic;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-height: 21px;
+    max-height: calc(21px * 2);
+    min-height: 42px;
 }
 
 .movie_info__bottom {

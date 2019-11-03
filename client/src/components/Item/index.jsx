@@ -4,13 +4,13 @@ import { connect } from 'react-redux'
 
 import {
     addItemToWishlist,
-    deleteItemToWishlist
+    deleteItemFromWishlist
 } from '../../actions/itemsCollectionsActions'
 import { getGenres } from '../../actions/itemsCollectionsActions'
-// import './css/movie.css';
+
 import './index.css'
 
-class Movie extends Component {
+class Item extends Component {
     constructor(props) {
         super(props);
 
@@ -18,23 +18,8 @@ class Movie extends Component {
             isInCollection: false
         }
 
-        this.deleteFromDB = this.deleteFromDB.bind(this)
-        // this.deleteFromCollection = this.deleteFromCollection.bind(this)
-        // this.updateMovieCollection = this.updateMovieCollection.bind(this)
-
         this.addToWishlist = this.addToWishlist.bind(this)
         this.deleteFromWishlist = this.deleteFromWishlist.bind(this)
-    }
-
-    deleteFromDB() {
-        this.props.onClick(this.props._id, 'delete')
-    }
-
-    setLike() {
-        this.updateMovieCollection('like')
-    }
-    setWatch() {
-        this.updateMovieCollection('watch')
     }
 
     addToWishlist() {
@@ -71,7 +56,7 @@ class Movie extends Component {
             return !1
         }
 
-        this.props.deleteItemToWishlist(type, id, user.userId)
+        this.props.deleteItemFromWishlist(type, id, user.userId)
     }
 
     render() {
@@ -90,9 +75,7 @@ class Movie extends Component {
         const searchItem = slug ? slug : id
         return (
 
-            <div className="movie_item">
-
-
+            <div className={`movie_item ${type}`}>
                 <div className="movie_img">
                     <Link to={`/details/${type}/${searchItem}`}><img src={i} alt="img" /></Link>
                 </div>
@@ -141,6 +124,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     addItemToWishlist,
-    deleteItemToWishlist,
+    deleteItemFromWishlist,
     getGenres
-})(Movie)
+})(Item)

@@ -1,3 +1,24 @@
+.item_full.overlay::before {
+    position: fixed;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .8);
+    z-index: 1;
+}
+
+.item_full .content-wrap {
+    position: relative;
+    z-index: 2;
+}
+
+.item_full__info, .item_full .page-title {
+    color: #fff;
+    mix-blend-mode: difference;
+}
+
 .item_full img {
     max-width: 100%;
 }
@@ -28,4 +49,23 @@
     background: linear-gradient(to top, rgba(245, 245, 247, .7) 50%, rgba(245, 245, 247, .1) 100%);
 }
 
-/* .item_full .stores {} */
+.info-block__title {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.info-block__data {
+    font-size: 16px;
+}
+
+.info-top span:not(:last-child) {
+    border-right: 1px solid #fff;
+    margin-right: 15px;
+    padding-right: 15px;
+}
+
+.info-top span {
+    font-size: 18px;
+    font-weight: 500;
+}

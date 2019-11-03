@@ -136,9 +136,9 @@ class RootComponent extends React.Component {
                         <div className="main-content p-0">
                             <Header {...this.props} onClick={this.logout} />
                             <Route path={`/details/:page/:id`} render={(props) => (<ItemFull {...props} />)} />
-                            <Route path="/home" render={(props) => (<Homepage {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/movies" render={(props) => (<Catalog {...props} showMsg={this.showMsg.bind(this)} />)} />
-                            <Route path="/wishlist" render={(props) => (<Wishlist {...props} showMsg={this.showMsg.bind(this)} />)} />
+                            <Route path="/home" render={(props) => (<Homepage {...props} />)} />
+                            <Route path="/catalog/:page" render={(props) => (<Catalog {...props} />)} />
+                            <Route path="/wishlist" render={(props) => (<Wishlist {...props} />)} />
                             <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg.bind(this)} />)} />

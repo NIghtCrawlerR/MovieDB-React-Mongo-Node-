@@ -1,6 +1,5 @@
 import React from 'react';
 import { Router, Route } from "react-router-dom";
-import { Redirect } from 'react-router'
 import { Provider } from 'react-redux'
 import RootComponent from "./components/root.component"
 import store from './store'

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Movie from '../../Movie'
-import Loader from '../../common/Loader'
 import ItemsList from '../../ItemsList'
 import { connect } from 'react-redux'
 import { getWishlist } from '../../../actions/itemsCollectionsActions'
@@ -37,8 +35,7 @@ class List extends Component {
         const { match, collections } = this.props
         return (
             <React.Fragment>
-                {this.state.loading ? <Loader /> : null}
-                <ItemsList items={collections.wishlist[match.params.collection]} type={match.params.collection} />
+               <ItemsList loading={this.state.loading} items={collections.wishlist[match.params.collection]} type={match.params.collection} />
             </React.Fragment>
         )
     }

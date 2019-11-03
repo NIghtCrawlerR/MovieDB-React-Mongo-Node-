@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
-import Movie from '../../Movie'
-import Filter from '../../MovieFilter'
+import ItemsList from '../../ItemsList'
 import PageHeader from '../../common/PageHeader'
-import Loader from '../../common/Loader'
 import Pagination from '../../common/Pagination'
 import { connect } from 'react-redux'
-import { getMovies, filterMovies } from '../../../actions/movieActions'
+import { getMoviesTv, getGames, filterMovies } from '../../../actions/catalogActions'
 import { userGet } from '../../../actions/userActions'
 
 class Catalog extends Component {
@@ -23,72 +20,78 @@ class Catalog extends Component {
         this.props.filterMovies(this.props.movies.list, filter)
     }
 
-    clickHandler(id, mode) {
-
-    }
-
     changePage(page) {
         this.props.history.push({
             search: `?page=${page.selected + 1}`
         })
     }
 
-    getMovies(currentPage) {
+    getItems(currentPage) {
         this.setState({ loading: true })
-        this.props.getMovies(currentPage)
-            .then(res => {
-                this.setState({
-                    loading: false,
-                    pageCount: res.total_pages
+        const { match } = this.props
+        let pageType = match.params.page
+        // if (match.params.page === 'movies') page = 'movie'
+
+        if (pageType === 'tv' || pageType === 'movies') {
+            this.props.getMoviesTv(pageType, currentPage)
+                .then(res => {
+                    console.log(this.props.catalog)
+                    this.setState({
+                        loading: false,
+                        pageCount: res.total_pages
+                    })
                 })
-            })
+                .catch(err => console.log('Error: ', err))
+        } else if (pageType === 'games') {
+            this.props.getGames(currentPage)
+                .then(res => {
+                    console.log(res)
+                    this.setState({
+                        loading: false,
+                        pageCount: Math.ceil(res.count/18)
+                    })
+                })
+                .catch(err => console.log('Error: ', err))
+        }
+
     }
 
     componentDidUpdate(prevProps) {
-        const { location } = this.props
+        const { location, match } = this.props
+        const { params } = match
 
         const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
 
-        if (location.search !== prevProps.location.search) {
-            this.getMovies(currentPage)
+        if (params.collection !== prevProps.match.params.collection ||
+            params.page !== prevProps.match.params.page ||
+            location.search !== prevProps.location.search) {
+            this.getItems(currentPage)
+
         }
     }
 
     componentDidMount() {
-        const { location } = this.props
+        const { location, match } = this.props
         const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
-        if (this.props.movies.list.length === 0) this.getMovies(currentPage)
+        if (this.props.catalog[match.params.page].length === 0) {
+            this.getItems(currentPage)
+        }
     }
 
     render() {
-        const { movies, location } = this.props
+        const { catalog, location, match } = this.props
         const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
         return (
             <div className="mb-5">
-                <PageHeader title="Movie catalog" breadcrumbs={['Home', 'Movie catalog']} />
+                <PageHeader title={`${match.params.page} catalog`} />
                 <div className="container-fluid">
                     <div className="content-box">
 
                         {/* <Filter filter={this.filter.bind(this)} /> */}
-                        {this.state.loading ?
-                            <Loader /> :
-                            <React.Fragment>
-                                <div className="mt-3 movies_wrap">
-                                    {movies.filtered && movies.filtered.length !== 0 ? movies.filtered.map(movie => {
-                                        return <Movie type="movies" {...movie} img={`http://image.tmdb.org/t/p/w300${movie.poster_path}`} key={movie.id} id={movie._id || movie.id} onClick={this.clickHandler.bind(this)} />
-                                    }) : movies.list.length === 0 ?
-                                            <div>
-                                                <p>List is empty.</p>
-                                                <Link to="/create">Add movie</Link>
-                                            </div> :
-                                            <p>No result</p>
-                                    }
-                                </div>
-                                {this.state.pageCount > 1 ?
-                                    < Pagination pageCount={this.state.pageCount} currentPage={currentPage} changePage={this.changePage.bind(this)} />
-                                    : null
-                                }
-                            </React.Fragment>
+                        <ItemsList loading={this.state.loading} items={catalog[match.params.page]} type={match.params.page} />
+                        {this.state.pageCount > 1 ?
+                            < Pagination loading={this.state.loading} pageCount={this.state.pageCount} currentPage={currentPage} changePage={this.changePage.bind(this)} />
+                            : null
                         }
                     </div>
                 </div>
@@ -98,12 +101,13 @@ class Catalog extends Component {
 }
 
 const mapStateToProps = state => ({
-    movies: state.app,
+    catalog: state.app,
     user: state.user
 })
 
 export default connect(mapStateToProps, {
-    getMovies,
+    getMoviesTv,
+    getGames,
     userGet,
     filterMovies
 })(Catalog)

@@ -33,12 +33,13 @@ export default class BrickButtons extends React.Component {
                     value: 'games',
                     link: 'games',
                     img: bg3
-                }, {
-                    title: 'Books',
-                    value: 'books',
-                    link: 'books',
-                    img: bg4
-                }
+                }, 
+                // {
+                //     title: 'Books',
+                //     value: 'books',
+                //     link: 'books',
+                //     img: bg4
+                // }
             ],
             tabItems: ['movies', 'tv', 'games', 'books']
         }

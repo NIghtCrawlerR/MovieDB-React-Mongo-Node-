@@ -1,0 +1,36 @@
+.items-slider .slick-slide {
+    margin: 0 10px;
+    max-width: 247px;
+}
+
+.items-slider .slick-list {
+    margin: 0 -15px;
+}
+
+.items-slider .slick-list {
+    max-height: 470px;
+}
+
+.items-slider__arrow {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 100%;
+    padding: 0;
+    transform: translate(0, -50%);
+    cursor: pointer;
+    color: #333;
+    border: none;
+    outline: none;
+}
+
+.items-slider__arrow.prev {
+    left: -40px;
+}
+
+.items-slider__arrow.next {
+    right: -40px;
+}

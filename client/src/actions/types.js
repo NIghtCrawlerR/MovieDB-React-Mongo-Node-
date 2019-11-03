@@ -1,8 +1,5 @@
-export const GET_MOVIES = 'GET_MOVIES'
-export const GET_MOVIE_BY_ID = 'GET_MOVIE_BY_ID'
-export const EDIT_MOVIE = 'EDIT_MOVIE'
-export const ADD_MOVIE = 'ADD_MOVIE'
-export const DELETE_MOVIE = 'DELETE_MOVIE'
+export const GET_MOVIES_TV = 'GET_MOVIES_TV'
+export const GET_GAMES = 'GET_GAMES'
 
 export const USER_SIGN_IN = 'USER_SIGN_IN'
 export const USER_LOG_IN = 'USER_LOG_IN'

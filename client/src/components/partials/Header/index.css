@@ -1,6 +1,6 @@
 .header.navbar {
     /* padding: 10px 30px; */
-    padding: 0;
+    padding: 0 0 0 60px;
     height: 60px;
     position: fixed;
     z-index: 100;

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Loader from '../../common/Loader'
 import Pagination from '../../common/Pagination'
-
 import ItemsList from '../../ItemsList'
 
 import { connect } from 'react-redux'
@@ -94,15 +92,11 @@ class List extends Component {
         return (
             <div className="top-list mt-4">
                 <React.Fragment>
-                    {this.state.loading ? <Loader /> : null}
-
-                    <ItemsList items={collections[page][collection]} type={page} />
-
+                    <ItemsList loading={this.state.loading} items={collections[page][collection]} type={page} />
                     {this.state.pageCount > 1 ?
                         < Pagination pageCount={this.state.pageCount} currentPage={currentPage} changePage={this.changePage.bind(this)} />
                         : null
                     }
-
                 </React.Fragment>
             </div>
         )
