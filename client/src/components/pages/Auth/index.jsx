@@ -57,6 +57,7 @@ class AuthForm extends Component {
                 })
                 .catch(err => {
                     console.log(err)
+                    this.setState({ errorMessage: err })
                 })
         } else {
             axios.post('http://localhost:4000/api/users/register', { email: this.state.email, password: this.state.password })

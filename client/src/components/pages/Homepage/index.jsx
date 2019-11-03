@@ -35,6 +35,9 @@ export default class Homepage extends Component {
                             <li>прелоадеры</li>
                             <li>баг с ривердейлом</li>
                             <li>задержка при подгрузке картинок, особенно в играх</li>
+                            <li>remove user permissons</li>
+                            <li>errors handling</li>
+                            <li>error when can not verify user or get current</li>
                         </ul>
                     </div>
 

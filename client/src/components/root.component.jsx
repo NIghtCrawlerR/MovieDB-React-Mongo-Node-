@@ -68,7 +68,7 @@ class RootComponent extends React.Component {
                 this.showMsg(res.data.status, res.data.text)
             })
             .catch(err => {
-                console.log(err)
+                this.showMsg('error', 'Error: Something went wrong. Try to login again')
             })
 
     }
@@ -89,7 +89,12 @@ class RootComponent extends React.Component {
             .then(() => {
                 this.props.userGet(store.getState().user.userId) //get user data
                     .then(() => {
+                        console.log('get user')
                         this.setState({ loading: false })
+                    })
+                    .catch(err => {
+                        console.log('get user error')
+                        this.showMsg('error', `Error: ${err}`)
                     })
             })
             .catch(err => {

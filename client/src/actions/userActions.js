@@ -45,7 +45,7 @@ export const login = user => dispatch => {
                 }
                 resolve(res)
             })
-            .catch((err) => console.log(err))
+            .catch(err => reject(err))
     })
 }
 
@@ -72,7 +72,7 @@ export const logout = token => dispatch => {
                     resolve(res)
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => reject(err))
     })
 
 }
@@ -90,9 +90,7 @@ export const verifyUser = token => dispatch => {
                 }
                 resolve(res)
             })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(err => reject(err))
     })
 
 }
@@ -114,6 +112,6 @@ export const userGet = userId => dispatch => { //get current user data
                 })
                 resolve(res)
             })
-            .catch(err => console.log(err))
+            .catch(err => reject(err))
     })
 }
