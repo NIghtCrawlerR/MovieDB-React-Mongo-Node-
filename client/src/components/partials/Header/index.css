@@ -56,3 +56,9 @@
 .navbar__user-icon i {
     font-size: 26px;
 }
+
+@media screen and (max-width: 768px) {
+    .header.navbar {
+      padding: 0;
+    }
+  }

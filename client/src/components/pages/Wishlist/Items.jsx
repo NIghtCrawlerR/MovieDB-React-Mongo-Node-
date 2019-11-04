@@ -15,7 +15,10 @@ class List extends Component {
     getList(collection) {
         // if(collections.wishlist[match.params.collection].length === 0)
         this.setState({ loading: true })
-        this.props.getWishlist(collection, this.props.user[collection])
+     
+        const ids = this.props.user[collection].map(item => item.id)
+      
+        this.props.getWishlist(collection, ids)
             .then(res => {
                 this.setState({ loading: false })
             })
@@ -35,7 +38,7 @@ class List extends Component {
         const { match, collections } = this.props
         return (
             <React.Fragment>
-               <ItemsList loading={this.state.loading} items={collections.wishlist[match.params.collection]} type={match.params.collection} />
+               <ItemsList wishlist loading={this.state.loading} items={collections.wishlist[match.params.collection]} type={match.params.collection} />
             </React.Fragment>
         )
     }

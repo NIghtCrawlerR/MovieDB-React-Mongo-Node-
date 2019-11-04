@@ -1,5 +1,7 @@
 .search-field {
     position: relative;
+    min-width: 60%;
+    flex: 1;
 }
 
 .search-field .dropdown {
@@ -34,6 +36,8 @@
 }
 .search-field .dropdown-menu {
     padding: 0;
+    width: 100%;
+    max-width: 800px;
 }
 
 .search-field input,
@@ -58,7 +62,8 @@
 .search-results__wrap {
     /* position: absolute; */
     /* top: 60px; */
-    min-width: 700px;
+    /* min-width: 700px; */
+    max-width: 800px;
     background: #fff;
     padding: 20px;
     box-shadow: 0 0 5px 5px rgba(187, 187, 187, 0.28);

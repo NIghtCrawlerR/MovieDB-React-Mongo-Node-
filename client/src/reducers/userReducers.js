@@ -23,11 +23,22 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case UPDATE_WISHLIST:
             let list = [...state[action.collection]] || []
-            if(list.includes(action.item.id)) {
-                list.splice( list.indexOf(action.item.id), 1 )
+            const ids = list.map(item => item.id)
+            console.log(action, list)
+            if(action.do === 'add' || action.do === 'delete') {
+                if(ids.includes(action.item.id)) {
+                    list.splice( list.findIndex(item => item.id === action.item.id), 1 )
+                } else {
+                    list.push({id: action.item.id, liked: false, watched: false})
+                }
             } else {
-                list.push(action.item.id)
+                list.map(item => {
+                    if(item.id === action.id) item[action.do] = !item[action.do]
+                    return item
+                })
+                
             }
+            console.log(list)
             return{ 
                 ...state,
                 [action.collection]: list

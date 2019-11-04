@@ -76,36 +76,51 @@ export default class ItemsRecommended extends Component {
 
     render() {
         const settings = {
-            dots: true,
+            dots: false,
             arrows: true,
             infinite: true,
+            centerPadding: '100px',
             slidesToShow: 6,
-            slidesToScroll: 6,
+            slidesToScroll: 2,
             nextArrow: <SampleNextArrow />,
             prevArrow: <SamplePrevArrow />,
             responsive: [
                 {
-                    breakpoint: 1024,
+                    breakpoint: 1500,
+                    settings: {
+                        slidesToShow: 5,
+                        slidesToScroll: 5,
+                    }
+                },
+                {
+                    breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 4,
+                    }
+                },
+                {
+                    breakpoint: 1050,
                     settings: {
                         slidesToShow: 3,
                         slidesToScroll: 3,
                     }
                 },
                 {
-                    breakpoint: 600,
+                    breakpoint: 860,
                     settings: {
                         slidesToShow: 2,
                         slidesToScroll: 2,
-                        dots: false
                     }
                 },
                 {
-                    breakpoint: 480,
+                    breakpoint: 500,
                     settings: {
                         slidesToShow: 1,
-                        slidesToScroll: 1
+                        slidesToScroll: 1,
+                        arrows: false
                     }
-                }
+                },
             ]
         };
         return (

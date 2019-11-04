@@ -69,7 +69,9 @@ class ItemFull extends Component {
             return !1
         }
 
-        this.props.deleteItemFromWishlist(page, id, user.userId)
+        if (window.confirm("Delete item from wishlist?")) {
+            this.props.deleteItemFromWishlist(page, id, user.userId)
+        }
     }
 
     toggleDescription() {
@@ -123,7 +125,7 @@ class ItemFull extends Component {
             released, release_date, developers, publishers,
             stores, production_companies, production_countries,
             homepage, number_of_seasons, number_of_episodes,
-            runtime, playtime } = this.state.itemData
+            runtime, playtime, first_air_date } = this.state.itemData
 
         const imageBaseUrl = (size) => {
             return page === 'movies' || page === 'tv' ? `http://image.tmdb.org/t/p/${size}` : ''
@@ -144,7 +146,7 @@ class ItemFull extends Component {
                 {this.state.itemData.id ?
                     <div className="content-wrap container-fluid my-5">
                         <Row>
-                            <Col xs={12} sm={12} md={5} lg={3}>
+                            <Col xs={12} sm={12} md={5} lg={3} className="mb-5">
                                 {background_image ?
                                     <img src={background_image} alt="" /> :
                                     <img src={imageBaseUrl('w780') + poster_path} alt="" />
@@ -152,8 +154,8 @@ class ItemFull extends Component {
                             </Col>
                             <Col xs={12} sm={12} md={7} lg={9} className="item_full__info">
                                 <div className="info-top mb-2">
-                                    {released || release_date ?
-                                        <span>{new Date(released || release_date).getFullYear()}</span>
+                                    {released || release_date || first_air_date ?
+                                        <span>{new Date(released || release_date || first_air_date).getFullYear()}</span>
                                         : null}
                                     {runtime ? <span>{`${runtime} min`}</span> : ''}
                                     {playtime ? <span>{`${playtime} hours`}</span> : ''}
@@ -173,32 +175,45 @@ class ItemFull extends Component {
                                 {/* {clip ?
                                     <video playsInline controls poster={clip.preview} src={clip.clip}></video>
                                     : null} */}
+                                <Row>
+                                    <Col xs={12} sm={12} md={6} lg={4}>
+                                        {genres ?
+                                            <InfoBlock title="Genres:" data={genres.map(genre => genre.name).join(', ')} />
+                                            : null}
+                                        {released || release_date ?
+                                            <InfoBlock title="Release date:" data={new Date(released || release_date).toLocaleDateString()} />
+                                            : null}
+                                        {first_air_date ?
+                                            <InfoBlock title="First air date:" data={new Date(first_air_date).toLocaleDateString()} />
+                                            : null}
 
-                                {genres ?
-                                    <InfoBlock title="Genres:" data={genres.map(genre => genre.name).join(', ')} />
-                                    : null}
-                                {developers ?
-                                    <InfoBlock title="Developer:" data={developers.map(developer => developer.name).join(', ')} />
-                                    : null}
-                                {publishers ?
-                                    <InfoBlock title="Publisher:" data={publishers.map(publisher => publisher.name).join(', ')} />
-                                    : null}
-                                {production_companies ?
-                                    <InfoBlock title="Production companies:" data={production_companies.map(company => company.name).join(', ')} />
-                                    : null}
-                                {production_countries ?
-                                    <InfoBlock title="Countries:" data={production_countries.map(country => country.name).join(', ')} />
-                                    : null}
-                                {released || release_date ?
-                                    <InfoBlock title="Release date:" data={new Date(released || release_date).toLocaleDateString()} />
-                                    : null}
+                                        {rating ? <InfoBlock title="Rating:" data={`${rating}/5`} /> : null}
+                                        {vote_average ? <InfoBlock title="Rating:" data={vote_average} /> : null}
+                                    </Col>
+                                    <Col xs={12} sm={12} md={6} lg={4}>
+                                        {developers ?
+                                            <InfoBlock title="Developer:" data={developers.map(developer => developer.name).join(', ')} />
+                                            : null}
+                                        {publishers ?
+                                            <InfoBlock title="Publisher:" data={publishers.map(publisher => publisher.name).join(', ')} />
+                                            : null}
+                                        {production_companies && production_companies.length > 0 ?
+                                            <InfoBlock title="Production companies:" data={production_companies.map(company => company.name).join(', ')} />
+                                            : null}
+                                        {production_countries ?
+                                            <InfoBlock title="Countries:" data={production_countries.map(country => country.name).join(', ')} />
+                                            : null}
+                                        {platforms ?
+                                            <InfoBlock title="Platforms:" data={platforms.map(platform => platform.platform.name).join(', ')} />
+                                            : null}
+                                    </Col>
+                                </Row>
 
-                                {platforms ?
-                                    <InfoBlock title="Platforms:" data={platforms.map(platform => platform.platform.name).join(', ')} />
-                                    : null}
 
-                                {rating ? <InfoBlock title="Rating:" data={`${rating}/5`} /> : null}
-                                {vote_average ? <InfoBlock title="Rating:" data={vote_average} /> : null}
+
+
+
+
 
                                 {homepage || website ?
                                     <InfoBlock title="Website:" data={<a href={homepage || website} target="blank">{homepage || website}</a>} />

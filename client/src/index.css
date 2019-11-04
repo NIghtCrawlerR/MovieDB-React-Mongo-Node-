@@ -26,7 +26,8 @@ body {
 #root, .main-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  /* height: 100%; */
+  min-height: 94vh;
 }
 
 .main-content {
@@ -137,4 +138,11 @@ input[type=checkbox]:checked + label:after {
 
 input[data-error=true] {
   border-color: #ec174f;
+}
+
+@media screen and (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    margin-bottom: 50px;
+  }
 }

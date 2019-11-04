@@ -96,7 +96,8 @@ export const addItemToWishlist = (collection, item, userId) => dispatch => {
                 dispatch({
                     type: UPDATE_WISHLIST,
                     collection: collection,
-                    item: item
+                    item: item,
+                    do: 'add'
                 })
                 resolve({ success: true })
             })
@@ -115,7 +116,8 @@ export const deleteItemFromWishlist = (collection, itemId, userId) => dispatch =
                 dispatch({
                     type: UPDATE_WISHLIST,
                     collection: collection,
-                    item: item
+                    item: item,
+                    do: 'delete'
                 })
                 dispatch({
                     type: DELETE_FROM_WISHLIST,
@@ -126,6 +128,19 @@ export const deleteItemFromWishlist = (collection, itemId, userId) => dispatch =
             })
             .catch(err => console.log(err))
     })
+}
+
+export const updateWishlist = (collection, action, itemId, userId, value) => dispatch => {
+    axios.post(host + '/api/wishlist/update', {collection: collection, action: action, itemId: itemId, userId: userId, value: value})
+        .then(() => {
+            dispatch({
+                type: UPDATE_WISHLIST,
+                collection: collection,
+                do: action,
+                id: itemId
+            })
+        })
+        .catch(err => console.log('Error: ' + err))
 }
 
 export const getWishlist = (itemType, items) => dispatch => { //get wishlist items by id arr

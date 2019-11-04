@@ -12,9 +12,7 @@ export default class Header extends React.Component {
         return (
             <nav className="header navbar bg-red">
                 <div className="container-fluid">
-                    <div>
-                        <SearchField />
-                    </div>
+                    <SearchField />
                     <div>
                         {!this.props.user.isLogin ? (
                             <div className="sign-in-buttons">

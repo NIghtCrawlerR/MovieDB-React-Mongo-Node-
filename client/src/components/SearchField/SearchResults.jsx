@@ -13,11 +13,11 @@ export default class SearchResults extends Component {
             Object.keys(this.props.data).length > 0 ?
                 <div className="search-results__wrap">
                     <div className="search-results">
-                        <Tabs defaultActiveKey="movies">
+                        <Tabs defaultActiveKey={Object.keys(this.props.data)[0]}>
                             {Object.keys(this.props.data).map((key, i) => {
                                 return (
                                     <Tab eventKey={key} key={i} title={key}>
-                                        <h3>{key}</h3>
+                                        <h3 className="text-uppercase my-3">{key}</h3>
                                         <ul className="list-unstyled">
                                             {
                                                 this.props.data[key].map(item => {
