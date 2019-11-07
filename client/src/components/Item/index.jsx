@@ -79,7 +79,7 @@ class Item extends Component {
     }
 
     render() {
-        const { type, title, name, img, slug, id, userCollection, user, genre_ids } = this.props
+        const { type, title, name, img, slug, id, user, genre_ids } = this.props
         let i = img || 'https://uoslab.com/images/tovary/no_image.jpg'
         let itemGenres = []
         if (genre_ids && this.props.moviesGenres) {

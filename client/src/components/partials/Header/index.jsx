@@ -1,7 +1,18 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import SearchField from '../../SearchField'
+import Dropdown from 'react-bootstrap/Dropdown'
 import './index.css'
+
+const UserIcon = React.forwardRef(({ children, onClick }, ref) => (
+    <span ref={ref}
+        onClick={e => {
+            e.preventDefault();
+            onClick(e);
+        }} className="action text-white navbar__user-icon">
+        <i className="fas fa-user-circle"></i>
+    </span>
+));
 
 export default class Header extends React.Component {
     logout(e) {
@@ -22,7 +33,23 @@ export default class Header extends React.Component {
                             </div>
                         ) : (
                                 <div className="d-flex align-items-center">
-                                    <span className="dropdown user-menu">
+                                    <Dropdown alignRight>
+                                        <Dropdown.Toggle as={UserIcon}></Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Header>
+                                                {this.props.user.data ?
+                                                    <b>{this.props.user.data.email}</b>
+                                                    : null}
+                                            </Dropdown.Header>
+                                            <Dropdown.Item to="/wishlist" className="text-info" eventKey="1">
+                                                My wishlist
+                                            </Dropdown.Item>
+                                            <Dropdown.Item className="text-info" onClick={this.logout.bind(this)} eventKey="2">
+                                                Logout
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                    {/* <span className="dropdown user-menu">
                                         <span className="action text-white navbar__user-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i className="fas fa-user-circle"></i>
                                         </span>
@@ -46,7 +73,7 @@ export default class Header extends React.Component {
                                             <Link to="/wishlist" className="dropdown-item text-info">My wishlist</Link>
                                             <Link to="/logout" className="dropdown-item text-info" onClick={this.logout.bind(this)}>Logout</Link>
                                         </div>
-                                    </span>
+                                    </span> */}
                                 </div>
 
                             )}

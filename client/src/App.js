@@ -14,7 +14,6 @@ export default class App extends React.Component {
       <Provider store={store}>
         <Router history={history}>
           <Route path="/" render={(props) => (<RootComponent {...props} />)} />
-          
         </Router>
       </Provider>
     );

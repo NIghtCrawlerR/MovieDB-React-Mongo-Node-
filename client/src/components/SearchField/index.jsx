@@ -11,17 +11,17 @@ const gameApiRoot = process.env.REACT_APP_GAME_API
 const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
 const lang = 'ru'
 
-const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-    <span
-        ref={ref}
-        onClick={e => {
-            e.preventDefault();
-            onClick(e);
-        }}
-    >
-        {children}
-    </span>
-));
+// const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+//     <span
+//         ref={ref}
+//         onClick={e => {
+//             e.preventDefault();
+//             onClick(e);
+//         }}
+//     >
+//         {children}
+//     </span>
+// ));
 
 export default class SearchField extends Component {
     constructor() {

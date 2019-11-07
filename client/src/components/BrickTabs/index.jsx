@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import bg1 from '../../assets/tab-1.png'
 import bg2 from '../../assets/tab-2.jpg'
 import bg3 from '../../assets/tab-3.jpg'
-import bg4 from '../../assets/tab-4.jpg'
+// import bg4 from '../../assets/tab-4.jpg'
 
 import './index.css'
 
