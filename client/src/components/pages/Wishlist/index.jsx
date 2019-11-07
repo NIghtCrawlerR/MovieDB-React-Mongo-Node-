@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 import { Redirect } from 'react-router'
-// import Filter from './MovieFilter'
 import PageHeader from '../../common/PageHeader'
 import Tabs from '../../common/Tabs'
 import Items from './Items'
 import { getFromStorage } from '../../../utils/storage'
 import { connect } from 'react-redux'
-import {
-    filterMovies
-} from '../../../actions/userActions'
+
 import { getWishlist } from '../../../actions/itemsCollectionsActions'
 
 class Wishlist extends Component {
@@ -33,9 +30,9 @@ class Wishlist extends Component {
         }
     }
 
-    filter(filter) {
-        this.props.filterMovies(this.props.user.movies, filter)
-    }
+    // filter(filter) {
+    //     this.props.filterMovies(this.props.user.movies, filter)
+    // }
 
     componentDidMount() {
         const token = getFromStorage('token')
@@ -68,6 +65,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-    filterMovies,
     getWishlist
 })(Wishlist)

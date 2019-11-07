@@ -40,8 +40,7 @@ export default class BrickButtons extends React.Component {
                 //     link: 'books',
                 //     img: bg4
                 // }
-            ],
-            tabItems: ['movies', 'tv', 'games', 'books']
+            ]
         }
     }
 

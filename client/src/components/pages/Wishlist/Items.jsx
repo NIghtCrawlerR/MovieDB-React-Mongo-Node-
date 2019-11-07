@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ItemsList from '../../ItemsList'
+import Filter from '../../Filter'
 import { connect } from 'react-redux'
 import { getWishlist } from '../../../actions/itemsCollectionsActions'
 
@@ -10,6 +11,10 @@ class List extends Component {
         this.state = {
             loading: true
         }
+    }
+
+    filter(filters) {
+        console.log(filters)
     }
 
     getList(collection) {
@@ -38,6 +43,7 @@ class List extends Component {
         const { match, collections } = this.props
         return (
             <React.Fragment>
+                <Filter filter={this.filter.bind(this)} />
                <ItemsList wishlist loading={this.state.loading} items={collections.wishlist[match.params.collection]} type={match.params.collection} />
             </React.Fragment>
         )

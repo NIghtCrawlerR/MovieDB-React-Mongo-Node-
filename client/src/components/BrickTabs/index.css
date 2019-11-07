@@ -7,21 +7,24 @@
     font-size: 24px;
     font-weight: 500;
     letter-spacing: 1.5px;
+    margin: 0;
 }
 
 .tabs .card {
     position: relative;
     border: 0;
     overflow: hidden;
-    background: #15363d; /* Old browsers */
-    /* background: -webkit-linear-gradient(-45deg, #15363d 0%,#183e46 12%,#1a444c 25%,#14343a 39%,#0f262b 50%,#0d2227 51%,#09181b 60%,#0e252a 76%,#0b1d21 91%,#0a191c 100%); 
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#15363d', endColorstr='#0a191c',GradientType=1 ); */
+    background: #15363d;
 }
 
 .tabs .card-body {
     position: relative;
     border: 0;
-    padding: 40px 30px;
+    padding: 0 30px;
+    min-height: 110px;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
 }
 
 .card {

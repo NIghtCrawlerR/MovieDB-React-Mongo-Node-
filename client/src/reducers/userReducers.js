@@ -16,7 +16,7 @@ const initialState = {
     tv: [],
     games: [],
     books: [],
-    filteredMovies: []
+    filtered: []
 }
 
 export default function (state = initialState, action) {
@@ -24,7 +24,7 @@ export default function (state = initialState, action) {
         case UPDATE_WISHLIST:
             let list = [...state[action.collection]] || []
             const ids = list.map(item => item.id)
-            console.log(action, list)
+          
             if(action.do === 'add' || action.do === 'delete') {
                 if(ids.includes(action.item.id)) {
                     list.splice( list.findIndex(item => item.id === action.item.id), 1 )
@@ -38,7 +38,7 @@ export default function (state = initialState, action) {
                 })
                 
             }
-            console.log(list)
+           
             return{ 
                 ...state,
                 [action.collection]: list
@@ -51,7 +51,7 @@ export default function (state = initialState, action) {
                 games: action.games,
                 tv: action.tv,
                 books: action.books,
-                filteredMovies: action.movies
+                filtered: action.movies
             }
         case USER_SIGN_IN:
             return {
@@ -71,7 +71,7 @@ export default function (state = initialState, action) {
                 token: '',
                 isLogin: false,
                 movies: [],
-                filteredMovies: []
+                filtered: []
             }
         case USER_VERIFY:
             return {
@@ -84,7 +84,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 movies: action.movies,
-                filteredMovies: action.filteredMovies
+                filtered: action.filtered
             }
         default:
             return state
