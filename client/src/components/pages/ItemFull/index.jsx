@@ -13,6 +13,7 @@ import {
     TelegramIcon,
     TelegramShareButton,
 } from 'react-share'
+import MetaTags from 'react-meta-tags';
 import { connect } from 'react-redux'
 
 import {
@@ -151,6 +152,12 @@ class ItemFull extends Component {
         }
         return (
             <div className="item_full overlay" style={backgroundStyle}>
+                <MetaTags>
+                    {/* <title>Page 1</title> */}
+                    {/* <meta name="description" content="Some description." /> */}
+                    <meta property="og:title" content={name || title} />
+                    <meta property="og:image" content={background_image || imageBaseUrl('w780') + poster_path} />
+                </MetaTags>
                 {this.state.loading ? <Loader overlay /> : null}
                 {/* <PageHeader title={name || title} image={backdrop} /> */}
                 {this.state.itemData.id ?
@@ -184,7 +191,7 @@ class ItemFull extends Component {
                                 }
 
                                 <div className="share-buttons mb-4">
-                                    <FacebookShareButton url={this.state.shareLink} image={background_image}>
+                                    <FacebookShareButton url={this.state.shareLink}>
                                         <FacebookIcon size={40} round={true} />
                                     </FacebookShareButton>
 
