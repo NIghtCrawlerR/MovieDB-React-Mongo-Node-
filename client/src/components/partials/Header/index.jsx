@@ -33,20 +33,17 @@ export default class Header extends React.Component {
                             </div>
                         ) : (
                                 <div className="d-flex align-items-center">
-                                    <Dropdown alignRight>
+                                    <Dropdown alignRight className="user-menu">
                                         <Dropdown.Toggle as={UserIcon}></Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Header>
+                                            <Dropdown.Header className="text-right">
                                                 {this.props.user.data ?
                                                     <b>{this.props.user.data.email}</b>
                                                     : null}
                                             </Dropdown.Header>
-                                            <Dropdown.Item to="/wishlist" className="text-info" eventKey="1">
-                                                My wishlist
-                                            </Dropdown.Item>
-                                            <Dropdown.Item className="text-info" onClick={this.logout.bind(this)} eventKey="2">
-                                                Logout
-                                            </Dropdown.Item>
+                                            <Dropdown.Divider></Dropdown.Divider>
+                                            <Link to="/wishlist" className="dropdown-item text-info">My wishlist</Link>
+                                            <Link to="/logout" className="dropdown-item text-info" onClick={this.logout.bind(this)}>Logout</Link>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                     {/* <span className="dropdown user-menu">

@@ -7,7 +7,12 @@ import axios from 'axios'
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    TelegramIcon,
+    TelegramShareButton,
+} from 'react-share'
 import { connect } from 'react-redux'
 
 import {
@@ -53,7 +58,8 @@ class ItemFull extends Component {
             vote_average: vote_average || null,
             rating: rating || null,
             slug: slug || null,
-            itemType: page
+            itemType: page,
+            shareLink: ''
         }
 
         this.props.addItemToWishlist(page, newItem, user.userId)
@@ -106,6 +112,10 @@ class ItemFull extends Component {
     componentDidMount() {
         let { page, id } = this.props.match.params
         this.getItem(page, id, baseUrl, apiKey, lang)
+
+        this.setState({
+            shareLink: `https://mern-movie-db.herokuapp.com${this.props.location.pathname}`
+        })
     }
 
     componentDidUpdate(prevProps) {
@@ -172,6 +182,19 @@ class ItemFull extends Component {
                                             <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist.bind(this)}>In wishlist</Button> :
                                             <Button className="my-4" variant="outline-success" onClick={this.addToWishlist.bind(this)}>Add to wishlist</Button> : null
                                 }
+
+                                <div className="share-buttons mb-4">
+                                    <FacebookShareButton url={this.state.shareLink} image={background_image}>
+                                        <FacebookIcon size={40} round={true} />
+                                    </FacebookShareButton>
+
+                                    <TelegramShareButton url={this.state.shareLink}>
+                                        <TelegramIcon size={40} round={true} />
+                                    </TelegramShareButton>
+                                </div>
+
+
+
                                 {/* {clip ?
                                     <video playsInline controls poster={clip.preview} src={clip.clip}></video>
                                     : null} */}

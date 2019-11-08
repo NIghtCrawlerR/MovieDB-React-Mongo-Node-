@@ -26,8 +26,8 @@ class Item extends Component {
     }
 
     itemAction(action) {
-        const {type, user} = this.props
-        const {wishlistItem} = this.state
+        const { type, user } = this.props
+        const { wishlistItem } = this.state
         this.props.updateWishlist(type, action, wishlistItem.id, user.userId, !wishlistItem[action])
         // console.log(action, wishlistItem.id)
     }
