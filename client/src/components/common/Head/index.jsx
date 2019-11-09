@@ -6,7 +6,7 @@ export default class Head extends React.Component {
         return (
             <Helmet>
                 {/* <!-- Primary Meta Tags --> */}
-                <title>{this.props.ogTitle}</title>
+                <title>{this.props.title}</title>
                 <meta name="title" content={this.props.ogTitle} />
                 {/* <meta name="description" content="This website is so awesome that I really don't think you can handle how much awesome that is happening here." /> */}
                 {/* <!-- Open Graph / Facebook --> */}

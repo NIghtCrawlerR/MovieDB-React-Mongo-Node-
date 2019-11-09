@@ -5,6 +5,7 @@ import Pagination from '../../common/Pagination'
 import { connect } from 'react-redux'
 import { getMoviesTv, getGames, filterMovies } from '../../../actions/catalogActions'
 import { userGet } from '../../../actions/userActions'
+import Head from '../../common/Head'
 
 class Catalog extends Component {
     constructor(props) {
@@ -83,6 +84,7 @@ class Catalog extends Component {
         const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
         return (
             <div className="mb-5">
+                <Head title={`Fiction finder - catalog - ${match.params.page}`} />
                 <PageHeader title={`${match.params.page} catalog`} />
                 <div className="container-fluid">
                     <div className="content-box">

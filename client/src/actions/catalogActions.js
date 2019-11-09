@@ -33,7 +33,7 @@ export const getMoviesTv = (type, page) => dispatch => {
         let pageType = type 
         if(pageType === 'movies') pageType = 'movie'
         console.log('type', type)
-        axios.get(`${movieApiRoot}/discover/${pageType}?api_key=${apiKey}&language=${lang}&sort_by=popularity.desc&include_adult=true&include_video=false&page=${page}`)
+        axios.get(`${movieApiRoot}/discover/${pageType}?api_key=${apiKey}&language=${lang}&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`)
             .then(res => {
                 dispatch({
                     type: GET_MOVIES_TV,

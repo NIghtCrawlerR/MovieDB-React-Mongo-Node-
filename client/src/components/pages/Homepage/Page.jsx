@@ -3,6 +3,7 @@ import { Redirect } from 'react-router'
 import { Route } from 'react-router-dom'
 import Tabs from '../../common/Tabs'
 import Items from './Items'
+import Head from '../../common/Head'
 
 export default class Page extends Component {
     constructor() {
@@ -39,6 +40,7 @@ export default class Page extends Component {
         }
         return (
             <React.Fragment>
+                <Head title={`Fiction finder - ${params.page} collections`}/>
                 <Tabs path={`home/${params.page}`} tabs={this.state.tabs[params.page]} />
                 <Route path={`/home/:page/:collection`} component={Items} />
             </React.Fragment>

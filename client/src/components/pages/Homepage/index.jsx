@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import { Redirect } from 'react-router'
 import BrickTabs from '../../BrickTabs'
 import Page from './Page'
+import Head from '../../common/Head'
 
 export default class Homepage extends Component {
     constructor(props) {
@@ -19,6 +20,7 @@ export default class Homepage extends Component {
         }
         return (
             <div className="mb-5">
+                <Head title='Fiction finder - Collections'/>
                 {/* <PageHeader title="Explore popular movies" /> */}
                 <div className="container-fluid">
                     <BrickTabs />

@@ -99,7 +99,7 @@ class ItemFull extends Component {
                 })
                 .catch(err => console.log('error: ', err))
         } else {
-            axios.get(`${baseUrl}/${page}/${id}?api_key=${apiKey}&language=${lang}`)
+            axios.get(`${baseUrl}/${page}/${id}?api_key=${apiKey}&language=${lang}&append_to_response=videos`)
                 .then(res => {
                     this.setState({
                         itemData: res.data,
@@ -136,7 +136,7 @@ class ItemFull extends Component {
             released, release_date, developers, publishers,
             stores, production_companies, production_countries,
             homepage, number_of_seasons, number_of_episodes,
-            runtime, playtime, first_air_date } = this.state.itemData
+            runtime, playtime, first_air_date, videos } = this.state.itemData
 
         const imageBaseUrl = (size) => {
             return page === 'movies' || page === 'tv' ? `http://image.tmdb.org/t/p/${size}` : ''
@@ -153,6 +153,7 @@ class ItemFull extends Component {
         return (
             <div className="item_full overlay" style={backgroundStyle}>
                 <Head
+                    title={name || title}
                     ogTitle={name || title}
                     ogImage={background_image || imageBaseUrl('w780') + poster_path}
                     ogUrl={this.state.shareLink}
@@ -238,12 +239,6 @@ class ItemFull extends Component {
                                     </Col>
                                 </Row>
 
-
-
-
-
-
-
                                 {homepage || website ?
                                     <InfoBlock title="Website:" data={<a href={homepage || website} target="blank">{homepage || website}</a>} />
                                     : null}
@@ -254,7 +249,9 @@ class ItemFull extends Component {
                                     } />
                                     : null}
 
-
+                                {videos && videos.results.length > 0 ?
+                                    <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${videos.results[0].key}`}></iframe>
+                                    : null}
                                 {overview ?
                                     <React.Fragment>
                                         <h3 className="text-uppercase mt-5">Overview</h3>
