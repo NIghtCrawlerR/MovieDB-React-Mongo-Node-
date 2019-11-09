@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Loader from '../../common/Loader'
 import ItemsRecommended from '../../ItemsRecommended'
 import InfoBlock from './InfoBlock'
+import VideBlock from './VideoBlock'
 import Button from 'react-bootstrap/Button'
 import axios from 'axios'
 
@@ -32,11 +33,8 @@ class ItemFull extends Component {
         super()
         this.state = {
             itemData: {},
-            game_trailers_id: [],
             descriptionFull: true,
-            loading: false,
-            loadingVideo: false,
-            currentVideo: 0
+            loading: false
         }
     }
 
@@ -87,55 +85,6 @@ class ItemFull extends Component {
         this.setState({ descriptionFull: !this.state.descriptionFull })
     }
 
-    getGameTrailers(title) {
-        var proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-        this.setState({ loadingVideo: true })
-        axios({
-            url: proxyUrl + "https://api-v3.igdb.com/games",
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'user-key': 'acf4573044c691934aba5502699434db'
-            },
-            data: `fields name, videos; search "${title} ";`
-        })
-            .then(response => {
-                console.log('response', response.data);
-                if (response && response.data.length > 0 && response.data[0].videos) {
-                    return response.data //all video ids
-                } else throw new Error('No data found')
-            })
-            .then(data => { // get all videos by ids
-                console.log('next', data)
-                axios({
-                    url: proxyUrl + "https://api-v3.igdb.com/game_videos",
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'user-key': 'acf4573044c691934aba5502699434db'
-                    },
-                    data: `fields *; where id = (${data[0].videos});`
-                })
-                    .then(response => {
-                        console.log(response.data);
-                        this.setState(prevState => ({
-                            itemData: {
-                                ...prevState.itemData,
-                                game_trailers: response.data
-                            },
-                            loadingVideo: false
-                        }))
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    });
-            })
-            .catch(err => {
-                console.error(err);
-                this.setState({ loadingVideo: false })
-            });
-    }
-
     getItem(page, id, baseUrl, apiKey, lang) {
         this.setState({ loading: true })
         page = page === 'movies' ? 'movie' : page
@@ -148,9 +97,6 @@ class ItemFull extends Component {
                         loading: false
                     })
                     return res.data
-                })
-                .then(data => {
-                    this.getGameTrailers(data.name_original)
                 })
                 .catch(err => console.log('error: ', err))
         } else {
@@ -191,7 +137,7 @@ class ItemFull extends Component {
             released, release_date, developers, publishers,
             stores, production_companies, production_countries,
             homepage, number_of_seasons, number_of_episodes,
-            runtime, playtime, first_air_date, videos, game_trailers } = this.state.itemData
+            runtime, playtime, first_air_date, videos, name_original } = this.state.itemData
 
         const imageBaseUrl = (size) => {
             return page === 'movies' || page === 'tv' ? `http://image.tmdb.org/t/p/${size}` : ''
@@ -302,37 +248,10 @@ class ItemFull extends Component {
                                     : null}
 
                                 <div className="video" style={{ 'position': 'relative' }}>
-                                    {this.state.loadingVideo ? (
-                                        <React.Fragment>
-                                            'Loading video...'
-                                            <Loader />
-                                        </React.Fragment>
-                                    ) :
-                                        <React.Fragment>
-                                            {videos && videos.results.length > 0 ?
-                                                <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${videos.results[0].key}`}></iframe>
-                                                : null}
-                                            {game_trailers && game_trailers.length > 0 ?
-                                                <React.Fragment>
-                                                    <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${game_trailers[this.state.currentVideo].video_id}`}></iframe>
-                                                    {game_trailers.length > 1 ?
-                                                        game_trailers.map((trailer, i) => (
-                                                            <button 
-                                                            key={trailer.id} 
-                                                            className={`btn btn-sm mr-2 ${this.state.currentVideo === i ? 'btn-warning' : 'btn-info'}`} 
-                                                            onClick={() => this.setState({ currentVideo: i })}>{i}</button>
-                                                            // <iframe key={trailer.id} width="100%" height="400px" src={`https://www.youtube.com/embed/${trailer.video_id}`}></iframe>
-                                                        ))
-                                                        : null}
-                                                </React.Fragment>
-
-                                                // game_trailers.map(trailer => (
-                                                //     <iframe key={trailer.id} width="100%" height="400px" src={`https://www.youtube.com/embed/${trailer.video_id}`}></iframe>
-                                                // ))
-                                                : null
-                                            }
-                                        </React.Fragment>
-                                    }
+                                    <VideBlock gameTitle={name_original} />
+                                    {videos && videos.results.length > 0 ?
+                                        <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${videos.results[0].key}`}></iframe>
+                                        : null}
                                 </div>
 
                                 {overview ?
