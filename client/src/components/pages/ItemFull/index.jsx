@@ -40,7 +40,6 @@ class ItemFull extends Component {
     addToWishlist() {
         let { page } = this.props.match.params
         const { user } = this.props
-
         const { id, title, name, genre_ids, genres, poster_path, background_image, vote_average, rating, slug } = this.state.itemData
 
         if (!user.isLogin) {
@@ -150,6 +149,8 @@ class ItemFull extends Component {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat'
         }
+
+        const itemIds = this.props.user[page].map(item => item.id)
         return (
             <div className="item_full overlay" style={backgroundStyle}>
                 <Head
@@ -185,7 +186,7 @@ class ItemFull extends Component {
                                 {original_title || original_name ? <small>{original_title || original_name}</small> : null}
                                 {
                                     this.props.user ?
-                                        this.props.user[page].includes(this.state.itemData.id) ?
+                                        itemIds.includes(this.state.itemData.id) ?
                                             <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist.bind(this)}>In wishlist</Button> :
                                             <Button className="my-4" variant="outline-success" onClick={this.addToWishlist.bind(this)}>Add to wishlist</Button> : null
                                 }

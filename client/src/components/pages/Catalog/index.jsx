@@ -17,9 +17,9 @@ class Catalog extends Component {
         }
     }
 
-    filter(filter) {
-        this.props.filterMovies(this.props.movies.list, filter)
-    }
+    // filter(filter) {
+    //     this.props.filterMovies(this.props.movies.list, filter)
+    // }
 
     changePage(page) {
         this.props.history.push({

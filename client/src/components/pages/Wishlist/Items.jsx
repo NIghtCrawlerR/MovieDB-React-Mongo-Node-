@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ItemsList from '../../ItemsList'
-import Filter from '../../Filter'
+// import Filter from '../../Filter'
 import { connect } from 'react-redux'
 import { getWishlist } from '../../../actions/itemsCollectionsActions'
 import Head from '../../common/Head'
@@ -12,10 +12,6 @@ class List extends Component {
         this.state = {
             loading: true
         }
-    }
-
-    filter(filters) {
-        console.log(filters)
     }
 
     getList(collection) {
