@@ -100,12 +100,13 @@ class ItemFull extends Component {
             data: `fields name, videos; search "${title} ";`
         })
             .then(response => {
-                console.log(response.data);
-                if (response && response.data.length > 0) {
+                console.log('response', response.data);
+                if (response && response.data.length > 0 && response.data[0].videos) {
                     return response.data //all video ids
-                }
+                } else throw new Error('No data found')
             })
             .then(data => { // get all videos by ids
+                console.log('next', data)
                 axios({
                     url: proxyUrl + "https://api-v3.igdb.com/game_videos",
                     method: 'POST',
@@ -131,6 +132,7 @@ class ItemFull extends Component {
             })
             .catch(err => {
                 console.error(err);
+                this.setState({ loadingVideo: false })
             });
     }
 
@@ -148,7 +150,6 @@ class ItemFull extends Component {
                     return res.data
                 })
                 .then(data => {
-                    console.log('data', data)
                     this.getGameTrailers(data.name_original)
                 })
                 .catch(err => console.log('error: ', err))
