@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Input from '../../common/Input'
 import Loader from '../../common/Loader'
 import PageTitle from '../../common/PageTitle'
+import Head from '../../common/Head'
 import axios from 'axios'
 
 export default class BugReportForm extends Component {
@@ -53,6 +54,7 @@ export default class BugReportForm extends Component {
 
         return (
             <div className="form__wrap content movie-form__wrap">
+                <Head title="Fiction finder - Bug report" />
                 {this.state.loading ? <Loader /> : null}
                 <PageTitle title="Bug report" />
                 <br />

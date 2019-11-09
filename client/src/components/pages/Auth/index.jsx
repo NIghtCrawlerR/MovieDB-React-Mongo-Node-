@@ -8,6 +8,7 @@ import { login } from '../../../actions/userActions'
 import Loader from '../../common/Loader'
 import PageTitle from '../../common/PageTitle'
 import Input from '../../common/Input'
+import Head from '../../common/Head'
 
 class AuthForm extends Component {
     constructor(props) {
@@ -82,6 +83,7 @@ class AuthForm extends Component {
 
         return (
             <div className="form__wrap content">
+                <Head title={`Fiction finder - ${isReg ? 'Registration' : 'Login'}`} />
                 {this.state.loading ? <Loader overlay /> : null}
                 <PageTitle title={this.props.loginForm ? 'Login' : 'Register'} />
 

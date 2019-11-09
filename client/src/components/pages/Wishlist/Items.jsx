@@ -3,6 +3,7 @@ import ItemsList from '../../ItemsList'
 import Filter from '../../Filter'
 import { connect } from 'react-redux'
 import { getWishlist } from '../../../actions/itemsCollectionsActions'
+import Head from '../../common/Head'
 
 class List extends Component {
     constructor(props) {
@@ -43,7 +44,8 @@ class List extends Component {
         const { match, collections } = this.props
         return (
             <React.Fragment>
-                <Filter filter={this.filter.bind(this)} />
+                {/* <Filter filter={this.filter.bind(this)} /> */}
+                <Head title={`Fiction finder - wishlist - ${match.params.collection}`} />
                <ItemsList wishlist loading={this.state.loading} items={collections.wishlist[match.params.collection]} type={match.params.collection} />
             </React.Fragment>
         )
