@@ -32,8 +32,11 @@ class ItemFull extends Component {
         super()
         this.state = {
             itemData: {},
+            game_trailers_id: [],
             descriptionFull: true,
-            loading: false
+            loading: false,
+            loadingVideo: false,
+            currentVideo: 0
         }
     }
 
@@ -84,6 +87,53 @@ class ItemFull extends Component {
         this.setState({ descriptionFull: !this.state.descriptionFull })
     }
 
+    getGameTrailers(title) {
+        var proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+        this.setState({ loadingVideo: true })
+        axios({
+            url: proxyUrl + "https://api-v3.igdb.com/games",
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'user-key': 'acf4573044c691934aba5502699434db'
+            },
+            data: `fields name, videos; search "${title} ";`
+        })
+            .then(response => {
+                console.log(response.data);
+                if (response && response.data.length > 0) {
+                    return response.data //all video ids
+                }
+            })
+            .then(data => { // get all videos by ids
+                axios({
+                    url: proxyUrl + "https://api-v3.igdb.com/game_videos",
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'user-key': 'acf4573044c691934aba5502699434db'
+                    },
+                    data: `fields *; where id = (${data[0].videos});`
+                })
+                    .then(response => {
+                        console.log(response.data);
+                        this.setState(prevState => ({
+                            itemData: {
+                                ...prevState.itemData,
+                                game_trailers: response.data
+                            },
+                            loadingVideo: false
+                        }))
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
     getItem(page, id, baseUrl, apiKey, lang) {
         this.setState({ loading: true })
         page = page === 'movies' ? 'movie' : page
@@ -95,6 +145,11 @@ class ItemFull extends Component {
                         itemData: res.data,
                         loading: false
                     })
+                    return res.data
+                })
+                .then(data => {
+                    console.log('data', data)
+                    this.getGameTrailers(data.name_original)
                 })
                 .catch(err => console.log('error: ', err))
         } else {
@@ -135,7 +190,7 @@ class ItemFull extends Component {
             released, release_date, developers, publishers,
             stores, production_companies, production_countries,
             homepage, number_of_seasons, number_of_episodes,
-            runtime, playtime, first_air_date, videos } = this.state.itemData
+            runtime, playtime, first_air_date, videos, game_trailers } = this.state.itemData
 
         const imageBaseUrl = (size) => {
             return page === 'movies' || page === 'tv' ? `http://image.tmdb.org/t/p/${size}` : ''
@@ -201,11 +256,6 @@ class ItemFull extends Component {
                                     </TelegramShareButton>
                                 </div>
 
-
-
-                                {/* {clip ?
-                                    <video playsInline controls poster={clip.preview} src={clip.clip}></video>
-                                    : null} */}
                                 <Row>
                                     <Col xs={12} sm={12} md={6} lg={4}>
                                         {genres ?
@@ -250,9 +300,40 @@ class ItemFull extends Component {
                                     } />
                                     : null}
 
-                                {videos && videos.results.length > 0 ?
-                                    <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${videos.results[0].key}`}></iframe>
-                                    : null}
+                                <div className="video" style={{ 'position': 'relative' }}>
+                                    {this.state.loadingVideo ? (
+                                        <React.Fragment>
+                                            'Loading video...'
+                                            <Loader />
+                                        </React.Fragment>
+                                    ) :
+                                        <React.Fragment>
+                                            {videos && videos.results.length > 0 ?
+                                                <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${videos.results[0].key}`}></iframe>
+                                                : null}
+                                            {game_trailers && game_trailers.length > 0 ?
+                                                <React.Fragment>
+                                                    <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${game_trailers[this.state.currentVideo].video_id}`}></iframe>
+                                                    {game_trailers.length > 1 ?
+                                                        game_trailers.map((trailer, i) => (
+                                                            <button 
+                                                            key={trailer.id} 
+                                                            className={`btn btn-sm mr-2 ${this.state.currentVideo === i ? 'btn-warning' : 'btn-info'}`} 
+                                                            onClick={() => this.setState({ currentVideo: i })}>{i}</button>
+                                                            // <iframe key={trailer.id} width="100%" height="400px" src={`https://www.youtube.com/embed/${trailer.video_id}`}></iframe>
+                                                        ))
+                                                        : null}
+                                                </React.Fragment>
+
+                                                // game_trailers.map(trailer => (
+                                                //     <iframe key={trailer.id} width="100%" height="400px" src={`https://www.youtube.com/embed/${trailer.video_id}`}></iframe>
+                                                // ))
+                                                : null
+                                            }
+                                        </React.Fragment>
+                                    }
+                                </div>
+
                                 {overview ?
                                     <React.Fragment>
                                         <h3 className="text-uppercase mt-5">Overview</h3>
