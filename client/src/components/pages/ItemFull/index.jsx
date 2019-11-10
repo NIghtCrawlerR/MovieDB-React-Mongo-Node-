@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Loader from '../../common/Loader'
 import ItemsRecommended from '../../ItemsRecommended'
 import InfoBlock from './InfoBlock'
-import VideBlock from './VideoBlock'
+import VideoBlock from './VideoBlock'
 import Button from 'react-bootstrap/Button'
 import axios from 'axios'
 
@@ -34,7 +34,11 @@ class ItemFull extends Component {
         this.state = {
             itemData: {},
             descriptionFull: true,
-            loading: false
+            loading: false,
+            cast: [],
+            directing: [],
+            production: [],
+            writing: []
         }
     }
 
@@ -85,6 +89,21 @@ class ItemFull extends Component {
         this.setState({ descriptionFull: !this.state.descriptionFull })
     }
 
+    getCredits(id, page) {
+        //https://api.themoviedb.org/3/movie/474350/credits?api_key=f173a387483cd86fc18ab172d5d822ae
+        axios.get(`${baseUrl}/${page}/${id}/credits?api_key=${apiKey}`)
+            .then(res => {
+                const data = res.data
+                this.setState({
+                    cast: data.cast.filter(cast => cast.order < 10),
+                    directing: data.crew.filter(member => member.job === 'Director'),
+                    production: data.crew.filter(member => member.job === 'Producer'),
+                    writing: data.crew.filter(member => member.department === 'Writing')
+                })
+            })
+            .catch(err => console.log(err))
+    }
+
     getItem(page, id, baseUrl, apiKey, lang) {
         this.setState({ loading: true })
         page = page === 'movies' ? 'movie' : page
@@ -106,6 +125,7 @@ class ItemFull extends Component {
                         itemData: res.data,
                         loading: false
                     })
+                    this.getCredits(id, page)
                 })
                 .catch(err => console.log('error: ', err))
         }
@@ -237,6 +257,11 @@ class ItemFull extends Component {
                                     </Col>
                                 </Row>
 
+                                {this.state.cast ? <InfoBlock title="Cast:" data={this.state.cast.map(member => member.name).join(', ')} /> : null}
+                                {this.state.directing ? <InfoBlock title="Director:" data={this.state.directing.map(member => member.name).join(', ')} /> : null}
+                                {this.state.production ? <InfoBlock title="production:" data={this.state.production.map(member => member.name).join(', ')} /> : null}
+                                {this.state.writing ? <InfoBlock title="writing:" data={this.state.writing.map(member => member.name).join(', ')} /> : null}
+
                                 {homepage || website ?
                                     <InfoBlock title="Website:" data={<a href={homepage || website} target="blank">{homepage || website}</a>} />
                                     : null}
@@ -248,7 +273,8 @@ class ItemFull extends Component {
                                     : null}
 
                                 <div className="video" style={{ 'position': 'relative' }}>
-                                    <VideBlock gameTitle={name_original} />
+                                    {page === 'games' ? <VideoBlock gameTitle={name_original} /> : null}
+
                                     {videos && videos.results.length > 0 ?
                                         <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${videos.results[0].key}`}></iframe>
                                         : null}
