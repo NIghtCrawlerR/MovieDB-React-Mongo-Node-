@@ -25,6 +25,11 @@ export default class Sidebar extends React.Component {
                     icon: 'fas fa-gamepad',
                     link: '/catalog/games'
                 }, 
+                {
+                    name: 'Wishlist',
+                    icon: 'fas fa-heart',
+                    link: '/wishlist'
+                }, 
                 // {
                 //     name: 'Books catalog',
                 //     icon: 'fas fa-book-open',

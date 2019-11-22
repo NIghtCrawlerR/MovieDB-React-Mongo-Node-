@@ -157,7 +157,8 @@ class ItemFull extends Component {
             released, release_date, developers, publishers,
             stores, production_companies, production_countries,
             homepage, number_of_seasons, number_of_episodes,
-            runtime, playtime, first_air_date, videos, name_original } = this.state.itemData
+            runtime, playtime, first_air_date, videos, name_original,
+            next_episode_to_air } = this.state.itemData
 
         const imageBaseUrl = (size) => {
             return page === 'movies' || page === 'tv' ? `http://image.tmdb.org/t/p/${size}` : ''
@@ -234,7 +235,10 @@ class ItemFull extends Component {
                                         {first_air_date ?
                                             <InfoBlock title="First air date:" data={new Date(first_air_date).toLocaleDateString()} />
                                             : null}
-
+                                        {next_episode_to_air ?
+                                            <InfoBlock title="Next episod date:" data={new Date(next_episode_to_air.air_date).toLocaleDateString()} />
+                                            : null}
+                                        
                                         {rating ? <InfoBlock title="Rating:" data={`${rating}/5`} /> : null}
                                         {vote_average ? <InfoBlock title="Rating:" data={vote_average} /> : null}
                                     </Col>
@@ -257,10 +261,10 @@ class ItemFull extends Component {
                                     </Col>
                                 </Row>
 
-                                {this.state.cast ? <InfoBlock title="Cast:" data={this.state.cast.map(member => member.name).join(', ')} /> : null}
-                                {this.state.directing ? <InfoBlock title="Director:" data={this.state.directing.map(member => member.name).join(', ')} /> : null}
-                                {this.state.production ? <InfoBlock title="production:" data={this.state.production.map(member => member.name).join(', ')} /> : null}
-                                {this.state.writing ? <InfoBlock title="writing:" data={this.state.writing.map(member => member.name).join(', ')} /> : null}
+                                {this.state.cast.length > 0 ? <InfoBlock title="В ролях:" data={this.state.cast.map(member => member.name).join(', ')} /> : null}
+                                {this.state.directing.length > 0 ? <InfoBlock title="Режиссер:" data={this.state.directing.map(member => member.name).join(', ')} /> : null}
+                                {this.state.production.length > 0 ? <InfoBlock title="Продюсеры:" data={this.state.production.map(member => member.name).join(', ')} /> : null}
+                                {this.state.writing.length > 0 ? <InfoBlock title="Сценарий:" data={this.state.writing.map(member => member.name).join(', ')} /> : null}
 
                                 {homepage || website ?
                                     <InfoBlock title="Website:" data={<a href={homepage || website} target="blank">{homepage || website}</a>} />

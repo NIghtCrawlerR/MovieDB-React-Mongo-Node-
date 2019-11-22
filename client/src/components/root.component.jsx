@@ -4,6 +4,7 @@ import { Redirect } from 'react-router'
 import history from '../history'
 import Homepage from "./pages/Homepage"
 import Catalog from './pages/Catalog'
+import Collection from './pages/Collection'
 import Wishlist from './pages/Wishlist'
 import BugReport from "./pages/BugReport"
 import Auth from './pages/Auth'
@@ -143,6 +144,7 @@ class RootComponent extends React.Component {
                             <Route path={`/details/:page/:id`} render={(props) => (<ItemFull {...props} />)} />
                             <Route path="/home" render={(props) => (<Homepage {...props} />)} />
                             <Route path="/catalog/:page" render={(props) => (<Catalog {...props} />)} />
+                            <Route path="/collection/:page/:collection" render={(props) => (<Collection {...props}/>)} />
                             <Route path="/wishlist" render={(props) => (<Wishlist {...props} />)} />
                             <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />

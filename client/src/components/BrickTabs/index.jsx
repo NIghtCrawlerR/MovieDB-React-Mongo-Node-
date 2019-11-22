@@ -13,51 +13,20 @@ import bg3 from '../../assets/tab-3.jpg'
 import './index.css'
 
 export default class BrickButtons extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            tabs: [
-                {
-                    title: 'Movies',
-                    value: 'movies',
-                    link: 'movies',
-                    exact: 'true',
-                    img: bg1
-                }, {
-                    title: 'TV shows',
-                    value: 'tv',
-                    link: 'tv',
-                    img: bg2
-                }, {
-                    title: 'Games',
-                    value: 'games',
-                    link: 'games',
-                    img: bg3
-                }, 
-                // {
-                //     title: 'Books',
-                //     value: 'books',
-                //     link: 'books',
-                //     img: bg4
-                // }
-            ]
-        }
-    }
-
     render() {
+        const { main, render, path, tabs } = this.props
         return (
             <div className="tabs">
                 <Row>
-                    {this.state.tabs.map((tab, i) => {
+                    {tabs.map((tab, i) => {
                         return (
                             <Col key={i}>
-                                <NavLink activeClassName="active" className="nav-link" to={`/home/${tab.link}`}>
-                                    <Card text="white">
+                                <NavLink activeClassName="active" className="nav-link" to={`/${path}/${tab.link}`} >
+                                    <Card className={main ? 'main' : ''} text="white">
                                         <img src={tab.img} alt="" />
                                         <Card.Body>
                                             <Card.Title className="title">{tab.title}</Card.Title>
                                             <Card.Text className="text">{tab.text}</Card.Text>
-
                                         </Card.Body>
                                     </Card>
                                 </NavLink>
@@ -65,7 +34,7 @@ export default class BrickButtons extends React.Component {
                         )
                     })}
                 </Row>
-                {this.props.render ? this.props.render(this.state.activeTab) : null}
+                {render ? this.props.render(this.state.activeTab) : null}
             </div>
         )
     }

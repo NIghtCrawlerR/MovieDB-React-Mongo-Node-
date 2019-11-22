@@ -79,7 +79,7 @@ class Item extends Component {
     }
 
     render() {
-        const { type, title, name, img, slug, id, user, genre_ids } = this.props
+        const { type, title, name, img, slug, id, user, genre_ids, vote_average, rating } = this.props
         let i = img || 'https://uoslab.com/images/tovary/no_image.jpg'
         let itemGenres = []
         if (genre_ids && this.props.moviesGenres) {
@@ -112,6 +112,10 @@ class Item extends Component {
                         }
                     </div>
                     <div className="movie_info__bottom">
+                        {vote_average || rating ?
+                            <p className="font-weight-medium"><i className="fas fa-star text-warning" style={{ fontSize: '10px' }}></i> {vote_average || rating}</p>
+                            : null
+                        }
                         <p className="ml-auto">
                             {
                                 this.props.wishlist && this.state.wishlistItem ?

@@ -127,7 +127,7 @@ export default class ItemsRecommended extends Component {
             <React.Fragment>
                 {this.state.items.length > 0 ?
                     <div className="items-slider mt-5">
-                        <PageTitle title="Also you mat like:" buttonBack={false} />
+                        <PageTitle title="Also you may like:" buttonBack={false} />
                         <Slider {...settings}>
                             {
                                 this.state.items.map((item, i) => {

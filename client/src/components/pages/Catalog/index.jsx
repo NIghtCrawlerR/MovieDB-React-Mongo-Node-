@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import ItemsList from '../../ItemsList'
+import Filter from '../../Filter'
 import PageHeader from '../../common/PageHeader'
 import Pagination from '../../common/Pagination'
+import Head from '../../common/Head'
+
 import { connect } from 'react-redux'
 import { getMoviesTv, getGames, filterMovies } from '../../../actions/catalogActions'
 import { userGet } from '../../../actions/userActions'
-import Head from '../../common/Head'
 
 class Catalog extends Component {
     constructor(props) {
@@ -17,9 +19,11 @@ class Catalog extends Component {
         }
     }
 
-    // filter(filter) {
-    //     this.props.filterMovies(this.props.movies.list, filter)
-    // }
+    filter(filter) {
+        console.log(filter)
+        this.getItems(1, filter)
+        // this.props.filterMovies(this.props.movies.list, filter)
+    }
 
     changePage(page) {
         this.props.history.push({
@@ -27,16 +31,15 @@ class Catalog extends Component {
         })
     }
 
-    getItems(currentPage) {
+    getItems(currentPage, options) {
         this.setState({ loading: true })
         const { match } = this.props
         let pageType = match.params.page
         // if (match.params.page === 'movies') page = 'movie'
 
         if (pageType === 'tv' || pageType === 'movies') {
-            this.props.getMoviesTv(pageType, currentPage)
+            this.props.getMoviesTv(pageType, currentPage, options)
                 .then(res => {
-                    console.log(this.props.catalog)
                     this.setState({
                         loading: false,
                         pageCount: res.total_pages
@@ -46,7 +49,6 @@ class Catalog extends Component {
         } else if (pageType === 'games') {
             this.props.getGames(currentPage)
                 .then(res => {
-                    console.log(res)
                     this.setState({
                         loading: false,
                         pageCount: Math.ceil(res.count/18)
@@ -89,7 +91,7 @@ class Catalog extends Component {
                 <div className="container-fluid">
                     <div className="content-box">
 
-                        {/* <Filter filter={this.filter.bind(this)} /> */}
+                        <Filter filter={this.filter.bind(this)} moviesGenres={this.props.moviesGenres} />
                         <ItemsList loading={this.state.loading} items={catalog[match.params.page]} type={match.params.page} />
                         {this.state.pageCount > 1 ?
                             < Pagination loading={this.state.loading} pageCount={this.state.pageCount} currentPage={currentPage} changePage={this.changePage.bind(this)} />
@@ -104,7 +106,8 @@ class Catalog extends Component {
 
 const mapStateToProps = state => ({
     catalog: state.app,
-    user: state.user
+    user: state.user,
+    moviesGenres: state.movieSelection.moviesGenres
 })
 
 export default connect(mapStateToProps, {

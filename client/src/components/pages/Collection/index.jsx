@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Head from '../../common/Head'
+
 import Pagination from '../../common/Pagination'
 import ItemsList from '../../ItemsList'
 
@@ -8,10 +10,9 @@ import {
     getTV,
     getGames
 } from '../../../actions/itemsCollectionsActions'
+import PageTitle from '../../common/PageTitle';
 
-import './index.css'
-
-class List extends Component {
+class Collection extends Component {
     constructor() {
         super()
         this.state = {
@@ -81,25 +82,30 @@ class List extends Component {
         const currentPage = this.props.location.search ? this.props.location.search.match(/\d+/g)[0] : 1
         this.getItems(params.page, params.collection, currentPage)
     }
-
     render() {
-        const { collections, match, location } = this.props
-        const { page, collection } = match.params
+        const {
+            collections,
+            match: { params },
+            location
+        } = this.props
+
+        const { page, collection } = params
+  
         const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
         return (
-            <div className="top-list mt-4">
-                <React.Fragment>
+            <div className="mt-5">
+                <PageTitle title={`${page} ${collection}`} buttonBack={false} />
+                <div className="top-list">
                     <ItemsList loading={this.state.loading} items={collections[page][collection]} type={page} />
                     {this.state.pageCount > 1 ?
                         < Pagination pageCount={this.state.pageCount} currentPage={currentPage} changePage={this.changePage.bind(this)} />
                         : null
                     }
-                </React.Fragment>
+                </div>
             </div>
         )
     }
 }
-
 
 const mapStateToProps = state => ({
     collections: state.movieSelection
@@ -109,4 +115,4 @@ export default connect(mapStateToProps, {
     getMovies,
     getTV,
     getGames
-})(List)
+})(Collection)

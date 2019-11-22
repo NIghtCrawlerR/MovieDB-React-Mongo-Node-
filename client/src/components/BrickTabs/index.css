@@ -1,5 +1,5 @@
 .tabs {
-    margin: 50px 0;
+    margin: 20px 0 50px 0;
 }
 
 .tabs .title {
@@ -15,6 +15,10 @@
     border: 0;
     overflow: hidden;
     background: #15363d;
+}
+
+.tabs .card.main {
+    min-height: 250px;
 }
 
 .tabs .card-body {
