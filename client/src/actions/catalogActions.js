@@ -28,18 +28,16 @@ export const filterMovies = (movies, filter) => dispatch => {
 }
 
 export const getMoviesTv = (type, page, options) => dispatch => {
-    console.log('options', options)
-
     const genres = options && options.genres ? `&with_genres=${options.genres.join(',')}` : ''
     const title = options && options.title ? `&with_keywords=${options.title}` : ''
     const crew = options && options.crew ? `&with_crew=${options.crew}` : ''
     const sort_by = options && options.sort ? `&sort_by=${options.sort}` : '&sort_by=popularity.desc'
-    const year = options && options.year ? `&primary_release_year=${options.year}` : ''
+    const year = options && options.year ? `&${type === 'tv' ? 'first_air_date_year' : 'primary_release_year'}=${options.year}` : ''
 
     return new Promise((resolve, reject) => {
         let pageType = type
         if (pageType === 'movies') pageType = 'movie'
-        console.log('type', type)
+
         axios.get(
             `${movieApiRoot}/discover/${pageType}?api_key=${apiKey}&language=${lang}${sort_by}&include_adult=false&include_video=false&page=${page}${year}${crew}${genres}${title}`
         )

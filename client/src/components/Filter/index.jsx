@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { genres } from '../../utils/genres'
+import { sortOptions } from '../../utils/sortOptions'
+
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Input from '../common/Input'
+
 import axios from 'axios'
 import './index.css'
 
@@ -19,7 +24,8 @@ export default class Filter extends Component {
             genres: null,
             crew: null,
             genresOptions: [],
-            peopleOptions: []
+            peopleOptions: [],
+            showFilter: false
         }
 
         this.isTyping = this.isTyping.bind(this)
@@ -64,7 +70,6 @@ export default class Filter extends Component {
                         }
                     })
                 })
-                console.log(res.data)
             })
             .catch(err => console.log(err))
     }
@@ -95,76 +100,71 @@ export default class Filter extends Component {
         })
     }
     render() {
+        const getRange = (start, end) => {
+            return Array(end - start + 1).fill().map((_, idx) => start + idx)
+        }
+        const years = getRange(1980, new Date().getFullYear());
         return (
-            <div className="filter">
-                <form onChange={this.filter.bind(this)}>
-                    Genres:
-                    <div className="mb-2">
-                        <Select
-                            name="genres"
-                            value={this.state.genres}
-                            onChange={this.handleChange.bind(this)}
-                            options={this.state.genresOptions}
-                            isMulti
-                        />
-                    </div>
-                    Title:
-                    <div className="mb-2 filter__search-input">
-                        <input type="text" className="form-control" name="title" placeholder="Search" />
-                    </div>
-                    Year:
-                    <div className="mb-2 filter__search-input">
-                        <input type="number" className="form-control" name="year" placeholder="Year" />
-                    </div>
-                    Dyrectory:
-                    <div className="mb-2">
-                        <Select
-                            value={this.state.crew}
-                            onChange={this.handleChange.bind(this)}
-                            onInputChange={this.isTyping}
-                            name="crew"
-                            options={this.state.peopleOptions}
-                            isSearchable
-                        />
-                    </div>
-                    Sort by:
-                    <select className="form-control" name="sort" placeholder="Sort by">
-                        <option value=""></option>
-                        <option value="popularity.asc">popularity.asc</option>
-                        <option value="popularity.desc">popularity.desc</option>
-                        <option value="release_date.asc">release_date.asc</option>
-                        <option value="release_date.desc">release_date.desc</option>
-                        <option value="original_title.asc">original_title.asc</option>
-                        <option value="original_title.desc">original_title.desc</option>
-                        <option value="vote_average.asc">vote_average.asc</option>
-                        <option value="vote_average.desc">vote_average.desc</option>
-                    </select>
-                    <div className="row">
-                        {/* <div className="col-xs-6 col-sm-6 col-md-3 my-1">
-                            <span><input type="checkbox" id="watched" name="watched" /><label htmlFor="watched">watched</label></span>
-                        </div>
-                        <div className="col-xs-6 col-sm-6 col-md-3 my-1">
-                            <span><input type="checkbox" id="liked" name="liked" /><label htmlFor="liked">Liked</label></span>
-                        </div> */}
-
-                        {/* <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 my-1">
-                            <select className="form-control" name="genre">
-                                <option value="">All genres</option>
-                                {genres.map((genre, i) => {
-                                    return <option value={genre} key={i}>{genre}</option>
-                                })}
-                            </select>
-                        </div> */}
-
-                        {/* <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 my-1 filter__search-input">
-                            <input type="text" className="form-control" name="title" placeholder="Search" />
-                        </div> */}
-                    </div>
-                    <div>
-                        <button type="button" className="btn btn-success" onClick={this.onSubmit}>Submit</button>
-                    </div>
-                </form>
-
+            <div className="filter__wrap">
+                <div className="filter">
+                    <form onChange={this.filter.bind(this)}>
+                        <Row>
+                            <Col>
+                                <button type="button" className="btn btn-sm btn-primary" onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
+                                    <i className="fas fa-filter"></i>
+                                </button>
+                            </Col>
+                            <Col>
+                                <Input type="text" name="title" placeholder="Search" value={this.state.filter.title || ""} onChange={this.filter.bind(this)} />
+                            </Col>
+                        </Row>
+                        {this.state.showFilter ?
+                            <Row className="mt-4">
+                                <Col>
+                                    <label><b>Genres:</b></label>
+                                    <Select
+                                        name="genres"
+                                        value={this.state.genres}
+                                        onChange={this.handleChange.bind(this)}
+                                        options={this.state.genresOptions}
+                                        isMulti
+                                    />
+                                </Col>
+                                <Col>
+                                    <label><b>Year:</b></label>
+                                    <select className="form-control" name="year" placeholder="year">
+                                        <option value=""></option>
+                                        {years.reverse().map((year, i) => {
+                                            return <option key={i} value={year}>{year}</option>
+                                        })}
+                                    </select>
+                                </Col>
+                                <Col>
+                                    <label><b>Dyrectory:</b></label>
+                                    <Select
+                                        value={this.state.crew}
+                                        onChange={this.handleChange.bind(this)}
+                                        onInputChange={this.isTyping}
+                                        name="crew"
+                                        options={this.state.peopleOptions}
+                                        isSearchable
+                                    />
+                                </Col>
+                                <Col>
+                                    <label><b>Sort by:</b></label>
+                                    <select className="form-control" name="sort" placeholder="Sort by">
+                                        {sortOptions.map((opt, i) => {
+                                            return <option key={i} value={opt.value} selected={opt.value === 'popularity.desc'}>{opt.label}</option>
+                                        })}
+                                    </select>
+                                </Col>
+                                <Col>
+                                    <button type="button" className="btn btn-success" onClick={this.onSubmit}>Submit</button>
+                                </Col>
+                            </Row>
+                            : null}
+                    </form>
+                </div>
             </div>
         )
     }

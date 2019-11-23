@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import Loader from '../../common/Loader'
 import ItemsRecommended from '../../ItemsRecommended'
 import InfoBlock from './InfoBlock'
@@ -238,7 +239,7 @@ class ItemFull extends Component {
                                         {next_episode_to_air ?
                                             <InfoBlock title="Next episod date:" data={new Date(next_episode_to_air.air_date).toLocaleDateString()} />
                                             : null}
-                                        
+
                                         {rating ? <InfoBlock title="Rating:" data={`${rating}/5`} /> : null}
                                         {vote_average ? <InfoBlock title="Rating:" data={vote_average} /> : null}
                                     </Col>
@@ -261,10 +262,26 @@ class ItemFull extends Component {
                                     </Col>
                                 </Row>
 
-                                {this.state.cast.length > 0 ? <InfoBlock title="В ролях:" data={this.state.cast.map(member => member.name).join(', ')} /> : null}
-                                {this.state.directing.length > 0 ? <InfoBlock title="Режиссер:" data={this.state.directing.map(member => member.name).join(', ')} /> : null}
-                                {this.state.production.length > 0 ? <InfoBlock title="Продюсеры:" data={this.state.production.map(member => member.name).join(', ')} /> : null}
-                                {this.state.writing.length > 0 ? <InfoBlock title="Сценарий:" data={this.state.writing.map(member => member.name).join(', ')} /> : null}
+                                {this.state.cast.length > 0
+                                    ? <InfoBlock title="В ролях:"
+                                        data={this.state.cast.map(member => (<Link key={member.id} to={`/search/${page}/cast/${member.id}`}>{member.name}</Link>))
+                                            .reduce((prev, curr) => [prev, ', ', curr])} />
+                                    : null}
+                                {this.state.directing.length > 0
+                                    ? <InfoBlock title="Режиссер:"
+                                        data={this.state.directing.map(member => <Link key={member.id} to={`/search/${page}/crew/${member.id}`}>{member.name}</Link>)
+                                            .reduce((prev, curr) => [prev, ', ', curr])} />
+                                    : null}
+                                {this.state.production.length > 0
+                                    ? <InfoBlock title="Продюсеры:"
+                                        data={this.state.production.map(member => <Link key={member.id} to={`/search/${page}/crew/${member.id}`}>{member.name}</Link>)
+                                            .reduce((prev, curr) => [prev, ', ', curr])} />
+                                    : null}
+                                {this.state.writing.length > 0
+                                    ? <InfoBlock title="Сценарий:"
+                                        data={this.state.writing.map(member => <Link key={member.id} to={`/search/${page}/crew/${member.id}`}>{member.name}</Link>)
+                                            .reduce((prev, curr) => [prev, ', ', curr])} />
+                                    : null}
 
                                 {homepage || website ?
                                     <InfoBlock title="Website:" data={<a href={homepage || website} target="blank">{homepage || website}</a>} />

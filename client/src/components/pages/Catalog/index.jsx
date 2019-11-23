@@ -20,9 +20,8 @@ class Catalog extends Component {
     }
 
     filter(filter) {
-        console.log(filter)
-        this.getItems(1, filter)
-        // this.props.filterMovies(this.props.movies.list, filter)
+        const currentPage = this.currentPage()
+        this.getItems(currentPage, filter)
     }
 
     changePage(page) {
@@ -51,7 +50,7 @@ class Catalog extends Component {
                 .then(res => {
                     this.setState({
                         loading: false,
-                        pageCount: Math.ceil(res.count/18)
+                        pageCount: Math.ceil(res.count / 18)
                     })
                 })
                 .catch(err => console.log('Error: ', err))
@@ -59,11 +58,16 @@ class Catalog extends Component {
 
     }
 
+    currentPage() {
+        const { location, match } = this.props
+        return location.search ? location.search.match(/\d+/g)[0] : 1
+    }
+
     componentDidUpdate(prevProps) {
         const { location, match } = this.props
         const { params } = match
 
-        const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
+        const currentPage = this.currentPage()
 
         if (params.collection !== prevProps.match.params.collection ||
             params.page !== prevProps.match.params.page ||
@@ -83,15 +87,17 @@ class Catalog extends Component {
 
     render() {
         const { catalog, location, match } = this.props
+        const { page } = match.params
         const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
         return (
             <div className="mb-5">
-                <Head title={`Fiction finder - catalog - ${match.params.page}`} />
-                <PageHeader title={`${match.params.page} catalog`} />
+                <Head title={`Fiction finder - catalog - ${page}`} />
+                <PageHeader title={`${page} catalog`} />
                 <div className="container-fluid">
                     <div className="content-box">
-
-                        <Filter filter={this.filter.bind(this)} moviesGenres={this.props.moviesGenres} />
+                        {page !== 'games' ?
+                            <Filter filter={this.filter.bind(this)} moviesGenres={this.props.moviesGenres} />
+                            : null}
                         <ItemsList loading={this.state.loading} items={catalog[match.params.page]} type={match.params.page} />
                         {this.state.pageCount > 1 ?
                             < Pagination loading={this.state.loading} pageCount={this.state.pageCount} currentPage={currentPage} changePage={this.changePage.bind(this)} />

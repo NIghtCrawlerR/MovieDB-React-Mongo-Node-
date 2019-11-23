@@ -9,6 +9,7 @@ import Wishlist from './pages/Wishlist'
 import BugReport from "./pages/BugReport"
 import Auth from './pages/Auth'
 import ItemFull from './pages/ItemFull'
+import Search from './pages/Search'
 
 import Header from './partials/Header'
 import Sidebar from './partials/Sidebar'
@@ -146,6 +147,7 @@ class RootComponent extends React.Component {
                             <Route path="/catalog/:page" render={(props) => (<Catalog {...props} />)} />
                             <Route path="/collection/:page/:collection" render={(props) => (<Collection {...props}/>)} />
                             <Route path="/wishlist" render={(props) => (<Wishlist {...props} />)} />
+                            <Route path="/search/:page/:role/:id" render={(props) => (<Search {...props} />)} />
                             <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg.bind(this)} />)} />

@@ -140,6 +140,10 @@ input[data-error=true] {
   border-color: #ec174f;
 }
 
+img {
+  max-width: 100%;
+}
+
 @media screen and (max-width: 768px) {
   .main-content {
     margin-left: 0;

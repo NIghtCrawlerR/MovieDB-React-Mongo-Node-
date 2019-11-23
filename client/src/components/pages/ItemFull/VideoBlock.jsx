@@ -1,5 +1,4 @@
 import React from 'react'
-import igdb from 'igdb-api-node'
 import axios from 'axios';
 import Loader from '../../common/Loader'
 
@@ -74,10 +73,7 @@ export default class VideoBlock extends React.Component {
         return (
             <div>
                 {this.state.loadingVideo ?
-                    <React.Fragment>
-                        Loading video...
-                        <Loader />
-                    </React.Fragment>
+                    <Loader />
                     :
                     game_trailers && game_trailers.length > 0 ?
                         <React.Fragment>
@@ -88,7 +84,6 @@ export default class VideoBlock extends React.Component {
                                         key={trailer.id}
                                         className={`btn btn-sm mr-2 ${this.state.currentVideo === i ? 'btn-warning' : 'btn-info'}`}
                                         onClick={() => this.setState({ currentVideo: i })}>{i}</button>
-                                    // <iframe key={trailer.id} width="100%" height="400px" src={`https://www.youtube.com/embed/${trailer.video_id}`}></iframe>
                                 ))
                                 : null}
                         </React.Fragment>
