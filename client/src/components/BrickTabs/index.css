@@ -64,3 +64,9 @@
 .nav-link.active img {
     opacity: 1;
 }
+
+@media screen and (max-width: 768px) {
+    .tabs .col {
+        min-width: auto;
+    }
+}
