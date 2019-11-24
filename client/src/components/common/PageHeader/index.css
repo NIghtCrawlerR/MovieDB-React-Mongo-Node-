@@ -50,14 +50,15 @@
     top: 10px;
 }
 
-.page-header__title {
+.page-header__title h3 {
     text-transform: uppercase;
     font-size: 32px;
     letter-spacing: 2px;
+    line-height: normal;
 }
 
 .page-header__text {
-    font-size: 18px;
+    font-size: 20px;
     letter-spacing: .7px;
     margin-top: 25px;
 }

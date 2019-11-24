@@ -96,7 +96,7 @@ class Catalog extends Component {
                 <div className="container-fluid">
                     <div className="content-box">
                         {page !== 'games' ?
-                            <Filter filter={this.filter.bind(this)} moviesGenres={this.props.moviesGenres} />
+                            <Filter filter={this.filter.bind(this)} moviesGenres={this.props.moviesGenres} page={page} />
                             : null}
                         <ItemsList loading={this.state.loading} items={catalog[match.params.page]} type={match.params.page} />
                         {this.state.pageCount > 1 ?

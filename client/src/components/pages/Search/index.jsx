@@ -76,7 +76,7 @@ class Search extends Component {
 
                 <div className="container-fluid">
                     <div className="content-box">
-                        <Row>
+                        <Row style={{padding: "0 15px"}}>
                             <Col xs={3}>
                                 <img src={baseImage + profile_path} alt="" />
                             </Col>

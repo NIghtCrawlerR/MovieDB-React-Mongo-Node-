@@ -16,10 +16,10 @@ export default class Homepage extends Component {
             <div className="mb-5">
                 <Head title='Fiction finder - Collections' />
                 <PageHeader 
-                title="Explore your favourite movies, tv shows and games" 
-                text="Fugiat eu consectetur culpa culpa. Pariatur in occaecat culpa quis. Ea elit minim anim do pariatur reprehenderit aute id velit magna."
+                title="Discover your favourite movies, tv shows and games" 
+                text="All in one place. Online library with more than 100 000 items. You will find here everything you want."
                 />
-                <div className="container-fluid">
+                <div className="container-fluid mt-5">
                     <BrickTabs path="catalog" main tabs={catalogTabs} />
 
                     <PageTitle title="Movies collections:" buttonBack={false} />

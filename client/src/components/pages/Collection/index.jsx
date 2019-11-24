@@ -93,7 +93,7 @@ class Collection extends Component {
   
         const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
         return (
-            <div className="mt-5">
+            <div className="container-fluid my-5">
                 <PageTitle title={`${page} ${collection}`} buttonBack={false} />
                 <div className="top-list">
                     <ItemsList loading={this.state.loading} items={collections[page][collection]} type={page} />

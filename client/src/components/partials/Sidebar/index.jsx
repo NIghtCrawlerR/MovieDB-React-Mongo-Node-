@@ -24,12 +24,13 @@ export default class Sidebar extends React.Component {
                     name: 'Games catalog',
                     icon: 'fas fa-gamepad',
                     link: '/catalog/games'
-                }, 
+                },
                 {
                     name: 'Wishlist',
                     icon: 'fas fa-heart',
-                    link: '/wishlist'
-                }, 
+                    link: '/wishlist',
+                    requireAuth: true,
+                },
                 // {
                 //     name: 'Books catalog',
                 //     icon: 'fas fa-book-open',
@@ -49,11 +50,16 @@ export default class Sidebar extends React.Component {
                 <ListGroup className="sidebar-nav">
                     {this.state.navigation.map((item, i) => {
                         return (
-                            <ListGroup.Item key={i}>
-                                <NavLink activeClassName="active" to={item.link}>
-                                    <i className={item.icon}></i>
-                                </NavLink>
-                            </ListGroup.Item>
+                            item.requireAuth && !this.props.isLogin
+                                ?
+                                null
+                                : (
+                                    <ListGroup.Item key={i}>
+                                        <NavLink activeClassName="active" to={item.link}>
+                                            <i className={item.icon}></i>
+                                        </NavLink>
+                                    </ListGroup.Item>
+                                )
                         )
                     })}
 

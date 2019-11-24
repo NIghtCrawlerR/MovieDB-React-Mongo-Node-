@@ -86,7 +86,6 @@ class RootComponent extends React.Component {
         this.props.verifyUser(token)
             .then(user => {
                 if (!user.data.success) throw new Error('err')
-
             })
             .then(() => {
                 this.props.userGet(store.getState().user.userId) //get user data
@@ -138,7 +137,7 @@ class RootComponent extends React.Component {
             return (
                     <div className="app">
                         <div className="sidebar__wrap p-0">
-                            <Sidebar />
+                            <Sidebar isLogin={this.props.user.isLogin} />
                         </div>
                         <div className="main-content p-0">
                             <Header {...this.props} onClick={this.logout} />

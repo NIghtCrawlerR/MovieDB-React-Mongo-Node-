@@ -4,7 +4,6 @@ import { sortOptions } from '../../utils/sortOptions'
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Input from '../common/Input'
 
 import axios from 'axios'
 import './index.css'
@@ -25,7 +24,7 @@ export default class Filter extends Component {
             crew: null,
             genresOptions: [],
             peopleOptions: [],
-            showFilter: false
+            showFilter: true
         }
 
         this.isTyping = this.isTyping.bind(this)
@@ -44,7 +43,7 @@ export default class Filter extends Component {
             isTyping: false,
             timeout: setTimeout(function () {
                 if (encodeQuery.length > 0) that.searchPeople(encodeQuery);
-            }, 1000)
+            }, 600)
         });
     }
 
@@ -98,6 +97,7 @@ export default class Filter extends Component {
                 }
             })
         })
+        this.searchPeople('a')
     }
     render() {
         const getRange = (start, end) => {
@@ -108,7 +108,7 @@ export default class Filter extends Component {
             <div className="filter__wrap">
                 <div className="filter">
                     <form onChange={this.filter.bind(this)}>
-                        <Row>
+                        {/* <Row>
                             <Col>
                                 <button type="button" className="btn btn-sm btn-primary" onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
                                     <i className="fas fa-filter"></i>
@@ -117,11 +117,11 @@ export default class Filter extends Component {
                             <Col>
                                 <Input type="text" name="title" placeholder="Search" value={this.state.filter.title || ""} onChange={this.filter.bind(this)} />
                             </Col>
-                        </Row>
+                        </Row> */}
                         {this.state.showFilter ?
-                            <Row className="mt-4">
-                                <Col>
-                                    <label><b>Genres:</b></label>
+                            <Row>
+                                <Col xs={12} sm={6} md={3} className="my-2">
+                                    <label className="label--sticky">Genres:</label>
                                     <Select
                                         name="genres"
                                         value={this.state.genres}
@@ -130,8 +130,8 @@ export default class Filter extends Component {
                                         isMulti
                                     />
                                 </Col>
-                                <Col>
-                                    <label><b>Year:</b></label>
+                                <Col xs={12} sm={6} md={3} className="my-2">
+                                    <label className="label--sticky">Year:</label>
                                     <select className="form-control" name="year" placeholder="year">
                                         <option value=""></option>
                                         {years.reverse().map((year, i) => {
@@ -139,27 +139,30 @@ export default class Filter extends Component {
                                         })}
                                     </select>
                                 </Col>
-                                <Col>
-                                    <label><b>Dyrectory:</b></label>
-                                    <Select
-                                        value={this.state.crew}
-                                        onChange={this.handleChange.bind(this)}
-                                        onInputChange={this.isTyping}
-                                        name="crew"
-                                        options={this.state.peopleOptions}
-                                        isSearchable
-                                    />
-                                </Col>
-                                <Col>
-                                    <label><b>Sort by:</b></label>
+                                {this.props.page !== 'tv'
+                                    ?
+                                    <Col xs={12} sm={6} md={3} className="my-2">
+                                        <label className="label--sticky">Dyrectory:</label>
+                                        <Select
+                                            value={this.state.crew}
+                                            onChange={this.handleChange.bind(this)}
+                                            onInputChange={this.isTyping}
+                                            name="crew"
+                                            options={this.state.peopleOptions}
+                                            isSearchable
+                                        />
+                                    </Col>
+                                    : null}
+                                <Col xs={12} sm={6} md={3} className="my-2">
+                                    <label className="label--sticky">Sort by:</label>
                                     <select className="form-control" name="sort" placeholder="Sort by">
                                         {sortOptions.map((opt, i) => {
                                             return <option key={i} value={opt.value} selected={opt.value === 'popularity.desc'}>{opt.label}</option>
                                         })}
                                     </select>
                                 </Col>
-                                <Col>
-                                    <button type="button" className="btn btn-success" onClick={this.onSubmit}>Submit</button>
+                                <Col className="my-2">
+                                    <button type="button" className="btn btn-info ml-auto d-block" onClick={this.onSubmit}>Submit</button>
                                 </Col>
                             </Row>
                             : null}
