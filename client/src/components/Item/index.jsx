@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
 
+import CollectionsSelector from "../CollectionsSelector"
+
 import {
     addItemToWishlist,
     deleteItemFromWishlist,
-    updateWishlist,
-    getGenres
+    updateWishlist
 } from '../../actions/itemsCollectionsActions'
 
 import './index.css'
@@ -32,13 +33,8 @@ class Item extends Component {
         // console.log(action, wishlistItem.id)
     }
 
-    addToWishlist() {
-        const { id, user, type, title, name, genre_ids, genres, poster_path, background_image, vote_average, rating, slug } = this.props
-
-        if (!user.isLogin) {
-            alert('Login to add movie to your collection.')
-            return !1
-        }
+    getItemData = () => {
+        const { id, type, title, name, genre_ids, genres, poster_path, background_image, vote_average, rating, slug } = this.props
 
         const newItem = {
             id: id,
@@ -54,7 +50,18 @@ class Item extends Component {
             itemType: type
         }
 
-        this.props.addItemToWishlist(type, newItem, user.userId)
+        return newItem;
+    }
+
+    addToWishlist() {
+        const { user, type } = this.props
+
+        if (!user.isLogin) {
+            alert('Login to add movie to your collection.')
+            return !1
+        }
+
+        this.props.addItemToWishlist(type, this.getItemData(), user.userId)
             .then(() => console.log(this.props))
     }
 
@@ -98,6 +105,9 @@ class Item extends Component {
         return (
 
             <div className={`movie_item ${type}`}>
+                {user.data.group === "admin" &&
+                    <CollectionsSelector itemId={id} itemData={this.getItemData()} category={type} />
+                }
                 <div className="movie_img">
                     <Link to={`/details/${type}/${searchItem}`}><img src={i} alt="img" /></Link>
                 </div>
@@ -145,12 +155,12 @@ class Item extends Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    moviesGenres: state.movieSelection.moviesGenres
+    moviesGenres: state.collections.moviesGenres,
+    collections: state.collections.collections
 })
 
 export default connect(mapStateToProps, {
     addItemToWishlist,
     deleteItemFromWishlist,
-    updateWishlist,
-    getGenres
+    updateWishlist
 })(Item)

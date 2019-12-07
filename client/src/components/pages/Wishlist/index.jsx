@@ -61,7 +61,7 @@ class Wishlist extends Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    collections: state.movieSelection
+    collections: state.collections
 })
 
 export default connect(mapStateToProps, {

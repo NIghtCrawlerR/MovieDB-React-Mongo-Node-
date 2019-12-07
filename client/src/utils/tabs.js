@@ -5,18 +5,18 @@ import bg4 from '../assets/tab-4.jpg'
 
 export const catalogTabs = [
     {
-        title: 'All movies',
+        title: 'Movies',
         value: 'movies',
         link: 'movies',
         exact: 'true',
         img: bg1
     }, {
-        title: 'All TV shows',
+        title: 'TV shows',
         value: 'tv',
         link: 'tv',
         img: bg2
     }, {
-        title: 'All Games',
+        title: 'Games',
         value: 'games',
         link: 'games',
         img: bg3

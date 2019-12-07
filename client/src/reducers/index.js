@@ -5,6 +5,6 @@ import userReducers from './userReducers'
 
 export default combineReducers({ 
     app: movieReducers, 
-    movieSelection: itemsCollectionsReducers,
+    collections: itemsCollectionsReducers,
     user: userReducers 
 })

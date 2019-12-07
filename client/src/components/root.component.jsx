@@ -5,6 +5,7 @@ import history from '../history'
 import Homepage from "./pages/Homepage"
 import Catalog from './pages/Catalog'
 import Collection from './pages/Collection'
+import CollectionsList from './pages/CollectionsList'
 import Wishlist from './pages/Wishlist'
 import BugReport from "./pages/BugReport"
 import Auth from './pages/Auth'
@@ -21,7 +22,7 @@ import store from '../store'
 import { getFromStorage, removeFromStorage } from '../utils/storage'
 import { connect } from 'react-redux'
 import { verifyUser, logout, userGet } from '../actions/userActions'
-import { getGenres } from '../actions/itemsCollectionsActions'
+import { getGenres, getCollections } from '../actions/itemsCollectionsActions'
 
 import axios from 'axios'
 
@@ -104,10 +105,9 @@ class RootComponent extends React.Component {
             })
     }
 
-
-
     componentDidMount() {
         this.props.getGenres('movie')
+        this.props.getCollections()
         this.updateUser()
     }
 
@@ -145,6 +145,7 @@ class RootComponent extends React.Component {
                             <Route path="/home" render={(props) => (<Homepage {...props} />)} />
                             <Route path="/catalog/:page" render={(props) => (<Catalog {...props} />)} />
                             <Route path="/collection/:page/:collection" render={(props) => (<Collection {...props}/>)} />
+                            <Route path="/collections/:category" render={(props) => (<CollectionsList {...props} userData={this.props.user.data} showMsg={this.showMsg.bind(this)} />)} />
                             <Route path="/wishlist" render={(props) => (<Wishlist {...props} />)} />
                             <Route path="/search/:page/:role/:id" render={(props) => (<Search {...props} />)} />
                             <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
@@ -173,12 +174,13 @@ class RootComponent extends React.Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    genres: state.movieSelection.genres
+    genres: state.collections.genres
 })
 
 export default connect(mapStateToProps, {
     verifyUser,
     logout,
     userGet,
-    getGenres
+    getGenres,
+    getCollections
 })(RootComponent)

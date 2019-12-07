@@ -1,11 +1,13 @@
 import {
+    GET_COLLECTIONS,
     GET_MOVIES_COLLECTIONS,
     GET_TV_COLLECTIONS,
     GET_GAMES_COLLECTIONS,
     GET_GENRES,
     GET_WISHLIST,
     DELETE_FROM_WISHLIST,
-    UPDATE_WISHLIST
+    UPDATE_WISHLIST,
+    UPDATE_COLLECTIONS
 } from './types'
 
 import axios from 'axios'
@@ -16,6 +18,48 @@ const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
 const lang = 'ru'
 
 const gameApiRoot = 'https://rawg.io/api'
+
+export const getCollections = () => dispatch => {
+    axios.get(`${host}/api/collection/get`)
+        .then(res => {
+            dispatch({
+                type: GET_COLLECTIONS,
+                collections: res.data
+            })
+        })
+        .catch(err => console.log(err))
+}
+
+export const updateCollections = (checked, alias, itemId, itemData) => dispatch => {
+    console.log(checked, alias, itemId)
+    const data = {
+        alias: alias,
+        itemId: itemId,
+        itemData: itemData,
+    }
+    if (checked) {
+        axios.post(`${host}/api/collection/add`, data)
+            .then(res => {
+                dispatch({
+                    type: UPDATE_COLLECTIONS,
+                    items: res.data.items,
+                    alias: alias
+                })
+            })
+            .catch(err => console.log(err))
+    } else {
+        axios.post(`${host}/api/collection/delete`, data)
+            .then(res => {
+                dispatch({
+                    type: UPDATE_COLLECTIONS,
+                    items: res.data.items,
+                    alias: alias
+                })
+            })
+            .catch(err => console.log(err))
+    }
+
+}
 
 export const getGenres = (collection) => dispatch => {
     axios.get(`${movieApiRoot}/genre/${collection}/list?api_key=${apiKey}&language=${lang}`)
@@ -131,7 +175,7 @@ export const deleteItemFromWishlist = (collection, itemId, userId) => dispatch =
 }
 
 export const updateWishlist = (collection, action, itemId, userId, value) => dispatch => {
-    axios.post(host + '/api/wishlist/update', {collection: collection, action: action, itemId: itemId, userId: userId, value: value})
+    axios.post(host + '/api/wishlist/update', { collection: collection, action: action, itemId: itemId, userId: userId, value: value })
         .then(() => {
             dispatch({
                 type: UPDATE_WISHLIST,

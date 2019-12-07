@@ -20,12 +20,14 @@ export default class Header extends React.Component {
     }
 
     render() {
+        const { user } = this.props;
+
         return (
             <nav className="header navbar bg-red">
                 <div className="container-fluid">
                     <SearchField />
                     <div>
-                        {!this.props.user.isLogin ? (
+                        {!user.isLogin ? (
                             <div className="sign-in-buttons">
                                 <Link to="/login">Login</Link>
                                 |
@@ -37,8 +39,8 @@ export default class Header extends React.Component {
                                         <Dropdown.Toggle as={UserIcon}></Dropdown.Toggle>
                                         <Dropdown.Menu>
                                             <Dropdown.Header className="text-right">
-                                                {this.props.user.data ?
-                                                    <b>{this.props.user.data.email}</b>
+                                                {user.data ?
+                                                    <b>{user.data.email}</b>
                                                     : null}
                                             </Dropdown.Header>
                                             <Dropdown.Divider></Dropdown.Divider>

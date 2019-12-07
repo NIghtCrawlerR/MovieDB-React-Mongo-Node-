@@ -1,17 +1,23 @@
 const User = require('../models/user.model')
-const checkAccess = (userId, group) => {
-    
-    return User.find({ _id: userId }, (err, user) => {
-        if (err) {
-            return {
-                succes: false,
-                message: 'Error: Server error. ' + err
-            }
-        }
-        const hasAccess = user[0].group === group
-        console.log('hasAccess', hasAccess)
-        return hasAccess
+
+module.exports = checkAccess = (req, res, next) => {
+    let groupsPermissions = {}
+    process.env.USER_GROUPS.split('///').map(group => {
+        groupsPermissions[group.split('//')[0]] = group.split('//')[1]
     })
 
+    const { userId, action } = req.query
+
+    User.find({ _id: userId }, (err, user) => {
+        if (err) {
+            res.status(500).json({ 'status': 'error', 'text': 'Error: Server error' })
+        }
+        if (!groupsPermissions) res.status(500).json({ 'status': 'error', 'text': 'Error: Data not found' })
+        const userGroup = user[0].group
+        // const hasAccess = groupsPermissions[userGroup] && groupsPermissions[userGroup].includes(action)
+        const hasAccess = userGroup === "admin";
+        
+        if (hasAccess) next()
+        else res.status(403).json({ 'status': 'error', 'text': 'Error: You have no permission.', 'accessError': true })
+    })
 }
-module.exports = checkAccess

@@ -17,19 +17,19 @@ export default class Homepage extends Component {
                 <Head title='Fiction finder - Collections' />
                 <PageHeader 
                 title="Discover your favourite movies, tv shows and games" 
-                text="All in one place. Online library with more than 100 000 items. You will find here everything you want."
+                text="All in one place. Online library with more than 100 000 items. Find here everything you want."
                 />
                 <div className="container-fluid mt-5">
-                    <BrickTabs path="catalog" main tabs={catalogTabs} />
+                    <BrickTabs path="collections" main tabs={catalogTabs} />
 
-                    <PageTitle title="Movies collections:" buttonBack={false} />
+                    {/* <PageTitle title="Movies collections:" buttonBack={false} />
                     <BrickTabs path="collection/movies" tabs={moviesCollectionsTabs} />
 
                     <PageTitle title="TV shows collections:" buttonBack={false} />
                     <BrickTabs path="collection/tv" tabs={tvCollectionsTabs} />
 
                     <PageTitle title="Games collections:" buttonBack={false} />
-                    <BrickTabs path="collection/games" tabs={gamesCollectionsTabs} />
+                    <BrickTabs path="collection/games" tabs={gamesCollectionsTabs} /> */}
                 </div>
             </div>
         )

@@ -9,36 +9,30 @@ module.exports = (function () {
     const Movie = require('../../models/movie.model')
     const User = require('../../models/user.model')
     const bot = require('../../bot')
-    // const checkAccess = require('./checkAccess')
 
     // const apiKey = '623fca3e'
-
-    // function checkAccess(req, res, next) {
-    //     let groupsPermissions = {}
-    //     process.env.USER_GROUPS.split('///').map(group => {
-    //         groupsPermissions[group.split('//')[0]] = group.split('//')[1]
-    //     })
-
-    //     const { userId, action } = req.query
-
-    //     User.find({ _id: userId }, (err, user) => {
-    //         if (err) {
-    //             res.status(500).json({ 'status': 'error', 'text': 'Error: Server error' })
-    //         }
-    //         if (!groupsPermissions) res.status(500).json({ 'status': 'error', 'text': 'Error: Data not found' })
-    //         const userGroup = user[0].group
-    //         const hasAccess = groupsPermissions[userGroup] && groupsPermissions[userGroup].includes(action)
-    //         console.log('check access')
-    //         if (hasAccess) next()
-    //         else res.status(403).json({ 'status': 'error', 'text': 'Error: You have no permission.', 'accessError': true })
-    //     })
-    // }
 
     router.get('/', (req, res) => {
         Movie.find((err, movies) => {
             if (err) console.log(err)
             else res.json(movies.reverse())
         })
+    })
+
+    router.post('/collection', (req, res) => {
+        const { ids } = req.body;
+        console.log(ids)
+        Movie.find({
+            'id': {
+                $in: ids,
+            },
+        }, function (err, docs) {
+            return res.send({
+                succes: true,
+                message: 'Success',
+                collection: docs
+            })
+        });
     })
 
     router.route('/:id').get((req, res) => {

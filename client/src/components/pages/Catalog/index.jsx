@@ -113,7 +113,7 @@ class Catalog extends Component {
 const mapStateToProps = state => ({
     catalog: state.app,
     user: state.user,
-    moviesGenres: state.movieSelection.moviesGenres
+    moviesGenres: state.collections.moviesGenres
 })
 
 export default connect(mapStateToProps, {

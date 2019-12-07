@@ -5,7 +5,7 @@ const Movie = require('../../models/movie.model')
 
 router.post('/get', (req, res) => {
     const { items, itemType } = req.body;
-    console.log(items, itemType)
+
     Movie.find({
         'id': {
             $in: items,
@@ -98,7 +98,7 @@ router.post('/add', (req, res) => {
 
 router.post('/delete', (req, res) => {
     const { itemId, userId, collection } = req.body
-    console.log(itemId, userId, collection)
+
     User.findOneAndUpdate({
         _id: userId
     }, {

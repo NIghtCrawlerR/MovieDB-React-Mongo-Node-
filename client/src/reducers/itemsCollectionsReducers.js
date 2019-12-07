@@ -1,10 +1,12 @@
 import {
+    GET_COLLECTIONS,
     GET_MOVIES_COLLECTIONS,
     GET_TV_COLLECTIONS,
     GET_GAMES_COLLECTIONS,
     GET_GENRES,
     GET_WISHLIST,
-    DELETE_FROM_WISHLIST
+    DELETE_FROM_WISHLIST,
+    UPDATE_COLLECTIONS
 } from '../actions/types'
 
 const initialState = {
@@ -13,6 +15,7 @@ const initialState = {
     books: [],
     tv: [],
     moviesGenres: [],
+    collections: [],
     wishlist: {
         movies: [],
         tv: [],
@@ -42,6 +45,20 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 moviesGenres: action.genres
+            }
+        case UPDATE_COLLECTIONS: {
+            console.log(action.collections)
+            return {
+                ...state,
+                collections: state.collections.map(collection => collection.alias === action.alias ?
+                    { ...collection, items: action.items }
+                    : collection)
+            }
+        }
+        case GET_COLLECTIONS:
+            return {
+                ...state,
+                collections: action.collections
             }
         case GET_MOVIES_COLLECTIONS:
             return {

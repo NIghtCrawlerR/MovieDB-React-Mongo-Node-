@@ -108,7 +108,7 @@ class Collection extends Component {
 }
 
 const mapStateToProps = state => ({
-    collections: state.movieSelection
+    collections: state.collections
 })
 
 export default connect(mapStateToProps, {
