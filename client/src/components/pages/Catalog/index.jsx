@@ -1,124 +1,170 @@
 import React, { Component } from 'react';
-import ItemsList from '../../ItemsList'
-import Filter from '../../Filter'
-import PageHeader from '../../common/PageHeader'
-import Pagination from '../../common/Pagination'
-import Head from '../../common/Head'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux'
-import { getMoviesTv, getGames, filterMovies } from '../../../actions/catalogActions'
-import { userGet } from '../../../actions/userActions'
+import ItemsList from '../../ItemsList';
+import Filter from '../../Filter';
+import PageHeader from '../../common/PageHeader';
+import Pagination from '../../common/Pagination';
+import Head from '../../common/Head';
+
+import { getMoviesTv, getGames, filterMovies } from '../../../actions/catalogActions';
+import { userGet } from '../../../actions/userActions';
 
 class Catalog extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
+    this.state = {
+      loading: false,
+      pageCount: 1,
+    };
+  }
+
+  componentDidMount() {
+    const {
+      location: { search },
+      match: { params: { page } },
+      catalog,
+    } = this.props;
+
+    const currentPage = search ? search.match(/\d+/g)[0] : 1;
+    if (catalog[page].length === 0) {
+      this.getItems(currentPage);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      location: { search },
+      match: {
+        params: { page, collection }
+      },
+    } = this.props;
+
+    const currentPage = this.currentPage();
+
+    if (collection !== prevProps.match.params.collection
+      || page !== prevProps.match.params.page
+      || search !== prevProps.location.search) {
+      this.getItems(currentPage);
+    }
+  }
+
+  getItems(currentPage, options) {
+    this.setState({ loading: true });
+    const { match } = this.props;
+    const pageType = match.params.page;
+    // if (match.params.page === 'movies') page = 'movie'
+
+    if (pageType === 'tv' || pageType === 'movies') {
+      this.props.getMoviesTv(pageType, currentPage, options)
+        .then((res) => {
+          this.setState({
             loading: false,
-            pageCount: 1
-        }
-    }
-
-    filter(filter) {
-        const currentPage = this.currentPage()
-        this.getItems(currentPage, filter)
-    }
-
-    changePage(page) {
-        this.props.history.push({
-            search: `?page=${page.selected + 1}`
+            pageCount: res.total_pages,
+          });
         })
+        .catch((err) => console.log('Error: ', err));
+    } else if (pageType === 'games') {
+      this.props.getGames(currentPage)
+        .then((res) => {
+          this.setState({
+            loading: false,
+            pageCount: Math.ceil(res.count / 18),
+          });
+        })
+        .catch((err) => console.log('Error: ', err));
     }
+  }
 
-    getItems(currentPage, options) {
-        this.setState({ loading: true })
-        const { match } = this.props
-        let pageType = match.params.page
-        // if (match.params.page === 'movies') page = 'movie'
+  changePage(page) {
+    const { history } = this.props;
 
-        if (pageType === 'tv' || pageType === 'movies') {
-            this.props.getMoviesTv(pageType, currentPage, options)
-                .then(res => {
-                    this.setState({
-                        loading: false,
-                        pageCount: res.total_pages
-                    })
-                })
-                .catch(err => console.log('Error: ', err))
-        } else if (pageType === 'games') {
-            this.props.getGames(currentPage)
-                .then(res => {
-                    this.setState({
-                        loading: false,
-                        pageCount: Math.ceil(res.count / 18)
-                    })
-                })
-                .catch(err => console.log('Error: ', err))
-        }
+    history.push({
+      search: `?page=${page.selected + 1}`,
+    });
+  }
 
-    }
+  filter(filter) {
+    const currentPage = this.currentPage();
+    this.getItems(currentPage, filter);
+  }
 
-    currentPage() {
-        const { location, match } = this.props
-        return location.search ? location.search.match(/\d+/g)[0] : 1
-    }
+  currentPage() {
+    const {
+      location: { search },
+    } = this.props;
 
-    componentDidUpdate(prevProps) {
-        const { location, match } = this.props
-        const { params } = match
+    return search ? search.match(/\d+/g)[0] : 1;
+  }
 
-        const currentPage = this.currentPage()
+  render() {
+    const {
+      catalog,
+      location: {
+        search,
+      },
+      match: {
+        params: { page },
+      },
+      moviesGenres,
+    } = this.props;
 
-        if (params.collection !== prevProps.match.params.collection ||
-            params.page !== prevProps.match.params.page ||
-            location.search !== prevProps.location.search) {
-            this.getItems(currentPage)
+    const currentPage = search ? search.match(/\d+/g)[0] : 1;
 
-        }
-    }
+    const { loading, pageCount } = this.state;
 
-    componentDidMount() {
-        const { location, match } = this.props
-        const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
-        if (this.props.catalog[match.params.page].length === 0) {
-            this.getItems(currentPage)
-        }
-    }
-
-    render() {
-        const { catalog, location, match } = this.props
-        const { page } = match.params
-        const currentPage = location.search ? location.search.match(/\d+/g)[0] : 1
-        return (
-            <div className="mb-5">
-                <Head title={`Fiction finder - catalog - ${page}`} />
-                <PageHeader title={`${page} catalog`} />
-                <div className="container-fluid">
-                    <div className="content-box">
-                        {page !== 'games' ?
-                            <Filter filter={this.filter.bind(this)} moviesGenres={this.props.moviesGenres} page={page} />
-                            : null}
-                        <ItemsList loading={this.state.loading} items={catalog[match.params.page]} type={match.params.page} />
-                        {this.state.pageCount > 1 ?
-                            < Pagination loading={this.state.loading} pageCount={this.state.pageCount} currentPage={currentPage} changePage={this.changePage.bind(this)} />
-                            : null
-                        }
-                    </div>
-                </div>
-            </div>
-        )
-    }
+    return (
+      <div className="mb-5">
+        <Head title={`Fiction finder - catalog - ${page}`} />
+        <PageHeader title={`${page} catalog`} />
+        <div className="container-fluid">
+          <div className="content-box">
+            {page !== 'games'
+              ? <Filter filter={this.filter.bind(this)} moviesGenres={moviesGenres} page={page} />
+              : null}
+            <ItemsList loading={loading} items={catalog[page]} type={page} />
+            {pageCount > 1
+              ? (
+                <Pagination
+                  loading={loading}
+                  pageCount={pageCount}
+                  currentPage={+currentPage}
+                  changePage={this.changePage.bind(this)}
+                />
+              )
+              : null}
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => ({
-    catalog: state.app,
-    user: state.user,
-    moviesGenres: state.collections.moviesGenres
-})
+Catalog.propTypes = {
+  catalog: PropTypes.object.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      page: PropTypes.string.isRequired,
+      collection: PropTypes.string,
+    }),
+  }).isRequired,
+  moviesGenres: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  catalog: state.app,
+  user: state.user,
+  moviesGenres: state.collections.moviesGenres,
+});
 
 export default connect(mapStateToProps, {
-    getMoviesTv,
-    getGames,
-    userGet,
-    filterMovies
-})(Catalog)
+  getMoviesTv,
+  getGames,
+  userGet,
+  filterMovies,
+})(Catalog);

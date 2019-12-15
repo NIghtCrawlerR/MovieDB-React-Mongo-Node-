@@ -1,22 +1,42 @@
-import React from 'react'
-import { Helmet } from "react-helmet";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 
-export default class Head extends React.Component {
-    render() {
-        return (
-            <Helmet>
-                {/* <!-- Primary Meta Tags --> */}
-                <title>{this.props.title}</title>
-                <meta name="title" content={this.props.ogTitle} />
-                {/* <meta name="description" content="This website is so awesome that I really don't think you can handle how much awesome that is happening here." /> */}
-                {/* <!-- Open Graph / Facebook --> */}
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={this.props.ogUrl} />
-                <meta property="og:title" content={this.props.ogTitle} />
-                {/* <meta property="og:description" content="This website is so awesome that I really don't think you can handle how much awesome that is happening here." /> */}
-                <meta property="og:image" content={this.props.ogImage} />
-               
-            </Helmet>
-        )
-    }
+function Head(props) {
+  const {
+    title,
+    ogTitle,
+    ogUrl,
+    ogImage,
+  } = props;
+
+  return (
+    <Helmet>
+      {/* <!-- Primary Meta Tags --> */}
+      <title>{title}</title>
+      <meta name="title" content={ogTitle} />
+      {/* <!-- Open Graph / Facebook --> */}
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={ogUrl} />
+      <meta property="og:title" content={ogTitle} />
+      <meta property="og:image" content={ogImage} />
+
+    </Helmet>
+  );
 }
+
+Head.propTypes = {
+  title: PropTypes.string,
+  ogTitle: PropTypes.string,
+  ogUrl: PropTypes.string,
+  ogImage: PropTypes.string,
+};
+
+Head.defaultProps = {
+  title: '',
+  ogTitle: '',
+  ogUrl: '',
+  ogImage: '',
+};
+
+export default Head;

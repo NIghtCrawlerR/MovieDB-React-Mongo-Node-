@@ -1,24 +1,23 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom'
-import './index.css'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import './index.css';
 
-export default class Tabs extends Component {
-    render() {
-        return (
-            <React.Fragment>
-                <div onSelect={this.props.onSelect} className="tabs nav mb-5">
-                    {
-                        this.props.tabs.map((tab, i) =>
-                            <div key={i} className="tab-item nav-item">
-                                <NavLink to={`/${this.props.path}/${tab.value}`} className="nav-link">
-                                    {tab.title}
-                                </NavLink>
-                            </div>
+function Tabs(props) {
+  const { tabs, onSelect, path } = props;
 
-                        )
-                    }
-                </div>
-            </React.Fragment>
-        )
-    }
+  return (
+    <div onSelect={onSelect} className="tabs nav mb-5">
+      {
+        tabs.map((tab) => (
+          <div key={tab.value} className="tab-item nav-item">
+            <NavLink to={`/${path}/${tab.value}`} className="nav-link">
+              {tab.title}
+            </NavLink>
+          </div>
+        ))
+      }
+    </div>
+  );
 }
+
+export default Tabs;

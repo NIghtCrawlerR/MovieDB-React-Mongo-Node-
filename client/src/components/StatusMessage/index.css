@@ -6,7 +6,8 @@
     height: auto;
     padding: 20px;
     background-color: #fff;
-    border: 1px solid #bebebe; 
+    border: 1px solid #bebebe;
+    z-index: 100;
     /* display: flex; */
 }
 

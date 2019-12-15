@@ -1,69 +1,75 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom'
-import { Redirect } from 'react-router'
-import PageHeader from '../../common/PageHeader'
-import Tabs from '../../common/Tabs'
-import Items from './Items'
-import { getFromStorage } from '../../../utils/storage'
-import { connect } from 'react-redux'
+import { Route } from 'react-router-dom';
+import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
+import PageHeader from '../../common/PageHeader';
+import Tabs from '../../common/Tabs';
+import Items from './Items';
+import { getFromStorage } from '../../../utils/storage';
 
-import { getWishlist } from '../../../actions/itemsCollectionsActions'
+import { getWishlist } from '../../../actions/itemsCollectionsActions';
 
 class Wishlist extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            movies: [],
-            filtered: [],
-            loading: false,
-            tabs: [{
-                title: 'Movies',
-                value: 'movies'
-            }, {
-                title: 'TV Shows',
-                value: 'tv'
-            }, {
-                title: 'Games',
-                value: 'games'
-            }]
-        }
+    this.state = {
+      movies: [],
+      filtered: [],
+      loading: false,
+      tabs: [{
+        title: 'Movies',
+        value: 'movies',
+      }, {
+        title: 'TV Shows',
+        value: 'tv',
+      }, {
+        title: 'Games',
+        value: 'games',
+      }],
+    };
+  }
+
+  // filter(filter) {
+  //     this.props.filterMovies(this.props.user.movies, filter)
+  // }
+
+  componentDidMount() {
+    const token = getFromStorage('token');
+    if (!token) {
+      this.props.history.push('/');
+      return !1;
     }
+  }
 
-    // filter(filter) {
-    //     this.props.filterMovies(this.props.user.movies, filter)
-    // }
+  render() {
+    const {
+      history: {
+        location: { pathname },
+      },
+      user,
+    } = this.props;
 
-    componentDidMount() {
-        const token = getFromStorage('token')
-        if (!token) {
-            this.props.history.push('/')
-            return !1
-        }
+    if (pathname === '/wishlist') {
+      return <Redirect to="/wishlist/movies" />;
     }
-
-    render() {
-        if (this.props.history.location.pathname === '/wishlist') {
-            return <Redirect to='/wishlist/movies' />;
-        }
-        return (
-            <div>
-                <PageHeader title="Personal wishlist" />
-                <div className="container-fluid">
-                    <Tabs path="wishlist" tabs={this.state.tabs} />
-                    <Route path="/wishlist/:collection" render={(props) => (<Items {...props} user={this.props.user} />)} />
-                </div>
-            </div>
-
-        )
-    }
+    return (
+      <div>
+        <PageHeader title="Personal wishlist" />
+        <div className="container-fluid">
+          <Tabs path="wishlist" tabs={this.state.tabs} />
+          <Route path="/wishlist/:collection" render={(props) => (<Items {...props} user={user} />)} />
+        </div>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => ({
-    user: state.user,
-    collections: state.collections
-})
+const mapStateToProps = (state) => ({
+  user: state.user,
+  collections: state.collections,
+});
 
 export default connect(mapStateToProps, {
-    getWishlist
-})(Wishlist)
+  getWishlist,
+})(Wishlist);

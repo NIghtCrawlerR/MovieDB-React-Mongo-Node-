@@ -19,22 +19,6 @@ module.exports = (function () {
         })
     })
 
-    router.post('/collection', (req, res) => {
-        const { ids } = req.body;
-        console.log(ids)
-        Movie.find({
-            'id': {
-                $in: ids,
-            },
-        }, function (err, docs) {
-            return res.send({
-                succes: true,
-                message: 'Success',
-                collection: docs
-            })
-        });
-    })
-
     router.route('/:id').get((req, res) => {
         let id = req.params.id;
         Movie.findById(id, (err, movie) => {

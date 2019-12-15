@@ -1,12 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react';
 
-export default class InfoBlock extends Component {
-    render() {
-        return (
-            <div className="info-block">
-                {this.props.title ? <p className="info-block__title">{this.props.title}</p> : null}
-                <p className="info-block__data">{this.props.data}</p>
-            </div>
-        )
-    }
+function InfoBlock(props) {
+  const { title, data } = props;
+
+  return (
+    <div className="info-block">
+      {title && <p className="info-block__title">{title}</p>}
+      <p className="info-block__data">{data}</p>
+    </div>
+  );
 }
+
+export default InfoBlock;

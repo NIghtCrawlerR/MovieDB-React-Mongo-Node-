@@ -5,6 +5,7 @@ const Movie = require('../../models/movie.model')
 
 const checkAccess = require('../checkAccess')
 
+// create new collection
 router.post('/create', checkAccess, (req, res) => {
     const { collection } = req.body
     const newCollection = new Collection(collection)
@@ -30,6 +31,25 @@ router.post('/create', checkAccess, (req, res) => {
     })
 })
 
+router.delete('/delete/:id', (req, res) => {
+    const { id } = req.params
+    
+    Collection.remove({ _id: id }, (err) => {
+        if (err) {
+            return res.json({
+                message: "Error: Server error",
+                success: false
+            })
+        } else {
+            return res.json({
+                message: "Collection deleted successfuly",
+                success: true
+            })
+        }
+    })
+})
+
+// ?
 router.get('/get', (req, res) => {
     Collection.find((err, collections) => {
         if (err) {
@@ -39,16 +59,69 @@ router.get('/get', (req, res) => {
     })
 })
 
+
+
+// get collection byt category name (Ex: movies)
 router.get('/get/:category', (req, res) => {
     const { category } = req.params;
     Collection.find({ category: category }, (err, collections) => {
         if (err) {
             res.status(500).json({ message: "Error: Server error", success: false })
+        } else {
+            getItemsFromCollections(collections)
+                .then(response => {
+                    return res.json(response)
+                })
+                .catch(err => {
+                    return res.status(500).json({ message: "Error: Server error", success: false })
+                })
         }
-        else res.json(collections)
+
     })
 })
 
+router.get('/:category/:alias', (req, res) => {
+    const { category, alias } = req.params;
+    Collection.find({ alias: alias }, (err, collections) => {
+        if (err) {
+            res.status(500).json({ message: "Error: Server error", success: false })
+        } else {
+            getItemsFromCollections(collections)
+                .then(response => {
+                    return res.json(response[0])
+                })
+                .catch(err => {
+                    return res.status(500).json({ message: "Error: Server error", success: false })
+                })
+        }
+
+    })
+})
+
+// get all items from collection
+async function getItemsFromCollections(collections) {
+    const findObject = (array) => {
+        return Movie.find({
+            'id': {
+                $in: array,
+            },
+        }).exec();
+    }
+    const collection = collections.map(async collection => {
+        const items = await findObject(collection.items)
+        return {
+            id: collection._id,
+            title: collection.title,
+            alias: collection.alias,
+            items: items
+        }
+    })
+    const collectionsList = await Promise.all(collection)
+
+    return collectionsList;
+}
+
+// add item to existing collection
 router.post('/add', (req, res) => {
     const { alias, itemId, itemData } = req.body
 
@@ -74,7 +147,6 @@ router.post('/add', (req, res) => {
                 }
             }, null, (err, collection) => {
                 if (err) {
-                    console.log(err)
                     return res.send({
                         success: false,
                         message: 'Error: Server error'
@@ -90,7 +162,8 @@ router.post('/add', (req, res) => {
     })
 })
 
-router.post('/delete', (req, res) => {
+// remove item from collection
+router.post('/remove', (req, res) => {
     const { alias, itemId } = req.body
 
     Collection.findOneAndUpdate({

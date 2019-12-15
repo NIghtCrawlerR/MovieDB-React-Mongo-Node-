@@ -1,0 +1,54 @@
+import React from "react";
+import axios from "axios";
+
+import ItemsList from "../../ItemsList"
+import Loader from '../../common/Loader';
+
+const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
+
+class CollectionFull extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      collections: [],
+      loading: false,
+    };
+  }
+
+  componentDidMount() {
+    const { category, alias } = this.props.match.params
+    this.getCollectionsList(category, alias);
+  }
+
+  getCollectionsList(category, alias) {
+    this.setState({ loading: true });
+
+    axios.get(`${host}/api/collection/${category}/${alias}`)
+      .then(res => {
+        const collections = res.data
+        this.setState({
+          collections,
+          loading: false,
+        })
+      })
+      .catch(err => console.log(err))
+  }
+
+
+  render() {
+    const { collections, loading } = this.state;
+
+    const { category } = this.props.match.params
+
+    return (
+      <div className="container-fluid mt-4">
+        <h3>{collections.title}</h3>
+        {loading ? <Loader />
+          : <ItemsList items={collections.items} type={category} />
+        }
+      </div>
+    )
+  }
+}
+
+export default CollectionFull;

@@ -1,17 +1,34 @@
-import React, { Component } from 'react'
-import { Link } from "react-router-dom";
-import './index.css'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export default class PageTitle extends Component {
-    render() {
-        return (
-            <div className="page-title__wrap">
-                <h3 className="page-title">{this.props.title}</h3>
-                {this.props.buttonBack === false ? null :
-                    <Link className="btn btn-outline-info" to="/"><i className="fas fa-arrow-left mr-2"></i> Go back</Link>
-                }
+import Icon from '../Icon';
+import './index.css';
 
-            </div>
-        )
-    }
+function PageTitle(props) {
+  const { title, buttonBack } = props;
+
+  return (
+    <div className="page-title__wrap">
+      <h3 className="page-title">{title}</h3>
+      {buttonBack === false ? null
+        : (
+          <Link className="btn btn-outline-info" to="/">
+            <Icon name="arrow-left" />
+            Go back
+          </Link>
+        )}
+    </div>
+  );
 }
+
+PageTitle.propTypes = {
+  title: PropTypes.string.isRequired,
+  buttonBack: PropTypes.bool,
+};
+
+PageTitle.defaultProps = {
+  buttonBack: true,
+};
+
+export default PageTitle;

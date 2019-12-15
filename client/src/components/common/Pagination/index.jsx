@@ -1,48 +1,49 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactPaginate from 'react-paginate';
+import PropTypes from 'prop-types';
 
-import './index.css'
+import Icon from '../Icon';
 
-function Prev() {
-    return (
-        <i className="fas fa-chevron-left"></i>
-    );
+import './index.css';
+
+const Prev = () => <Icon name="chevron-left" />;
+
+const Next = () => <Icon name="chevron-right" />;
+
+function Pagination(props) {
+  const { pageCount, currentPage, changePage } = props;
+
+  return (
+    <ReactPaginate
+      pageCount={pageCount}
+      pageRangeDisplayed={2}
+      marginPagesDisplayed={1}
+      previousLabel={<Prev />}
+      nextLabel={<Next />}
+      containerClassName="pagination"
+      previousClassName="pagination-item"
+      nextClassName="pagination-item"
+      pageClassName="pagination-item"
+      breakClassName="pagination-item"
+      activeClassName="active"
+      pageLinkClassName="pagination-link"
+      breakLinkClassName="pagination-link"
+      previousLinkClassName="pagination-link"
+      nextLinkClassName="pagination-link"
+      disabledClassName="pagination-item--disabled"
+      forcePage={parseInt(currentPage, 10) - 1}
+      onPageChange={changePage}
+      ariaLabelBuilder={(i) => (
+        `${i}`
+      )}
+    />
+  );
 }
 
-function Next() {
-    return (
-        <i className="fas fa-chevron-right"></i>
-    );
-}
+Pagination.propTypes = {
+  pageCount: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  changePage: PropTypes.func.isRequired,
+};
 
-export default class Pagination extends Component {
-    render() {
-        return (
-            <ReactPaginate
-                pageCount={this.props.pageCount}
-                pageRangeDisplayed={2}
-                marginPagesDisplayed={1}
-                previousLabel={<Prev/>}
-                nextLabel={<Next/>}
-                containerClassName="pagination"
-                previousClassName="pagination-item"
-                nextClassName="pagination-item"
-                pageClassName="pagination-item"
-                breakClassName="pagination-item"
-                activeClassName="active"
-                pageLinkClassName="pagination-link"
-                breakLinkClassName="pagination-link"
-                previousLinkClassName="pagination-link"
-                nextLinkClassName="pagination-link"
-                disabledClassName="pagination-item--disabled"
-                forcePage={parseInt(this.props.currentPage) - 1}
-                onPageChange={this.props.changePage}
-                ariaLabelBuilder={(i) => {
-                    return (
-                        `${i}`
-                    )
-                }}
-            />
-        )
-    }
-}
+export default Pagination;
