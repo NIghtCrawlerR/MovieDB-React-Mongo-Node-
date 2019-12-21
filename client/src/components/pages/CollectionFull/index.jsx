@@ -3,6 +3,7 @@ import axios from "axios";
 
 import ItemsList from "../../ItemsList"
 import Loader from '../../common/Loader';
+import ErrorBoundary from '../../common/ErrorBoundary';
 
 const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
 
@@ -44,7 +45,11 @@ class CollectionFull extends React.Component {
       <div className="container-fluid mt-4">
         <h3>{collections.title}</h3>
         {loading ? <Loader />
-          : <ItemsList items={collections.items} type={category} />
+          : (
+            <ErrorBoundary>
+              <ItemsList items={collections.items} type={category} />
+            </ErrorBoundary>
+          )
         }
       </div>
     )

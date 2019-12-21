@@ -15,6 +15,7 @@ import {
 } from 'react-share';
 
 import Head from '../../common/Head';
+import CollectionsSelector from '../../CollectionsSelector';
 import VideoBlock from './VideoBlock';
 import InfoBlock from './InfoBlock';
 import ItemsRecommended from '../../ItemsRecommended';
@@ -40,6 +41,8 @@ class ItemFull extends Component {
       descriptionFull: true,
       loading: false,
     };
+
+    this.getItemData = this.getItemData.bind(this);
   }
 
   componentDidMount() {
@@ -59,6 +62,36 @@ class ItemFull extends Component {
     if (id !== prevProps.match.params.id) {
       this.getItem(page, id, baseUrl, apiKey, lang, 'update');
     }
+  }
+
+  getItemData() {
+    const {
+      id, title, name, slug,
+      genre_ids, genres,
+      poster_path, background_image,
+      vote_average, rating
+    } = this.state.itemData;
+
+    const {
+      match: { params: { page } },
+    } = this.props;
+
+    const newItem = {
+      id,
+      title: title || null,
+      name: name || null,
+      genre_ids: genre_ids || null,
+      genres: genres || null,
+      poster_path: poster_path || null,
+      background_image: background_image || null,
+      vote_average: vote_average || null,
+      rating: rating || null,
+      slug: slug || null,
+      itemType: page,
+      shareLink: '',
+    };
+
+    return newItem;
   }
 
   getItem(page, id, baseUrl, apiKey, lang) {
@@ -106,33 +139,12 @@ class ItemFull extends Component {
       addItemToWishlist,
     } = this.props;
 
-    const {
-      itemData: {
-        id, title, name, genre_ids, genres, poster_path, background_image, vote_average, rating, slug,
-      },
-    } = this.state;
-
     if (!user.isLogin) {
       alert('Login to add movie to your collection.');
       return !1;
     }
 
-    const newItem = {
-      id,
-      title: title || null,
-      name: name || null,
-      genre_ids: genre_ids || null,
-      genres: genres || null,
-      poster_path: poster_path || null,
-      background_image: background_image || null,
-      vote_average: vote_average || null,
-      rating: rating || null,
-      slug: slug || null,
-      itemType: page,
-      shareLink: '',
-    };
-
-    addItemToWishlist(page, newItem, user.userId);
+    addItemToWishlist(page, this.getItemData(), user.userId);
   }
 
   render() {
@@ -192,6 +204,10 @@ class ItemFull extends Component {
           ? (
             <div className="content-wrap container-fluid my-5">
               <Row>
+                <Col xs={12} style={{color: '#fff'}}>
+                  {user.data.group === 'admin'
+                    && <CollectionsSelector itemId={+id} itemData={this.getItemData()} category={page} />}
+                </Col>
                 <Col xs={12} sm={12} md={5} lg={3} className="mb-5">
                   {background_image
                     ? <img src={background_image} alt="" />

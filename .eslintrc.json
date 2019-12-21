@@ -22,7 +22,5 @@
         "react"
     ],
     "rules": {
-        "linebreak-style": ["error", "windows"],
-        "padded-blocks": ["error", { "blocks": "never" }]
     }
 }

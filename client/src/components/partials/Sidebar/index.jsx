@@ -18,17 +18,17 @@ class Sidebar extends React.Component {
           id: '02',
           name: 'Movies catalog',
           icon: 'fas fa-film',
-          link: '/catalog/movies',
+          link: '/collections/movies',
         }, {
           id: '03',
           name: 'TV Series catalog',
           icon: 'fas fa-tv',
-          link: '/catalog/tv',
+          link: '/collections/tv',
         }, {
           id: '04',
           name: 'Games catalog',
           icon: 'fas fa-gamepad',
-          link: '/catalog/games',
+          link: '/collections/games',
         },
         {
           id: '05',

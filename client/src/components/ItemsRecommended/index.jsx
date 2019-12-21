@@ -53,24 +53,32 @@ class ItemsRecommended extends Component {
   }
 
   render() {
+    const getImage = (item) => {
+      return item.poster_path ? `http://image.tmdb.org/t/p/w300${item.poster_path}` : item.background_image;
+    }
     const { items } = this.state;
     const { page } = this.props;
 
     return (
-      <>
-        {items.length > 0
-          ? (
-            <div className="items-slider mt-5">
-              <PageTitle title="Also you may like:" buttonBack={false} />
-              <Slider>
-                {
-                  items.map((item) => <Item {...item} type={page} key={item.id} img={item.poster_path ? `http://image.tmdb.org/t/p/w300${item.poster_path}` : item.background_image} />)
-                }
-              </Slider>
-            </div>
-          )
-          : null}
-      </>
+      items.length > 0
+        ? (
+          <div className="items-slider mt-5">
+            <PageTitle title="Also you may like:" buttonBack={false} />
+            <Slider>
+              {
+                items.map((item) =>
+                  (<Item
+                    {...item}
+                    type={page}
+                    key={item.id}
+                    img={getImage(item)}
+                  />)
+                )
+              }
+            </Slider>
+          </div>
+        )
+        : null
     );
   }
 }

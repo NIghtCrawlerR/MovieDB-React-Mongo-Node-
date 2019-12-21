@@ -7,6 +7,10 @@ import Item from '../../Item';
 
 class CollectionSlider extends React.Component {
   render() {
+    const getImage = (item) => {
+      return item.poster_path ? `http://image.tmdb.org/t/p/w300${item.poster_path}` : item.background_image;
+    }
+
     const { collection: {
       id,
       title,
@@ -31,7 +35,18 @@ class CollectionSlider extends React.Component {
             />
           }
         </div>
-        <ItemsList items={items} type={category} />
+        <Slider>
+          {
+            items.map((item) =>
+              (<Item
+                {...item}
+                type={category}
+                key={item.id}
+                img={getImage(item)}
+              />)
+            )
+          }
+        </Slider>
       </div>
     )
   }

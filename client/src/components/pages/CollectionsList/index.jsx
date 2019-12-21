@@ -52,7 +52,7 @@ class CollectionsList extends React.Component {
         link: `collection/${category}/${alias}`,
       }
     })
-    console.log(all, tabs)
+
     return [all, ...tabs]
   }
 
@@ -66,16 +66,16 @@ class CollectionsList extends React.Component {
   }
 
   removeColection(id) {
-    const { showMsg } = this.props;
-    axios.delete(`${host}/api/collection/delete/${id}`)
-      .then(res => {
-        const { data } = res
-        console.log(res)
-        if (data.success) {
-          this.props.showMsg("success", data.message)
-        }
-      })
-      .catch(err => console.log(err))
+    if (window.confirm('Delete funn collection?')) {
+      axios.delete(`${host}/api/collection/delete/${id}`)
+        .then(res => {
+          const { data } = res;
+          if (data.success) {
+            this.props.showMsg("success", data.message)
+          }
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   render() {
@@ -83,9 +83,9 @@ class CollectionsList extends React.Component {
     const { userData, match, showMsg } = this.props;
 
     return (
-      <div className="container-fluid mt-4">
-        <BrickTabs tabs={tabs} main={false} />
+      <div className="container-fluid my-4">
         <AddCollectionForm userData={userData} showMsg={showMsg} />
+        <BrickTabs tabs={tabs} main={false} />
         {loading ? <Loader /> : (
           collections.map(collection => (
             <CollectionSlider
