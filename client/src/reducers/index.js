@@ -4,7 +4,7 @@ import itemsCollectionsReducers from './itemsCollectionsReducers'
 import userReducers from './userReducers'
 
 export default combineReducers({ 
-    app: movieReducers, 
+    catalog: movieReducers, 
     collections: itemsCollectionsReducers,
     user: userReducers 
 })

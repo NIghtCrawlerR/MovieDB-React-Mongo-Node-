@@ -1,9 +1,6 @@
 import axios from 'axios'
 import {
   GET_COLLECTIONS,
-  GET_MOVIES_COLLECTIONS,
-  GET_TV_COLLECTIONS,
-  GET_GAMES_COLLECTIONS,
   GET_GENRES,
   GET_WISHLIST,
   DELETE_FROM_WISHLIST,
@@ -17,8 +14,6 @@ const movieApiRoot = process.env.REACT_APP_MOVIE_DB_URL;
 const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY;
 const lang = 'ru';
 
-const gameApiRoot = 'https://rawg.io/api';
-
 export const getCollections = () => dispatch => {
   axios.get(`${host}/api/collection/get`)
     .then(res => {
@@ -31,7 +26,6 @@ export const getCollections = () => dispatch => {
 }
 
 export const updateCollections = (checked, alias, itemId, itemData) => (dispatch) => {
-  console.log(checked, alias, itemId);
   const data = {
     alias,
     itemId,
@@ -77,51 +71,6 @@ export const getGenres = (collection) => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
-
-export const getMovies = (collection, page) => (dispatch) => new Promise((resolve, reject) => {
-  axios.get(`${movieApiRoot}/movie/${collection}?api_key=${apiKey}&language=${lang}&page=${page}`)
-    .then(res => {
-      dispatch({
-        type: GET_MOVIES_COLLECTIONS,
-        movies: res.data.results,
-        collection: collection
-      })
-      resolve({ data: res.data })
-    })
-    .catch(err => {
-      reject(err)
-    })
-});
-
-export const getTV = (collection, page) => (dispatch) => new Promise((resolve, reject) => {
-  axios.get(`${movieApiRoot}/tv/${collection}?api_key=${apiKey}&language=${lang}&page=${page}`)
-    .then(res => {
-      dispatch({
-        type: GET_TV_COLLECTIONS,
-        tv: res.data.results,
-        collection: collection
-      })
-      resolve({ data: res.data })
-    })
-    .catch(err => {
-      reject(err)
-    })
-});
-
-export const getGames = (collection, page) => (dispatch) => new Promise((resolve, reject) => {
-  axios.get(`${gameApiRoot}/collections/${collection}/games?page=${page}&page_size=18`)
-    .then(res => {
-      dispatch({
-        type: GET_GAMES_COLLECTIONS,
-        games: res.data.results,
-        collection: collection
-      })
-      resolve({ data: res.data })
-    })
-    .catch(err => {
-      reject(err)
-    })
-});
 
 export const addItemToWishlist = (collection, item, userId) => (dispatch) => new Promise((resolve, reject) => {
   axios.post(host + '/api/wishlist/add',
@@ -189,7 +138,4 @@ export const getWishlist = (itemType, items) => (dispatch) =>  //get wishlist it
         resolve({ success: true })
       })
       .catch(err => console.log(err))
-  })
-
-
-  ;
+  });

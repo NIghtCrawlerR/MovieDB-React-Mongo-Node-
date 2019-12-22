@@ -8,7 +8,7 @@ import PageHeader from '../../common/PageHeader';
 import Pagination from '../../common/Pagination';
 import Head from '../../common/Head';
 
-import { getMoviesTv, getGames, filterMovies } from '../../../actions/catalogActions';
+import { getMoviesTv, getGames } from '../../../actions/catalogActions';
 import { userGet } from '../../../actions/userActions';
 
 class Catalog extends Component {
@@ -157,7 +157,7 @@ Catalog.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  catalog: state.app,
+  catalog: state.catalog,
   user: state.user,
   moviesGenres: state.collections.moviesGenres,
 });
@@ -166,5 +166,4 @@ export default connect(mapStateToProps, {
   getMoviesTv,
   getGames,
   userGet,
-  filterMovies,
 })(Catalog);

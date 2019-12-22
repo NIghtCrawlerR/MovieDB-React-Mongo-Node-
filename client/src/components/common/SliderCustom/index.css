@@ -1,9 +1,9 @@
-.items-slider .slick-list {
+.slick-slider .slick-list {
   max-height: 470px;
   margin-top: 50px;
 }
 
-.items-slider  .movie_item {
+.slick-slider  .movie_item {
   max-width: 230px;
 }
 
@@ -35,4 +35,10 @@
 
 .items-slider__arrow.next {
   right: 14px;
+}
+
+.collections__wrap .items-slider__arrow {
+  top: -60px;
+  border-color: #333;
+  color: #333;
 }

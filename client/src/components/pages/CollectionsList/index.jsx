@@ -23,6 +23,14 @@ class CollectionsList extends React.Component {
     this.getCollectionsList(category);
   }
 
+  componentDidUpdate(prevProps) {
+    const { category } = this.props.match.params
+
+    if(category !== prevProps.match.params.category) {
+      this.getCollectionsList(category);
+    }
+  }
+
   getCollectionsList(category) {
     this.setState({ loading: true });
 
@@ -84,7 +92,7 @@ class CollectionsList extends React.Component {
 
     return (
       <div className="container-fluid my-4">
-        <AddCollectionForm userData={userData} showMsg={showMsg} />
+        <AddCollectionForm userData={userData} showMsg={showMsg} category={match.params.category} />
         <BrickTabs tabs={tabs} main={false} />
         {loading ? <Loader /> : (
           collections.map(collection => (

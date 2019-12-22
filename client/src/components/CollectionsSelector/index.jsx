@@ -17,14 +17,11 @@ class CollectionsSelector extends React.Component {
   }
 
   handleChange = (e, alias, itemId) => {
-    console.log(this.props.itemData)
     this.props.updateCollections(e.target.checked, alias, itemId, this.props.itemData)
   }
 
   render() {
     const { itemId, category, collections } = this.props;
-
-
     const collectionsList = collections.filter(el => el.category === category)
 
     return (

@@ -8,8 +8,6 @@ class CollectionsList extends React.Component {
   constructor() {
     super();
     this.state = {
-      categories: ["movies", "tv", "games"],
-      categorieSelected: null,
       showForm: true,
       title: "",
       aliasName: "",
@@ -17,15 +15,15 @@ class CollectionsList extends React.Component {
   }
 
   createCollection = () => {
-    const { title, aliasName, categorieSelected } = this.state;
-    const { userData } = this.props;
+    const { title, aliasName } = this.state;
+    const { userData, category } = this.props;
 
-    if (!title || !aliasName || !categorieSelected) return !1;
+    if (!title || !aliasName) return !1;
 
     const collection = {
       title: title,
       alias: aliasName,
-      category: categorieSelected
+      category
     }
 
     axios.post(`${host}/api/collection/create?userId=${userData.id}`, { collection: collection })
@@ -49,7 +47,7 @@ class CollectionsList extends React.Component {
   }
 
   render() {
-    const { categories, showForm, title, aliasName } = this.state;
+    const { showForm, title, aliasName } = this.state;
     const { userData } = this.props;
 
     return (
@@ -57,17 +55,6 @@ class CollectionsList extends React.Component {
         {showForm &&
           userData.group === "admin" &&
           <div className="add-collection my-3">
-            <div className="mt-2">
-              {categories.map((cat, i) => <Form.Check
-                key={i}
-                inline
-                label={cat}
-                type="radio"
-                name="category"
-                id={cat + i}
-                onChange={() => this.setState({ categorieSelected: cat })}
-              />)}
-            </div>
             <div className="mt-2">
               <Form.Control type="text" name="title" value={title} onChange={this.onChange} placeholder="Title" />
             </div>

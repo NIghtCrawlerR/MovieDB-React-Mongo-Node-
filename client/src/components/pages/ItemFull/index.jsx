@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import axios from 'axios';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -21,24 +19,25 @@ import InfoBlock from './InfoBlock';
 import ItemsRecommended from '../../ItemsRecommended';
 import Loader from '../../common/Loader';
 import Credits from './Credits';
+import MainInfo from './MainInfo';
+import Overview from './Overview';
+import TopInfo from './TopInfo';
 
 import {
   addItemToWishlist,
   deleteItemFromWishlist,
 } from '../../../actions/itemsCollectionsActions';
 
-import './index.css';
+import {
+  getFullItem,
+} from '../../../actions/catalogActions';
 
-const baseUrl = process.env.REACT_APP_MOVIE_DB_URL;
-const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY;
-const lang = 'ru';
+import './index.css';
 
 class ItemFull extends Component {
   constructor() {
     super();
     this.state = {
-      itemData: {},
-      descriptionFull: true,
       loading: false,
     };
 
@@ -46,11 +45,18 @@ class ItemFull extends Component {
   }
 
   componentDidMount() {
-    const { page, id } = this.props.match.params;
-    this.getItem(page, id, baseUrl, apiKey, lang);
+    const {
+      match: {
+        params: { page, id },
+      },
+      location: { pathname },
+      getFullItem,
+    } = this.props;
+
+    getFullItem(page, id);
 
     this.setState({
-      shareLink: `https://mern-movie-db.herokuapp.com${this.props.location.pathname}`,
+      shareLink: `https://mern-movie-db.herokuapp.com${pathname}`,
     });
   }
 
@@ -60,20 +66,21 @@ class ItemFull extends Component {
     } = this.props;
 
     if (id !== prevProps.match.params.id) {
-      this.getItem(page, id, baseUrl, apiKey, lang, 'update');
+      this.props.getFullItem(page, id);
     }
   }
 
   getItemData() {
     const {
-      id, title, name, slug,
-      genre_ids, genres,
-      poster_path, background_image,
-      vote_average, rating
-    } = this.state.itemData;
-
-    const {
       match: { params: { page } },
+      catalog: {
+        itemFullInfo: {
+          id, title, name, slug,
+          genre_ids, genres,
+          poster_path, background_image,
+          vote_average, rating
+        },
+      },
     } = this.props;
 
     const newItem = {
@@ -94,41 +101,26 @@ class ItemFull extends Component {
     return newItem;
   }
 
-  getItem(page, id, baseUrl, apiKey, lang) {
-    this.setState({ loading: true });
-    page = page === 'movies' ? 'movie' : page;
-
-    const requestUrl = page === 'games'
-      ? `https://rawg.io/api/games/${id}`
-      : `${baseUrl}/${page}/${id}?api_key=${apiKey}&language=${lang}&append_to_response=videos`;
-
-    axios.get(requestUrl)
-      .then((res) => {
-        this.setState({
-          itemData: res.data,
-          loading: false,
-        });
-        return res.data;
-      })
-      .catch((err) => console.log('error: ', err));
-  }
-
   deleteFromWishlist() {
     const {
-      user,
+      user: {
+        isLogin,
+        userId,
+      },
       match: { params: { page } },
+      catalog: {
+        itemFullInfo: { id },
+      },
       deleteItemFromWishlist,
     } = this.props;
 
-    const { id } = this.state.itemData;
-
-    if (!user.isLogin) {
-      alert('Login to add movie to your collection.');
+    if (!isLogin) {
+      alert('Login to update your collection.');
       return !1;
     }
 
     if (window.confirm('Delete item from wishlist?')) {
-      deleteItemFromWishlist(page, id, user.userId);
+      deleteItemFromWishlist(page, id, userId);
     }
   }
 
@@ -140,7 +132,7 @@ class ItemFull extends Component {
     } = this.props;
 
     if (!user.isLogin) {
-      alert('Login to add movie to your collection.');
+      alert('Login to update your collection.');
       return !1;
     }
 
@@ -153,8 +145,6 @@ class ItemFull extends Component {
       const valFromPrecent = (percent * 10) / 100;
       return valFromPrecent.toFixed(2);
     };
-
-    const listFromArray = (array) => array.map((item) => item.name).join(', ');
 
     const {
       match: {
@@ -172,13 +162,11 @@ class ItemFull extends Component {
       homepage, number_of_seasons, number_of_episodes,
       runtime, playtime, first_air_date, videos, name_original,
       next_episode_to_air,
-    } = this.state.itemData;
+    } = this.props.catalog.itemFullInfo;
 
-    const { itemData, loading, shareLink } = this.state;
+    const { loading, shareLink } = this.state;
 
     const imageBaseUrl = (size) => (page === 'movies' || page === 'tv' ? `http://image.tmdb.org/t/p/${size}` : '');
-
-    // const backdrop = backdrop_path ? imageBaseUrl('w780') + backdrop_path : background_image
 
     const backgroundStyle = {
       backgroundImage: `url(${backdrop_path ? imageBaseUrl('w1280') + backdrop_path : background_image})`,
@@ -188,7 +176,7 @@ class ItemFull extends Component {
     };
 
     const itemIds = user[page].map((item) => item.id);
-    const isInWishlist = itemIds.includes(this.state.itemData.id);
+    const isInWishlist = itemIds.includes(this.props.catalog.itemFullInfo.id);
 
     return (
       <div className="item_full overlay" style={backgroundStyle}>
@@ -200,134 +188,90 @@ class ItemFull extends Component {
         />
         {loading && <Loader overlay />}
         {/* <PageHeader title={name || title} image={backdrop} /> */}
-        {itemData.id
-          ? (
-            <div className="content-wrap container-fluid my-5">
-              <Row>
-                <Col xs={12} style={{color: '#fff'}}>
-                  {user.data.group === 'admin'
-                    && <CollectionsSelector itemId={+id} itemData={this.getItemData()} category={page} />}
-                </Col>
-                <Col xs={12} sm={12} md={5} lg={3} className="mb-5">
-                  {background_image
-                    ? <img src={background_image} alt="" />
-                    : <img src={imageBaseUrl('w780') + poster_path} alt="" />}
-                </Col>
-                <Col xs={12} sm={12} md={7} lg={9} className="item_full__info">
-                  <div className="info-top mb-2">
-                    {released || release_date || first_air_date
-                      ? <span>{new Date(released || release_date || first_air_date).getFullYear()}</span>
-                      : null}
-                    {runtime && <span>{`${runtime} min`}</span>}
-                    {playtime && <span>{`${playtime} hours`}</span>}
-                    {number_of_seasons && <span>{`${number_of_seasons} Seasons`}</span>}
-                    {number_of_episodes && <span>{`${number_of_episodes} Episodes`}</span>}
-                    {vote_average || rating ? (
-                      <span>
-                        <i className="fas fa-star mr-2" />
-                        {vote_average || getGameRating(rating)}
-                      </span>
-                    ) : null}
-                  </div>
-                  <h3>{name || title}</h3>
-                  {(original_title || original_name) && <small>{original_title || original_name}</small>}
-                  {
-                    this.props.user
-                      ? isInWishlist
-                        ? <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist.bind(this)}>In wishlist</Button>
-                        : <Button className="my-4" variant="outline-success" onClick={this.addToWishlist.bind(this)}>Add to wishlist</Button> : null
-                  }
 
-                  <div className="share-buttons mb-4">
-                    <FacebookShareButton url={shareLink}>
-                      <FacebookIcon size={40} round />
-                    </FacebookShareButton>
+        <div className="content-wrap container-fluid my-5">
+          <Row>
+            <Col xs={12} style={{ color: '#fff' }}>
+              {user.data.group === 'admin'
+                && <CollectionsSelector itemId={+id} itemData={this.getItemData()} category={page} />}
+            </Col>
+            <Col xs={12} sm={12} md={5} lg={3} className="mb-5">
+              {background_image
+                ? <img src={background_image} alt="" />
+                : <img src={imageBaseUrl('w780') + poster_path} alt="" />}
+            </Col>
+            <Col xs={12} sm={12} md={7} lg={9} className="item_full__info">
+              <TopInfo
+                release_date={released || release_date || first_air_date}
+                runtime={runtime}
+                playtime={playtime}
+                number_of_seasons={number_of_seasons}
+                number_of_episodes={number_of_episodes}
+                rating={vote_average || getGameRating(rating)}
+              />
 
-                    <TelegramShareButton url={shareLink}>
-                      <TelegramIcon size={40} round />
-                    </TelegramShareButton>
-                  </div>
+              <h3>{name || title}</h3>
+              {(original_title || original_name) && <small>{original_title || original_name}</small>}
+              {
+                this.props.user
+                  ? isInWishlist
+                    ? <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist.bind(this)}>In wishlist</Button>
+                    : <Button className="my-4" variant="outline-success" onClick={this.addToWishlist.bind(this)}>Add to wishlist</Button> : null
+              }
 
-                  <Row>
-                    <Col xs={12} sm={12} md={6} lg={4}>
-                      {genres
-                        ? <InfoBlock title="Genres:" data={genres.map((genre) => genre.name).join(', ')} />
-                        : null}
-                      {released || release_date
-                        ? <InfoBlock title="Release date:" data={new Date(released || release_date).toLocaleDateString()} />
-                        : null}
-                      {first_air_date
-                        ? <InfoBlock title="First air date:" data={new Date(first_air_date).toLocaleDateString()} />
-                        : null}
-                      {next_episode_to_air
-                        ? <InfoBlock title="Next episod date:" data={new Date(next_episode_to_air.air_date).toLocaleDateString()} />
-                        : null}
+              <div className="share-buttons mb-4">
+                <FacebookShareButton url={shareLink}>
+                  <FacebookIcon size={40} round />
+                </FacebookShareButton>
 
-                    </Col>
-                    <Col xs={12} sm={12} md={6} lg={4}>
-                      {developers && <InfoBlock title="Developer:" data={listFromArray(developers)} />}
-                      {publishers && <InfoBlock title="Publisher:" data={listFromArray(publishers)} />}
-                      {production_companies && production_companies.length > 0
-                        ? <InfoBlock title="Production companies:" data={listFromArray(production_companies)} />
-                        : null}
-                      {production_countries && <InfoBlock title="Countries:" data={listFromArray(production_countries)} />}
-                      {platforms && <InfoBlock title="Platforms:" data={listFromArray(platforms)} />}
-                    </Col>
-                  </Row>
+                <TelegramShareButton url={shareLink}>
+                  <TelegramIcon size={40} round />
+                </TelegramShareButton>
+              </div>
 
-                  <Credits id={id} category={page} />
+              <MainInfo
+                genres={genres}
+                released={released}
+                release_date={release_date}
+                first_air_date={first_air_date}
+                next_episode_to_air={next_episode_to_air}
+                developers={developers}
+                publishers={publishers}
+                production_companies={production_companies}
+                production_countries={production_countries}
+                platforms={platforms}
+                website={homepage || website}
+              />
 
-                  {homepage || website
-                    ? <InfoBlock title="Website:" data={<a href={homepage || website} target="blank">{homepage || website}</a>} />
-                    : null}
+              <Credits id={id} category={page} />
 
-                  {stores
-                    ? (
-                      <InfoBlock
-                        title="Stores:"
-                        data={
-                          stores.map((store, i) => <Button key={i} href={store.url} target="_blank" className="mr-2 mb-2" variant="outline-secondary">{store.store.name}</Button>)
-                        }
-                      />
-                    )
-                    : null}
+              {stores
+                && (
+                  <InfoBlock
+                    title="Stores:"
+                    data={
+                      stores.map((store, i) => <Button key={i} href={store.url} target="_blank" className="mr-2 mb-2" variant="outline-secondary">{store.store.name}</Button>)
+                    }
+                  />
+                )}
 
-                  <div className="video" style={{ position: 'relative' }}>
-                    {page === 'games' ? <VideoBlock gameTitle={name_original} /> : null}
+              <div className="video" style={{ position: 'relative' }}>
+                {page === 'games' ? <VideoBlock gameTitle={name_original} /> : null}
 
-                    {videos && videos.results.length > 0
-                      ? <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${videos.results[0].key}`} />
-                      : null}
-                  </div>
+                {videos && videos.results.length > 0
+                  ? <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${videos.results[0].key}`} />
+                  : null}
+              </div>
 
-                  {overview
-                    ? (
-                      <>
-                        <h3 className="text-uppercase mt-5">Overview</h3>
-                        <div className="overview">
-                          <p>{overview}</p>
-                        </div>
-                      </>
-                    )
-                    : null}
-
-                  {description
-                    ? (
-                      <>
-                        <h3 className="text-uppercase mt-5">Overview</h3>
-                        <div className="overview" dangerouslySetInnerHTML={{ __html: description }} />
-                      </>
-                    )
-                    : null}
-
-                </Col>
-                <Col xs={12}>
-                  <ItemsRecommended page={page} id={id} />
-                </Col>
-              </Row>
-            </div>
-          )
-          : null}
+              <Overview
+                overview={overview || description}
+              />
+            </Col>
+            <Col xs={12}>
+              <ItemsRecommended page={page} id={id} />
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }
@@ -335,9 +279,11 @@ class ItemFull extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  catalog: state.catalog,
 });
 
 export default connect(mapStateToProps, {
   addItemToWishlist,
   deleteItemFromWishlist,
+  getFullItem,
 })(ItemFull);

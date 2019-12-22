@@ -30,10 +30,6 @@ class Wishlist extends Component {
     };
   }
 
-  // filter(filter) {
-  //     this.props.filterMovies(this.props.user.movies, filter)
-  // }
-
   componentDidMount() {
     const token = getFromStorage('token');
     if (!token) {

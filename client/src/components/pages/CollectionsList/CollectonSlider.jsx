@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Slider from '../../common/SliderCustom';
 import Icon from '../../common/Icon';
-import ItemsList from '../../ItemsList';
 import Item from '../../Item';
 
 class CollectionSlider extends React.Component {
@@ -23,9 +22,9 @@ class CollectionSlider extends React.Component {
     } = this.props;
 
     return (
-      <div>
-        <div className="d-flex justify-space-between align-items-center">
-          <h3 className="mr-3">
+      <div className="collections__wrap">
+        <div className="d-flex justify-space-between align-items-center mb-4">
+          <h3 className="mx-3">
             <Link to={`/collection/${category}/${alias}`}>{title}</Link>
           </h3>
           {userData.group === "admin" &&
