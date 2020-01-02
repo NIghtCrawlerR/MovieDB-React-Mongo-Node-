@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Slider from '../../common/SliderCustom';
 import Icon from '../../common/Icon';
-import Item from '../../Item';
+import ItemsList from '../../ItemsList';
 
-class CollectionSlider extends React.Component {
+class Collection extends React.Component {
   render() {
     const getImage = (item) => {
       return item.poster_path ? `http://image.tmdb.org/t/p/w300${item.poster_path}` : item.background_image;
@@ -34,21 +33,10 @@ class CollectionSlider extends React.Component {
             />
           }
         </div>
-        <Slider>
-          {
-            items.map((item) =>
-              (<Item
-                {...item}
-                type={category}
-                key={item.id}
-                img={getImage(item)}
-              />)
-            )
-          }
-        </Slider>
+        <ItemsList items={items} type={category} />
       </div>
     )
   }
 }
 
-export default CollectionSlider;
+export default Collection;

@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
-import movieReducers from './catalogReducers'
-import itemsCollectionsReducers from './itemsCollectionsReducers'
-import userReducers from './userReducers'
+import catalog from './catalog'
+import collections from './collections'
+import wishlist from './wishlist'
+import user from './user'
 
 export default combineReducers({ 
-    catalog: movieReducers, 
-    collections: itemsCollectionsReducers,
-    user: userReducers 
+    catalog, 
+    collections,
+    wishlist,
+    user 
 })

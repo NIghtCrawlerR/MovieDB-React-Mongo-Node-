@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { setInStorage } from '../../../utils/storage';
 
-import { login } from '../../../actions/userActions';
+import { login } from '../../../actions';
 import Loader from '../../common/Loader';
 import PageTitle from '../../common/PageTitle';
 import Input from '../../common/Input';

@@ -29,7 +29,6 @@ module.exports = (function () {
     router.route('/bugreport').post((req, res) => {
         bot.sendBugReport(req.body)
         res.json({ 'status': 'success', 'text': 'Report was send successfully. Thank you!' })
-
     })
 
     return router

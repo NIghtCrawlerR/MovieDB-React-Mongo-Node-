@@ -10,7 +10,7 @@ import {
   addItemToWishlist,
   deleteItemFromWishlist,
   updateWishlist,
-} from '../../actions/itemsCollectionsActions';
+} from '../../actions';
 
 import './index.css';
 

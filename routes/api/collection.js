@@ -24,13 +24,19 @@ router.post('/create', checkAccess, (req, res) => {
         }
 
         newCollection.save()
-            .then(() => res.status(200).json({ message: "Collection creaed successfuly", success: true }))
+            .then(() => res.status(200).json({ 
+                message: "Collection creaed successfuly",
+                success: true,
+                item: newCollection,
+            }))
             .catch(err => {
                 res.status(500).json({ message: "Error: Server error", success: false })
             })
     })
 })
 
+
+// Delete collection
 router.delete('/delete/:id', (req, res) => {
     const { id } = req.params
     
@@ -49,7 +55,7 @@ router.delete('/delete/:id', (req, res) => {
     })
 })
 
-// ?
+// get all collections lists
 router.get('/get', (req, res) => {
     Collection.find((err, collections) => {
         if (err) {
@@ -61,14 +67,14 @@ router.get('/get', (req, res) => {
 
 
 
-// get collection byt category name (Ex: movies)
+// get all collections in category by category name (Ex: movies)
 router.get('/get/:category', (req, res) => {
     const { category } = req.params;
     Collection.find({ category: category }, (err, collections) => {
         if (err) {
             res.status(500).json({ message: "Error: Server error", success: false })
         } else {
-            getItemsFromCollections(collections)
+            getItemsFromCollections(collections, 6)
                 .then(response => {
                     return res.json(response)
                 })
@@ -80,13 +86,15 @@ router.get('/get/:category', (req, res) => {
     })
 })
 
+
+// get all items in one collection by alias name (Ex: best-movies)
 router.get('/:category/:alias', (req, res) => {
-    const { category, alias } = req.params;
+    const { alias } = req.params;
     Collection.find({ alias: alias }, (err, collections) => {
         if (err) {
             res.status(500).json({ message: "Error: Server error", success: false })
         } else {
-            getItemsFromCollections(collections)
+            getItemsFromCollections(collections, 0)
                 .then(response => {
                     return res.json(response[0])
                 })
@@ -99,13 +107,13 @@ router.get('/:category/:alias', (req, res) => {
 })
 
 // get all items from collection
-async function getItemsFromCollections(collections) {
+async function getItemsFromCollections(collections, limit) {
     const findObject = (array) => {
         return Movie.find({
             'id': {
                 $in: array,
             },
-        }).exec();
+        }).limit(limit).exec();
     }
     const collection = collections.map(async collection => {
         const items = await findObject(collection.items)

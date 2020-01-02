@@ -23,8 +23,14 @@ import Message from './StatusMessage';
 
 import store from '../store';
 import { getFromStorage, removeFromStorage } from '../utils/storage';
-import { verifyUser, logout, userGet } from '../actions/userActions';
-import { getGenres, getCollections } from '../actions/itemsCollectionsActions';
+
+import {
+  verifyUser,
+  logout,
+  userGet,
+  getGenres,
+  getCollections
+} from '../actions';
 
 
 class RootComponent extends React.Component {

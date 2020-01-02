@@ -17,21 +17,21 @@ function BrickTabs(props) {
 
   return (
     <div className="tabs">
-      <Row>
-        {tabs.map((tab) => (
-          <Col key={tab.value}>
-            <NavLink activeClassName="active" className="nav-link" to={`${path}/${tab.link}`}>
-              <Card className={main ? 'main' : ''} text="white">
-                <img src={tab.img} alt="" />
-                <Card.Body>
-                  <Card.Title className="title">{tab.title}</Card.Title>
-                  <Card.Text className="text">{tab.text}</Card.Text>
-                </Card.Body>
-              </Card>
-            </NavLink>
-          </Col>
-        ))}
-      </Row>
+      {tabs.map((tab) => (
+        <NavLink
+          key={tab.value}
+          activeClassName="active"
+          className={`nav-link tab-container ${main ? 'main' : ''}`}
+          to={`${path}/${tab.link}`}
+        >
+          {/* <img src={tab.img} alt="" /> */}
+          <div className="tab-body">
+            <h3 className="tab-title">
+              {tab.title}
+            </h3>
+          </div>
+        </NavLink>
+      ))}
     </div>
   );
 }

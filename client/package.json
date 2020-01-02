@@ -5,18 +5,18 @@
   "dependencies": {
     "@types/bootstrap": "^4.3.1",
     "axios": "^0.19.0",
-    "bootstrap": "^4.3.1",
-    "eslint": "^5.6.0",
+    "bootstrap": "^4.4.1",
+    "eslint": "^6.8.0",
     "prop-types": "^15.7.2",
     "pure-react-carousel": "^1.24.1",
-    "react": "^16.11.0",
-    "react-bootstrap": "^1.0.0-beta.14",
-    "react-dom": "^16.11.0",
+    "react": "^16.12.0",
+    "react-bootstrap": "^1.0.0-beta.16",
+    "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
     "react-paginate": "^6.3.2",
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.0.0",
+    "react-scripts": "3.3.0",
     "react-select": "^3.0.8",
     "react-share": "^3.0.1",
     "react-slick": "^0.25.2",
@@ -24,7 +24,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.4"
   },
   "proxy": "https://mern-movie-db.herokuapp.com/",
   "scripts": {
@@ -48,9 +48,9 @@
   },
   "devDependencies": {
     "eslint-config-airbnb": "^18.0.1",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
-    "eslint-plugin-react-hooks": "^1.7.0"
+    "eslint-plugin-react-hooks": "^2.3.0"
   }
 }

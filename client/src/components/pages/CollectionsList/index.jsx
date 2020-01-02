@@ -1,10 +1,16 @@
 import React from "react";
 import axios from "axios"
+import { connect } from 'react-redux';
 
 import BrickTabs from '../../common/BrickTabs';
-import AddCollectionForm from './AddCollectionForm';
+import CollectionForm from './CollectionForm';
 import Loader from '../../common/Loader';
-import CollectionSlider from './CollectonSlider';
+import Collection from './Collection';
+
+import {
+  createCollection,
+  getCollectionsFromCategory,
+} from '../../../actions';
 
 const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
 
@@ -26,24 +32,19 @@ class CollectionsList extends React.Component {
   componentDidUpdate(prevProps) {
     const { category } = this.props.match.params
 
-    if(category !== prevProps.match.params.category) {
+    if (category !== prevProps.match.params.category) {
       this.getCollectionsList(category);
     }
   }
 
   getCollectionsList(category) {
-    this.setState({ loading: true });
+    const { getCollectionsFromCategory } = this.props;
+    getCollectionsFromCategory(category);
+  }
 
-    axios.get(`${host}/api/collection/get/${category}`)
-      .then(res => {
-        const collections = res.data
-        this.setState({
-          collections,
-          loading: false,
-          tabs: this.createTabs(collections, category)
-        })
-      })
-      .catch(err => console.log(err))
+  createCollection = (collection) => {
+    const { createCollection, userData } = this.props;
+    createCollection(userData.id, collection);
   }
 
   createTabs(collections, category) {
@@ -74,7 +75,7 @@ class CollectionsList extends React.Component {
   }
 
   removeColection(id) {
-    if (window.confirm('Delete funn collection?')) {
+    if (window.confirm('Delete full collection?')) {
       axios.delete(`${host}/api/collection/delete/${id}`)
         .then(res => {
           const { data } = res;
@@ -87,28 +88,40 @@ class CollectionsList extends React.Component {
   }
 
   render() {
-    const { collections, loading, tabs } = this.state;
-    const { userData, match, showMsg } = this.props;
+    const { loading } = this.state;
+    const { userData, match, showMsg, categoryCollections } = this.props;
+    const { params: { category } } = match;
 
     return (
       <div className="container-fluid my-4">
-        <AddCollectionForm userData={userData} showMsg={showMsg} category={match.params.category} />
-        <BrickTabs tabs={tabs} main={false} />
+        <CollectionForm
+          userData={userData}
+          showMsg={showMsg}
+          category={category}
+          createCollection={this.createCollection}
+        />
+        <BrickTabs tabs={this.createTabs(categoryCollections, category)} main={false} />
         {loading ? <Loader /> : (
-          collections.map(collection => (
-            <CollectionSlider
+          categoryCollections.map(collection => (
+            <Collection
               key={collection.id}
               collection={collection}
-              category={match.params.category}
+              category={category}
               userData={userData}
               removeColection={this.removeColection.bind(this)}
             />
           ))
         )}
-
       </div>
     )
   }
 }
 
-export default CollectionsList;
+const mapStateToProps = state => ({
+  categoryCollections: state.collections.categoryCollections
+})
+
+export default connect(mapStateToProps, {
+  createCollection,
+  getCollectionsFromCategory,
+})(CollectionsList);

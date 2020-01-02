@@ -26,11 +26,8 @@ import TopInfo from './TopInfo';
 import {
   addItemToWishlist,
   deleteItemFromWishlist,
-} from '../../../actions/itemsCollectionsActions';
-
-import {
   getFullItem,
-} from '../../../actions/catalogActions';
+} from '../../../actions';
 
 import './index.css';
 

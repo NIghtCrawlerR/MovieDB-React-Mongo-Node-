@@ -1,46 +1,53 @@
 .tabs {
+    display: flex;
     margin: 20px 0 50px 0;
 }
 
-.tabs .title {
+.tab-container {
+    position: relative;
+    border-radius: 4px;
+    margin: 0 15px;
+    overflow: hidden;
+    transition: all .3s;
+}
+
+.tab-container:nth-child(1n + 1) {
+    background: linear-gradient(135deg, #1CB5E0 0%, #000851 100%);
+}
+
+.tab-container:nth-child(2n + 1) {
+    background: linear-gradient(135deg, #d53369 0%, #daae51 100%);
+}
+
+.tab-container:nth-child(3n+1) {
+    background: linear-gradient(135deg, #FDBB2D 0%, #22C1C3 100%);
+}
+
+.tab-title {
     text-transform: uppercase;
     font-size: 24px;
     font-weight: 500;
+    color: #fff;
     letter-spacing: 1.5px;
     margin: 0;
 }
 
-.tabs .card {
-    position: relative;
-    border: 0;
-    overflow: hidden;
-    background: #15363d;
-}
-
-.tabs .card.main {
+.tab-container.main {
     min-height: 250px;
+    flex: 1;
 }
 
-.tabs .card-body {
-    position: relative;
-    border: 0;
-    padding: 0 30px;
-    min-height: 110px;
+.tab-body {
     display: flex;
     align-items: center;
-    /* justify-content: center; */
-}
-
-.tabs .col {
-    min-width: 30%;
+    justify-items: center;
+    height: 100%;
+    min-height: 110px;
+    padding: 0 30px;
 }
 
 .card {
     transition: all .3s;
-}
-
-.card:hover {
-    background: #98b2eb !important;
 }
 
 .card img {
@@ -53,7 +60,7 @@
     opacity: .7;
 }
 
-.card:hover {
+.tab-container:hover {
     box-shadow: 0 0 15px 5px #c7c7c7;
 }
 

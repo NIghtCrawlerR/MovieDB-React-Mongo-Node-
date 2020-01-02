@@ -2,10 +2,34 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip';
+
 import InfoBlock from './InfoBlock';
 
 const BASE_URL = process.env.REACT_APP_MOVIE_DB_URL;
 const API_KEY = process.env.REACT_APP_MOVIE_DB_API_KEY;
+const IMAGE_BASEURL = 'http://image.tmdb.org/t/p/w300';
+
+const ProfileImage = (props) => {
+  const { name, category, id, profile_path } = props;
+  return (
+    <OverlayTrigger
+      placement="bottom"
+      overlay={
+        <Tooltip>
+          {name}
+        </Tooltip>
+      }
+    >
+      <Link to={`/search/${category}/cast/${id}`} className="cast-profile-link">
+        {profile_path ?
+          <img src={IMAGE_BASEURL + profile_path} alt={name} />
+          : name}
+      </Link>
+    </OverlayTrigger>
+  )
+}
 
 class Credits extends React.Component {
   constructor() {
@@ -44,8 +68,13 @@ class Credits extends React.Component {
   render() {
     const castListFromArray = (array, category) => {
       return array.map((member) => (
-        <Link key={member.id} to={`/search/${category}/cast/${member.id}`}>{member.name}</Link>))
-        .reduce((prev, curr) => [prev, ', ', curr]);
+        <ProfileImage
+          name={member.name}
+          id={member.id}
+          profile_path={member.profile_path}
+          category={category}
+        />
+      ));
     };
 
     const { cast, directing, production, writing } = this.state;
@@ -53,10 +82,17 @@ class Credits extends React.Component {
 
     return (
       <div>
-        {cast.length > 0 && <InfoBlock title="В ролях:" data={castListFromArray(cast, category)} />}
-        {directing.length > 0 && <InfoBlock title="Режиссер:" data={castListFromArray(directing, category)} />}
-        {production.length > 0 && <InfoBlock title="Продюсеры:" data={castListFromArray(production, category)} />}
-        {writing.length > 0 && <InfoBlock title="Сценарий:" data={castListFromArray(writing, category)} />}
+        {/* Cast */}
+        {cast.length > 0 && <InfoBlock className="cast-wrap" title="В ролях:" data={castListFromArray(cast, category)} />}
+
+        {/* Directing */}
+        {directing.length > 0 && <InfoBlock className="cast-wrap" title="Режиссер:" data={castListFromArray(directing, category)} />}
+
+        {/* Production */}
+        {production.length > 0 && <InfoBlock className="cast-wrap" title="Продюсеры:" data={castListFromArray(production, category)} />}
+
+        {/* Writing */}
+        {writing.length > 0 && <InfoBlock className="cast-wrap" title="Сценарий:" data={castListFromArray(writing, category)} />}
       </div>
     );
   }

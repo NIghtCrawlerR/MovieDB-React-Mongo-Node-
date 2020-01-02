@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import ItemsList from '../../ItemsList'
-// import Filter from '../../Filter'
-import { getWishlist } from '../../../actions/itemsCollectionsActions';
+import { connect } from 'react-redux';
+
+import ItemsList from '../../ItemsList';
 import Head from '../../common/Head';
+
+import { getWishlist } from '../../../actions';
 
 class List extends Component {
   constructor(props) {
@@ -25,7 +26,6 @@ class List extends Component {
   }
 
   getList(collection) {
-    // if(collections.wishlist[match.params.collection].length === 0)
     this.setState({ loading: true });
 
     const ids = this.props.user[collection].map((item) => item.id);
@@ -41,7 +41,7 @@ class List extends Component {
       match: {
         params: { collection },
       },
-      collections,
+      wishlist,
     } = this.props;
     const { loading } = this.state;
 
@@ -52,7 +52,7 @@ class List extends Component {
         <ItemsList
           wishlist
           loading={loading}
-          items={collections.wishlist[collection]}
+          items={wishlist[collection]}
           type={collection}
         />
       </>
@@ -62,6 +62,7 @@ class List extends Component {
 
 const mapStateToProps = (state) => ({
   collections: state.collections,
+  wishlist: state.wishlist.wishlist,
 });
 
 export default connect(mapStateToProps, {

@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const User = require('../../models/user.model')
-const Movie = require('../../models/movie.model')
 const UserSession = require('../../models/user.session.model')
-const mongoose = require('mongoose')
 const bot = require('../../bot')
 
 
@@ -29,32 +27,6 @@ router.post('/movies/add', (req, res) => {
     })
 })
 
-// router.post('/movies/get', (req, res) => {
-//     const userId = req.body.userId
-//     User.find({ _id: userId }, (err, user) => {
-//         if (err) {
-//             return res.send({
-//                 succes: false,
-//                 message: 'Error: Server error. ' + err
-//             })
-//         }
-
-//         let arr = user[0].movies.map(movie => movie.id)
-//         arr = arr.map(movie => mongoose.Types.ObjectId(movie))
-//         Movie.find({
-//             '_id': {
-//                 $in: arr
-//             }
-//         }, function (err, docs) {
-//             return res.send({
-//                 succes: true,
-//                 message: 'Success',
-//                 movies: user[0].movies,
-//                 moviesList: docs
-//             })
-//         });
-//     })
-// })
 
 router.post('/login', (req, res) => {
     let { email, password } = req.body

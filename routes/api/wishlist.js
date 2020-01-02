@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../../models/user.model')
 const Movie = require('../../models/movie.model')
 
+// get items from user's wishlist
 router.post('/get', (req, res) => {
     const { items, itemType } = req.body;
 
@@ -23,9 +24,10 @@ router.post('/get', (req, res) => {
     });
 })
 
+
+// update user's wishlist
 router.post('/update', (req, res) => {
-    const { collection, action, itemId, userId, value } = req.body
-    console.log(collection, action, itemId, userId)
+    const { collection, action, itemId, userId, value } = req.body;
 
     User.findOneAndUpdate({
         _id: userId,
@@ -38,7 +40,6 @@ router.post('/update', (req, res) => {
         }
     }, null, (err, user) => {
         if (err) {
-            console.log(err)
             return res.send({
                 success: false,
                 message: 'Error: Server error'
@@ -51,6 +52,7 @@ router.post('/update', (req, res) => {
     })
 })
 
+// add item to user's wishlist
 router.post('/add', (req, res) => {
     const { collection, item, userId } = req.body
 
@@ -96,6 +98,7 @@ router.post('/add', (req, res) => {
     })
 })
 
+// delete item from user's wishlist
 router.post('/delete', (req, res) => {
     const { itemId, userId, collection } = req.body
 

@@ -1,6 +1,6 @@
-import React from "react";
-import Form from 'react-bootstrap/Form'
-import axios from "axios"
+import React from 'react';
+import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 
 const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
 
@@ -15,8 +15,9 @@ class CollectionsList extends React.Component {
   }
 
   createCollection = () => {
+    console.log('create')
     const { title, aliasName } = this.state;
-    const { userData, category } = this.props;
+    const { createCollection, category } = this.props;
 
     if (!title || !aliasName) return !1;
 
@@ -26,15 +27,7 @@ class CollectionsList extends React.Component {
       category
     }
 
-    axios.post(`${host}/api/collection/create?userId=${userData.id}`, { collection: collection })
-      .then(res => {
-        if (res.data.success) {
-          this.props.showMsg("success", "New collection created successfuly!")
-        } else throw new Error(res.data.message)
-      })
-      .catch(err => {
-        this.props.showMsg("error", `${err}`)
-      })
+    createCollection(collection)
   }
 
   onChange = (e) => {

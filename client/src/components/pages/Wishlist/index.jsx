@@ -7,7 +7,7 @@ import Tabs from '../../common/Tabs';
 import Items from './Items';
 import { getFromStorage } from '../../../utils/storage';
 
-import { getWishlist } from '../../../actions/itemsCollectionsActions';
+import { getWishlist } from '../../../actions';
 
 class Wishlist extends Component {
   constructor(props) {
@@ -64,6 +64,7 @@ class Wishlist extends Component {
 const mapStateToProps = (state) => ({
   user: state.user,
   collections: state.collections,
+  wishlist: state.wishlist,
 });
 
 export default connect(mapStateToProps, {

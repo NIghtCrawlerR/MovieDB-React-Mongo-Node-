@@ -8,8 +8,11 @@ import PageHeader from '../../common/PageHeader';
 import Pagination from '../../common/Pagination';
 import Head from '../../common/Head';
 
-import { getMoviesTv, getGames } from '../../../actions/catalogActions';
-import { userGet } from '../../../actions/userActions';
+import {
+  getMoviesTv,
+  getGames,
+  userGet,
+} from '../../../actions';
 
 class Catalog extends Component {
   constructor(props) {
