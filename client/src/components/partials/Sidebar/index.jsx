@@ -37,11 +37,6 @@ class Sidebar extends React.Component {
           link: '/wishlist',
           requireAuth: true,
         },
-        // {
-        //     name: 'Books catalog',
-        //     icon: 'fas fa-book-open',
-        //     link: '/catalog/books'
-        // },
         {
           id: '06',
           name: 'Bug report',
@@ -58,20 +53,20 @@ class Sidebar extends React.Component {
 
     return (
       <div className="sidebar">
-        <ListGroup className="sidebar-nav">
+        <div className="sidebar__nav">
           {navigation.map((item, i) => (
             item.requireAuth && !isLogin
               ? null
               : (
-                <ListGroup.Item key={item.id}>
+                <div className="sidebar__item" key={item.id}>
                   <NavLink activeClassName="active" to={item.link}>
                     <i className={item.icon} />
                   </NavLink>
-                </ListGroup.Item>
+                </div>
               )
           ))}
 
-        </ListGroup>
+        </div>
       </div>
     );
   }

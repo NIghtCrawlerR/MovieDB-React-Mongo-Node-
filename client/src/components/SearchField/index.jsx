@@ -102,7 +102,7 @@ export default class SearchField extends Component {
     const { dropdown, searchResult } = this.state;
 
     return (
-      <div className="search-field d-flex align-items-center">
+      <div className="search-field">
         <Icon name="search" />
         <Form.Control ref={this.searchField} type="text" onChange={this.isTyping} onClick={this.onClick.bind(this)} placeholder="Search..." />
         <Dropdown onToggle={this.onToggle.bind(this)} show={dropdown}>

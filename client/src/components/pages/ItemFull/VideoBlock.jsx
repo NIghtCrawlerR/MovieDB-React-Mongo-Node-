@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import axios from 'axios';
 import Loader from '../../common/Loader';
 
@@ -70,8 +70,9 @@ export default class VideoBlock extends React.Component {
         {loadingVideo
           ? <Loader />
           : game_trailers && game_trailers.length > 0
-            ? <>
-              <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${game_trailers[this.state.currentVideo].video_id}`}></iframe>
+            ? 
+            <Fragment>
+              <iframe width="100%" height="400px" title="trailer" src={`https://www.youtube.com/embed/${game_trailers[this.state.currentVideo].video_id}`}></iframe>
               {game_trailers.length > 1 ?
                 game_trailers.map((trailer, i) => (
                   <button
@@ -80,7 +81,7 @@ export default class VideoBlock extends React.Component {
                     onClick={() => this.setState({ currentVideo: i })}>{i}</button>
                 ))
                 : null}
-            </>
+            </Fragment>
             : null}
       </div>
     );

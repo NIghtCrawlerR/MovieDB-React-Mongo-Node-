@@ -13,7 +13,7 @@ function TopInfo(props) {
   return (
     <div className="info-top mb-2">
       {/* Release date */}
-      {release_date && <span>{new Date(release_date).getFullYear()}</span>}
+      {release_date && <span>{new Date(release_date).getFullYear()} year</span>}
 
       {/* Runtime (Movies) */}
       {runtime && <span>{`${runtime} min`}</span>}

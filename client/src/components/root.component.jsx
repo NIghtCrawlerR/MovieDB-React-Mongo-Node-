@@ -147,9 +147,7 @@ class RootComponent extends React.Component {
 
     return (
       <div className="app">
-        <div className="sidebar__wrap p-0">
-          <Sidebar isLogin={user.isLogin} />
-        </div>
+        <Sidebar isLogin={user.isLogin} />
         <div className="main-content p-0">
           <Header {...this.props} onClick={this.logout} />
           <Route path="/details/:page/:id" render={(props) => (<ItemFull {...props} />)} />

@@ -10,9 +10,12 @@ import InfoBlock from './InfoBlock';
 const BASE_URL = process.env.REACT_APP_MOVIE_DB_URL;
 const API_KEY = process.env.REACT_APP_MOVIE_DB_API_KEY;
 const IMAGE_BASEURL = 'http://image.tmdb.org/t/p/w300';
+const IMAGE_DEFAULT = 'https://capenetworks.com/static/images/testimonials/user-icon.svg';
 
 const ProfileImage = (props) => {
   const { name, category, id, profile_path } = props;
+  const image = profile_path ? IMAGE_BASEURL + profile_path : IMAGE_DEFAULT;
+
   return (
     <OverlayTrigger
       placement="bottom"
@@ -23,9 +26,7 @@ const ProfileImage = (props) => {
       }
     >
       <Link to={`/search/${category}/cast/${id}`} className="cast-profile-link">
-        {profile_path ?
-          <img src={IMAGE_BASEURL + profile_path} alt={name} />
-          : name}
+        <img src={image} alt={name} />
       </Link>
     </OverlayTrigger>
   )
@@ -69,6 +70,7 @@ class Credits extends React.Component {
     const castListFromArray = (array, category) => {
       return array.map((member) => (
         <ProfileImage
+          key={member.id}
           name={member.name}
           id={member.id}
           profile_path={member.profile_path}

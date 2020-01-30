@@ -1,8 +1,5 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import axios from 'axios';
-
-const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
 
 class CollectionsList extends React.Component {
   constructor() {
@@ -15,7 +12,6 @@ class CollectionsList extends React.Component {
   }
 
   createCollection = () => {
-    console.log('create')
     const { title, aliasName } = this.state;
     const { createCollection, category } = this.props;
 

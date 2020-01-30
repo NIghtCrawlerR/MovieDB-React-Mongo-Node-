@@ -53,7 +53,7 @@ class Wishlist extends Component {
       <div>
         <PageHeader title="Personal wishlist" />
         <div className="container-fluid">
-          <Tabs path="wishlist" tabs={this.state.tabs} />
+          <Tabs path="/wishlist" tabs={this.state.tabs} link />
           <Route path="/wishlist/:collection" render={(props) => (<Items {...props} user={user} />)} />
         </div>
       </div>

@@ -1,25 +1,31 @@
-.header.navbar {
-    /* padding: 10px 30px; */
-    padding: 0 0 0 60px;
-    height: 60px;
+.header {
     position: fixed;
-    z-index: 100;
-    width: 100%;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 60px;
+    padding-left: 60px;
+    background: #ec174f;
+    z-index: 100;
 }
 
-.sign-in-buttons {
-    color: #fff;
+.header__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 15px;
 }
 
-.sign-in-buttons a {
+.header__links a {
     color: #fff;
     text-transform: uppercase;
     font-size: 16px;
     padding: 0 20px;
 }
-.sign-in-buttons a:hover {
+
+.header__links a:hover {
     color: #fff;
     text-decoration: none;
 }

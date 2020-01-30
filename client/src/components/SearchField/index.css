@@ -1,5 +1,7 @@
 .search-field {
     position: relative;
+    display: flex;
+    align-items: center;
     min-width: 60%;
     flex: 1;
 }
@@ -60,9 +62,6 @@
 }
 
 .search-results__wrap {
-    /* position: absolute; */
-    /* top: 60px; */
-    /* min-width: 700px; */
     max-width: 800px;
     background: #fff;
     padding: 20px;

@@ -32,17 +32,16 @@ class Header extends React.Component {
     } = this.props;
 
     return (
-      <nav className="header navbar bg-red">
-        <div className="container-fluid">
+      <nav className="header">
+        <div className="header__content">
           <SearchField />
-          <div>
-            {!user.isLogin ? (
-              <div className="sign-in-buttons">
-                <Link to="/login">Login</Link>
-                |
-                <Link to="/register">Register</Link>
-              </div>
-            ) : (
+          {!user.isLogin ? (
+            <div className="header__links">
+              <Link to="/login">Login</Link>
+              |
+              <Link to="/register">Register</Link>
+            </div>
+          ) : (
               <div className="d-flex align-items-center">
                 <Dropdown alignRight className="user-menu">
                   <Dropdown.Toggle as={UserIcon}></Dropdown.Toggle>
@@ -59,7 +58,6 @@ class Header extends React.Component {
                 </Dropdown>
               </div>
             )}
-          </div>
         </div>
       </nav>
     );

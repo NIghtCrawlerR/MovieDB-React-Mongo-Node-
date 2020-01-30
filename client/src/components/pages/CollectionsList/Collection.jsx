@@ -5,10 +5,6 @@ import ItemsList from '../../ItemsList';
 
 class Collection extends React.Component {
   render() {
-    const getImage = (item) => {
-      return item.poster_path ? `http://image.tmdb.org/t/p/w300${item.poster_path}` : item.background_image;
-    }
-
     const { collection: {
       id,
       title,

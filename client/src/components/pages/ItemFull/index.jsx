@@ -22,6 +22,7 @@ import Credits from './Credits';
 import MainInfo from './MainInfo';
 import Overview from './Overview';
 import TopInfo from './TopInfo';
+import Tabs from '../../common/Tabs';
 
 import {
   addItemToWishlist,
@@ -36,6 +37,13 @@ class ItemFull extends Component {
     super();
     this.state = {
       loading: false,
+      tabs: [
+        { title: 'Main info', value: 'main-info' },
+        { title: 'Cast and crew', value: 'cast-and-crew', categories: ['games'] },
+        { title: 'Trailers', value: 'trailers' },
+      ],
+      tabSelected: 'main-info',
+      shareLink: '',
     };
 
     this.getItemData = this.getItemData.bind(this);
@@ -136,6 +144,12 @@ class ItemFull extends Component {
     addItemToWishlist(page, this.getItemData(), user.userId);
   }
 
+  switchTabs = (tabSelected) => {
+    this.setState({
+      tabSelected,
+    });
+  }
+
   render() {
     const getGameRating = (rate) => {
       const percent = (rate / 5) * 100;
@@ -148,6 +162,7 @@ class ItemFull extends Component {
         params: { page, id },
       },
       user,
+      catalog: { itemFullInfo },
     } = this.props;
 
     const {
@@ -159,9 +174,9 @@ class ItemFull extends Component {
       homepage, number_of_seasons, number_of_episodes,
       runtime, playtime, first_air_date, videos, name_original,
       next_episode_to_air,
-    } = this.props.catalog.itemFullInfo;
+    } = itemFullInfo;
 
-    const { loading, shareLink } = this.state;
+    const { loading, shareLink, tabs, tabSelected } = this.state;
 
     const imageBaseUrl = (size) => (page === 'movies' || page === 'tv' ? `http://image.tmdb.org/t/p/${size}` : '');
 
@@ -175,8 +190,10 @@ class ItemFull extends Component {
     const itemIds = user[page].map((item) => item.id);
     const isInWishlist = itemIds.includes(this.props.catalog.itemFullInfo.id);
 
+    const tabsFiltered = tabs.filter(tab => !tab.categories || !tab.categories.includes(page))
+
     return (
-      <div className="item_full overlay" style={backgroundStyle}>
+      <div className="item-full overlay" style={backgroundStyle}>
         <Head
           title={name || title}
           ogTitle={name || title}
@@ -184,20 +201,22 @@ class ItemFull extends Component {
           ogUrl={shareLink}
         />
         {loading && <Loader overlay />}
-        {/* <PageHeader title={name || title} image={backdrop} /> */}
 
-        <div className="content-wrap container-fluid my-5">
+        <div className="content-wrap container-fluid my-5 item-full__info">
           <Row>
+            {/* Collections selector dropdown */}
             <Col xs={12} style={{ color: '#fff' }}>
               {user.data.group === 'admin'
                 && <CollectionsSelector itemId={+id} itemData={this.getItemData()} category={page} />}
             </Col>
-            <Col xs={12} sm={12} md={5} lg={3} className="mb-5">
-              {background_image
-                ? <img src={background_image} alt="" />
-                : <img src={imageBaseUrl('w780') + poster_path} alt="" />}
-            </Col>
-            <Col xs={12} sm={12} md={7} lg={9} className="item_full__info">
+
+            {/* Left block */}
+            <Col xs={6}>
+
+              {/* Top info */}
+              <h3 className="item-full__title">{name || title}</h3>
+              {(original_title || original_name) && <p className="item-full__original-title">{original_title || original_name}</p>}
+
               <TopInfo
                 release_date={released || release_date || first_air_date}
                 runtime={runtime}
@@ -207,15 +226,7 @@ class ItemFull extends Component {
                 rating={vote_average || getGameRating(rating)}
               />
 
-              <h3>{name || title}</h3>
-              {(original_title || original_name) && <small>{original_title || original_name}</small>}
-              {
-                this.props.user
-                  ? isInWishlist
-                    ? <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist.bind(this)}>In wishlist</Button>
-                    : <Button className="my-4" variant="outline-success" onClick={this.addToWishlist.bind(this)}>Add to wishlist</Button> : null
-              }
-
+              {/* Buttons */}
               <div className="share-buttons mb-4">
                 <FacebookShareButton url={shareLink}>
                   <FacebookIcon size={40} round />
@@ -226,44 +237,76 @@ class ItemFull extends Component {
                 </TelegramShareButton>
               </div>
 
-              <MainInfo
-                genres={genres}
-                released={released}
-                release_date={release_date}
-                first_air_date={first_air_date}
-                next_episode_to_air={next_episode_to_air}
-                developers={developers}
-                publishers={publishers}
-                production_companies={production_companies}
-                production_countries={production_countries}
-                platforms={platforms}
-                website={homepage || website}
-              />
+              {
+                this.props.user
+                  ? isInWishlist
+                    ? <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist.bind(this)}>In wishlist</Button>
+                    : <Button className="my-4" variant="outline-success" onClick={this.addToWishlist.bind(this)}>Add to wishlist</Button> : null
+              }
 
-              <Credits id={id} category={page} />
-
-              {stores
-                && (
-                  <InfoBlock
-                    title="Stores:"
-                    data={
-                      stores.map((store, i) => <Button key={i} href={store.url} target="_blank" className="mr-2 mb-2" variant="outline-secondary">{store.store.name}</Button>)
-                    }
-                  />
-                )}
-
-              <div className="video" style={{ position: 'relative' }}>
-                {page === 'games' ? <VideoBlock gameTitle={name_original} /> : null}
-
-                {videos && videos.results.length > 0
-                  ? <iframe width="100%" height="400px" src={`https://www.youtube.com/embed/${videos.results[0].key}`} />
-                  : null}
+              {/* Overview */}
+              <div>
+                {background_image
+                  ? <img src={background_image} alt="" />
+                  : <img src={imageBaseUrl('w780') + poster_path} alt="" />}
+                <Overview
+                  overview={overview || description}
+                />
               </div>
-
-              <Overview
-                overview={overview || description}
-              />
             </Col>
+
+            {/* Right block */}
+            <Col xs={6}>
+              <Tabs
+                tabs={tabsFiltered}
+                active={tabSelected}
+                onSelect={this.switchTabs}
+              />
+
+              {/* Tabs content */}
+              <div className="tabs-content">
+                {tabSelected === 'main-info' &&
+                  <MainInfo
+                    genres={genres}
+                    released={released}
+                    release_date={release_date}
+                    first_air_date={first_air_date}
+                    next_episode_to_air={next_episode_to_air}
+                    developers={developers}
+                    publishers={publishers}
+                    production_companies={production_companies}
+                    production_countries={production_countries}
+                    platforms={platforms}
+                    website={homepage || website}
+                  />
+                }
+
+                {tabSelected === 'cast-and-crew' && page !== 'games' &&
+                  <Credits id={id} category={page} />
+                }
+
+                {tabSelected === 'trailers' &&
+                  <div>
+                    {page === 'games' ? <VideoBlock gameTitle={name_original} /> : null}
+
+                    {videos && videos.results.length > 0
+                      ? <iframe width="100%" height="400px" title="trailer" src={`https://www.youtube.com/embed/${videos.results[0].key}`} />
+                      : null}
+                  </div>
+                }
+
+                {stores
+                  && (
+                    <InfoBlock
+                      title="Stores:"
+                      data={
+                        stores.map((store, i) => <Button key={i} href={store.url} target="_blank" className="mr-2 mb-2" variant="outline-secondary">{store.store.name}</Button>)
+                      }
+                    />
+                  )}
+              </div>
+            </Col>
+
             <Col xs={12}>
               <ItemsRecommended page={page} id={id} />
             </Col>
