@@ -15,7 +15,7 @@ export default class List extends Component {
         {
           loading ?
             <Loader /> :
-            <div className="movies_wrap">
+            <div className="items__wrap">
               {
                 items && items.length > 0 ?
                   items.map((item, i) => (

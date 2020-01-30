@@ -1,0 +1,44 @@
+.footer {
+  position: relative;
+  border-top: 1px solid #cecece;
+  background: #e8e8e8;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  margin-top: auto;
+  z-index: 2;
+
+  a {
+    color: #333;
+    transition: all .3s;
+    text-decoration: none; 
+
+    &:hover {
+      color: #ec174f;
+      text-decoration: none;
+    }
+  }
+
+  &__contacts {
+    display: flex;
+    flex-wrap: wrap;
+
+    p {
+      margin: 0 15px 0 8px;
+      font-size: 16px;
+    }
+
+    i {
+      margin-right: 10px;
+    }
+  }
+
+  &__social {
+    a {
+      margin: 0 8px;
+      font-size: 26px;
+    }
+  }
+}

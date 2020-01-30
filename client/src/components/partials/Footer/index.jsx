@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '../../common/Icon';
-import './index.css';
+import './index.scss';
 
 function Footer() {
   return (

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import ListGroup from 'react-bootstrap/ListGroup';
-import './index.css';
+import './index.scss';
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -54,7 +53,7 @@ class Sidebar extends React.Component {
     return (
       <div className="sidebar">
         <div className="sidebar__nav">
-          {navigation.map((item, i) => (
+          {navigation.map(item => (
             item.requireAuth && !isLogin
               ? null
               : (
@@ -65,7 +64,6 @@ class Sidebar extends React.Component {
                 </div>
               )
           ))}
-
         </div>
       </div>
     );

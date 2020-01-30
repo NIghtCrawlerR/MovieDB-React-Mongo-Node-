@@ -6,7 +6,7 @@ import store from './store'
 import history from './history'
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import './App.css';
+import './App.scss';
 
 export default class App extends React.Component {
   render() {

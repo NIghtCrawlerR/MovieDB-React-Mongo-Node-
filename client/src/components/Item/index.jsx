@@ -12,7 +12,7 @@ import {
   updateWishlist,
 } from '../../actions';
 
-import './index.css';
+import './index.scss';
 
 class Item extends Component {
   constructor(props) {
@@ -125,23 +125,23 @@ class Item extends Component {
 
     return (
 
-      <div className={`movie_item ${type}`}>
+      <div className={`single-item ${type}`}>
         {user.data.group === 'admin'
           && <CollectionsSelector itemId={id} itemData={this.getItemData()} category={type} />}
-        <div className="movie_img">
-          <Link to={`/details/${type}/${searchItem}`}><img src={i} alt="img" /></Link>
+        <div className="single-item__poster-wrap">
+          <Link to={`/details/${type}/${searchItem}`}><img src={i} className="single-item__poster" alt="img" /></Link>
         </div>
-        <div className="movie_info">
-          <div className="movie_info__top">
-            <h3><Link to={`/details/${type}/${searchItem}`}>{title || name}</Link></h3>
+        <div className="single-item__info">
+          <div className="single-item__info--top">
+            <h3 className="single-item__title"><Link to={`/details/${type}/${searchItem}`}>{title || name}</Link></h3>
             {itemGenres.length > 0
               && (
-                <p className="movie__genres">
+                <p className="single-item__genres">
                   <span>{itemGenres.join(', ')}</span>
                 </p>
               )}
           </div>
-          <div className="movie_info__bottom">
+          <div className="single-item__info--bottom">
             {vote_average || rating
               ? <p className="font-weight-medium">
                 <i className="fas fa-star text-warning" style={{ fontSize: '10px' }}></i>
