@@ -146,7 +146,7 @@ class Item extends Component {
           <div className="single-item__info--bottom">
             <If condition={vote_average || rating}>
               <p className="single-item__rating">
-                {vote_average || getGameRating(rating)}
+                {(+vote_average || +getGameRating(rating)).toFixed(1)}
               </p>
             </If>
             <p className="single-item__actions">

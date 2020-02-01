@@ -1,20 +1,39 @@
 import React from "react";
-import axios from "axios"
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import BrickTabs from '../../common/BrickTabs';
+import SliderTabs from '../../common/SliderTabs';
 import CollectionForm from './CollectionForm';
 import Loader from '../../common/Loader';
 import Collection from './Collection';
 
 import {
   createCollection,
+  deleteCollection,
   getCollectionsFromCategory,
 } from '../../../actions';
 
-const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
-
 class CollectionsList extends React.Component {
+  static propTypes = {
+    userData: PropTypes.object.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        category: PropTypes.string,
+      }),
+    }).isRequired,
+    showMsg: PropTypes.func,
+    categoryCollections: PropTypes.array.isRequired,
+  };
+
+  static defaultProps = {
+    match: {
+      params: {
+        category: ""
+      },
+    },
+    showMsg: () => { },
+  };
+
   constructor() {
     super();
     this.state = {
@@ -25,12 +44,12 @@ class CollectionsList extends React.Component {
   }
 
   componentDidMount() {
-    const { category } = this.props.match.params
+    const { match: { params: { category } } } = this.props;
     this.getCollectionsList(category);
   }
 
   componentDidUpdate(prevProps) {
-    const { category } = this.props.match.params
+    const { match: { params: { category } } } = this.props;
 
     if (category !== prevProps.match.params.category) {
       this.getCollectionsList(category);
@@ -39,7 +58,15 @@ class CollectionsList extends React.Component {
 
   getCollectionsList(category) {
     const { getCollectionsFromCategory } = this.props;
-    getCollectionsFromCategory(category);
+
+    this.setState({ loading: true })
+    getCollectionsFromCategory(category)
+      .then(() => {
+        this.setState({ loading: false })
+      })
+      .catch((err) => {
+        this.setState({ loading: false })
+      })
   }
 
   createCollection = (collection) => {
@@ -76,14 +103,7 @@ class CollectionsList extends React.Component {
 
   removeColection(id) {
     if (window.confirm('Delete full collection?')) {
-      axios.delete(`${host}/api/collection/delete/${id}`)
-        .then(res => {
-          const { data } = res;
-          if (data.success) {
-            this.props.showMsg("success", data.message)
-          }
-        })
-        .catch(err => console.log(err))
+      this.props.deleteCollection(id);
     }
   }
 
@@ -100,11 +120,11 @@ class CollectionsList extends React.Component {
           category={category}
           createCollection={this.createCollection}
         />
-        <BrickTabs tabs={this.createTabs(categoryCollections, category)} main={false} />
+        <SliderTabs tabs={this.createTabs(categoryCollections, category)} loading={loading} />
         {loading ? <Loader /> : (
-          categoryCollections.map(collection => (
+          categoryCollections.map((collection, i) => (
             <Collection
-              key={collection.id}
+              key={collection.id + i}
               collection={collection}
               category={category}
               userData={userData}
@@ -123,5 +143,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   createCollection,
+  deleteCollection,
   getCollectionsFromCategory,
 })(CollectionsList);

@@ -206,8 +206,9 @@ class ItemFull extends Component {
           <Row>
             {/* Collections selector dropdown */}
             <Col xs={12} style={{ color: '#fff' }}>
+              {console.log(this.getItemData())}
               {user.data.group === 'admin'
-                && <CollectionsSelector itemId={+id} itemData={this.getItemData()} category={page} />}
+                && <CollectionsSelector itemId={+this.getItemData().id} itemData={this.getItemData()} category={page} />}
             </Col>
 
             {/* Left block */}

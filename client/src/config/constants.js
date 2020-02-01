@@ -14,6 +14,7 @@ export const ADD_TO_COLLECTION_URL = `${HOST}/api/collection/add`;
 export const REMOVE_FROM_COLLECTION_URL = `${HOST}/api/collection/remove`;
 export const FECTH_COLLECTION_BY_CATEGORY_URL = (category) => `${HOST}/api/collection/get/${category}`;
 export const CREATE_COLLECTION_URL = (userId) => `${HOST}/api/collection/create?userId=${userId}`;
+export const DELETE_COLLECTION_URL = (id) => `${HOST}/api/collection/delete/${id}`;
 
 /***
  * USER ACTIONS ENDPOINTS

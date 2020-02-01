@@ -4,6 +4,7 @@ import axios from "axios";
 import ItemsList from "../../ItemsList"
 import Loader from '../../common/Loader';
 import ErrorBoundary from '../../common/ErrorBoundary';
+import PageTitle from '../../common/PageTitle';
 
 const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
 
@@ -43,7 +44,7 @@ class CollectionFull extends React.Component {
 
     return (
       <div className="container-fluid mt-4">
-        <h3>{collections.title}</h3>
+        <PageTitle title={collections.title} />
         {loading ? <Loader />
           : (
             <ErrorBoundary>

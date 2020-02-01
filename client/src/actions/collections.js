@@ -4,6 +4,7 @@ import {
   GET_GENRES,
   UPDATE_COLLECTIONS,
   CREATE_COLLECTION,
+  DELETE_COLLECTION,
   GET_COLLECTIONS_FROM_CATEGORY,
 } from './types'
 
@@ -15,6 +16,7 @@ import {
   REMOVE_FROM_COLLECTION_URL,
   FECTH_COLLECTION_BY_CATEGORY_URL,
   CREATE_COLLECTION_URL,
+  DELETE_COLLECTION_URL,
 } from '../config/constants';
 
 const lang = 'ru';
@@ -60,27 +62,47 @@ export const updateCollections = (checked, alias, itemId, itemData) => (dispatch
 };
 
 export const getCollectionsFromCategory = (category) => dispatch => {
-  axios.get(FECTH_COLLECTION_BY_CATEGORY_URL(category))
-    .then(res => {
-      const collections = res.data
-      dispatch({
-        type: GET_COLLECTIONS_FROM_CATEGORY,
-        payload: collections,
+  return new Promise((resolve, reject) => {
+    axios.get(FECTH_COLLECTION_BY_CATEGORY_URL(category))
+      .then(res => {
+        const collections = res.data
+        dispatch({
+          type: GET_COLLECTIONS_FROM_CATEGORY,
+          payload: collections,
+        })
+
+        resolve();
       })
-    })
-    .catch(err => console.log(err))
+      .catch(err => reject(err))
+  })
+
 }
 
 export const createCollection = (userId, data) => dispatch => {
   return new Promise((resolve, reject) => {
     axios.post(CREATE_COLLECTION_URL(userId), { collection: data })
-      .then(res => {
-        if (res.data.success) {
+      .then(({ data }) => {
+        if (data.success) {
           dispatch({
             type: CREATE_COLLECTION,
-            payload: res.data.item
+            payload: data.item
           })
-        } else throw new Error(res.data.message)
+        } else throw new Error(data.message)
+      })
+      .catch(err => {
+        reject(err);
+      })
+  })
+}
+
+export const deleteCollection = (collectionId) => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios.delete(DELETE_COLLECTION_URL(collectionId))
+      .then(res => {
+        dispatch({
+          type: DELETE_COLLECTION,
+          payload: collectionId
+        })
       })
       .catch(err => {
         reject(err);

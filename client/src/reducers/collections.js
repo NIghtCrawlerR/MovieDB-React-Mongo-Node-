@@ -3,6 +3,7 @@ import {
   GET_GENRES,
   UPDATE_COLLECTIONS,
   CREATE_COLLECTION,
+  DELETE_COLLECTION,
   GET_COLLECTIONS_FROM_CATEGORY,
 } from '../actions/types'
 
@@ -40,6 +41,15 @@ export default function (state = initialState, action) {
         ...state,
         collections: [...state.collections, action.payload],
         categoryCollections: [...state.categoryCollections, action.payload],
+      }
+
+    case DELETE_COLLECTION:
+      console.log(action)
+      return {
+        ...state,
+        categoryCollections: state.categoryCollections.filter(item => {
+          return item.id !== action.payload
+        })
       }
 
     case GET_COLLECTIONS_FROM_CATEGORY:

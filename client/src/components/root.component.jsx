@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import history from '../history';
 import Homepage from './pages/Homepage';
@@ -20,6 +19,9 @@ import Sidebar from './partials/Sidebar';
 import Footer from './partials/Footer';
 
 import Message from './StatusMessage';
+import Loader from '../components/common/Loader';
+
+import { If } from './helpers/conditional-statement';
 
 import store from '../store';
 import { getFromStorage, removeFromStorage } from '../utils/storage';
@@ -31,7 +33,6 @@ import {
   getGenres,
   getCollections
 } from '../actions';
-
 
 class RootComponent extends React.Component {
   constructor(props) {
@@ -73,25 +74,15 @@ class RootComponent extends React.Component {
         accessError,
       },
     });
-    setTimeout(() => {
-      this.setState({
-        showMsg: false,
-      });
-    }, timeout || 5000);
-  }
 
-  sendRequest() {
-    axios.get('/api/users/access/get', { params: { email: this.props.user.data.email } })
-      .then((res) => {
-        this.showMsg(res.data.status, res.data.text);
-      })
-      .catch((err) => {
-        this.showMsg('error', 'Error: Something went wrong. Try to login again');
-      });
+    setTimeout(() => {
+      this.setState({ showMsg: false });
+    }, timeout || 5000);
   }
 
   updateUser() {
     const token = getFromStorage('token');
+
     if (!token) {
       this.setState({ loading: false });
       return !1;
@@ -105,11 +96,9 @@ class RootComponent extends React.Component {
       .then(() => {
         this.props.userGet(store.getState().user.userId) // get user data
           .then(() => {
-            console.log('get user');
             this.setState({ loading: false });
           })
           .catch((err) => {
-            console.log('get user error');
             this.showMsg('error', `Error: ${err}`);
           });
       })
@@ -121,6 +110,7 @@ class RootComponent extends React.Component {
 
   logout(e) {
     e.preventDefault();
+
     this.props.logout(getFromStorage('token'))
       .then((res) => {
         removeFromStorage('token');
@@ -130,19 +120,13 @@ class RootComponent extends React.Component {
 
   render() {
     const { history, user } = this.props;
-    const { loading } = this.state;
+    const { loading, showMsg, message } = this.state;
 
     if (history.location.pathname === '/') {
       return <Redirect to="/home" />;
     }
     if (loading) {
-      return (
-        <div className="text-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      );
+      return <Loader />;
     }
 
     return (
@@ -151,7 +135,7 @@ class RootComponent extends React.Component {
         <div className="main-content p-0">
           <Header {...this.props} onClick={this.logout} />
           <Route path="/details/:page/:id" render={(props) => (<ItemFull {...props} />)} />
-          <Route path="/home" render={(props) => (<Homepage {...props} />)} />
+          <Route path="/home" render={(props) => (<Homepage {...props} collections={this.props.collections} />)} />
           <Route path="/catalog/:page" render={(props) => (<Catalog {...props} />)} />
           <Route path="/collection/:category/:alias" render={(props) => (<CollectionFull {...props} />)} />
           <Route path="/collections/:category" render={(props) => (<CollectionsList {...props} userData={user.data} showMsg={this.showMsg.bind(this)} />)} />
@@ -161,22 +145,16 @@ class RootComponent extends React.Component {
           <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
           <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg.bind(this)} />)} />
 
-          {
-            this.state.showMsg
-              ? (
-                <Message
-                  message={this.state.message}
-                  close={this.hideMsg.bind(this)}
-                  sendRequest={this.sendRequest.bind(this)}
-                />
-              )
-              : null
-          }
+          <If condition={showMsg}>
+            <Message
+              message={message}
+              close={this.hideMsg.bind(this)}
+            />
+          </If>
 
           <Footer />
         </div>
       </div>
-
     );
   }
 }
@@ -184,6 +162,7 @@ class RootComponent extends React.Component {
 const mapStateToProps = (state) => ({
   user: state.user,
   genres: state.collections.genres,
+  collections: state.collections.collections,
 });
 
 export default connect(mapStateToProps, {

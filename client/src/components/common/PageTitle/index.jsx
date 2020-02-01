@@ -6,17 +6,21 @@ import { If } from '../../helpers/conditional-statement';
 import Icon from '../Icon';
 import './index.css';
 
-function PageTitle(props) {
+const goBack = () => {
+  window.history.back();
+};
+
+const PageTitle = props => {
   const { title, buttonBack } = props;
 
   return (
     <div className="page-title__wrap">
       <h3 className="page-title">{title}</h3>
       <If condition={buttonBack !== false}>
-        <Link className="btn btn-outline-info" to="/">
+        <button className="btn btn-outline-info" onClick={() => goBack()}>
           <Icon name="arrow-left" />
-          Go back
-        </Link>
+          <span className="ml-2">Back</span>
+        </button>
       </If>
     </div>
   );

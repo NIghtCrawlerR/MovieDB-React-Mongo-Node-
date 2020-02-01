@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
 
-class CollectionsList extends React.Component {
+class CollectionForm extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -60,4 +60,4 @@ class CollectionsList extends React.Component {
   }
 }
 
-export default CollectionsList;
+export default CollectionForm;
