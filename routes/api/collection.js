@@ -35,6 +35,32 @@ router.post('/create', checkAccess, (req, res) => {
     })
 })
 
+// Update collection
+router.post('/update/:alias', (req, res) => {
+    const { values } = req.body
+    const { alias } = req.params
+
+    Collection.findOneAndUpdate({ alias: alias }, {
+        $set: {
+            title: values.title,
+            alias: values.alias,
+            image: values.image,
+        }
+    }, (err) => {
+        if (err) {
+            return res.json({
+                message: "Error: Server error",
+                success: false
+            })
+        } else {
+            return res.json({
+                message: "Collection updated successfuly",
+                success: true
+            })
+        }
+    })
+})
+
 
 // Delete collection
 router.delete('/delete/:id', (req, res) => {
@@ -121,6 +147,7 @@ async function getItemsFromCollections(collections, limit) {
             id: collection._id,
             title: collection.title,
             alias: collection.alias,
+            image: collection.image || "",
             items: items
         }
     })

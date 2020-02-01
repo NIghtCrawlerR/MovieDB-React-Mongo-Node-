@@ -7,7 +7,18 @@ import './index.css';
 
 function Input(props) {
   const {
-    label, type, name, error, errorMessage, description, value, required, placeholder, onChange,
+    label,
+    type,
+    name,
+    error,
+    errorMessage,
+    description,
+    value,
+    required,
+    readonly,
+    className,
+    placeholder,
+    onChange,
   } = props;
   return (
     <>
@@ -16,7 +27,7 @@ function Input(props) {
       </If>
       <small>{description}</small>
       <input
-        className="form-control"
+        className={`form-control ${className}`}
         data-error={error}
         type={type}
         name={name}
@@ -24,6 +35,7 @@ function Input(props) {
         onChange={onChange}
         value={value || ''}
         required={required}
+        readOnly={readonly}
       />
       {errorMessage}
     </>

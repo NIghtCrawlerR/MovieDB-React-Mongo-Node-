@@ -4,6 +4,7 @@ import {
   GET_GENRES,
   UPDATE_COLLECTIONS,
   CREATE_COLLECTION,
+  UPDATE_COLLECTION,
   DELETE_COLLECTION,
   GET_COLLECTIONS_FROM_CATEGORY,
 } from './types'
@@ -16,6 +17,7 @@ import {
   REMOVE_FROM_COLLECTION_URL,
   FECTH_COLLECTION_BY_CATEGORY_URL,
   CREATE_COLLECTION_URL,
+  UPDATE_COLLECTION_URL,
   DELETE_COLLECTION_URL,
 } from '../config/constants';
 
@@ -93,6 +95,21 @@ export const createCollection = (userId, data) => dispatch => {
         reject(err);
       })
   })
+}
+
+export const updateCollection = (alias, values) => dispatch => {
+  axios.post(UPDATE_COLLECTION_URL(alias), values)
+    .then(({ data }) => {
+      // if (data.success) {
+      //   dispatch({
+      //     type: UPDATE_COLLECTION,
+      //     payload: data.item
+      //   })
+      // } else throw new Error(data.message)
+    })
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 export const deleteCollection = (collectionId) => dispatch => {

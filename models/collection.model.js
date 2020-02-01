@@ -8,6 +8,10 @@ let Collection = new Schema({
     items: {
         type: Array,
         default: [],
+    },
+    image: {
+        type: String,
+        default: "",
     }
 })
 

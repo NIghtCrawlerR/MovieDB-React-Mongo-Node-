@@ -40,6 +40,7 @@ function SliderTabs(props) {
               index={1}
               className={loading ? 'loading' : null}
             >
+              <img src={tab.image} className="slider-item__image" alt=""/>
               <NavLink
                 key={tab.value}
                 activeClassName="active"

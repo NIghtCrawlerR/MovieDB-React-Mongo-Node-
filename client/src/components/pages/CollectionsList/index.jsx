@@ -86,6 +86,7 @@ class CollectionsList extends React.Component {
         title,
         value: alias,
         link: `collection/${category}/${alias}`,
+        image: collection.image || ""
       }
     })
 

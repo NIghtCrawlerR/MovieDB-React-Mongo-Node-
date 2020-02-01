@@ -23,6 +23,7 @@ function BrickTabs(props) {
           })}
           to={`${path}/${tab.link}`}
         >
+          <img src={tab.img} alt=""/>
           <div className="tab-item__body">
             <h3 className="tab-item__title">
               {tab.title}

@@ -3,6 +3,7 @@ import {
   GET_GENRES,
   UPDATE_COLLECTIONS,
   CREATE_COLLECTION,
+  UPDATE_COLLECTION,
   DELETE_COLLECTION,
   GET_COLLECTIONS_FROM_CATEGORY,
 } from '../actions/types'
@@ -41,6 +42,11 @@ export default function (state = initialState, action) {
         ...state,
         collections: [...state.collections, action.payload],
         categoryCollections: [...state.categoryCollections, action.payload],
+      }
+
+    case UPDATE_COLLECTION:
+      return {
+        ...state
       }
 
     case DELETE_COLLECTION:
