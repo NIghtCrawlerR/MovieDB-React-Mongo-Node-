@@ -1,6 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+import { Choose, If, Else } from '../../helpers/conditional-statement';
 
 import './index.css';
 
@@ -16,15 +19,20 @@ function Tabs(props) {
             className="tab-item nav-item"
             onClick={() => onSelect(tab.value)}
           >
-            {link ?
-              <NavLink to={`${path}/${tab.value}`} className="nav-link">
-                {tab.title}
-              </NavLink>
-              :
-              <div to={`${path}/${tab.value}`} className={`nav-link ${active === tab.value ? 'active' : ''}`}>
-                {tab.title}
-              </div>
-            }
+            <Choose>
+              <If condition={link}>
+                <NavLink to={`${path}/${tab.value}`} className="nav-link">
+                  {tab.title}
+                </NavLink>
+              </If>
+              <Else>
+                <div to={`${path}/${tab.value}`} className={classNames("nav-link", {
+                  active: active === tab.value, 
+                })}>
+                  {tab.title}
+                </div>
+              </Else>
+            </Choose>
           </div>
         ))
       }

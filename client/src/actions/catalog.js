@@ -3,13 +3,15 @@ import {
   GET_GAMES,
   GET_FULL_ITEM,
 } from './types'
-import axios from 'axios'
+import axios from 'axios';
 
-const MOVIE_API_BASEURL = process.env.REACT_APP_MOVIE_DB_URL
-const GAME_API_BASEURL = 'https://rawg.io/api/games';
-const API_KEY = process.env.REACT_APP_MOVIE_DB_API_KEY
+import {
+  MOVIE_API_BASEURL,
+  MOVIE_API_KEY,
+  GAME_API_BASEURL,
+} from '../config/constants';
+
 const LANG = 'ru'
-
 
 export const getMoviesTv = (type, page, options) => dispatch => {
   const genres = options && options.genres ? `&with_genres=${options.genres.join(',')}` : ''
@@ -23,7 +25,7 @@ export const getMoviesTv = (type, page, options) => dispatch => {
     if (pageType === 'movies') pageType = 'movie'
 
     axios.get(
-      `${MOVIE_API_BASEURL}/discover/${pageType}?api_key=${API_KEY}&language=${LANG}${sort_by}&include_adult=false&include_video=false&page=${page}${year}${crew}${genres}${title}`
+      `${MOVIE_API_BASEURL}/discover/${pageType}?api_key=${MOVIE_API_KEY}&language=${LANG}${sort_by}&include_adult=false&include_video=false&page=${page}${year}${crew}${genres}${title}`
     )
       .then(res => {
         dispatch({
@@ -63,7 +65,7 @@ export const getFullItem = (category, id) => dispatch => {
 
     const requestUrl = category === 'games'
       ? `${GAME_API_BASEURL}/${id}`
-      : `${MOVIE_API_BASEURL}/${category}/${id}?api_key=${API_KEY}&language=${LANG}&append_to_response=videos`;
+      : `${MOVIE_API_BASEURL}/${category}/${id}?api_key=${MOVIE_API_KEY}&language=${LANG}&append_to_response=videos`;
 
     axios.get(requestUrl)
       .then((res) => {

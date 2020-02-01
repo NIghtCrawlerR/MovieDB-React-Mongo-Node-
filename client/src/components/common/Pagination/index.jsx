@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Icon from '../Icon';
 
-import './index.css';
+import './index.scss';
 
 const Prev = () => <Icon name="chevron-left" />;
 
@@ -25,7 +25,7 @@ function Pagination(props) {
       nextClassName="pagination-item"
       pageClassName="pagination-item"
       breakClassName="pagination-item"
-      activeClassName="active"
+      activeClassName="pagination-item--active"
       pageLinkClassName="pagination-link"
       breakLinkClassName="pagination-link"
       previousLinkClassName="pagination-link"

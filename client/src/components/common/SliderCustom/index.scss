@@ -1,0 +1,42 @@
+.slick-slider {
+  .slick-list {
+    max-height: 470px;
+    margin-top: 50px;
+  }
+
+  .single-item {
+    max-width: 230px;
+  }
+}
+
+.items-slider {
+  &__arrow {
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    top: -80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 35px;
+    padding: 0;
+    outline: none;
+    z-index: 10;
+    transition: all .3s;
+
+    &:hover {
+      background: rgba(255, 255, 255, .5);
+    }
+
+    &.prev {
+      right: 130px;
+    }
+
+    &.next {
+      right: 14px;
+    }
+  }
+}

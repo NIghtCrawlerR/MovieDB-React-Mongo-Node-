@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { If } from '../../helpers/conditional-statement';
+
 import bg from '../../../assets/bg2.jpg';
-import './index.css';
+import './index.scss';
 
 function PageHeader(props) {
   const { title, text, image } = props;
@@ -9,13 +12,13 @@ function PageHeader(props) {
 
   return (
     <div className="page-header">
-      <img src={background} alt="" />
+      <img className="page-header__background" src={background} alt="" />
       <div className="container-fluid">
         <div className="page-header__content">
-          <div className="page-header__title">
-            <h3>{title}</h3>
-          </div>
-          {text && <p className="page-header__text">{text}</p>}
+          <h3 className="page-header__title">{title}</h3>
+          <If condition={text}>
+            <p className="page-header__text">{text}</p>
+          </If>
         </div>
       </div>
     </div>

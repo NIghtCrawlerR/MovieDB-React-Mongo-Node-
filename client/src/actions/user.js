@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import {
   USER_SIGN_IN,
   USER_LOG_IN,
@@ -6,13 +8,16 @@ import {
   USER_GET,
 } from './types'
 
-import axios from 'axios'
-
-const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
+import {
+  LOGIN_URL,
+  LOGOUT_URL,
+  VERIFY_URL,
+  FETCH_CURRENT_USER_URL,
+} from '../config/constants';
 
 export const login = user => dispatch => {
   return new Promise((resolve, reject) => {
-    axios.post('/api/users/login', user)
+    axios.post(LOGIN_URL, user)
       .then((res) => {
         if (res.data.success) {
           dispatch({
@@ -38,7 +43,7 @@ export const register = () => dispatch => {
 
 export const logout = token => dispatch => {
   return new Promise((resolve, reject) => {
-    axios.get('/api/users/logout?token=' + token)
+    axios.get(LOGOUT_URL(token))
       .then(res => {
         if (res.data.success) {
           dispatch({
@@ -58,7 +63,7 @@ export const logout = token => dispatch => {
 
 export const verifyUser = token => dispatch => {
   return new Promise((resolve, reject) => {
-    axios.get('/api/users/verify?token=' + token)
+    axios.get(VERIFY_URL(token))
       .then(res => {
         if (res.data.success) {
           dispatch({
@@ -76,7 +81,7 @@ export const verifyUser = token => dispatch => {
 
 export const userGet = userId => dispatch => { //get current user data
   return new Promise((resolve, reject) => {
-    axios.get(host + '/api/users/current?userId=' + userId)
+    axios.get(FETCH_CURRENT_USER_URL(userId))
       .then(res => {
         const user = res.data
         const { data } = user;

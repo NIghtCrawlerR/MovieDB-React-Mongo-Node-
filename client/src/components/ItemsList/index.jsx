@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Item from '../Item'
 import Loader from '../common/Loader'
+import { Choose, If, Else } from '../helpers/conditional-statement';
 
 import './index.css'
 
@@ -12,9 +13,11 @@ export default class List extends Component {
 
     return (
       <React.Fragment>
-        {
-          loading ?
-            <Loader /> :
+        <Choose>
+          <If condition={loading}>
+            <Loader />
+          </If>
+          <Else>
             <div className="items__wrap">
               {
                 items && items.length > 0 ?
@@ -30,7 +33,8 @@ export default class List extends Component {
                   <p>No data</p>
               }
             </div>
-        }
+          </Else>
+        </Choose>
       </React.Fragment>
     )
   }

@@ -1,0 +1,52 @@
+.brick-tabs {
+  display: flex;
+  margin: 20px 0 50px 0;
+
+  .tab-item {
+    position: relative;
+    border-radius: 4px;
+    margin: 0 15px;
+    overflow: hidden;
+    transition: all .3s;
+  
+    &:nth-child(1n + 1) {
+      background: linear-gradient(135deg, #1CB5E0 0%, #000851 100%);
+    }
+  
+    &:nth-child(2n + 1) {
+      background: linear-gradient(135deg, #d53369 0%, #daae51 100%);
+    }
+  
+    &:nth-child(3n+1) {
+      background: linear-gradient(135deg, #FDBB2D 0%, #22C1C3 100%);
+    }
+  
+    &__body {
+      display: flex;
+      align-items: center;
+      justify-items: center;
+      height: 100%;
+      min-height: 110px;
+      padding: 0 30px;
+    }
+  
+    &__title {
+      text-transform: uppercase;
+      font-size: 24px;
+      font-weight: 500;
+      color: #fff;
+      letter-spacing: 1.5px;
+      margin: 0;
+    }
+  
+    &.main {
+      min-height: 250px;
+      flex: 1;
+    }
+  
+    &:hover {
+      box-shadow: 0 0 15px 5px #c7c7c7;
+      text-decoration: none;
+    }
+  }
+}

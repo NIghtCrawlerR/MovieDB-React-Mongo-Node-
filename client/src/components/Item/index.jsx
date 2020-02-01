@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Icon from '../common/Icon';
 
 import CollectionsSelector from '../CollectionsSelector';
+import { Choose, If, Else } from '../helpers/conditional-statement';
 
 import {
   addItemToWishlist,
@@ -102,6 +103,7 @@ class Item extends Component {
       type, title, name, img, slug, id,
       user, genre_ids, vote_average, rating,
       genres, moviesGenres,
+      wishlist,
     } = this.props;
 
     const {
@@ -126,32 +128,30 @@ class Item extends Component {
     return (
 
       <div className={`single-item ${type}`}>
-        {user.data.group === 'admin'
-          && <CollectionsSelector itemId={id} itemData={this.getItemData()} category={type} />}
+        <If condition={user.data.group === 'admin'}>
+          <CollectionsSelector itemId={id} itemData={this.getItemData()} category={type} />
+        </If>
         <div className="single-item__poster-wrap">
           <Link to={`/details/${type}/${searchItem}`}><img src={i} className="single-item__poster" alt="img" /></Link>
         </div>
         <div className="single-item__info">
           <div className="single-item__info--top">
             <h3 className="single-item__title"><Link to={`/details/${type}/${searchItem}`}>{title || name}</Link></h3>
-            {itemGenres.length > 0
-              && (
-                <p className="single-item__genres">
-                  <span>{itemGenres.join(', ')}</span>
-                </p>
-              )}
+            <If condition={itemGenres.length > 0}>
+              <p className="single-item__genres">
+                <span>{itemGenres.join(', ')}</span>
+              </p>
+            </If>
           </div>
           <div className="single-item__info--bottom">
-            {vote_average || rating
-              ? <p className="font-weight-medium">
-                <i className="fas fa-star text-warning" style={{ fontSize: '10px' }}></i>
-                {' '}
+            <If condition={vote_average || rating}>
+              <p className="single-item__rating">
                 {vote_average || getGameRating(rating)}
               </p>
-              : null}
-            <p className="ml-auto">
+            </If>
+            <p className="single-item__actions">
               {
-                this.props.wishlist && this.state.wishlistItem
+                wishlist && wishlistItem
                   ? <>
                     <span className="text-info pointer mx-2" onClick={() => this.itemAction('watched')}>
                       <Icon prefix={wishlistItem.watched ? 'fas' : 'far'} name="flag" />
@@ -162,20 +162,20 @@ class Item extends Component {
                   </> : null
               }
 
-              {
-                user
-                  ? itemIds.includes(id)
-                    ? (
-                      <span className="ml-auto pointer" title="Remove from wishlist" onClick={this.deleteFromWishlist}>
-                        <Icon name="star text-warning" />
-                      </span>
-                    )
-                    : (
-                      <span className="ml-auto pointer" title="Add to wishlist" onClick={this.addToWishlist}>
-                        <Icon prefix="far" name="star" />
-                      </span>
-                    ) : null
-              }
+              <If condition={user}>
+                <Choose>
+                  <If condition={itemIds.includes(id)}>
+                    <span className="ml-auto pointer" title="Remove from wishlist" onClick={this.deleteFromWishlist}>
+                      <Icon name="star text-warning" />
+                    </span>
+                  </If>
+                  <Else>
+                    <span className="ml-auto pointer" title="Add to wishlist" onClick={this.addToWishlist}>
+                      <Icon prefix="far" name="star" />
+                    </span>
+                  </Else>
+                </Choose>
+              </If>
             </p>
           </div>
         </div>

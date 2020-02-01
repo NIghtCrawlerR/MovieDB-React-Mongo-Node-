@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { If } from '../../helpers/conditional-statement';
 import Icon from '../Icon';
 import './index.css';
 
@@ -11,13 +12,12 @@ function PageTitle(props) {
   return (
     <div className="page-title__wrap">
       <h3 className="page-title">{title}</h3>
-      {buttonBack === false ? null
-        : (
-          <Link className="btn btn-outline-info" to="/">
-            <Icon name="arrow-left" />
-            Go back
-          </Link>
-        )}
+      <If condition={buttonBack !== false}>
+        <Link className="btn btn-outline-info" to="/">
+          <Icon name="arrow-left" />
+          Go back
+        </Link>
+      </If>
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { If } from '../../helpers/conditional-statement';
+
 import './index.css';
 
 function Input(props) {
@@ -9,9 +11,9 @@ function Input(props) {
   } = props;
   return (
     <>
-      {label
-        ? <label><b>{label}</b></label>
-        : null}
+      <If condition={label}>
+        <label><b>{label}</b></label>
+      </If>
       <small>{description}</small>
       <input
         className="form-control"

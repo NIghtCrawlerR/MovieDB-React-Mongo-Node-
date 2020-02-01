@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Icon from '../../common/Icon';
 import ItemsList from '../../ItemsList';
 
+import './index.scss';
+
 class Collection extends React.Component {
   render() {
     const { collection: {
@@ -17,9 +19,9 @@ class Collection extends React.Component {
     } = this.props;
 
     return (
-      <div className="collections__wrap">
-        <div className="d-flex justify-space-between align-items-center mb-4">
-          <h3 className="mx-3">
+      <div className="collection-group">
+        <div className="collection-group__header">
+          <h3 className="collection-group__title">
             <Link to={`/collection/${category}/${alias}`}>{title}</Link>
           </h3>
           {userData.group === "admin" &&

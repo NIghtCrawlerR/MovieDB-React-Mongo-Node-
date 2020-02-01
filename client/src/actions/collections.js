@@ -7,14 +7,20 @@ import {
   GET_COLLECTIONS_FROM_CATEGORY,
 } from './types'
 
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '';
+import {
+  MOVIE_API_BASEURL,
+  MOVIE_API_KEY,
+  FETCH_COLLECTIONS_URL,
+  ADD_TO_COLLECTION_URL,
+  REMOVE_FROM_COLLECTION_URL,
+  FECTH_COLLECTION_BY_CATEGORY_URL,
+  CREATE_COLLECTION_URL,
+} from '../config/constants';
 
-const movieApiRoot = process.env.REACT_APP_MOVIE_DB_URL;
-const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY;
 const lang = 'ru';
 
 export const getCollections = () => dispatch => {
-  axios.get(`${host}/api/collection/get`)
+  axios.get(FETCH_COLLECTIONS_URL)
     .then(res => {
       dispatch({
         type: GET_COLLECTIONS,
@@ -31,7 +37,7 @@ export const updateCollections = (checked, alias, itemId, itemData) => (dispatch
     itemData,
   };
   if (checked) {
-    axios.post(`${host}/api/collection/add`, data)
+    axios.post(ADD_TO_COLLECTION_URL, data)
       .then((res) => {
         dispatch({
           type: UPDATE_COLLECTIONS,
@@ -41,7 +47,7 @@ export const updateCollections = (checked, alias, itemId, itemData) => (dispatch
       })
       .catch((err) => console.log(err));
   } else {
-    axios.post(`${host}/api/collection/remove`, data)
+    axios.post(REMOVE_FROM_COLLECTION_URL, data)
       .then((res) => {
         dispatch({
           type: UPDATE_COLLECTIONS,
@@ -54,7 +60,7 @@ export const updateCollections = (checked, alias, itemId, itemData) => (dispatch
 };
 
 export const getCollectionsFromCategory = (category) => dispatch => {
-  axios.get(`${host}/api/collection/get/${category}`)
+  axios.get(FECTH_COLLECTION_BY_CATEGORY_URL(category))
     .then(res => {
       const collections = res.data
       dispatch({
@@ -67,7 +73,7 @@ export const getCollectionsFromCategory = (category) => dispatch => {
 
 export const createCollection = (userId, data) => dispatch => {
   return new Promise((resolve, reject) => {
-    axios.post(`${host}/api/collection/create?userId=${userId}`, { collection: data })
+    axios.post(CREATE_COLLECTION_URL(userId), { collection: data })
       .then(res => {
         if (res.data.success) {
           dispatch({
@@ -83,10 +89,10 @@ export const createCollection = (userId, data) => dispatch => {
 }
 
 export const getGenres = (collection) => (dispatch) => {
-  axios.get(`${movieApiRoot}/genre/${collection}/list?api_key=${apiKey}&language=${lang}`)
+  axios.get(`${MOVIE_API_BASEURL}/genre/${collection}/list?api_key=${MOVIE_API_KEY}&language=${lang}`)
     .then((res) => {
       const { genres } = res.data;
-      axios.get(`${movieApiRoot}/genre/tv/list?api_key=${apiKey}&language=${lang}`)
+      axios.get(`${MOVIE_API_BASEURL}/genre/tv/list?api_key=${MOVIE_API_KEY}&language=${lang}`)
         .then((res) => {
           // genres.push(res.data.genres)
           dispatch({

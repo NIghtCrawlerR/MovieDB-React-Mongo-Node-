@@ -6,10 +6,15 @@ import {
   UPDATE_WISHLIST,
 } from './types'
 
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '';
+import {
+  FETCH_WISHLIST_URL,
+  ADD_TO_WISHLIST_URL,
+  DELETE_FROM_WISHLIST_URL,
+  UPDATE_WISHLIST_URL,
+} from '../config/constants';
 
 export const addItemToWishlist = (collection, item, userId) => (dispatch) => new Promise((resolve, reject) => {
-  axios.post(host + '/api/wishlist/add',
+  axios.post(ADD_TO_WISHLIST_URL,
     { collection: collection, userId: userId, item: item })
     .then(res => {
       dispatch({
@@ -24,7 +29,7 @@ export const addItemToWishlist = (collection, item, userId) => (dispatch) => new
 });
 
 export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch) => new Promise((resolve, reject) => {
-  axios.post(host + '/api/wishlist/delete',
+  axios.post(DELETE_FROM_WISHLIST_URL,
     { collection: collection, itemId: itemId, userId: userId })
     .then(res => {
       const item = {
@@ -47,7 +52,7 @@ export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch)
 });
 
 export const updateWishlist = (collection, action, itemId, userId, value) => (dispatch) => {
-  axios.post(`${host}/api/wishlist/update`, {
+  axios.post(UPDATE_WISHLIST_URL, {
     collection, action, itemId, userId, value
   })
     .then(() => {
@@ -63,7 +68,7 @@ export const updateWishlist = (collection, action, itemId, userId, value) => (di
 
 export const getWishlist = (itemType, items) => (dispatch) =>  //get wishlist items by id arr
   new Promise((resolve, reject) => {
-    axios.post(host + '/api/wishlist/get',
+    axios.post(FETCH_WISHLIST_URL,
       { items: items, itemType: itemType })
       .then(res => {
         dispatch({
