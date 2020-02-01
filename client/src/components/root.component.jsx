@@ -18,6 +18,7 @@ import Header from './partials/Header';
 import Sidebar from './partials/Sidebar';
 import Footer from './partials/Footer';
 
+import Modal from './Modal';
 import Message from './StatusMessage';
 import Loader from '../components/common/Loader';
 
@@ -151,6 +152,8 @@ class RootComponent extends React.Component {
               close={this.hideMsg.bind(this)}
             />
           </If>
+
+          <Modal />
 
           <Footer />
         </div>

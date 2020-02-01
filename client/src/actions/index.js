@@ -29,6 +29,10 @@ import {
   userGet,
 } from './user';
 
+import {
+  toggleModal
+} from './settings';
+
 export {
   getMoviesTv,
   getGames,
@@ -49,4 +53,5 @@ export {
   logout,
   verifyUser,
   userGet,
+  toggleModal,
 }

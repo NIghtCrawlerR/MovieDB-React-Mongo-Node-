@@ -6,6 +6,7 @@ import {
   USER_LOG_OUT,
   USER_VERIFY,
   USER_GET,
+  TOGGLE_MODAL,
 } from './types'
 
 import {
@@ -30,7 +31,15 @@ export const login = user => dispatch => {
         }
         resolve(res)
       })
-      .catch(err => reject(err))
+      .catch(err => {
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
+      })
   })
 }
 
@@ -56,7 +65,15 @@ export const logout = token => dispatch => {
           resolve(res)
         }
       })
-      .catch(err => reject(err))
+      .catch(err => {
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
+      })
   })
 
 }
@@ -74,7 +91,15 @@ export const verifyUser = token => dispatch => {
         }
         resolve(res)
       })
-      .catch(err => reject(err))
+      .catch(err => {
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
+      })
   })
 
 }
@@ -95,6 +120,14 @@ export const userGet = userId => dispatch => { //get current user data
         })
         resolve(res)
       })
-      .catch(err => reject(err))
+      .catch(err => {
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
+      })
   })
 }

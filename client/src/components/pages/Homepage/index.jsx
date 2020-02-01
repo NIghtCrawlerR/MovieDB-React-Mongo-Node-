@@ -14,11 +14,12 @@ class Homepage extends React.Component {
     const { collections } = this.props;
 
     const tabs = collections.filter(collection => collection.category === category).map(collection => {
-      const { title, alias } = collection;
+      const { title, alias, image } = collection;
       return {
         title,
         value: alias,
         link: `collection/${category}/${alias}`,
+        image,
       }
     })
 

@@ -4,6 +4,7 @@ import {
   GET_WISHLIST,
   DELETE_FROM_WISHLIST,
   UPDATE_WISHLIST,
+  TOGGLE_MODAL,
 } from './types'
 
 import {
@@ -25,7 +26,15 @@ export const addItemToWishlist = (collection, item, userId) => (dispatch) => new
       })
       resolve({ success: true })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
+      })
+    })
 });
 
 export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch) => new Promise((resolve, reject) => {
@@ -48,7 +57,15 @@ export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch)
       })
       resolve({ success: true })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
+      })
+    })
 });
 
 export const updateWishlist = (collection, action, itemId, userId, value) => (dispatch) => {
@@ -63,7 +80,15 @@ export const updateWishlist = (collection, action, itemId, userId, value) => (di
         id: itemId,
       });
     })
-    .catch((err) => console.log(`Error: ${err}`));
+    .catch((err) => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
+      })
+    });
 };
 
 export const getWishlist = (itemType, items) => (dispatch) =>  //get wishlist items by id arr
@@ -78,5 +103,13 @@ export const getWishlist = (itemType, items) => (dispatch) =>  //get wishlist it
         })
         resolve({ success: true })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
+      })
   });

@@ -2,6 +2,7 @@ import {
   GET_MOVIES_TV,
   GET_GAMES,
   GET_FULL_ITEM,
+  TOGGLE_MODAL,
 } from './types'
 import axios from 'axios';
 
@@ -36,8 +37,13 @@ export const getMoviesTv = (type, page, options) => dispatch => {
         resolve(res.data)
       })
       .catch(err => {
-        console.log(err)
-        reject(err)
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
       })
   })
 }
@@ -53,8 +59,13 @@ export const getGames = (pageNumber, pageSize) => dispatch => {
         resolve(res.data)
       })
       .catch(err => {
-        console.log(err)
-        reject(err)
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
       })
   })
 }
@@ -75,6 +86,14 @@ export const getFullItem = (category, id) => dispatch => {
         })
         resolve()
       })
-      .catch((err) => reject(err));
+      .catch((err) => {
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
+      });
   })
 }

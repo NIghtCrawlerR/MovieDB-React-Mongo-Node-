@@ -7,6 +7,7 @@ import {
   UPDATE_COLLECTION,
   DELETE_COLLECTION,
   GET_COLLECTIONS_FROM_CATEGORY,
+  TOGGLE_MODAL,
 } from './types'
 
 import {
@@ -31,7 +32,15 @@ export const getCollections = () => dispatch => {
         collections: res.data
       })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
+      })
+    })
 }
 
 export const updateCollections = (checked, alias, itemId, itemData) => (dispatch) => {
@@ -49,7 +58,15 @@ export const updateCollections = (checked, alias, itemId, itemData) => (dispatch
           alias,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
+      });
   } else {
     axios.post(REMOVE_FROM_COLLECTION_URL, data)
       .then((res) => {
@@ -59,7 +76,15 @@ export const updateCollections = (checked, alias, itemId, itemData) => (dispatch
           alias,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
+      });
   }
 };
 
@@ -141,5 +166,13 @@ export const getGenres = (collection) => (dispatch) => {
         });
 
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
+      })
+    });
 };

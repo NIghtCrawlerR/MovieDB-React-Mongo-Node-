@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { If } from '../../helpers/conditional-statement';
@@ -27,11 +26,12 @@ const PageTitle = props => {
 }
 
 PageTitle.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   buttonBack: PropTypes.bool,
 };
 
 PageTitle.defaultProps = {
+  title: "",
   buttonBack: true,
 };
 

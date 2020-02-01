@@ -38,6 +38,7 @@ function SliderTabs(props) {
           {tabs.map((tab, i) => (
             <Slide
               index={1}
+              key={i}
               className={loading ? 'loading' : null}
             >
               <img src={tab.image} className="slider-item__image" alt=""/>
