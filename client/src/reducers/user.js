@@ -73,7 +73,7 @@ export default function (state = initialState, action) {
     case USER_VERIFY:
       return {
         ...state,
-        isLogin: action.isLogin,
+        isLogin: true,
         userId: action.userId,
         data: action.payload,
       }

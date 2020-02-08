@@ -1,4 +1,5 @@
 import React from 'react';
+import './index.scss';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -6,39 +7,26 @@ class ErrorBoundary extends React.Component {
     this.state = {
       hasError: false,
       error: null,
-      errorInfo: null,
+      info: null
     };
   }
-
-  static getDerivedStateFromError(error) {
-    // Обновить состояние с тем, чтобы следующий рендер показал запасной UI.
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    // Можно также сохранить информацию об ошибке в соответствующую службу журнала ошибок
-    // logErrorToMyService(error, errorInfo);
+  componentDidCatch(error, info) {
     this.setState({
-      error,
-      errorInfo,
-    })
+      hasError: true,
+      error: error,
+      info: info
+    });
   }
-
   render() {
-    const { hasError, error, errorInfo } = this.state;
-
-    if (hasError) {
-      // Можно отрендерить запасной UI произвольного вида
+    if (this.state.hasError) {
       return (
-        <div>
-          <p>Error has occured: </p>
-          <p>{error}</p>
-          <p>Error info: </p>
-          <p>{errorInfo}</p>
+        <div className="error__wrap">
+          <h2>Oops, something went wrong :(</h2>
+          <p>The error: {this.state.error.toString()}</p>
+          <p>Where it occured: {this.state.info.componentStack}</p>
         </div>
       );
     }
-
     return this.props.children;
   }
 }

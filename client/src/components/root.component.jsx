@@ -139,7 +139,13 @@ class RootComponent extends React.Component {
             <Header {...this.props} onClick={this.logout} />
           </ErrorBoundary>
           <Route path="/details/:page/:id" render={(props) => (<ItemFull {...props} />)} />
-          <Route path="/home" render={(props) => (<Homepage {...props} collections={this.props.collections} />)} />
+          <Route path="/home" render={(props) => {
+            return (
+              <ErrorBoundary>
+                <Homepage {...props} collections={this.props.collections} />
+              </ErrorBoundary>
+            )
+          }} />
           <Route path="/catalog/:page" render={(props) => (<Catalog {...props} />)} />
           <Route path="/collection/:category/:alias" render={(props) => (<CollectionFull {...props} />)} />
           <Route path="/collections/:category" render={(props) => (<CollectionsList {...props} userData={user.data} showMsg={this.showMsg.bind(this)} />)} />
@@ -156,7 +162,9 @@ class RootComponent extends React.Component {
             />
           </If>
 
-          <Modal />
+          <ErrorBoundary>
+            <Modal />
+          </ErrorBoundary>
 
           <Footer />
         </div>
