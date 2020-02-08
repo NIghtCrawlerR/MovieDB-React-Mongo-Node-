@@ -29,7 +29,7 @@ export default class SearchField extends Component {
   }
 
   showPopup = () => {
-    this.searchPopup.current.instanceRef.open();
+    this.searchPopup.current.open();
   }
 
   search(query) {

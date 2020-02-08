@@ -40,3 +40,20 @@
     margin-top: 25px;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .page-header {
+    &__content {
+      max-width: 100%;
+      padding: 20px 15px;
+    }
+
+    &__title {
+      font-size: 22px;
+    }
+
+    &__text {
+      font-size: 16px;
+    }
+  }
+}

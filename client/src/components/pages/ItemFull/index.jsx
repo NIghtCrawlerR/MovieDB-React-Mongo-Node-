@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -30,7 +27,7 @@ import {
   getFullItem,
 } from '../../../actions';
 
-import './index.css';
+import './index.scss';
 
 class ItemFull extends Component {
   constructor() {
@@ -203,114 +200,113 @@ class ItemFull extends Component {
         {loading && <Loader overlay />}
 
         <div className="content-wrap container-fluid my-5 item-full__info">
-          <Row>
+          <div>
             {/* Collections selector dropdown */}
-            <Col xs={12} style={{ color: '#fff' }}>
+            <div style={{ color: '#fff' }}>
               {user.data.group === 'admin'
                 && <CollectionsSelector itemId={+this.getItemData().id} itemData={this.getItemData()} category={page} />}
-            </Col>
+            </div>
 
-            {/* Left block */}
-            <Col xs={6}>
+            <div className="item-full__info-wrap">
+              {/* Left block */}
+              <div className="item-full__column-left">
 
-              {/* Top info */}
-              <h3 className="item-full__title">{name || title}</h3>
-              {(original_title || original_name) && <p className="item-full__original-title">{original_title || original_name}</p>}
+                {/* Top info */}
+                <h3 className="item-full__title">{name || title}</h3>
+                {(original_title || original_name) && <p className="item-full__original-title">{original_title || original_name}</p>}
 
-              <TopInfo
-                release_date={released || release_date || first_air_date}
-                runtime={runtime}
-                playtime={playtime}
-                number_of_seasons={number_of_seasons}
-                number_of_episodes={number_of_episodes}
-                rating={vote_average || getGameRating(rating)}
-              />
-
-              {/* Buttons */}
-              <div className="share-buttons mb-4">
-                <FacebookShareButton url={shareLink}>
-                  <FacebookIcon size={40} round />
-                </FacebookShareButton>
-
-                <TelegramShareButton url={shareLink}>
-                  <TelegramIcon size={40} round />
-                </TelegramShareButton>
-              </div>
-
-              {
-                this.props.user
-                  ? isInWishlist
-                    ? <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist.bind(this)}>In wishlist</Button>
-                    : <Button className="my-4" variant="outline-success" onClick={this.addToWishlist.bind(this)}>Add to wishlist</Button> : null
-              }
-
-              {/* Overview */}
-              <div>
-                {background_image
-                  ? <img src={background_image} alt="" />
-                  : <img src={imageBaseUrl('w780') + poster_path} alt="" />}
-                <Overview
-                  overview={overview || description}
+                <TopInfo
+                  release_date={released || release_date || first_air_date}
+                  runtime={runtime}
+                  playtime={playtime}
+                  number_of_seasons={number_of_seasons}
+                  number_of_episodes={number_of_episodes}
+                  rating={vote_average || getGameRating(rating)}
                 />
-              </div>
-            </Col>
 
-            {/* Right block */}
-            <Col xs={6}>
-              <Tabs
-                tabs={tabsFiltered}
-                active={tabSelected}
-                onSelect={this.switchTabs}
-              />
+                {/* Buttons */}
+                <div className="share-buttons mb-4">
+                  <FacebookShareButton url={shareLink}>
+                    <FacebookIcon size={40} round />
+                  </FacebookShareButton>
 
-              {/* Tabs content */}
-              <div className="tabs-content">
-                {tabSelected === 'main-info' &&
-                  <MainInfo
-                    genres={genres}
-                    released={released}
-                    release_date={release_date}
-                    first_air_date={first_air_date}
-                    next_episode_to_air={next_episode_to_air}
-                    developers={developers}
-                    publishers={publishers}
-                    production_companies={production_companies}
-                    production_countries={production_countries}
-                    platforms={platforms}
-                    website={homepage || website}
+                  <TelegramShareButton url={shareLink}>
+                    <TelegramIcon size={40} round />
+                  </TelegramShareButton>
+                </div>
+
+                {
+                  this.props.user
+                    ? isInWishlist
+                      ? <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist.bind(this)}>In wishlist</Button>
+                      : <Button className="my-4" variant="outline-success" onClick={this.addToWishlist.bind(this)}>Add to wishlist</Button> : null
+                }
+
+                {/* Overview */}
+                <div>
+                  {background_image
+                    ? <img src={background_image} alt="" />
+                    : <img src={imageBaseUrl('w780') + poster_path} alt="" />}
+                  <Overview
+                    overview={overview || description}
                   />
-                }
-
-                {tabSelected === 'cast-and-crew' && page !== 'games' &&
-                  <Credits id={id} category={page} />
-                }
-
-                {tabSelected === 'trailers' &&
-                  <div>
-                    {page === 'games' ? <VideoBlock gameTitle={name_original} /> : null}
-
-                    {videos && videos.results.length > 0
-                      ? <iframe width="100%" height="400px" title="trailer" src={`https://www.youtube.com/embed/${videos.results[0].key}`} />
-                      : null}
-                  </div>
-                }
-
-                {stores
-                  && (
-                    <InfoBlock
-                      title="Stores:"
-                      data={
-                        stores.map((store, i) => <Button key={i} href={store.url} target="_blank" className="mr-2 mb-2" variant="outline-secondary">{store.store.name}</Button>)
-                      }
-                    />
-                  )}
+                </div>
               </div>
-            </Col>
 
-            <Col xs={12}>
-              <ItemsRecommended page={page} id={id} />
-            </Col>
-          </Row>
+              {/* Right block */}
+              <div className="item-full__column-right">
+                <Tabs
+                  tabs={tabsFiltered}
+                  active={tabSelected}
+                  onSelect={this.switchTabs}
+                />
+
+                {/* Tabs content */}
+                <div className="tabs-content">
+                  {tabSelected === 'main-info' &&
+                    <MainInfo
+                      genres={genres}
+                      released={released}
+                      release_date={release_date}
+                      first_air_date={first_air_date}
+                      next_episode_to_air={next_episode_to_air}
+                      developers={developers}
+                      publishers={publishers}
+                      production_companies={production_companies}
+                      production_countries={production_countries}
+                      platforms={platforms}
+                      website={homepage || website}
+                    />
+                  }
+
+                  {tabSelected === 'cast-and-crew' && page !== 'games' &&
+                    <Credits id={id} category={page} />
+                  }
+
+                  {tabSelected === 'trailers' &&
+                    <div>
+                      {page === 'games' ? <VideoBlock gameTitle={name_original} /> : null}
+
+                      {videos && videos.results.length > 0
+                        ? <iframe width="100%" height="400px" title="trailer" src={`https://www.youtube.com/embed/${videos.results[0].key}`} />
+                        : null}
+                    </div>
+                  }
+
+                  {stores
+                    && (
+                      <InfoBlock
+                        title="Stores:"
+                        data={
+                          stores.map((store, i) => <Button key={i} href={store.url} target="_blank" className="mr-2 mb-2" variant="outline-secondary">{store.store.name}</Button>)
+                        }
+                      />
+                    )}
+                </div>
+              </div>
+            </div>
+            <ItemsRecommended page={page} id={id} />
+          </div>
         </div>
       </div>
     );

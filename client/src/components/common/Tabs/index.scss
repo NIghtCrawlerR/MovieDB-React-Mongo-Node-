@@ -1,0 +1,23 @@
+.tab-item {
+  .nav-link {
+    color: #333;
+    font-size: 22px;
+    font-weight: 500;
+    padding: 0;
+    margin: 10px 30px 10px 0;
+    cursor: pointer;
+
+    &:hover {
+      color: #ec174f;
+    }
+
+    &.active {
+      color: #ec174f;
+      border-bottom: 2px solid #ec174f;
+    }
+  }
+}
+
+.top-list .tabs {
+  padding: 0 15px;
+}

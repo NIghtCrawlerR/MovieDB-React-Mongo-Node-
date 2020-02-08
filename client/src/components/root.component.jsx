@@ -21,6 +21,7 @@ import Footer from './partials/Footer';
 import Modal from './Modal';
 import Message from './StatusMessage';
 import Loader from '../components/common/Loader';
+import ErrorBoundary from './common/ErrorBoundary';
 
 import { If } from './helpers/conditional-statement';
 
@@ -133,8 +134,10 @@ class RootComponent extends React.Component {
     return (
       <div className="app">
         <Sidebar isLogin={user.isLogin} />
-        <div className="main-content p-0">
-          <Header {...this.props} onClick={this.logout} />
+        <div className="main-content">
+          <ErrorBoundary>
+            <Header {...this.props} onClick={this.logout} />
+          </ErrorBoundary>
           <Route path="/details/:page/:id" render={(props) => (<ItemFull {...props} />)} />
           <Route path="/home" render={(props) => (<Homepage {...props} collections={this.props.collections} />)} />
           <Route path="/catalog/:page" render={(props) => (<Catalog {...props} />)} />

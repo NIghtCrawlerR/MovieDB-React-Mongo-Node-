@@ -59,4 +59,4 @@ class SearchPopup extends Component {
   }
 }
 
-export default onClickOutside(SearchPopup);
+export default SearchPopup;

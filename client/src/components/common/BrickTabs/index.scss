@@ -9,18 +9,6 @@
     background: linear-gradient(135deg, rgb(25, 40, 66) 0%, rgb(37, 67, 107) 100%);;
     overflow: hidden;
     transition: all .3s;
-  
-    // &:nth-child(1n + 1) {
-    //   background: linear-gradient(135deg, #1CB5E0 0%, #000851 100%);
-    // }
-  
-    // &:nth-child(2n + 1) {
-    //   background: linear-gradient(135deg, #d53369 0%, #daae51 100%);
-    // }
-  
-    // &:nth-child(3n+1) {
-    //   background: linear-gradient(135deg, #FDBB2D 0%, #22C1C3 100%);
-    // }
 
     img {
       position: absolute;
@@ -60,6 +48,26 @@
       box-shadow: 0px 0px 20px 5px #8b949c;
       text-decoration: none;
       transform: scale(1.02);
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .brick-tabs {
+    flex-wrap: wrap;
+
+    .tab-item {
+      width: 100%;
+
+      &.main {
+        margin-bottom: 20px;
+        min-height: 150px;
+        flex: auto;
+      }
+
+      &__title {
+        font-size: 24px;
+      }
     }
   }
 }

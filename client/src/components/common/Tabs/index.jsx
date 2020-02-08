@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import { Choose, If, Else } from '../../helpers/conditional-statement';
 
-import './index.css';
+import './index.scss';
 
 function Tabs(props) {
   const { tabs, onSelect, path, link, active } = props;

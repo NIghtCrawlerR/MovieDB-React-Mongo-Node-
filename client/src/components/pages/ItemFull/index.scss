@@ -14,59 +14,77 @@
     z-index: 2;
 }
 
-.item-full__info {
+.item-full {
+  &__info {
     color: #fff;
-}
+  }
 
-.item-full__title {
+  &__title {
     font-size: 60px;
-}
+  }
 
-.item-full__original-title {
+  &__original-title {
     font-size: 16px;
-}
+  }
 
-.item-full img {
+  &__info-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__column-left {
+    width: 50%;
+    padding-right: 30px;
+  }
+
+  &__column-right {
+    width: 50%;
+  }
+
+  img {
     max-width: 250px;
     margin: 0 15px 15px 0;
     float: left;
-}
+  }
 
-.item-full .overview {
+  .overview {
     position: relative;
     line-height: 23px;
     font-size: 16px;
-}
+  }
 
-.item-full .nav-link {
+  .nav-link {
     color: #fff;
     mix-blend-mode: difference;
+  }
 }
 
-.item-full .tabs-content {
-    padding: 15px;
-}
-
-.info-block__title {
+.info-block {
+  &__title {
     font-weight: 500;
     font-size: 14px;
     margin-bottom: 5px;
     color: #cacaca;
-}
+  }
 
-.info-block__data {
+  &__data {
     font-size: 18px;
+    word-break: break-all;
+  }
 }
 
-.info-top span:not(:last-child) {
-    border-right: 1px solid #fff;
-    margin-right: 15px;
-    padding-right: 15px;
-}
 
-.info-top span {
+.info-top {
+  span {
     font-size: 18px;
     font-weight: 500;
+
+    &:not(:last-child) {
+      border-right: 1px solid #fff;
+      margin-right: 15px;
+      padding-right: 15px;
+    }
+  }
 }
 
 .SocialMediaShareButton {
@@ -103,4 +121,18 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+}
+
+
+@media screen and (max-width: 1024px) {
+  .item-full {
+    &__column-left {
+      width: 100%;
+      padding-right: 0;
+    }
+  
+    &__column-right {
+      width: 100%;
+    }
+  }
 }
