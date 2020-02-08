@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Form from 'react-bootstrap/Form';
 import axios from 'axios';
-import SearchResults from './SearchResults';
+
+import SearchPopup from './SearchPopup';
 import Icon from '../common/Icon';
-import './index.css';
+import Input from '../common/Input';
+import './index.scss';
 
 const movieApiRoot = process.env.REACT_APP_MOVIE_DB_URL;
 const gameApiRoot = process.env.REACT_APP_GAME_API;
@@ -20,24 +19,17 @@ export default class SearchField extends Component {
       timeout: 0,
       searchResult: {},
       dropdown: false,
+      query: "",
     };
 
     this.isTyping = this.isTyping.bind(this);
 
     this.searchField = React.createRef();
+    this.searchPopup = React.createRef();
   }
 
-  onClick(e) {
-    this.onToggle(false);
-  }
-
-  onToggle(toggle) {
-    if (toggle) {
-      this.searchField.current.focus();
-    }
-    this.setState({
-      dropdown: toggle,
-    });
+  showPopup = () => {
+    this.searchPopup.current.instanceRef.open();
   }
 
   search(query) {
@@ -81,42 +73,44 @@ export default class SearchField extends Component {
       .catch((err) => console.log(`Error: ${err}`));
   }
 
-  isTyping(e) {
-    const query = e.target.value.toLowerCase();
-    const encodeQuery = encodeURIComponent(query);
-
+  isTyping(event) {
     const { timeout } = this.state;
+    const { target: { value, name } } = event;
 
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-    const that = this;
+    this.setState({
+      [name]: value,
+    });
+
+    const encodeQuery = encodeURIComponent(value.toLowerCase());
+
+    if (timeout) clearTimeout(timeout);
+
     this.setState({
       timeout: setTimeout(() => {
-        that.search(encodeQuery);
+        this.search(encodeQuery);
       }, 1000),
     });
   }
 
   render() {
-    const { dropdown, searchResult } = this.state;
+    const { search, searchResult } = this.state;
 
     return (
       <div className="search-field">
         <Icon name="search" />
-        <Form.Control ref={this.searchField} type="text" onChange={this.isTyping} onClick={this.onClick.bind(this)} placeholder="Search..." />
-        <Dropdown onToggle={this.onToggle.bind(this)} show={dropdown}>
-          <Dropdown.Toggle className={dropdown ? '' : ''}></Dropdown.Toggle>
-
-          {Object.keys(searchResult).length > 0
-            ? (
-              <Dropdown.Menu>
-                <SearchResults data={searchResult} onClick={this.onClick.bind(this)} />
-              </Dropdown.Menu>
-            )
-            : null}
-        </Dropdown>
-
+        <Input
+          ref={this.searchField}
+          type="text"
+          name="search"
+          value={search}
+          onChange={this.isTyping}
+          onClick={this.showPopup}
+          placeholder="Search..."
+        />
+        <SearchPopup
+          ref={this.searchPopup}
+          items={searchResult}
+        />
       </div>
     );
   }

@@ -1,55 +1,71 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-import Media from 'react-bootstrap/Media';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
 
-function SearchResults(props) {
-  const { data, onClick } = props;
-  return (
-    Object.keys(data).length > 0
-      ? (
+import Tabs from '../common/Tabs';
+
+class SearchResults extends React.Component {
+  state = {
+    tabs: [
+      { title: 'Movies', value: 'movies' },
+      { title: 'TV', value: 'tv' },
+      { title: 'Games', value: 'games' },
+    ],
+    tabSelected: "movies",
+  }
+
+  switchTabs = (tabSelected) => {
+    this.setState({
+      tabSelected,
+    });
+  }
+
+  render() {
+    const { tabs, tabSelected } = this.state;
+    const { data } = this.props;
+
+    const releaseData = (date) => {
+      return `(${new Date(date).getFullYear()})` || null;
+    }
+
+    return (
+      <div className="search-results">
+        <Tabs
+          tabs={tabs}
+          active={tabSelected}
+          onSelect={this.switchTabs}
+        />
         <div className="search-results__wrap">
-          <div className="search-results">
-            <Tabs defaultActiveKey={Object.keys(data)[0]}>
-              {Object.keys(data).map((key, i) => (
-                <Tab eventKey={key} key={i} title={key}>
-                  <h3 className="text-uppercase my-3">{key}</h3>
-                  <ul className="list-unstyled">
-                    {
-                      data[key].map((item) => {
-                        return (
-                          <Link to={`/details/${key}/${item.slug || item.id}`} onClick={onClick} key={item.id}>
-                            <Media as="li" className="search-item" >
-                              <div className="search-item__image">
-                                {item.poster_path
-                                  ? <img src={`http://image.tmdb.org/t/p/w300${item.poster_path}`} alt="" />
-                                  : <img src={item.background_image} alt="" />
-                                }
-                              </div>
+          <h3 className="search-results__header">{tabSelected}</h3>
+          <div className="search-results__list">
+            {data[tabSelected] &&
+              data[tabSelected].map((item) => {
+                return (
+                  <Link to={`/details/${tabSelected}/${item.slug || item.id}`} key={item.id}>
+                    <div className="search-item">
+                      <div className="search-item__image">
+                        {item.poster_path
+                          ? <img src={`http://image.tmdb.org/t/p/w300${item.poster_path}`} alt="" />
+                          : <img src={item.background_image} alt="" />
+                        }
+                      </div>
 
-                              <Media.Body>
-                                <h5>
-                                  {item.name || item.title}
-                                  {item.released || item.release_date || item.first_air_date
-                                    ? `(${new Date(item.released || item.release_date || item.first_air_date).getFullYear()})` : null}
-                                </h5>
-                                <p>{item.overview ? `${item.overview.slice(0, 100)}...` : null}</p>
-                              </Media.Body>
-                            </Media>
-                          </Link>
-                        );
-                      })
-                    }
-                  </ul>
-                </Tab>
-              ))}
-            </Tabs>
+                      <div className="search-item__body">
+                        <h5>
+                          {item.name || item.title}
+                          {releaseData(item.released || item.release_date || item.first_air_date)}
+                        </h5>
+                        <p>{item.overview ? `${item.overview.slice(0, 100)}...` : null}</p>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })
+            }
           </div>
         </div>
-      ) : null
-  );
+      </div>
+    );
+  }
 }
 
 export default SearchResults;

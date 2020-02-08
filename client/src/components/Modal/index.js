@@ -9,9 +9,6 @@ import { toggleModal } from '../../actions';
 import './index.scss';
 
 class Modal extends React.Component {
-  componentDidMount() {
-    console.log(this.props)
-  }
   closeModal = () => {
     const { toggleModal } = this.props;
 
