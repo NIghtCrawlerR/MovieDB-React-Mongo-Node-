@@ -30,7 +30,7 @@ router.post('/movies/add', (req, res) => {
 
 router.post('/login', (req, res) => {
     let { email, password } = req.body
-    
+
     if (!email) {
         return res.send({
             success: false,
@@ -131,14 +131,14 @@ router.post('/register', (req, res) => {
         newUser.save((err, next) => {
             if (err) {
                 return res.send({
+                    message: 'Error: Server error',
                     success: false,
-                    message: 'Error: Server error'
                 })
             }
 
-            return res.send({
+            return res.status(200).json({
+                message: 'Success',
                 success: true,
-                message: 'Signed in'
             })
         })
     })
@@ -157,14 +157,14 @@ router.get('/logout', (req, res, next) => {
         }
     }, null, (err, session) => {
         if (err) {
-            return res.send({
-                success: false,
-                message: 'Error: Server error'
-            });
+            return res.status(400).json({
+                message: err,
+                success: false
+            })
         }
-        return res.send({
+        return res.status(200).json({
+            message: 'Success',
             success: true,
-            message: 'Good'
         });
     })
 })
@@ -208,7 +208,7 @@ router.get('/current', (req, res) => {
                 message: 'Error: Server error. ' + err
             })
         }
-       
+
         const currentUser = {
             email: user[0].email,
             movies: user[0].movies,
