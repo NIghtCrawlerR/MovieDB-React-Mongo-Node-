@@ -140,7 +140,7 @@ class AuthForm extends Component {
           </div>
 
 
-          <input type="submit" className="btn btn-purple mt-3" value={registerForm ? 'Register' : 'Log in'} />
+          <input type="submit" className="btn btn-info mt-3" value={registerForm ? 'Register' : 'Log in'} />
         </form>
       </div>
     );

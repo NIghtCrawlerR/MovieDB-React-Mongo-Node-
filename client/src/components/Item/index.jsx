@@ -153,10 +153,10 @@ class Item extends Component {
               {
                 wishlist && wishlistItem
                   ? <>
-                    <span className="text-info pointer mx-2" onClick={() => this.itemAction('watched')}>
+                    <span className="text-info" onClick={() => this.itemAction('watched')}>
                       <Icon prefix={wishlistItem.watched ? 'fas' : 'far'} name="flag" />
                     </span>
-                    <span className="text-red pointer mx-2" title="like" onClick={() => this.itemAction('liked')}>
+                    <span className="text-red" title="like" onClick={() => this.itemAction('liked')}>
                       <Icon prefix={wishlistItem.liked ? 'fas' : 'far'} name="heart" />
                     </span>
                   </> : null
@@ -165,12 +165,12 @@ class Item extends Component {
               <If condition={user}>
                 <Choose>
                   <If condition={itemIds.includes(id)}>
-                    <span className="ml-auto pointer" title="Remove from wishlist" onClick={this.deleteFromWishlist}>
+                    <span className="ml-auto" title="Remove from wishlist" onClick={this.deleteFromWishlist}>
                       <Icon name="star text-warning" />
                     </span>
                   </If>
                   <Else>
-                    <span className="ml-auto pointer" title="Add to wishlist" onClick={this.addToWishlist}>
+                    <span className="ml-auto" title="Add to wishlist" onClick={this.addToWishlist}>
                       <Icon prefix="far" name="star" />
                     </span>
                   </Else>

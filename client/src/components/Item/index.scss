@@ -64,5 +64,10 @@
 
   &__actions {
     margin-left: auto;
+
+    i {
+      margin-left: 10px;
+      cursor: pointer;
+    }
   }
 }

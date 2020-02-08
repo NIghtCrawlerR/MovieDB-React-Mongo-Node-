@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { If } from '../../helpers/conditional-statement';
 
-import './index.css';
+import './index.scss';
 
 function Input(props) {
   const {
@@ -16,18 +17,15 @@ function Input(props) {
     value,
     required,
     readonly,
-    className,
     placeholder,
     onChange,
   } = props;
   return (
-    <>
-      <If condition={label}>
-        <label><b>{label}</b></label>
-      </If>
-      <small>{description}</small>
+    <div className="input__group">
       <input
-        className={`form-control ${className}`}
+        className={classNames("input__field", {
+          active: value.length > 0,
+        })}
         data-error={error}
         type={type}
         name={name}
@@ -37,8 +35,14 @@ function Input(props) {
         required={required}
         readOnly={readonly}
       />
+      <If condition={label}>
+        <label className="input__label">{label}</label>
+      </If>
+      <If condition={description}>
+        <small>{description}</small>
+      </If>
       {errorMessage}
-    </>
+    </div>
   );
 }
 
@@ -57,7 +61,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
   label: '',
-  type: '',
+  type: 'text',
   name: '',
   error: '',
   errorMessage: '',

@@ -97,7 +97,7 @@ export default class BugReportForm extends Component {
             </div>
           </div>
 
-          <input type="submit" className="btn btn-purple mt-3" value="Send" />
+          <input type="submit" className="btn btn-info mt-3" value="Send" />
         </form>
       </div>
     );

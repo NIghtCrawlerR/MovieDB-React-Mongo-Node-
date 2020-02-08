@@ -27,3 +27,12 @@
     cursor: pointer;
   }
 }
+
+.collections {
+  &__form {
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #cacaca;
+    background: #fff;
+  }
+}

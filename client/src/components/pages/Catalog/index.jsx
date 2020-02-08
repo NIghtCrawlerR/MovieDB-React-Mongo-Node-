@@ -123,22 +123,20 @@ class Catalog extends Component {
         <Head title={`Fiction finder - catalog - ${page}`} />
         <PageHeader title={`${page} catalog`} />
         <div className="container-fluid">
-          <div className="content-box">
-            {page !== 'games'
-              ? <Filter filter={this.filter.bind(this)} moviesGenres={moviesGenres} page={page} />
-              : null}
-            <ItemsList loading={loading} items={catalog[page]} type={page} />
-            {pageCount > 1
-              ? (
-                <Pagination
-                  loading={loading}
-                  pageCount={pageCount}
-                  currentPage={+currentPage}
-                  changePage={this.changePage.bind(this)}
-                />
-              )
-              : null}
-          </div>
+          {page !== 'games'
+            ? <Filter filter={this.filter.bind(this)} moviesGenres={moviesGenres} page={page} />
+            : null}
+          <ItemsList loading={loading} items={catalog[page]} type={page} />
+          {pageCount > 1
+            ? (
+              <Pagination
+                loading={loading}
+                pageCount={pageCount}
+                currentPage={+currentPage}
+                changePage={this.changePage.bind(this)}
+              />
+            )
+            : null}
         </div>
       </div>
     );

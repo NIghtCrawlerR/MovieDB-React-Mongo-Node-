@@ -1,5 +1,6 @@
 import React from 'react';
-import Form from 'react-bootstrap/Form';
+
+import Input from '../../common/Input';
 
 class CollectionForm extends React.Component {
   constructor() {
@@ -43,13 +44,9 @@ class CollectionForm extends React.Component {
       <div className="container-fluid mt-4">
         {showForm &&
           userData.group === "admin" &&
-          <div className="add-collection my-3">
-            <div className="mt-2">
-              <Form.Control type="text" name="title" value={title} onChange={this.onChange} placeholder="Title" />
-            </div>
-            <div className="mt-2">
-              <Form.Control type="text" name="aliasName" value={aliasName} onChange={this.onChange} placeholder="Alias name" readOnly />
-            </div>
+          <div className="collections__form">
+            <Input name="title" value={title} onChange={this.onChange} label="Title" />
+            <Input name="aliasName" value={aliasName} onChange={this.onChange} label="Alias name" readonly />
             <div className="mt-2">
               <button className="btn btn-success" onClick={this.createCollection}>Create</button>
             </div>

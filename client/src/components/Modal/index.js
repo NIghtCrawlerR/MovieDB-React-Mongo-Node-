@@ -38,8 +38,10 @@ class Modal extends React.Component {
               Ooops! Something went wrong.
             </div>
             <div className="modal__text">
-              <If condition={errorBody}>
+              <If condition={errorBody && errorBody.message}>
                 <p>{errorBody.message}</p>
+              </If>
+              <If condition={errorBody && errorBody.response}>
                 <p>{errorBody.response.statusText}</p>
               </If>
             </div>

@@ -1,25 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Dropdown from 'react-bootstrap/Dropdown';
 import SearchField from '../../SearchField';
 import Icon from '../../common/Icon';
+import UserPopup from './UserPopup';
 import './index.scss';
 
-const UserIcon = React.forwardRef(({ children, onClick }, ref) => (
-  <span
-    ref={ref}
-    onClick={(e) => {
-      e.preventDefault();
-      onClick(e);
-    }}
-    className="profile-icon"
-  >
-    <Icon name="user-circle" />
-  </span>
-));
-
 class Header extends React.Component {
-  logout(e) {
+  constructor() {
+    super();
+
+    this.userPopup = React.createRef();
+  }
+
+  showPopup = () => {
+    this.userPopup.current.instanceRef.open();
+  };
+
+  logout = (e) => {
     const { onClick } = this.props;
     onClick(e);
   }
@@ -43,19 +40,17 @@ class Header extends React.Component {
               <Link to="/register">Register</Link>
             </div>
           ) : (
-              <Dropdown alignRight>
-                <Dropdown.Toggle as={UserIcon}></Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Header className="text-right">
-                    {data
-                      ? <b>{data.email}</b>
-                      : null}
-                  </Dropdown.Header>
-                  <Dropdown.Divider></Dropdown.Divider>
-                  <Link to="/wishlist" className="dropdown-item text-info">My wishlist</Link>
-                  <Link to="/logout" className="dropdown-item text-info" onClick={this.logout.bind(this)}>Logout</Link>
-                </Dropdown.Menu>
-              </Dropdown>
+              <span
+                onClick={this.showPopup}
+                className="profile-icon"
+              >
+                <Icon name="user-circle" />
+                <UserPopup
+                  ref={this.userPopup}
+                  email={data.email}
+                  logout={this.logout}
+                />
+              </span>
             )}
         </div>
       </nav>

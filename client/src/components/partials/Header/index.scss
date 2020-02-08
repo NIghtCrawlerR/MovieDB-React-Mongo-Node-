@@ -30,16 +30,45 @@
       }
     }
   }
+}
 
-  .dropdown-menu {
-    min-width: 260px;
+.popup {
+  position: absolute;
+  right: 20px;
+  min-width: 260px;
+  border: 1px solid #cacaca;
+  background: #fff;
+
+  &__header {
+    padding: 10px 20px;
+    text-align: right;
+    font-weight: bold;
+    color: #232323;
+  }
+
+  .list {
+    padding: 10px 0;
+  }
+
+  .list-item {
+    display: block;
+    padding: 5px 20px;
+    color: #17a2b8;
+    transition: all .3s;
+
+    &:hover {
+      background: #f1f1f1;
+      text-decoration: none;
+    }
   }
 }
 
 .profile-icon {
-  color: #fff;
-  font-size: 26px;
-  cursor: pointer;
+  i {
+    color: #fff;
+    font-size: 26px;
+    cursor: pointer;
+  }
 }
 
 @media screen and (max-width: 768px) {
