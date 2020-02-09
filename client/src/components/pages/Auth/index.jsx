@@ -28,25 +28,13 @@ class AuthForm extends Component {
     };
   }
 
-  login = user => {
-    const { login, updateUser, history } = this.props;
-
-    login(user)
-      .then(data => {
-        if (data.success) {
-          setInStorage('token', data.token);
-          updateUser();
-          history.push('/home');
-        }
-      })
-  }
-
   onSubmit = (e) => {
     e.preventDefault();
 
     const {
       loginForm,
       register,
+      login,
     } = this.props;
 
     const { email, password, passwordConfirm } = this.state;
@@ -54,7 +42,7 @@ class AuthForm extends Component {
     const action = loginForm ? 'login' : 'register';
 
     if (action === 'login') {
-      this.login({ email, password });
+      login({ email, password });
     } else {
       register({ email, password, passwordConfirm })
     }

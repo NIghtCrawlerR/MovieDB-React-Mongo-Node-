@@ -56,11 +56,12 @@ router.post('/login', (req, res) => {
       }
 
       req.session.user = doc._id
+
       return res.send({
         success: true,
         message: 'Valid sign in',
         token: doc._id,
-        userId: user._id
+        user: user,
       })
     })
 

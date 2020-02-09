@@ -84,7 +84,7 @@ class RootComponent extends React.Component {
 
   updateUser() {
     const { verifyUser } = this.props;
-    const token = getFromStorage('token');
+    const token = localStorage.getItem('token');
 
     if (!token) {
       this.setState({ loading: false });
@@ -107,11 +107,9 @@ class RootComponent extends React.Component {
   logout(e) {
     e.preventDefault();
 
-    this.props.logout(getFromStorage('token'))
-      .then((res) => {
-        removeFromStorage('token');
-        history.push('/home');
-      });
+    const { logout } = this.props;
+
+    logout(localStorage.getItem('token'));
   }
 
   render() {
@@ -145,8 +143,8 @@ class RootComponent extends React.Component {
           <Route path="/collections/:category" render={(props) => (<CollectionsList {...props} userData={user} showMsg={this.showMsg.bind(this)} />)} />
           <Route path="/wishlist" render={(props) => (<Wishlist {...props} />)} />
           <Route path="/search/:page/:role/:id" render={(props) => (<Search {...props} />)} />
-          <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />
-          <Route path="/register" render={(props) => (<Auth {...props} registerForm showMsg={this.showMsg.bind(this)} />)} />
+          <Route path="/login" render={(props) => (<Auth {...props} loginForm />)} />
+          <Route path="/register" render={(props) => (<Auth {...props} registerForm />)} />
           <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg.bind(this)} />)} />
 
           <If condition={showMsg}>

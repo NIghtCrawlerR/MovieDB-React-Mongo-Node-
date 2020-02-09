@@ -64,7 +64,7 @@ class Item extends Component {
   itemAction(action) {
     const { type, user } = this.props;
     const { wishlistItem } = this.state;
-    this.props.updateWishlist(type, action, wishlistItem.id, user.userId, !wishlistItem[action]);
+    this.props.updateWishlist(type, action, wishlistItem.id, user.id, !wishlistItem[action]);
   }
 
   addToWishlist() {
@@ -75,7 +75,7 @@ class Item extends Component {
       return !1;
     }
 
-    this.props.addItemToWishlist(type, this.getItemData(), user.userId)
+    this.props.addItemToWishlist(type, this.getItemData(), user.id)
       .then(() => console.log(this.props));
   }
 
@@ -88,7 +88,7 @@ class Item extends Component {
     }
 
     if (window.confirm('Delete item from wishlist?')) {
-      this.props.deleteItemFromWishlist(type, id, user.userId);
+      this.props.deleteItemFromWishlist(type, id, user.id);
     }
   }
 

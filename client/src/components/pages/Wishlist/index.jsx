@@ -31,7 +31,7 @@ class Wishlist extends Component {
   }
 
   componentDidMount() {
-    const token = getFromStorage('token');
+    const token = localStorage.getItem('token');
     if (!token) {
       this.props.history.push('/');
       return !1;
@@ -54,7 +54,7 @@ class Wishlist extends Component {
         <PageHeader title="Personal wishlist" />
         <div className="container-fluid">
           <Tabs path="/wishlist" tabs={this.state.tabs} link />
-          <Route path="/wishlist/:collection" render={(props) => (<Items {...props} user={user} />)} />
+          <Route path="/wishlist/:collection" render={(props) => (<Items {...props} />)} />
         </div>
       </div>
     );

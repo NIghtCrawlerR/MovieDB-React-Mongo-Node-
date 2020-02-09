@@ -138,7 +138,7 @@ class ItemFull extends Component {
       return !1;
     }
 
-    addItemToWishlist(page, this.getItemData(), user.userId);
+    addItemToWishlist(page, this.getItemData(), user.id);
   }
 
   switchTabs = (tabSelected) => {

@@ -27,39 +27,42 @@ export const login = user => dispatch => {
     payload: true,
   });
 
-  return new Promise((resolve, reject) => {
-    axios.post(LOGIN_URL, user)
-      .then(({ data }) => {
-        if (data.success) {
-          dispatch({
-            type: USER_LOG_IN,
-            token: data.token,
-            userId: data.userId,
-            movies: data.movies,
-          })
-          localStorage.setItem('token', data.token);
-        }
-
+  axios.post(LOGIN_URL, user)
+    .then(({ data }) => {
+      if (data.success) {
         dispatch({
-          type: TOGGLE_LOADER,
-          payload: false,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: TOGGLE_MODAL,
-          payload: {
-            isOpen: true,
-            err,
-          }
+          type: USER_LOG_IN,
+          token: data.token,
+          payload: data.user,
         })
-
+        localStorage.setItem('token', data.token);
+        history.push('/home');
+      } else {
         dispatch({
-          type: TOGGLE_LOADER,
-          payload: false,
-        });
+          type: USER_SIGN_IN_ERROR,
+          payload: data.message,
+        })
+      }
+
+      dispatch({
+        type: TOGGLE_LOADER,
+        payload: false,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
       })
-  })
+
+      dispatch({
+        type: TOGGLE_LOADER,
+        payload: false,
+      });
+    })
 }
 
 export const register = user => dispatch => {
@@ -115,28 +118,24 @@ export const register = user => dispatch => {
 }
 
 export const logout = token => dispatch => {
-  return new Promise((resolve, reject) => {
-    axios.get(LOGOUT_URL(token))
-      .then(({ data }) => {
-        if (data.success) {
-          dispatch({
-            type: USER_LOG_OUT,
-          });
+  axios.get(LOGOUT_URL(token))
+    .then(() => {
+      dispatch({
+        type: USER_LOG_OUT,
+      });
 
-          resolve();
+      localStorage.removeItem('token');
+      history.push('/home');
+    })
+    .catch(err => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
         }
       })
-      .catch(err => {
-        dispatch({
-          type: TOGGLE_MODAL,
-          payload: {
-            isOpen: true,
-            err,
-          }
-        })
-      })
-  })
-
+    })
 }
 
 export const verifyUser = token => dispatch => {

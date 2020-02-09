@@ -69,9 +69,23 @@ export default function (state = initialState, action) {
 
 
     case USER_LOG_IN:
+      const {
+        payload,
+        token,
+      } = action;
+
       return {
         ...state,
-        data: action.payload,
+        email: payload.email,
+        id: payload._id,
+        group: payload.group,
+        isLogin: true,
+        movies: payload.movies,
+        tv: payload.tv,
+        games: payload.games,
+        token: token,
+        errorMessage: null,
+        successMessage: null,
       }
 
     case USER_LOG_OUT:

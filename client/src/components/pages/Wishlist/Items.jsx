@@ -16,24 +16,36 @@ class List extends Component {
   }
 
   componentDidMount() {
-    this.getList(this.props.match.params.collection);
+    const {
+      match: { params: { collection } }
+    } = this.props;
+
+    this.getList(collection);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.match.params.collection !== prevProps.match.params.collection) {
-      this.getList(this.props.match.params.collection);
+    const {
+      match: { params: { collection } },
+      user,
+    } = this.props;
+
+    if (
+      collection !== prevProps.match.params.collection
+      || user[collection].length !== prevProps.user[collection].length
+    ) {
+      this.getList(collection);
     }
   }
 
   getList(collection) {
-    this.setState({ loading: true });
+    const { user, getWishlist } = this.props;
+    const ids = user[collection].map((item) => item.id);
 
-    const ids = this.props.user[collection].map((item) => item.id);
-
-    this.props.getWishlist(collection, ids)
+    getWishlist(collection, ids)
       .then((res) => {
         this.setState({ loading: false });
       });
+
   }
 
   render() {
@@ -60,10 +72,17 @@ class List extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  collections: state.collections,
-  wishlist: state.wishlist.wishlist,
-});
+function mapStateToProps({
+  user,
+  collections,
+  wishlist: { wishlist },
+}) {
+  return {
+    user,
+    collections,
+    wishlist,
+  }
+}
 
 export default connect(mapStateToProps, {
   getWishlist,
