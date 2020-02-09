@@ -199,7 +199,7 @@ class ItemFull extends Component {
         />
         {loading && <Loader overlay />}
 
-        <div className="content-wrap container-fluid my-5 item-full__info">
+        <div className="content-wrap container-fluid item-full__info">
           <div>
             {/* Collections selector dropdown */}
             <div style={{ color: '#fff' }}>

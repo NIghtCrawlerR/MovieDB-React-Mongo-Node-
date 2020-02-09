@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { setInStorage } from '../../../utils/storage';
 
 import { login, register } from '../../../actions';
 import Loader from '../../common/Loader';

@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import PageHeader from '../../common/PageHeader';
 import Tabs from '../../common/Tabs';
 import Items from './Items';
-import { getFromStorage } from '../../../utils/storage';
 
 import { getWishlist } from '../../../actions';
+
+import './index.scss';
 
 class Wishlist extends Component {
   constructor(props) {
@@ -43,7 +44,6 @@ class Wishlist extends Component {
       history: {
         location: { pathname },
       },
-      user,
     } = this.props;
 
     if (pathname === '/wishlist') {
@@ -52,7 +52,7 @@ class Wishlist extends Component {
     return (
       <div>
         <PageHeader title="Personal wishlist" />
-        <div className="container-fluid">
+        <div className="wishlist container-fluid">
           <Tabs path="/wishlist" tabs={this.state.tabs} link />
           <Route path="/wishlist/:collection" render={(props) => (<Items {...props} />)} />
         </div>
@@ -62,7 +62,6 @@ class Wishlist extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user,
   collections: state.collections,
   wishlist: state.wishlist,
 });

@@ -33,3 +33,10 @@ export const FETCH_WISHLIST_URL = `${HOST}/api/wishlist/get`;
 export const ADD_TO_WISHLIST_URL = `${HOST}/api/wishlist/add`;
 export const DELETE_FROM_WISHLIST_URL = `${HOST}/api/wishlist/delete`;
 export const UPDATE_WISHLIST_URL = `${HOST}/api/wishlist/update`;
+
+/***
+ * POSTER URL
+ */
+
+ // available width: 300, 780, 1280, original
+export const MOVIE_POSTER_BASEURL = (width = 300) => `http://image.tmdb.org/t/p/w${width}`;

@@ -1,8 +1,6 @@
-import bg1 from '../assets/images/tab-1.png'
-import bg2 from '../assets/images/tab-2.jpg'
-import bg3 from '../assets/images/tab-3.jpg'
-
-import movieBg from '../assets/images/movie-bg.jpg';
+import bg1 from '../assets/images/tab-1.png';
+import bg2 from '../assets/images/tab-2.jpg';
+import bg3 from '../assets/images/tab-3.jpg';
 
 export const catalogTabs = [
   {
@@ -22,4 +20,4 @@ export const catalogTabs = [
     link: 'games',
     img: bg3,
   },
-]
+];

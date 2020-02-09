@@ -1,6 +1,5 @@
 import {
   GET_WISHLIST,
-  DELETE_FROM_WISHLIST,
 } from '../actions/types'
 
 const initialState = {

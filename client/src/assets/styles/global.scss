@@ -73,3 +73,23 @@ code {
   margin: 50px auto 0 auto;
   position: relative;
 }
+
+.default-stub {
+  padding: 0 15px;
+
+  &__text {
+    font-weight: 500;
+    font-size: 18px;
+  }
+
+  &__link {
+    font-weight: 500;
+    font-size: 18px;
+    transition: color .3s;
+
+    &:hover {
+      text-decoration: none;
+      color: #ec174f;
+    }
+  }
+}

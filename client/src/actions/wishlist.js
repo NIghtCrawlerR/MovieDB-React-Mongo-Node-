@@ -2,9 +2,9 @@ import axios from 'axios'
 
 import {
   GET_WISHLIST,
-  DELETE_FROM_WISHLIST,
   UPDATE_WISHLIST,
   TOGGLE_MODAL,
+  TOGGLE_LOADER,
 } from './types'
 
 import {
@@ -87,25 +87,24 @@ export const updateWishlist = (collection, action, itemId, userId, value) => (di
 };
 
 //get wishlist items by id arr
-export const getWishlist = (itemType, items) => (dispatch) => 
-  new Promise((resolve, reject) => {
-    axios.post(FETCH_WISHLIST_URL,
-      { items: items, itemType: itemType })
-      .then(res => {
-        dispatch({
-          type: GET_WISHLIST,
-          wishlist: res.data.wishlist,
-          itemType: itemType
-        })
-        resolve({ success: true })
+export const getWishlist = (itemType, items) => (dispatch) => {
+  axios.post(FETCH_WISHLIST_URL,
+    { items: items, itemType: itemType })
+    .then(({ data }) => {
+      dispatch({
+        type: GET_WISHLIST,
+        wishlist: data.wishlist,
+        itemType: itemType,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
       })
-      .catch(err => {
-        dispatch({
-          type: TOGGLE_MODAL,
-          payload: {
-            isOpen: true,
-            err,
-          }
-        })
-      })
-  });
+    })
+}
+

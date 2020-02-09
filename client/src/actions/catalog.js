@@ -25,17 +25,30 @@ export const getMoviesTv = (type, page, options) => dispatch => {
     let pageType = type
     if (pageType === 'movies') pageType = 'movie'
 
-    axios.get(
-      `${MOVIE_API_BASEURL}/discover/${pageType}?api_key=${MOVIE_API_KEY}&language=${LANG}${sort_by}&include_adult=false&include_video=false&page=${page}${year}${crew}${genres}${title}`
-    )
-      .then(res => {
-        dispatch({
-          type: GET_MOVIES_TV,
-          pageType: type,
-          list: res.data.results
-        })
-        resolve(res.data)
+    axios({
+      method: 'get',
+      url: `${MOVIE_API_BASEURL}/discover/${pageType}`,
+      params: {
+        api_key: MOVIE_API_KEY,
+        language: LANG,
+        primary_release_year: new Date().getFullYear(),
+        sort_by,
+        include_adult: false,
+        include_video: false,
+        page,
+        year,
+        crew,
+        genres,
+        title,
+      }
+    }).then(res => {
+      dispatch({
+        type: GET_MOVIES_TV,
+        pageType: type,
+        list: res.data.results
       })
+      resolve(res.data)
+    })
       .catch(err => {
         dispatch({
           type: TOGGLE_MODAL,
@@ -44,7 +57,7 @@ export const getMoviesTv = (type, page, options) => dispatch => {
             err,
           }
         })
-      })
+      });
   })
 }
 

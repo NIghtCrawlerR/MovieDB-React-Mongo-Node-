@@ -1,5 +1,4 @@
 import {
-  USER_SIGN_IN,
   USER_LOG_IN,
   USER_LOG_OUT,
   USER_VERIFY,

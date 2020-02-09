@@ -7,14 +7,6 @@ import Head from '../../common/Head';
 import { getWishlist } from '../../../actions';
 
 class List extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: true,
-    };
-  }
-
   componentDidMount() {
     const {
       match: { params: { collection } }
@@ -41,11 +33,9 @@ class List extends Component {
     const { user, getWishlist } = this.props;
     const ids = user[collection].map((item) => item.id);
 
-    getWishlist(collection, ids)
-      .then((res) => {
-        this.setState({ loading: false });
-      });
-
+    if (ids.length) {
+      getWishlist(collection, ids);
+    }
   }
 
   render() {
@@ -55,7 +45,6 @@ class List extends Component {
       },
       wishlist,
     } = this.props;
-    const { loading } = this.state;
 
     return (
       <>
@@ -63,7 +52,7 @@ class List extends Component {
         <Head title={`Fiction finder - wishlist - ${collection}`} />
         <ItemsList
           wishlist
-          loading={loading}
+          loading={false}
           items={wishlist[collection]}
           type={collection}
         />
@@ -76,11 +65,13 @@ function mapStateToProps({
   user,
   collections,
   wishlist,
+  settings: { showLoader },
 }) {
   return {
     user,
     collections,
     wishlist,
+    showLoader,
   }
 }
 

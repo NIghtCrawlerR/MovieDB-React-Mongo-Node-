@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Item from '../Item'
 import Loader from '../common/Loader'
 import { Choose, If, Else } from '../helpers/conditional-statement';
 
-import './index.css'
+import { MOVIE_POSTER_BASEURL } from '../../config/constants';
 
-const MOVIE_POSTER_BASEURL = 'http://image.tmdb.org/t/p/w300';
+import './index.css'
 
 export default class List extends Component {
   render() {
     const { loading, items, wishlist, type } = this.props;
+
+    const getImage = (item) => {
+      const { poster_path, background_image } = item;
+      return poster_path ? `${MOVIE_POSTER_BASEURL()}${poster_path}` : background_image;
+    }
+
+    if (!items || !items.length) {
+      return (
+        <div className="default-stub">
+          <p className="default-stub__text">You have no items in this category.</p>
+          <Link to={`/collections/${type}`} className="default-stub__link">Start searching</Link>
+        </div>
+      );
+    }
 
     return (
       <React.Fragment>
@@ -20,17 +35,19 @@ export default class List extends Component {
           <Else>
             <div className="items__wrap">
               {
-                items && items.length > 0 ?
-                  items.map((item, i) => (
-                    <Item 
+                items.map((item, i) => {
+                  if (!item) return null;
+
+                  return (
+                    <Item
                       key={i}
                       wishlist={wishlist}
                       {...item}
                       type={type}
-                      img={item.poster_path ? `${MOVIE_POSTER_BASEURL}${item.poster_path}` : item.background_image} />
-                  ))
-                  :
-                  <p>No data</p>
+                      img={getImage(item)}
+                    />
+                  )
+                })
               }
             </div>
           </Else>

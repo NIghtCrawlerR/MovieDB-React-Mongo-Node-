@@ -117,7 +117,7 @@ class RootComponent extends React.Component {
           <ErrorBoundary>
             <Header {...this.props} onClick={this.logout} />
           </ErrorBoundary>
-          <Route path="/details/:page/:id" render={(props) => (<ItemFull {...props} />)} />
+          <Route path="/details/:page/:id" render={(props) => (<ErrorBoundary><ItemFull {...props} /></ErrorBoundary>)} />
           <Route path="/home" render={(props) => {
             return (
               <ErrorBoundary>
@@ -125,13 +125,13 @@ class RootComponent extends React.Component {
               </ErrorBoundary>
             )
           }} />
-          <Route path="/catalog/:page" render={(props) => (<Catalog {...props} />)} />
-          <Route path="/collection/:category/:alias" render={(props) => (<CollectionFull {...props} />)} />
+          <Route path="/catalog/:page" render={(props) => (<ErrorBoundary><Catalog {...props} /></ErrorBoundary>)} />
+          <Route path="/collection/:category/:alias" render={(props) => (<ErrorBoundary><CollectionFull {...props} /></ErrorBoundary>)} />
           <Route path="/collections/:category" render={(props) => (<CollectionsList {...props} userData={user} showMsg={this.showMsg} />)} />
-          <Route path="/wishlist" render={(props) => (<Wishlist {...props} />)} />
+          <Route path="/wishlist" render={(props) => (<ErrorBoundary><Wishlist {...props} /></ErrorBoundary>)} />
           <Route path="/search/:page/:role/:id" render={(props) => (<Search {...props} />)} />
-          <Route path="/login" render={(props) => (<Auth {...props} loginForm />)} />
-          <Route path="/register" render={(props) => (<Auth {...props} registerForm />)} />
+          <Route path="/login" render={(props) => (<ErrorBoundary><Auth {...props} loginForm /></ErrorBoundary>)} />
+          <Route path="/register" render={(props) => (<ErrorBoundary><Auth {...props} registerForm /></ErrorBoundary>)} />
           <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg} />)} />
 
           <If condition={showMsg}>

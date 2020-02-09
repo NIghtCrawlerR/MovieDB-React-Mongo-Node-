@@ -4,10 +4,13 @@ import Slider from '../common/SliderCustom';
 import PageTitle from '../common/PageTitle';
 import Item from '../Item';
 
-const baseUrl = process.env.REACT_APP_MOVIE_DB_URL;
-const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY;
-const lang = 'ru';
+import {
+  MOVIE_POSTER_BASEURL,
+  MOVIE_API_BASEURL,
+  MOVIE_API_KEY
+} from '../../config/constants';
 
+const lang = 'ru';
 
 class ItemsRecommended extends Component {
   constructor() {
@@ -20,22 +23,21 @@ class ItemsRecommended extends Component {
   componentDidMount() {
     const { page, id } = this.props;
 
-    this.getRecomended(page, id, baseUrl, apiKey, lang);
+    this.getRecomended(page, id, MOVIE_API_BASEURL, MOVIE_API_KEY, lang);
   }
 
   componentDidUpdate(prevProps) {
     const { page, id } = this.props;
 
     if (prevProps.id !== id) {
-      this.getRecomended(page, id, baseUrl, apiKey, lang);
+      this.getRecomended(page, id, MOVIE_API_BASEURL, MOVIE_API_KEY, lang);
     }
   }
 
-  getRecomended(page, id, baseUrl, apiKey, lang) {
+  getRecomended(page, id, MOVIE_API_BASEURL, MOVIE_API_KEY, lang) {
     page = page === 'movies' ? 'movie' : page;
 
     if (page === 'games') {
-      // https://rawg.io/api/games/portal-2/suggested
       axios.get(`https://rawg.io/api/games/${id}/suggested`)
         .then((res) => {
           this.setState({
@@ -43,7 +45,7 @@ class ItemsRecommended extends Component {
           });
         });
     } else {
-      axios.get(`${baseUrl}/${page}/${id}/recommendations?api_key=${apiKey}&language=${lang}&page=1`)
+      axios.get(`${MOVIE_API_BASEURL}/${page}/${id}/recommendations?api_key=${MOVIE_API_KEY}&language=${lang}&page=1`)
         .then((res) => {
           this.setState({
             items: res.data.results,
@@ -54,8 +56,10 @@ class ItemsRecommended extends Component {
 
   render() {
     const getImage = (item) => {
-      return item.poster_path ? `http://image.tmdb.org/t/p/w300${item.poster_path}` : item.background_image;
+      const { poster_path, background_image } = item;
+      return poster_path ? `${MOVIE_POSTER_BASEURL()}${poster_path}` : background_image;
     }
+
     const { items } = this.state;
     const { page } = this.props;
 
