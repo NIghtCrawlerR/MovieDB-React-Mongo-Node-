@@ -40,9 +40,9 @@ router.post('/update', (req, res) => {
         }
     }, null, (err, user) => {
         if (err) {
-            return res.send({
+            return res.status(500).json({
                 success: false,
-                message: 'Error: Server error'
+                message: err,
             });
         }
         return res.send({
@@ -110,10 +110,9 @@ router.post('/delete', (req, res) => {
         }
     }, null, (err, user) => {
         if (err) {
-            console.log(err)
-            return res.send({
+            return res.status(500).json({
                 success: false,
-                message: 'Error: Server error'
+                message: err,
             });
         }
         return res.send({

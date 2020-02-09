@@ -75,7 +75,7 @@ class List extends Component {
 function mapStateToProps({
   user,
   collections,
-  wishlist: { wishlist },
+  wishlist,
 }) {
   return {
     user,

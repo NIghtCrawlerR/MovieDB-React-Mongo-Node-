@@ -34,7 +34,8 @@ export const login = user => dispatch => {
           type: USER_LOG_IN,
           token: data.token,
           payload: data.user,
-        })
+        });
+
         localStorage.setItem('token', data.token);
         history.push('/home');
       } else {
@@ -139,6 +140,11 @@ export const logout = token => dispatch => {
 }
 
 export const verifyUser = token => dispatch => {
+  dispatch({
+    type: TOGGLE_LOADER,
+    payload: true,
+  });
+
   return new Promise((resolve, reject) => {
     axios.get(VERIFY_URL(token))
       .then(({ data }) => {
@@ -148,9 +154,26 @@ export const verifyUser = token => dispatch => {
             payload: data.id,
           })
 
+          dispatch({
+            type: TOGGLE_LOADER,
+            payload: false,
+          });
+
           dispatch(userGet(data.id));
+        } else {
+          dispatch({
+            type: TOGGLE_MODAL,
+            payload: {
+              isOpen: true,
+              err: "Error: Server error. Unable to get user. Try again later.",
+            },
+          });
+
+          dispatch({
+            type: TOGGLE_LOADER,
+            payload: false,
+          });
         }
-        resolve(data)
       })
       .catch(err => {
         dispatch({
@@ -160,6 +183,11 @@ export const verifyUser = token => dispatch => {
             err,
           }
         })
+
+        dispatch({
+          type: TOGGLE_LOADER,
+          payload: false,
+        });
       })
   })
 }

@@ -80,7 +80,7 @@ class Item extends Component {
   }
 
   deleteFromWishlist() {
-    const { id, user, type } = this.props;
+    const { id, user, type, deleteItemFromWishlist } = this.props;
 
     if (!user.isLogin) {
       alert('Login to add movie to your collection.');
@@ -88,7 +88,7 @@ class Item extends Component {
     }
 
     if (window.confirm('Delete item from wishlist?')) {
-      this.props.deleteItemFromWishlist(type, id, user.id);
+      deleteItemFromWishlist(type, id, user.id);
     }
   }
 

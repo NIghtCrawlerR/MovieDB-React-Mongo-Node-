@@ -38,8 +38,8 @@ class Modal extends React.Component {
               <If condition={errorBody && errorBody.message}>
                 <p>{errorBody.message}</p>
               </If>
-              <If condition={errorBody && errorBody.response}>
-                <p>{errorBody.response.statusText}</p>
+              <If condition={errorBody}>
+                <p>{JSON.stringify(errorBody)}</p>
               </If>
             </div>
           </div>

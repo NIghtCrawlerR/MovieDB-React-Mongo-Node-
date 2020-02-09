@@ -12,8 +12,8 @@
   &__wrap {
     position: relative;
     top: 15%;
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 500px;
     margin: auto;
     padding: 30px;
     background: #f1f1f1;
@@ -23,6 +23,16 @@
     margin-bottom: 30px;
     font-size: 30px;
     font-weight: bold;
+    color: #b71d1d;
+  }
+
+  &__text {
+    border: 1px solid #b71d1d;
+    padding: 10px;
+    max-height: 300px;
+    font-weight: 500;
+    overflow-y: scroll;
+    word-break: break-all;
   }
 
   &__close {

@@ -50,11 +50,6 @@ export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch)
         item: item,
         do: 'delete'
       })
-      dispatch({
-        type: DELETE_FROM_WISHLIST,
-        collection: collection,
-        itemId: itemId
-      })
       resolve({ success: true })
     })
     .catch(err => {
@@ -91,7 +86,8 @@ export const updateWishlist = (collection, action, itemId, userId, value) => (di
     });
 };
 
-export const getWishlist = (itemType, items) => (dispatch) =>  //get wishlist items by id arr
+//get wishlist items by id arr
+export const getWishlist = (itemType, items) => (dispatch) => 
   new Promise((resolve, reject) => {
     axios.post(FETCH_WISHLIST_URL,
       { items: items, itemType: itemType })

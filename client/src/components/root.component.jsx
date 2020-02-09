@@ -51,7 +51,6 @@ class RootComponent extends React.Component {
         text: 'message text',
         accessError: false,
       },
-      loading: true,
     };
   }
 
@@ -86,22 +85,10 @@ class RootComponent extends React.Component {
     const { verifyUser } = this.props;
     const token = localStorage.getItem('token');
 
-    if (!token) {
-      this.setState({ loading: false });
-      return !1;
-    }
+    if (!token) return false;
 
     // verify user
-    verifyUser(token)
-      .then(user => {
-        if (!user.success) throw new Error('err');
-
-        this.setState({ loading: false });
-      })
-      .catch((err) => {
-        this.showMsg('error', 'Error: Server error. Unable to get user. Try to login again');
-        this.setState({ loading: false });
-      });
+    verifyUser(token);
   }
 
   logout(e) {
@@ -113,13 +100,13 @@ class RootComponent extends React.Component {
   }
 
   render() {
-    const { history, user } = this.props;
-    const { loading, showMsg, message } = this.state;
+    const { history, user, settings: { showLoader } } = this.props;
+    const { showMsg, message } = this.state;
 
     if (history.location.pathname === '/') {
       return <Redirect to="/home" />;
     }
-    if (loading) {
+    if (showLoader) {
       return <Loader />;
     }
 
@@ -169,6 +156,7 @@ const mapStateToProps = (state) => ({
   user: state.user,
   genres: state.collections.genres,
   collections: state.collections.collections,
+  settings: state.settings,
 });
 
 export default connect(mapStateToProps, {
