@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
-import history from '../history';
 import Homepage from './pages/Homepage';
 import Catalog from './pages/Catalog';
 import CollectionFull from './pages/CollectionFull';
@@ -25,13 +24,9 @@ import ErrorBoundary from './common/ErrorBoundary';
 
 import { If } from './helpers/conditional-statement';
 
-import store from '../store';
-import { getFromStorage, removeFromStorage } from '../utils/storage';
-
 import {
   verifyUser,
   logout,
-  userGet,
   getGenres,
   getCollections
 } from '../actions';
@@ -42,7 +37,6 @@ class RootComponent extends React.Component {
 
     this.logout = this.logout.bind(this);
     this.showMsg = this.showMsg.bind(this);
-    this.updateUser = this.updateUser.bind(this);
 
     this.state = {
       showMsg: false,
@@ -62,11 +56,11 @@ class RootComponent extends React.Component {
     this.updateUser();
   }
 
-  hideMsg() {
+  hideMsg = () => {
     this.setState({ showMsg: false });
-  }
+  };
 
-  showMsg(status, text, accessError, timeout) {
+  showMsg = (status, text, accessError, timeout) => {
     this.setState({
       showMsg: true,
       message: {
@@ -100,7 +94,13 @@ class RootComponent extends React.Component {
   }
 
   render() {
-    const { history, user, settings: { showLoader } } = this.props;
+    const {
+      history,
+      user,
+      settings: { showLoader },
+      collections,
+    } = this.props;
+
     const { showMsg, message } = this.state;
 
     if (history.location.pathname === '/') {
@@ -121,23 +121,23 @@ class RootComponent extends React.Component {
           <Route path="/home" render={(props) => {
             return (
               <ErrorBoundary>
-                <Homepage {...props} collections={this.props.collections} />
+                <Homepage {...props} collections={collections} />
               </ErrorBoundary>
             )
           }} />
           <Route path="/catalog/:page" render={(props) => (<Catalog {...props} />)} />
           <Route path="/collection/:category/:alias" render={(props) => (<CollectionFull {...props} />)} />
-          <Route path="/collections/:category" render={(props) => (<CollectionsList {...props} userData={user} showMsg={this.showMsg.bind(this)} />)} />
+          <Route path="/collections/:category" render={(props) => (<CollectionsList {...props} userData={user} showMsg={this.showMsg} />)} />
           <Route path="/wishlist" render={(props) => (<Wishlist {...props} />)} />
           <Route path="/search/:page/:role/:id" render={(props) => (<Search {...props} />)} />
           <Route path="/login" render={(props) => (<Auth {...props} loginForm />)} />
           <Route path="/register" render={(props) => (<Auth {...props} registerForm />)} />
-          <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg.bind(this)} />)} />
+          <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg} />)} />
 
           <If condition={showMsg}>
             <Message
               message={message}
-              close={this.hideMsg.bind(this)}
+              close={this.hideMsg}
             />
           </If>
 
@@ -152,17 +152,22 @@ class RootComponent extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-  genres: state.collections.genres,
-  collections: state.collections.collections,
-  settings: state.settings,
-});
+function mapStateToProps({
+  user,
+  settings,
+  collections: { collections, genres },
+}) {
+  return {
+    user,
+    settings,
+    collections,
+    genres,
+  }
+}
 
 export default connect(mapStateToProps, {
   verifyUser,
   logout,
-  userGet,
   getGenres,
   getCollections,
 })(RootComponent);

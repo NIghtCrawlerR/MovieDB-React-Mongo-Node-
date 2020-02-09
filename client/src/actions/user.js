@@ -2,7 +2,6 @@ import axios from 'axios'
 import history from '../history';
 
 import {
-  USER_SIGN_IN,
   USER_LOG_IN,
   USER_LOG_OUT,
   USER_VERIFY,
@@ -145,73 +144,69 @@ export const verifyUser = token => dispatch => {
     payload: true,
   });
 
-  return new Promise((resolve, reject) => {
-    axios.get(VERIFY_URL(token))
-      .then(({ data }) => {
-        if (data.success) {
-          dispatch({
-            type: USER_VERIFY,
-            payload: data.id,
-          })
-
-          dispatch({
-            type: TOGGLE_LOADER,
-            payload: false,
-          });
-
-          dispatch(userGet(data.id));
-        } else {
-          dispatch({
-            type: TOGGLE_MODAL,
-            payload: {
-              isOpen: true,
-              err: "Error: Server error. Unable to get user. Try again later.",
-            },
-          });
-
-          dispatch({
-            type: TOGGLE_LOADER,
-            payload: false,
-          });
-        }
-      })
-      .catch(err => {
+  axios.get(VERIFY_URL(token))
+    .then(({ data }) => {
+      if (data.success) {
         dispatch({
-          type: TOGGLE_MODAL,
-          payload: {
-            isOpen: true,
-            err,
-          }
+          type: USER_VERIFY,
+          payload: data.id,
         })
 
         dispatch({
           type: TOGGLE_LOADER,
           payload: false,
         });
-      })
-  })
-}
 
-export const userGet = userId => dispatch => { //get current user data
-  return new Promise((resolve, reject) => {
-    axios.get(FETCH_CURRENT_USER_URL(userId))
-      .then(res => {
-        const user = res.data
-        const { data } = user;
-        dispatch({
-          type: USER_GET,
-          payload: data,
-        })
-        resolve(res)
-      })
-      .catch(err => {
+        dispatch(userGet(data.id));
+      } else {
         dispatch({
           type: TOGGLE_MODAL,
           payload: {
             isOpen: true,
-            err,
-          }
-        })
+            err: "Error: Server error. Unable to get user. Try again later.",
+          },
+        });
+
+        dispatch({
+          type: TOGGLE_LOADER,
+          payload: false,
+        });
+      }
+    })
+    .catch(err => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
       })
-  })
+
+      dispatch({
+        type: TOGGLE_LOADER,
+        payload: false,
+      });
+    })
+}
+
+export const userGet = userId => dispatch => { //get current user data
+  axios.get(FETCH_CURRENT_USER_URL(userId))
+    .then(res => {
+      const user = res.data
+      const { data } = user;
+
+      dispatch({
+        type: USER_GET,
+        payload: data,
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
+      })
+    })
 }

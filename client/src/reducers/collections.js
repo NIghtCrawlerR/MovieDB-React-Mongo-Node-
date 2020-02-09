@@ -40,8 +40,8 @@ export default function (state = initialState, action) {
     case CREATE_COLLECTION:
       return {
         ...state,
-        collections: [...state.collections, action.payload],
-        categoryCollections: [...state.categoryCollections, action.payload],
+        collections: [action.payload, ...state.collections],
+        categoryCollections: [action.payload, ...state.categoryCollections],
       }
 
     case UPDATE_COLLECTION:
@@ -50,7 +50,6 @@ export default function (state = initialState, action) {
       }
 
     case DELETE_COLLECTION:
-      console.log(action)
       return {
         ...state,
         categoryCollections: state.categoryCollections.filter(item => {
