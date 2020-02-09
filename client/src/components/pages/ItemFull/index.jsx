@@ -203,7 +203,7 @@ class ItemFull extends Component {
           <div>
             {/* Collections selector dropdown */}
             <div style={{ color: '#fff' }}>
-              {user.data.group === 'admin'
+              {user.group === 'admin'
                 && <CollectionsSelector itemId={+this.getItemData().id} itemData={this.getItemData()} category={page} />}
             </div>
 

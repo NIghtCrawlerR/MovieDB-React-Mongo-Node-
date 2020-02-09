@@ -1,0 +1,13 @@
+.info-message {
+  margin: 10px 0 0 0;
+  font-size: 16px;
+  font-weight: 500;
+
+  &--error {
+    color: #de1a1a;
+  }
+
+  &--success {
+    color: #1bc728;
+  }
+}

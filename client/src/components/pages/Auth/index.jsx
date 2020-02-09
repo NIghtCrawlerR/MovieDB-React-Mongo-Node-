@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import { connect } from 'react-redux';
 import { setInStorage } from '../../../utils/storage';
 
-import { login } from '../../../actions';
+import { login, register } from '../../../actions';
 import Loader from '../../common/Loader';
 import PageTitle from '../../common/PageTitle';
 import Input from '../../common/Input';
 import Head from '../../common/Head';
 
+import { If } from '../../helpers/conditional-statement';
+
+import './index.scss';
+
 class AuthForm extends Component {
   constructor(props) {
     super(props);
-
-    this.changeHandler = this.changeHandler.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       email: '',
@@ -28,52 +28,39 @@ class AuthForm extends Component {
     };
   }
 
-  onSubmit(e) {
+  login = user => {
+    const { login, updateUser, history } = this.props;
+
+    login(user)
+      .then(data => {
+        if (data.success) {
+          setInStorage('token', data.token);
+          updateUser();
+          history.push('/home');
+        }
+      })
+  }
+
+  onSubmit = (e) => {
     e.preventDefault();
 
     const {
       loginForm,
-      history,
-      login,
-      updateUser,
+      register,
     } = this.props;
 
-    const { email, password } = this.state;
+    const { email, password, passwordConfirm } = this.state;
 
     const action = loginForm ? 'login' : 'register';
-    this.setState({ loading: true });
+
     if (action === 'login') {
-      login({ email, password })
-        .then((res) => {
-          if (res.data.success) {
-            setInStorage('token', res.data.token);
-            updateUser();
-            history.push('/home');
-          } else {
-            this.setState({ errorMessage: res.data.message });
-          }
-          this.setState({ loading: false });
-        })
-        .catch((err) => {
-          this.setState({ errorMessage: err });
-        });
+      this.login({ email, password });
     } else {
-      axios.post('/api/users/register', { email, password })
-        .then((res) => {
-          this.setState({ loading: false });
-          if (res.data.success) {
-            history.push('/login');
-          } else {
-            this.setState({ errorMessage: res.data.message });
-          }
-        })
-        .catch((err) => {
-          this.setState({ errorMessage: err });
-        });
+      register({ email, password, passwordConfirm })
     }
   }
 
-  changeHandler(e) {
+  changeHandler = (e) => {
     const { name } = e.target;
     const val = e.target.value;
 
@@ -84,21 +71,26 @@ class AuthForm extends Component {
   }
 
   render() {
-    const { registerForm, loginForm } = this.props;
     const {
-      loading,
+      registerForm,
+      loginForm,
+      errorMessage,
+      successMessage,
+      showLoader,
+    } = this.props;
+
+    const {
       email,
       password,
       emailErrorMessage,
       passwordErrorMessage,
       passwordConfirm,
-      errorMessage,
     } = this.state;
 
     return (
       <div className="form__wrap content">
         <Head title={`Fiction finder - ${registerForm ? 'Registration' : 'Login'}`} />
-        {loading ? <Loader overlay /> : null}
+        {showLoader ? <Loader overlay /> : null}
         <PageTitle title={loginForm ? 'Login' : 'Register'} />
 
         <br />
@@ -135,10 +127,12 @@ class AuthForm extends Component {
               />
             ) : null}
 
-          <div>
-            <small className="text-red">{errorMessage}</small>
-          </div>
-
+          <If condition={errorMessage}>
+            <p className="info-message info-message--error">{errorMessage}</p>
+          </If>
+          <If condition={successMessage}>
+            <p className="info-message info-message--success">{successMessage}</p>
+          </If>
 
           <input type="submit" className="btn btn-info mt-3" value={registerForm ? 'Register' : 'Log in'} />
         </form>
@@ -147,10 +141,21 @@ class AuthForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
+function mapStateToProps({
+  user: {
+    errorMessage,
+    successMessage,
+  },
+  settings: { showLoader },
+}) {
+  return {
+    errorMessage,
+    successMessage,
+    showLoader,
+  }
+}
 
 export default connect(mapStateToProps, {
   login,
+  register,
 })(AuthForm);

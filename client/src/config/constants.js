@@ -21,6 +21,7 @@ export const DELETE_COLLECTION_URL = (id) => `${HOST}/api/collection/delete/${id
  * USER ACTIONS ENDPOINTS
  */
 export const LOGIN_URL = `${HOST}/api/users/login`;
+export const SIGN_IN_URL = `${HOST}/api/users/register`;
 export const LOGOUT_URL = (token) => `${HOST}/api/users/logout?token=${token}`;
 export const VERIFY_URL = (token) => `${HOST}/api/users/verify?token=${token}`;
 export const FETCH_CURRENT_USER_URL = (userId) => `${HOST}/api/users/current?userId=${userId}`;

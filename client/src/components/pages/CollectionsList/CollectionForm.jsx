@@ -6,7 +6,6 @@ class CollectionForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      showForm: true,
       title: "",
       aliasName: "",
     };
@@ -37,21 +36,16 @@ class CollectionForm extends React.Component {
   }
 
   render() {
-    const { showForm, title, aliasName } = this.state;
-    const { userData } = this.props;
+    const { title, aliasName } = this.state;
 
     return (
-      <div className="container-fluid mt-4">
-        {showForm &&
-          userData.group === "admin" &&
-          <div className="collections__form">
-            <Input name="title" value={title} onChange={this.onChange} label="Title" />
-            <Input name="aliasName" value={aliasName} onChange={this.onChange} label="Alias name" readonly />
-            <div className="mt-2">
-              <button className="btn btn-success" onClick={this.createCollection}>Create</button>
-            </div>
-          </div>
-        }
+      <div className="collections__form">
+        <h3>Create new collection</h3>
+        <Input name="title" value={title} onChange={this.onChange} label="Title" />
+        <Input name="aliasName" value={aliasName} onChange={this.onChange} label="Alias name" readonly />
+        <div className="mt-2">
+          <button className="btn btn-success" onClick={this.createCollection}>Create</button>
+        </div>
       </div>
     )
   }

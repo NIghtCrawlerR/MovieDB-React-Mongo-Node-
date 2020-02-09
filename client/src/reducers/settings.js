@@ -1,5 +1,6 @@
 import {
   TOGGLE_MODAL,
+  TOGGLE_LOADER,
 } from '../actions/types'
 
 
@@ -15,6 +16,12 @@ export default function (state = initialState, action) {
         ...state,
         isModalOpen: action.payload.isOpen,
         errorBody: action.payload.err
+      }
+
+    case TOGGLE_LOADER:
+      return {
+        ...state, 
+        showLoader: action.payload,
       }
 
     default:

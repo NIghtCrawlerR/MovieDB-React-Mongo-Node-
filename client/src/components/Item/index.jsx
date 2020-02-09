@@ -128,7 +128,7 @@ class Item extends Component {
     return (
 
       <div className={`single-item ${type}`}>
-        <If condition={user.data.group === 'admin'}>
+        <If condition={user.group === 'admin'}>
           <CollectionsSelector itemId={id} itemData={this.getItemData()} category={type} />
         </If>
         <div className="single-item__poster-wrap">

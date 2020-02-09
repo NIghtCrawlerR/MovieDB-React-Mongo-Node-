@@ -83,6 +83,7 @@ class RootComponent extends React.Component {
   }
 
   updateUser() {
+    const { verifyUser } = this.props;
     const token = getFromStorage('token');
 
     if (!token) {
@@ -91,18 +92,11 @@ class RootComponent extends React.Component {
     }
 
     // verify user
-    this.props.verifyUser(token)
-      .then((user) => {
-        if (!user.data.success) throw new Error('err');
-      })
-      .then(() => {
-        this.props.userGet(store.getState().user.userId) // get user data
-          .then(() => {
-            this.setState({ loading: false });
-          })
-          .catch((err) => {
-            this.showMsg('error', `Error: ${err}`);
-          });
+    verifyUser(token)
+      .then(user => {
+        if (!user.success) throw new Error('err');
+
+        this.setState({ loading: false });
       })
       .catch((err) => {
         this.showMsg('error', 'Error: Server error. Unable to get user. Try to login again');
@@ -148,7 +142,7 @@ class RootComponent extends React.Component {
           }} />
           <Route path="/catalog/:page" render={(props) => (<Catalog {...props} />)} />
           <Route path="/collection/:category/:alias" render={(props) => (<CollectionFull {...props} />)} />
-          <Route path="/collections/:category" render={(props) => (<CollectionsList {...props} userData={user.data} showMsg={this.showMsg.bind(this)} />)} />
+          <Route path="/collections/:category" render={(props) => (<CollectionsList {...props} userData={user} showMsg={this.showMsg.bind(this)} />)} />
           <Route path="/wishlist" render={(props) => (<Wishlist {...props} />)} />
           <Route path="/search/:page/:role/:id" render={(props) => (<Search {...props} />)} />
           <Route path="/login" render={(props) => (<Auth {...props} loginForm updateUser={this.updateUser} showMsg={this.showMsg.bind(this)} />)} />

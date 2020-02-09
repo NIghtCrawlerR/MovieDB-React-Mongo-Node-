@@ -7,6 +7,8 @@ import CollectionForm from './CollectionForm';
 import Loader from '../../common/Loader';
 import Collection from './Collection';
 
+import { If } from '../../helpers/conditional-statement';
+
 import {
   createCollection,
   deleteCollection,
@@ -115,12 +117,15 @@ class CollectionsList extends React.Component {
 
     return (
       <div className="container-fluid my-4">
-        <CollectionForm
-          userData={userData}
-          showMsg={showMsg}
-          category={category}
-          createCollection={this.createCollection}
-        />
+        <If condition={userData.group === "admin"}>
+          <CollectionForm
+            userData={userData}
+            showMsg={showMsg}
+            category={category}
+            createCollection={this.createCollection}
+          />
+        </If>
+
         <SliderTabs tabs={this.createTabs(categoryCollections, category)} loading={loading} />
         {loading ? <Loader /> : (
           categoryCollections.map((collection, i) => (

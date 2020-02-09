@@ -13,7 +13,7 @@ import './index.scss';
 const SCREEN_WIDTH = document.documentElement.clientWidth;
 const SLIDE_WIDTH = 260;
 const VISIBLE_ITEMS_COUNT = Math.floor(SCREEN_WIDTH/SLIDE_WIDTH);
-console.log(SCREEN_WIDTH, SCREEN_WIDTH/SLIDE_WIDTH)
+
 function SliderTabs(props) {
   const {
     path,

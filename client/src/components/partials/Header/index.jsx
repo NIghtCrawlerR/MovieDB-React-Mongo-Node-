@@ -25,7 +25,7 @@ class Header extends React.Component {
     const {
       user,
       user: {
-        data,
+        email,
       },
     } = this.props;
 
@@ -47,7 +47,7 @@ class Header extends React.Component {
                 <Icon name="user-circle" />
                 <UserPopup
                   ref={this.userPopup}
-                  email={data.email}
+                  email={email}
                   logout={this.logout}
                 />
               </span>

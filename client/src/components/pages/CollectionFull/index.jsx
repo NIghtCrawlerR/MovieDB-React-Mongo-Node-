@@ -53,6 +53,7 @@ class CollectionFull extends React.Component {
 
   onSubmit = () => {
     const { title, alias, image } = this.state;
+
     const values = {
       title,
       alias,
@@ -72,10 +73,11 @@ class CollectionFull extends React.Component {
 
     return (
       <div className="container-fluid mt-4">
-        <div>
+        <div className="collections__form">
+          <h3>Edit collection</h3>
           <Input
             name="title"
-            placeholder="Title"
+            label="Title"
             className="mb-2"
             value={title}
             onChange={this.changeHandler}
@@ -83,15 +85,14 @@ class CollectionFull extends React.Component {
           />
           <Input
             name="alias"
-            placeholder="Alias"
+            label="Alias"
             className="mb-2"
             value={alias}
             onChange={this.changeHandler}
-            readonly
           />
           <Input
             name="image"
-            placeholder="Image"
+            label="Image"
             className="mb-2"
             value={image}
             onChange={this.changeHandler}
