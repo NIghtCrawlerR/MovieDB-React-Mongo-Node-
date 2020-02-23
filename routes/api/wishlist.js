@@ -18,7 +18,7 @@ router.post('/get', (req, res) => {
             succes: true,
             message: 'Success',
             wishlist: {
-                [itemType]: docs
+                [itemType]: docs.reverse()
             }
         })
     });

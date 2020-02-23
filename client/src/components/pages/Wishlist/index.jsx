@@ -5,31 +5,29 @@ import { connect } from 'react-redux';
 import PageHeader from '../../common/PageHeader';
 import Tabs from '../../common/Tabs';
 import Items from './Items';
+import Filter from './Filter';
 
 import { getWishlist } from '../../../actions';
 
 import './index.scss';
 
 class Wishlist extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      movies: [],
-      filtered: [],
-      loading: false,
-      tabs: [{
-        title: 'Movies',
-        value: 'movies',
-      }, {
-        title: 'TV Shows',
-        value: 'tv',
-      }, {
-        title: 'Games',
-        value: 'games',
-      }],
-    };
-  }
+  state = {
+    movies: [],
+    filtered: [],
+    loading: false,
+    tabs: [{
+      title: 'Movies',
+      value: 'movies',
+    }, {
+      title: 'TV Shows',
+      value: 'tv',
+    }, {
+      title: 'Games',
+      value: 'games',
+    }],
+    filterParams: {},
+  };
 
   componentDidMount() {
     const token = localStorage.getItem('token');
@@ -39,12 +37,19 @@ class Wishlist extends Component {
     }
   }
 
+  applyFilter = (values) => {
+    this.setState({
+      filterParams: values,
+    })
+  }
+
   render() {
     const {
       history: {
         location: { pathname },
       },
     } = this.props;
+    const { filterParams } = this.state;
 
     if (pathname === '/wishlist') {
       return <Redirect to="/wishlist/movies" />;
@@ -54,7 +59,8 @@ class Wishlist extends Component {
         <PageHeader title="Personal wishlist" />
         <div className="wishlist container-fluid">
           <Tabs path="/wishlist" tabs={this.state.tabs} link />
-          <Route path="/wishlist/:collection" render={(props) => (<Items {...props} />)} />
+          <Filter applyFilter={this.applyFilter} />
+          <Route path="/wishlist/:collection" render={(props) => (<Items {...props} filterParams={filterParams} />)} />
         </div>
       </div>
     );

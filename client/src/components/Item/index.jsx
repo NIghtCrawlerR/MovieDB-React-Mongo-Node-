@@ -16,27 +16,7 @@ import {
 import './index.scss';
 
 class Item extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      wishlistItem: null,
-    };
-
-    this.addToWishlist = this.addToWishlist.bind(this);
-    this.deleteFromWishlist = this.deleteFromWishlist.bind(this);
-    this.itemAction = this.itemAction.bind(this);
-    this.getItemData = this.getItemData.bind(this);
-  }
-
-  componentDidMount() {
-    const { user, type, id } = this.props;
-    this.setState({
-      wishlistItem: user[type].find((item) => item.id === id) || null,
-    });
-  }
-
-  getItemData() {
+  getItemData = () => {
     const {
       id, type, title, name, slug,
       genre_ids, genres,
@@ -61,25 +41,30 @@ class Item extends Component {
     return newItem;
   }
 
-  itemAction(action) {
-    const { type, user } = this.props;
-    const { wishlistItem } = this.state;
-    this.props.updateWishlist(type, action, wishlistItem.id, user.id, !wishlistItem[action]);
+  currentItem = () => {
+    const { user, type, id } = this.props;
+    return user[type].find(item => item.id === id);
   }
 
-  addToWishlist() {
-    const { user, type } = this.props;
+  itemAction = (action) => {
+    const { type, user } = this.props;
+    const currentItem = this.currentItem();
+
+    this.props.updateWishlist(type, action, currentItem.id, user.id, !currentItem[action]);
+  }
+
+  addToWishlist = () => {
+    const { user, type, addItemToWishlist } = this.props;
 
     if (!user.isLogin) {
       alert('Login to add movie to your collection.');
       return !1;
     }
 
-    this.props.addItemToWishlist(type, this.getItemData(), user.id)
-      .then(() => console.log(this.props));
+    addItemToWishlist(type, this.getItemData(), user.id);
   }
 
-  deleteFromWishlist() {
+  deleteFromWishlist = () => {
     const { id, user, type, deleteItemFromWishlist } = this.props;
 
     if (!user.isLogin) {
@@ -106,10 +91,6 @@ class Item extends Component {
       wishlist,
     } = this.props;
 
-    const {
-      wishlistItem,
-    } = this.state;
-
     const i = img || 'https://uoslab.com/images/tovary/no_image.jpg';
 
     let itemGenres = [];
@@ -124,9 +105,9 @@ class Item extends Component {
 
     const itemIds = user ? user[type].map((item) => item.id) : [];
     const searchItem = slug || id;
+    const currentItem = this.currentItem();
 
     return (
-
       <div className={`single-item ${type}`}>
         <If condition={user.group === 'admin'}>
           <CollectionsSelector itemId={id} itemData={this.getItemData()} category={type} />
@@ -151,13 +132,13 @@ class Item extends Component {
             </If>
             <p className="single-item__actions">
               {
-                wishlist && wishlistItem
+                wishlist && currentItem
                   ? <>
                     <span className="text-info" onClick={() => this.itemAction('watched')}>
-                      <Icon prefix={wishlistItem.watched ? 'fas' : 'far'} name="flag" />
+                      <Icon prefix={currentItem.watched ? 'fas' : 'far'} name="flag" />
                     </span>
                     <span className="text-red" title="like" onClick={() => this.itemAction('liked')}>
-                      <Icon prefix={wishlistItem.liked ? 'fas' : 'far'} name="heart" />
+                      <Icon prefix={currentItem.liked ? 'fas' : 'far'} name="heart" />
                     </span>
                   </> : null
               }

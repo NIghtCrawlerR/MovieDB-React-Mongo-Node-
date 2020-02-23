@@ -31,6 +31,15 @@
     padding-bottom: 0 !important;
   }
 
+  &__next-button,
+  &__back-button {
+    display: block;
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    outline: none;
+    height: 100%;
+  }
+
   .loading {
     .carousel__inner-slide {
       animation-duration: 1.8s;
@@ -60,10 +69,10 @@
 
 @keyframes placeHolderShimmer{
   0%{
-      background-position: -468px 0
+    background-position: -468px 0
   }
   100%{
-      background-position: 468px 0
+    background-position: 468px 0
   }
 }
 

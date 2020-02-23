@@ -88,23 +88,28 @@ export const updateWishlist = (collection, action, itemId, userId, value) => (di
 
 //get wishlist items by id arr
 export const getWishlist = (itemType, items) => (dispatch) => {
-  axios.post(FETCH_WISHLIST_URL,
-    { items: items, itemType: itemType })
-    .then(({ data }) => {
-      dispatch({
-        type: GET_WISHLIST,
-        wishlist: data.wishlist,
-        itemType: itemType,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: TOGGLE_MODAL,
-        payload: {
-          isOpen: true,
-          err,
-        }
+  return new Promise((resolve) => {
+    axios.post(FETCH_WISHLIST_URL,
+      { items: items, itemType: itemType })
+      .then(({ data }) => {
+        dispatch({
+          type: GET_WISHLIST,
+          wishlist: data.wishlist,
+          itemType: itemType,
+        });
+
+        resolve();
       })
-    })
+      .catch(err => {
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
+      })
+  })
+
 }
 

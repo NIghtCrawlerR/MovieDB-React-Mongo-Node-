@@ -5,8 +5,13 @@ import ItemsList from '../../ItemsList';
 import Head from '../../common/Head';
 
 import { getWishlist } from '../../../actions';
+import Loader from 'components/common/Loader';
 
 class List extends Component {
+  state = {
+    loading: false,
+  };
+
   componentDidMount() {
     const {
       match: { params: { collection } }
@@ -34,7 +39,11 @@ class List extends Component {
     const ids = user[collection].map((item) => item.id);
 
     if (ids.length) {
-      getWishlist(collection, ids);
+      this.setState({ loading: true });
+      getWishlist(collection, ids)
+        .then(() => {
+          this.setState({ loading: false })
+        });
     }
   }
 
@@ -43,8 +52,30 @@ class List extends Component {
       match: {
         params: { collection },
       },
+      user,
       wishlist,
+      filterParams,
     } = this.props;
+
+    const { loading } = this.state;
+
+    const filtered = (items) => {
+      const allItems = user[collection];
+      const filteredItems = allItems.filter(item => {
+        return Object.keys(filterParams).every(key => {
+          const filterValue = filterParams[key] === '0' ? false : true;
+
+          return filterValue === item[key]
+        })
+      })
+
+      const ids = filteredItems.map(item => item.id)
+
+      return items.filter(item => ids.includes(item.id));
+    }
+
+    if (loading) return <Loader />
+    const items = wishlist[collection];
 
     return (
       <>
@@ -53,7 +84,7 @@ class List extends Component {
         <ItemsList
           wishlist
           loading={false}
-          items={wishlist[collection]}
+          items={filtered(items)}
           type={collection}
         />
       </>
@@ -65,13 +96,11 @@ function mapStateToProps({
   user,
   collections,
   wishlist,
-  settings: { showLoader },
 }) {
   return {
     user,
     collections,
     wishlist,
-    showLoader,
   }
 }
 
