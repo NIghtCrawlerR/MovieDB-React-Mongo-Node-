@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 import './index.scss';
 
 class ErrorBoundary extends React.Component {
@@ -17,6 +19,20 @@ class ErrorBoundary extends React.Component {
       error: error,
       info: info
     });
+
+    if (process.env.NODE_ENV === "production") {
+      this.sendLog(error, info);
+    }
+  }
+
+  sendLog = (error, info) => {
+    const report = {
+      title: error.toString(),
+      body: info.componentStack,
+      date: new Date(),
+    };
+
+    axios.post('/api/movies/bugreport', report);
   }
 
   render() {

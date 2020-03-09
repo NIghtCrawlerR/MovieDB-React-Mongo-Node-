@@ -127,9 +127,9 @@ class RootComponent extends React.Component {
           )} />
           <Route path="/catalog/:page" render={(props) => (<ErrorBoundary><Catalog {...props} /></ErrorBoundary>)} />
           <Route path="/collection/:category/:alias" render={(props) => (<ErrorBoundary><Collection {...props} /></ErrorBoundary>)} />
-          <Route path="/collections/:category" render={(props) => (<Category {...props} userData={user} showMsg={this.showMsg} />)} />
+          <Route path="/collections/:category" render={(props) => (<ErrorBoundary><Category {...props} userData={user} showMsg={this.showMsg} /></ErrorBoundary>)} />
           <Route path="/wishlist" render={(props) => (<ErrorBoundary><Wishlist {...props} /></ErrorBoundary>)} />
-          <Route path="/search/:page/:role/:id" render={(props) => (<PersonPage {...props} />)} />
+          <Route path="/search/:page/:role/:id" render={(props) => (<ErrorBoundary><PersonPage {...props} /></ErrorBoundary>)} />
           <Route path="/login" render={() => (<ErrorBoundary><Auth loginForm /></ErrorBoundary>)} />
           <Route path="/register" render={() => (<ErrorBoundary><Auth registerForm /></ErrorBoundary>)} />
           <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg} />)} />
