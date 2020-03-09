@@ -4,7 +4,7 @@ import classNames from 'classnames';
 class DropdownActivator extends React.Component {
   render() {
     const { children, onClick, className } = this.props;
-    console.log(this.props)
+
     return (
       <div
         className={classNames("dropdown-activator", className)}

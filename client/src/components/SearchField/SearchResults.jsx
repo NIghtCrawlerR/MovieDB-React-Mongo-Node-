@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import Tabs from 'components/common/Tabs';
 import SearchItem from './SearchItem';
@@ -18,10 +17,6 @@ class SearchResults extends React.Component {
   render() {
     const { tabSelected } = this.state;
     const { data } = this.props;
-
-    const releaseData = (date) => {
-      return `(${new Date(date).getFullYear()})` || null;
-    }
 
     const tabs = Object.keys(data).map(key => ({ title: key, value: key }));
 

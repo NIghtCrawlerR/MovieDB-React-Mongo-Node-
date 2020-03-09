@@ -4,7 +4,6 @@ import {
   GET_WISHLIST,
   UPDATE_WISHLIST,
   TOGGLE_MODAL,
-  TOGGLE_LOADER,
 } from './types'
 
 import {

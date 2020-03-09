@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import axios from 'axios'
+
 import ItemsList from 'components/ItemsList'
 import Head from 'components/common/Head'
+import Image from 'components/common/Image'
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-
-import axios from 'axios'
 
 const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
 
@@ -69,7 +70,7 @@ class PersonPage extends Component {
     } = this.state
 
     const { page } = match.params
-    const baseImage = 'http://image.tmdb.org/t/p/w780/'
+
     return (
       <div className="my-5">
         <Head title={`Fiction finder - search`} />
@@ -77,14 +78,14 @@ class PersonPage extends Component {
         <div className="container-fluid">
           <Row style={{ padding: "0 15px" }}>
             <Col xs={3}>
-              <img src={baseImage + profile_path} alt="" />
+              <Image path={profile_path} size={780} />
             </Col>
             <Col xs={9}>
               <h3>{name}</h3>
-              <p>place_of_birth: {place_of_birth}</p>
-              <p>birthday: {new Date(birthday).toLocaleDateString()}</p>
+              <p>Place of birth: {place_of_birth}</p>
+              <p>Birthday: {new Date(birthday).toLocaleDateString()}</p>
               {deathday ?
-                <p> deathday : {new Date(deathday).toLocaleDateString()}</p>
+                <p> Deathday : {new Date(deathday).toLocaleDateString()}</p>
                 : null}
               <p>{biography}</p>
             </Col>

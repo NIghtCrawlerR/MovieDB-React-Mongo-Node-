@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+import './index.scss';
 
 const Image = ({ path, size, className }) => {
   const imageBaseUrl = () => {
@@ -7,7 +10,11 @@ const Image = ({ path, size, className }) => {
   };
 
   return (
-    <img className={className} src={`${imageBaseUrl()}${path}`} alt="" />
+    <img
+      className={classNames("Image", className)}
+      src={`${imageBaseUrl()}${path}`}
+      alt="image"
+    />
   );
 }
 
