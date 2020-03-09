@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import Icon from 'components/common/Icon';
 import ItemsList from 'components/ItemsList';
 
-import './index.scss';
-
 class Collection extends React.Component {
   render() {
     const { collection: {

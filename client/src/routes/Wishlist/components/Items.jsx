@@ -79,7 +79,6 @@ class List extends Component {
 
     return (
       <>
-        {/* <Filter filter={this.filter.bind(this)} /> */}
         <Head title={`Fiction finder - wishlist - ${collection}`} />
         <ItemsList
           wishlist
@@ -92,17 +91,11 @@ class List extends Component {
   }
 }
 
-function mapStateToProps({
+const mapStateToProps = ({ user, collections, wishlist }) => ({
   user,
   collections,
   wishlist,
-}) {
-  return {
-    user,
-    collections,
-    wishlist,
-  }
-}
+})
 
 export default connect(mapStateToProps, {
   getWishlist,

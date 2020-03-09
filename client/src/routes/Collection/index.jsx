@@ -9,7 +9,7 @@ import Input from 'components/common/Input';
 
 const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
 
-class CollectionFull extends React.Component {
+class Collection extends React.Component {
   constructor() {
     super();
 
@@ -116,4 +116,4 @@ class CollectionFull extends React.Component {
   }
 }
 
-export default CollectionFull;
+export default Collection;

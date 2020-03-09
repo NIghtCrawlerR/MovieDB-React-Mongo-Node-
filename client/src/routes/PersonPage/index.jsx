@@ -9,7 +9,7 @@ import axios from 'axios'
 
 const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
 
-class Search extends Component {
+class PersonPage extends Component {
   constructor(props) {
     super(props);
 
@@ -96,4 +96,4 @@ class Search extends Component {
   }
 }
 
-export default Search
+export default PersonPage;

@@ -11,14 +11,14 @@ import {
 
 import Head from 'components/common/Head';
 import CollectionsSelector from 'components/CollectionsSelector';
-import VideoBlock from './VideoBlock';
-import InfoBlock from './InfoBlock';
+import VideoBlock from './components/VideoBlock';
+import InfoBlock from './components/InfoBlock';
 import ItemsRecommended from 'components/ItemsRecommended';
 import Loader from 'components/common/Loader';
-import Credits from './Credits';
-import MainInfo from './MainInfo';
-import Overview from './Overview';
-import TopInfo from './TopInfo';
+import Credits from './components/Credits';
+import MainInfo from './components/MainInfo';
+import Overview from './components/Overview';
+import TopInfo from './components/TopInfo';
 import Tabs from 'components/common/Tabs';
 
 import {

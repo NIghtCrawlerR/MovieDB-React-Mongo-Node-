@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import SliderTabs from 'components/common/SliderTabs';
-import CollectionForm from './CollectionForm';
+import CollectionForm from './components/CollectionForm';
 import Loader from 'components/common/Loader';
-import Collection from './Collection';
+import Collection from './components/Collection';
 
 import { If } from 'components/helpers/conditional-statement';
 
@@ -15,7 +15,9 @@ import {
   getCollectionsFromCategory,
 } from 'actions';
 
-class CollectionsList extends React.Component {
+import './index.scss';
+
+class Category extends React.Component {
   static propTypes = {
     userData: PropTypes.object.isRequired,
     match: PropTypes.shape({
@@ -151,4 +153,4 @@ export default connect(mapStateToProps, {
   createCollection,
   deleteCollection,
   getCollectionsFromCategory,
-})(CollectionsList);
+})(Category);

@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import { connect } from 'react-redux';
+
 import PageHeader from 'components/common/PageHeader';
 import Tabs from 'components/common/Tabs';
-import Items from './Items';
-import Filter from './Filter';
-
-import { getWishlist } from 'actions';
+import Items from './components/Items';
+import Filter from './components/Filter';
 
 import './index.scss';
 
@@ -67,11 +65,4 @@ class Wishlist extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  collections: state.collections,
-  wishlist: state.wishlist,
-});
-
-export default connect(mapStateToProps, {
-  getWishlist,
-})(Wishlist);
+export default Wishlist;

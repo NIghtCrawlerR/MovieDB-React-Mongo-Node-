@@ -3,33 +3,34 @@ import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
-import Homepage from './pages/Homepage';
-import Catalog from './pages/Catalog';
-import CollectionFull from './pages/CollectionFull';
-import CollectionsList from './pages/CollectionsList';
-import Wishlist from './pages/Wishlist';
-import BugReport from './pages/BugReport';
-import Auth from './pages/Auth';
-import ItemFull from './pages/ItemFull';
-import Search from './pages/Search';
+// Routes
+import Auth from 'routes/Auth';
+import Homepage from 'routes/Homepage';
+import Catalog from 'routes/Catalog';
+import Wishlist from 'routes/Wishlist';
+import PersonPage from 'routes/PersonPage';
+import ItemFull from 'routes/ItemFull';
+import Category from 'routes/Category';
+import Collection from 'routes/Collection';
+import BugReport from 'routes/BugReport';
 
-import Header from './partials/Header';
-import Sidebar from './partials/Sidebar';
-import Footer from './partials/Footer';
+// Components
+import Header from 'components/partials/Header';
+import Sidebar from 'components/partials/Sidebar';
+import Footer from 'components/partials/Footer';
+import Modal from 'components/Modal';
+import Message from 'components/StatusMessage';
+import Loader from 'components/common/Loader';
+import ErrorBoundary from 'components/common/ErrorBoundary';
+import { If } from 'components/helpers/conditional-statement';
 
-import Modal from './Modal';
-import Message from './StatusMessage';
-import Loader from '../components/common/Loader';
-import ErrorBoundary from './common/ErrorBoundary';
-
-import { If } from './helpers/conditional-statement';
-
+// Actions
 import {
   verifyUser,
   logout,
   getGenres,
   getCollections
-} from '../actions';
+} from 'actions';
 
 class RootComponent extends React.Component {
   constructor(props) {
@@ -117,21 +118,20 @@ class RootComponent extends React.Component {
           <ErrorBoundary>
             <Header {...this.props} onClick={this.logout} />
           </ErrorBoundary>
+
           <Route path="/details/:page/:id" render={(props) => (<ErrorBoundary><ItemFull {...props} /></ErrorBoundary>)} />
-          <Route path="/home" render={(props) => {
-            return (
-              <ErrorBoundary>
-                <Homepage {...props} collections={collections} />
-              </ErrorBoundary>
-            )
-          }} />
+          <Route path="/home" render={(props) => (
+            <ErrorBoundary>
+              <Homepage {...props} collections={collections} />
+            </ErrorBoundary>
+          )} />
           <Route path="/catalog/:page" render={(props) => (<ErrorBoundary><Catalog {...props} /></ErrorBoundary>)} />
-          <Route path="/collection/:category/:alias" render={(props) => (<ErrorBoundary><CollectionFull {...props} /></ErrorBoundary>)} />
-          <Route path="/collections/:category" render={(props) => (<CollectionsList {...props} userData={user} showMsg={this.showMsg} />)} />
+          <Route path="/collection/:category/:alias" render={(props) => (<ErrorBoundary><Collection {...props} /></ErrorBoundary>)} />
+          <Route path="/collections/:category" render={(props) => (<Category {...props} userData={user} showMsg={this.showMsg} />)} />
           <Route path="/wishlist" render={(props) => (<ErrorBoundary><Wishlist {...props} /></ErrorBoundary>)} />
-          <Route path="/search/:page/:role/:id" render={(props) => (<Search {...props} />)} />
-          <Route path="/login" render={(props) => (<ErrorBoundary><Auth {...props} loginForm /></ErrorBoundary>)} />
-          <Route path="/register" render={(props) => (<ErrorBoundary><Auth {...props} registerForm /></ErrorBoundary>)} />
+          <Route path="/search/:page/:role/:id" render={(props) => (<PersonPage {...props} />)} />
+          <Route path="/login" render={() => (<ErrorBoundary><Auth loginForm /></ErrorBoundary>)} />
+          <Route path="/register" render={() => (<ErrorBoundary><Auth registerForm /></ErrorBoundary>)} />
           <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg} />)} />
 
           <If condition={showMsg}>
