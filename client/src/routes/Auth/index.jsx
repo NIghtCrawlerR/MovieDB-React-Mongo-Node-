@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { login, register } from 'actions';
-import Loader from 'components/common/Loader';
-import PageTitle from 'components/common/PageTitle';
-import Input from 'components/common/Input';
-import Head from 'components/common/Head';
+import Loader from 'components/Loader';
+import PageTitle from 'components/PageTitle';
+import Input from 'components/Input';
+import Head from 'components/Head';
+import Button from 'components/Button';
 
 import { If } from 'components/helpers/conditional-statement';
 
@@ -120,8 +121,10 @@ class AuthForm extends Component {
           <If condition={successMessage}>
             <p className="info-message info-message--success">{successMessage}</p>
           </If>
-
-          <input type="submit" className="btn btn-info mt-3" value={registerForm ? 'Register' : 'Log in'} />
+          <br />
+          <Button type="submit">
+            {registerForm ? 'Register' : 'Log in'}
+          </Button>
         </form>
       </div>
     );

@@ -2,10 +2,11 @@ import React from "react";
 import axios from "axios";
 
 import ItemsList from "components/ItemsList"
-import Loader from 'components/common/Loader';
-import ErrorBoundary from 'components/common/ErrorBoundary';
-import PageTitle from 'components/common/PageTitle';
-import Input from 'components/common/Input';
+import Loader from 'components/Loader';
+import ErrorBoundary from 'components/ErrorBoundary';
+import PageTitle from 'components/PageTitle';
+import Input from 'components/Input';
+import Button from 'components/Button';
 
 const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
 
@@ -98,10 +99,9 @@ class Collection extends React.Component {
             onChange={this.changeHandler}
           />
 
-          <button
-            className="btn btn-primary"
-            onClick={this.onSubmit}
-          >Save</button>
+          <Button onClick={this.onSubmit}>
+            Save
+          </Button>
         </div>
         <PageTitle title={collections.title} />
         {loading ? <Loader />

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import SearchResults from './SearchResults';
-import Icon from 'components/common/Icon';
-import Input from 'components/common/Input';
-import Dropdown from 'components/common/Dropdown';
-import DropdownActivator from 'components/common/Dropdown/DropdownActivator';
-import DropdownMenu from 'components/common/Dropdown/DropdownMenu';
+import Icon from 'components/Icon';
+import Input from 'components/Input';
+import Dropdown from 'components/Dropdown';
+import DropdownActivator from 'components/Dropdown/DropdownActivator';
+import DropdownMenu from 'components/Dropdown/DropdownMenu';
 
 import './index.scss';
 

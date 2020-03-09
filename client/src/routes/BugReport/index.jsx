@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import Input from 'components/common/Input';
-import Loader from 'components/common/Loader';
-import PageTitle from 'components/common/PageTitle';
-import Head from 'components/common/Head';
-
+import Input from 'components/Input';
+import Loader from 'components/Loader';
+import PageTitle from 'components/PageTitle';
+import Head from 'components/Head';
+import Button from 'components/Button';
 
 export default class BugReportForm extends Component {
   constructor(props) {
@@ -97,7 +97,9 @@ export default class BugReportForm extends Component {
             </div>
           </div>
 
-          <input type="submit" className="btn btn-info mt-3" value="Send" />
+          <Button type="submit">
+            Send report
+          </Button>
         </form>
       </div>
     );

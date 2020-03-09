@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
-import Loader from 'components/common/Loader';
+import Loader from 'components/Loader';
 
 const API_KEY = 'acf4573044c691934aba5502699434db';
 

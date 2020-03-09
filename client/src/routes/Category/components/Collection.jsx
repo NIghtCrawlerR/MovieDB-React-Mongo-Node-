@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Icon from 'components/common/Icon';
+import Icon from 'components/Icon';
 import ItemsList from 'components/ItemsList';
 
 class Collection extends React.Component {

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import BrickTabs from 'components/common/BrickTabs';
-import SliderTabs from 'components/common/SliderTabs';
-import Head from 'components/common/Head';
-import PageHeader from 'components/common/PageHeader';
-import PageTitle from 'components/common/PageTitle';
+import BrickTabs from 'components/BrickTabs';
+import SliderTabs from 'components/SliderTabs';
+import Head from 'components/Head';
+import PageHeader from 'components/PageHeader';
+import PageTitle from 'components/PageTitle';
 import { catalogTabs } from 'utils/tabs';
 
 import './index.scss';

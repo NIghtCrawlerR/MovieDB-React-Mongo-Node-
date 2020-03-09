@@ -9,18 +9,18 @@ import {
   TelegramShareButton,
 } from 'react-share';
 
-import Head from 'components/common/Head';
+import Head from 'components/Head';
 import CollectionsSelector from 'components/CollectionsSelector';
 import VideoBlock from './components/VideoBlock';
 import InfoBlock from './components/InfoBlock';
 import ItemsRecommended from 'components/ItemsRecommended';
-import Loader from 'components/common/Loader';
+import Loader from 'components/Loader';
 import Credits from './components/Credits';
 import MainInfo from './components/MainInfo';
 import Overview from './components/Overview';
 import TopInfo from './components/TopInfo';
-import Tabs from 'components/common/Tabs';
-import Image from 'components/common/Image';
+import Tabs from 'components/Tabs';
+import Image from 'components/Image';
 
 import {
   addItemToWishlist,

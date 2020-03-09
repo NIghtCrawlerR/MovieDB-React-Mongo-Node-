@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Item from '../Item'
-import Loader from '../common/Loader'
+import Loader from '../Loader'
 import { Choose, If, Else } from '../helpers/conditional-statement';
 
 import './index.css'

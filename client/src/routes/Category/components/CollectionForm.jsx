@@ -1,6 +1,7 @@
 import React from 'react';
 
-import Input from 'components/common/Input';
+import Input from 'components/Input';
+import Button from 'components/Button';
 
 class CollectionForm extends React.Component {
   constructor() {
@@ -44,7 +45,7 @@ class CollectionForm extends React.Component {
         <Input name="title" value={title} onChange={this.onChange} label="Title" />
         <Input name="aliasName" value={aliasName} onChange={this.onChange} label="Alias name" readonly />
         <div className="mt-2">
-          <button className="btn btn-success" onClick={this.createCollection}>Create</button>
+          <Button onClick={this.createCollection}>Create</Button>
         </div>
       </div>
     )

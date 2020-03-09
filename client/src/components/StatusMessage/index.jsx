@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../common/Icon';
+import Icon from '../Icon';
 import './index.css';
 
 function Message(props) {

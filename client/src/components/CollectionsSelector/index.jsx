@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
 import Form from 'react-bootstrap/Form'
-import Dropdown from 'components/common/Dropdown'
-import DropdownActivator from 'components/common/Dropdown/DropdownActivator'
-import DropdownMenu from 'components/common/Dropdown/DropdownMenu'
+import Dropdown from 'components/Dropdown'
+import DropdownActivator from 'components/Dropdown/DropdownActivator'
+import DropdownMenu from 'components/Dropdown/DropdownMenu'
+import Button from 'components/Button';
 
 import { updateCollections } from "actions"
 
@@ -30,7 +31,7 @@ class CollectionsSelector extends React.Component {
       <div>
         <Dropdown>
           <DropdownActivator className="mb-2">
-            Select collection
+            <Button>Select collection</Button>
           </DropdownActivator>
 
           <DropdownMenu>

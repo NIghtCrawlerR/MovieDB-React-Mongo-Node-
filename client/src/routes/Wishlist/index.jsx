@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
-import PageHeader from 'components/common/PageHeader';
-import Tabs from 'components/common/Tabs';
+import PageHeader from 'components/PageHeader';
+import Tabs from 'components/Tabs';
 import Items from './components/Items';
 import Filter from './components/Filter';
 

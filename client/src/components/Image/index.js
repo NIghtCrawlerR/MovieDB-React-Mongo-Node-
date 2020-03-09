@@ -4,15 +4,18 @@ import classNames from 'classnames';
 
 import './index.scss';
 
+const DEFAULT_IMAGE = 'https://uoslab.com/images/tovary/no_image.jpg';
+
 const Image = ({ path, size, className }) => {
-  const imageBaseUrl = () => {
-    return path.includes('https://') ? '' : `http://image.tmdb.org/t/p/w${size}`;
+  const getImageUrl = () => {
+    if (!path) return DEFAULT_IMAGE;
+    return path.includes('https://') ? path : `http://image.tmdb.org/t/p/w${size}${path}`;
   };
 
   return (
     <img
       className={classNames("Image", className)}
-      src={`${imageBaseUrl()}${path}`}
+      src={`${getImageUrl()}`}
       alt="image"
     />
   );
@@ -25,7 +28,7 @@ Image.propTypes = {
 }
 
 Image.defaultProps = {
-  path: 'https://uoslab.com/images/tovary/no_image.jpg',
+  path: DEFAULT_IMAGE,
   className: '',
   size: 300,
 };

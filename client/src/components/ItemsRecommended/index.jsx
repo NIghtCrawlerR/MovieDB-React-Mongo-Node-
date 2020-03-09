@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Slider from '../common/SliderCustom';
-import PageTitle from '../common/PageTitle';
+import Slider from '../SliderCustom';
+import PageTitle from '../PageTitle';
 import Item from '../Item';
 
 import {

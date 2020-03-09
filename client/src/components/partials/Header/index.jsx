@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import SearchField from 'components/SearchField';
-import Icon from 'components/common/Icon';
+import Icon from 'components/Icon';
 import UserMenu from './UserMenu';
-import Dropdown from 'components/common/Dropdown';
-import DropdownActivator from 'components/common/Dropdown/DropdownActivator';
-import DropdownMenu from 'components/common/Dropdown/DropdownMenu';
+import Dropdown from 'components/Dropdown';
+import DropdownActivator from 'components/Dropdown/DropdownActivator';
+import DropdownMenu from 'components/Dropdown/DropdownMenu';
 
 import './index.scss';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Icon from '../common/Icon';
+import Icon from '../Icon';
 import { If } from '../helpers/conditional-statement';
 
 import { toggleModal } from 'actions';

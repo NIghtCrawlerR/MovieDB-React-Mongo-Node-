@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Icon from '../common/Icon';
+import Icon from '../Icon';
 
 import CollectionsSelector from 'components/CollectionsSelector';
-import Image from 'components/common/Image';
+import Image from 'components/Image';
 import { Choose, If, Else } from 'components/helpers/conditional-statement';
 
 import {

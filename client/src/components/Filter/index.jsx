@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import sortOptions from 'utils/sortOptions'
+import axios from 'axios'
 
+import sortOptions from 'utils/sortOptions'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from 'components/Button';
 
-import axios from 'axios'
 import './index.css'
 
 const movieApiRoot = process.env.REACT_APP_MOVIE_DB_URL
@@ -152,7 +153,7 @@ export default class Filter extends Component {
                   </select>
                 </Col>
                 <Col className="my-2">
-                  <button type="button" className="btn btn-info ml-auto d-block" onClick={this.onSubmit}>Submit</button>
+                  <Button onClick={this.onSubmit}>Submit</Button>
                 </Col>
               </Row>
               : null}

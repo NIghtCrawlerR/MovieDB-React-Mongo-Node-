@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios'
 
 import ItemsList from 'components/ItemsList'
-import Head from 'components/common/Head'
-import Image from 'components/common/Image'
+import Head from 'components/Head'
+import Image from 'components/Image'
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'

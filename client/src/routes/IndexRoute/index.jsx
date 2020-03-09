@@ -20,8 +20,8 @@ import Sidebar from 'components/partials/Sidebar';
 import Footer from 'components/partials/Footer';
 import Modal from 'components/Modal';
 import Message from 'components/StatusMessage';
-import Loader from 'components/common/Loader';
-import ErrorBoundary from 'components/common/ErrorBoundary';
+import Loader from 'components/Loader';
+import ErrorBoundary from 'components/ErrorBoundary';
 import { If } from 'components/helpers/conditional-statement';
 
 // Actions

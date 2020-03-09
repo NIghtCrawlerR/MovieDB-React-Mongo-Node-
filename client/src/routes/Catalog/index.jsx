@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import ItemsList from 'components/ItemsList';
 import Filter from 'components/Filter';
-import PageHeader from 'components/common/PageHeader';
-import Pagination from 'components/common/Pagination';
-import Head from 'components/common/Head';
+import PageHeader from 'components/PageHeader';
+import Pagination from 'components/Pagination';
+import Head from 'components/Head';
 
 import {
   getMoviesTv,

@@ -18,6 +18,19 @@
     width: 100%;
   }
 
+  .dropdown-menu {
+    width: 100%;
+    box-shadow: 0 3px 13px 3px #b9b9b957;
+  }
+
+  .tabs {
+    padding: 0 15px;
+  }
+
+  .tab-item {
+    text-transform: capitalize;
+  }
+
   .fa-search {
     color: rgba(255, 255, 255, 0.808);
     margin-right: 15px;
