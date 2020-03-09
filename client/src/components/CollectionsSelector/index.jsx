@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
 import Form from 'react-bootstrap/Form'
-import Dropdown from 'react-bootstrap/Dropdown'
+import Dropdown from 'components/common/Dropdown'
+import DropdownActivator from 'components/common/Dropdown/DropdownActivator'
+import DropdownMenu from 'components/common/Dropdown/DropdownMenu'
 
 import { updateCollections } from "actions"
 
@@ -27,21 +29,23 @@ class CollectionsSelector extends React.Component {
     return (
       <div>
         <Dropdown>
-          <Dropdown.Toggle variant="info" size="sm" className="mb-2">
+          <DropdownActivator className="mb-2">
             Select collection
-          </Dropdown.Toggle>
+          </DropdownActivator>
 
-          <Dropdown.Menu className="w-100">
+          <DropdownMenu>
             {
-              collectionsList.map(item => <Form.Check
-                key={item._id}
-                onChange={e => this.handleChange(e, item.alias, itemId)}
-                label={item.title}
-                id={item._id + itemId}
-                checked={item.items.includes(itemId)}
-              />)
+              collectionsList.map(item => (
+                <Form.Check
+                  key={item._id}
+                  onChange={e => this.handleChange(e, item.alias, itemId)}
+                  label={item.title}
+                  id={item._id + itemId}
+                  checked={item.items.includes(itemId)}
+                />
+              ))
             }
-          </Dropdown.Menu>
+          </DropdownMenu>
         </Dropdown>
 
       </div>

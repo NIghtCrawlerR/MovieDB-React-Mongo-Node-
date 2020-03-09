@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 
 import Icon from '../common/Icon';
 
-import CollectionsSelector from '../CollectionsSelector';
-import { Choose, If, Else } from '../helpers/conditional-statement';
+import CollectionsSelector from 'components/CollectionsSelector';
+import Image from 'components/common/Image';
+import { Choose, If, Else } from 'components/helpers/conditional-statement';
 
 import {
   addItemToWishlist,
@@ -91,8 +92,6 @@ class Item extends Component {
       wishlist,
     } = this.props;
 
-    const i = img || 'https://uoslab.com/images/tovary/no_image.jpg';
-
     let itemGenres = [];
     if (genre_ids && moviesGenres) {
       itemGenres = genre_ids.map((id, i) => {
@@ -113,7 +112,12 @@ class Item extends Component {
           <CollectionsSelector itemId={id} itemData={this.getItemData()} category={type} />
         </If>
         <div className="single-item__poster-wrap">
-          <Link to={`/details/${type}/${searchItem}`}><img src={i} className="single-item__poster" alt="img" /></Link>
+          <Link to={`/details/${type}/${searchItem}`}>
+            <Image
+              path={img}
+              className="single-item__poster"
+            />
+          </Link>
         </div>
         <div className="single-item__info">
           <div className="single-item__info--top">

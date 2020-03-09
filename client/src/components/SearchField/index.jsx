@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import SearchPopup from './SearchPopup';
-import Icon from '../common/Icon';
-import Input from '../common/Input';
+import SearchResults from './SearchResults';
+import Icon from 'components/common/Icon';
+import Input from 'components/common/Input';
+import Dropdown from 'components/common/Dropdown';
+import DropdownActivator from 'components/common/Dropdown/DropdownActivator';
+import DropdownMenu from 'components/common/Dropdown/DropdownMenu';
+
 import './index.scss';
 
 const movieApiRoot = process.env.REACT_APP_MOVIE_DB_URL;
@@ -21,15 +25,6 @@ export default class SearchField extends Component {
       dropdown: false,
       query: "",
     };
-
-    this.isTyping = this.isTyping.bind(this);
-
-    this.searchField = React.createRef();
-    this.searchPopup = React.createRef();
-  }
-
-  showPopup = () => {
-    this.searchPopup.current.open();
   }
 
   search(query) {
@@ -73,7 +68,7 @@ export default class SearchField extends Component {
       .catch((err) => console.log(`Error: ${err}`));
   }
 
-  isTyping(event) {
+  isTyping = (event) => {
     const { timeout } = this.state;
     const { target: { value, name } } = event;
 
@@ -98,19 +93,22 @@ export default class SearchField extends Component {
     return (
       <div className="search-field">
         <Icon name="search" />
-        <Input
-          ref={this.searchField}
-          type="text"
-          name="search"
-          value={search}
-          onChange={this.isTyping}
-          onClick={this.showPopup}
-          placeholder="Search..."
-        />
-        <SearchPopup
-          ref={this.searchPopup}
-          items={searchResult}
-        />
+        <Dropdown>
+          <DropdownActivator>
+            <Input
+              ref={this.searchField}
+              type="text"
+              name="search"
+              value={search}
+              onChange={this.isTyping}
+              onClick={this.showPopup}
+              placeholder="Search..."
+            />
+          </DropdownActivator>
+          <DropdownMenu left>
+            <SearchResults data={searchResult} />
+          </DropdownMenu>
+        </Dropdown>
       </div>
     );
   }

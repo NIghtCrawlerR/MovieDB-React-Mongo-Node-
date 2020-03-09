@@ -20,6 +20,7 @@ import MainInfo from './components/MainInfo';
 import Overview from './components/Overview';
 import TopInfo from './components/TopInfo';
 import Tabs from 'components/common/Tabs';
+import Image from 'components/common/Image';
 
 import {
   addItemToWishlist,
@@ -244,9 +245,7 @@ class ItemFull extends Component {
 
                 {/* Overview */}
                 <div>
-                  {background_image
-                    ? <img src={background_image} alt="" />
-                    : <img src={imageBaseUrl('w780') + poster_path} alt="" />}
+                  <Image path={poster_path || background_image} size={780} />
                   <Overview
                     overview={overview || description}
                   />

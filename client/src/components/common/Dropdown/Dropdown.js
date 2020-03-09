@@ -41,10 +41,13 @@ class Dropdown extends React.Component {
   renderMenu = children => {
     const body = children.find(({ type }) => type === DropdownMenu);
     const { isOpen } = this.state;
+    const { left, right } = body.props;
 
     return (
       <DropdownMenu
         isOpen={isOpen}
+        left={left}
+        right={right}
       >
         {body.props.children}
       </DropdownMenu>

@@ -4,8 +4,16 @@
 
 .dropdown-menu {
   display: block !important;
-  right: 0 !important;
-  left: auto !important;
+
+  &--left {
+    left: 0 !important;
+    right: auto !important;
+  }
+
+  &--right {
+    right: 0 !important;
+    left: auto !important;
+  }
 
   .list {
     padding: 10px 0;

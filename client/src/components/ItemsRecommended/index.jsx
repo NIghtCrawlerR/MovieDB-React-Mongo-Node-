@@ -5,7 +5,6 @@ import PageTitle from '../common/PageTitle';
 import Item from '../Item';
 
 import {
-  MOVIE_POSTER_BASEURL,
   MOVIE_API_BASEURL,
   MOVIE_API_KEY
 } from 'config/constants';
@@ -55,11 +54,6 @@ class ItemsRecommended extends Component {
   }
 
   render() {
-    const getImage = (item) => {
-      const { poster_path, background_image } = item;
-      return poster_path ? `${MOVIE_POSTER_BASEURL()}${poster_path}` : background_image;
-    }
-
     const { items } = this.state;
     const { page } = this.props;
 
@@ -70,14 +64,18 @@ class ItemsRecommended extends Component {
             <PageTitle title="Also you may like:" buttonBack={false} />
             <Slider>
               {
-                items.map((item) =>
-                  (<Item
-                    {...item}
-                    type={page}
-                    key={item.id}
-                    img={getImage(item)}
-                  />)
-                )
+                items.map((item) => {
+                  const { poster_path, background_image } = item;
+
+                  return (
+                    <Item
+                      {...item}
+                      type={page}
+                      key={item.id}
+                      img={poster_path || background_image}
+                    />
+                  )
+                })
               }
             </Slider>
           </div>

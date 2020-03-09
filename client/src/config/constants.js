@@ -40,3 +40,42 @@ export const UPDATE_WISHLIST_URL = `${HOST}/api/wishlist/update`;
 
  // available width: 300, 780, 1280, original
 export const MOVIE_POSTER_BASEURL = (width = 300) => `http://image.tmdb.org/t/p/w${width}`;
+
+/**
+ * NAVIGATION
+ */
+export const NAVIGATION = [
+  {
+    id: '01',
+    name: 'Home',
+    icon: 'fas fa-home',
+    link: '/home',
+  }, {
+    id: '02',
+    name: 'Movies catalog',
+    icon: 'fas fa-film',
+    link: '/collections/movies',
+  }, {
+    id: '03',
+    name: 'TV Series catalog',
+    icon: 'fas fa-tv',
+    link: '/collections/tv',
+  }, {
+    id: '04',
+    name: 'Games catalog',
+    icon: 'fas fa-gamepad',
+    link: '/collections/games',
+  },
+  {
+    id: '05',
+    name: 'Wishlist',
+    icon: 'fas fa-heart',
+    link: '/wishlist',
+    requireAuth: true,
+  }, {
+    id: '06',
+    name: 'Bug report',
+    icon: 'fas fa-bug',
+    link: '/bug-report',
+  },
+];

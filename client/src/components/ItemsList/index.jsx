@@ -4,18 +4,11 @@ import Item from '../Item'
 import Loader from '../common/Loader'
 import { Choose, If, Else } from '../helpers/conditional-statement';
 
-import { MOVIE_POSTER_BASEURL } from 'config/constants';
-
 import './index.css'
 
 export default class List extends Component {
   render() {
     const { loading, items, wishlist, type } = this.props;
-
-    const getImage = (item) => {
-      const { poster_path, background_image } = item;
-      return poster_path ? `${MOVIE_POSTER_BASEURL()}${poster_path}` : background_image;
-    }
 
     if (!items || !items.length) {
       return (
@@ -36,6 +29,8 @@ export default class List extends Component {
             <div className="items__wrap">
               {
                 items.map((item, i) => {
+                  const { poster_path, background_image } = item;
+
                   if (!item) return null;
 
                   return (
@@ -44,7 +39,7 @@ export default class List extends Component {
                       wishlist={wishlist}
                       {...item}
                       type={type}
-                      img={getImage(item)}
+                      img={poster_path || background_image}
                     />
                   )
                 })
