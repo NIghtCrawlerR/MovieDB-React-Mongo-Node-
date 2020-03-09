@@ -11,7 +11,7 @@ import {
   addItemToWishlist,
   deleteItemFromWishlist,
   updateWishlist,
-} from '../../actions';
+} from 'actions';
 
 import './index.scss';
 

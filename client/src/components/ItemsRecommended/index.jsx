@@ -8,7 +8,7 @@ import {
   MOVIE_POSTER_BASEURL,
   MOVIE_API_BASEURL,
   MOVIE_API_KEY
-} from '../../config/constants';
+} from 'config/constants';
 
 const lang = 'ru';
 

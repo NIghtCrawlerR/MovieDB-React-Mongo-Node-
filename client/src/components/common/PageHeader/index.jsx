@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { If } from '../../helpers/conditional-statement';
+import { If } from 'components/helpers/conditional-statement';
 
-import bg from '../../../assets/images/bg2.jpg';
+import bg from 'assets/images/bg2.jpg';
 import './index.scss';
 
 function PageHeader(props) {

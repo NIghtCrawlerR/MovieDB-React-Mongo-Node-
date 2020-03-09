@@ -1,5 +1,5 @@
 import React from 'react'
-import Input from '../../common/Input';
+import Input from 'components/common/Input';
 
 class Filter extends React.Component {
   state = {

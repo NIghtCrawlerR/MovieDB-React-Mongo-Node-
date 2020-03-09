@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import sortOptions from '../../utils/sortOptions'
+import sortOptions from 'utils/sortOptions'
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'

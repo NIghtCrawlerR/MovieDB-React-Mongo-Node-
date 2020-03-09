@@ -4,7 +4,7 @@ import Item from '../Item'
 import Loader from '../common/Loader'
 import { Choose, If, Else } from '../helpers/conditional-statement';
 
-import { MOVIE_POSTER_BASEURL } from '../../config/constants';
+import { MOVIE_POSTER_BASEURL } from 'config/constants';
 
 import './index.css'
 

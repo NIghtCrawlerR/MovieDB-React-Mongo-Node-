@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import ItemsList from '../../ItemsList';
-import Head from '../../common/Head';
+import ItemsList from 'components/ItemsList';
+import Head from 'components/common/Head';
 
-import { getWishlist } from '../../../actions';
+import { getWishlist } from 'actions';
 import Loader from 'components/common/Loader';
 
 class List extends Component {

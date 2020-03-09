@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Input from '../../common/Input';
+import Input from 'components/common/Input';
 
 class CollectionForm extends React.Component {
   constructor() {

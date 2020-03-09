@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import Input from '../../common/Input';
-import Loader from '../../common/Loader';
-import PageTitle from '../../common/PageTitle';
-import Head from '../../common/Head';
+import Input from 'components/common/Input';
+import Loader from 'components/common/Loader';
+import PageTitle from 'components/common/PageTitle';
+import Head from 'components/common/Head';
 
 
 export default class BugReportForm extends Component {

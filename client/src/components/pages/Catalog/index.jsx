@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import ItemsList from '../../ItemsList';
-import Filter from '../../Filter';
-import PageHeader from '../../common/PageHeader';
-import Pagination from '../../common/Pagination';
-import Head from '../../common/Head';
+import ItemsList from 'components/ItemsList';
+import Filter from 'components/Filter';
+import PageHeader from 'components/common/PageHeader';
+import Pagination from 'components/common/Pagination';
+import Head from 'components/common/Head';
 
 import {
   getMoviesTv,
   getGames,
   userGet,
-} from '../../../actions';
+} from 'actions';
 
 class Catalog extends Component {
   constructor(props) {

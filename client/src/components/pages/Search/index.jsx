@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ItemsList from '../../ItemsList'
-import Head from '../../common/Head'
+import ItemsList from 'components/ItemsList'
+import Head from 'components/common/Head'
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'

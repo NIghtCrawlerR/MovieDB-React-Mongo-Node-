@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Icon from '../../common/Icon';
-import ItemsList from '../../ItemsList';
+import Icon from 'components/common/Icon';
+import ItemsList from 'components/ItemsList';
 
 import './index.scss';
 

@@ -6,7 +6,7 @@ import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-re
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 import Icon from '../Icon';
-import { If } from '../../helpers/conditional-statement';
+import { If } from 'components/helpers/conditional-statement';
 
 import './index.scss';
 

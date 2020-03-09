@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form'
 import Dropdown from 'react-bootstrap/Dropdown'
 
-import { updateCollections } from "../../actions"
+import { updateCollections } from "actions"
 
 class CollectionsSelector extends React.Component {
   constructor() {

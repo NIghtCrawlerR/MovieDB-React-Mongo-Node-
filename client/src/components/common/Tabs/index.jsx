@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { Choose, If, Else } from '../../helpers/conditional-statement';
+import { Choose, If, Else } from 'components/helpers/conditional-statement';
 
 import './index.scss';
 

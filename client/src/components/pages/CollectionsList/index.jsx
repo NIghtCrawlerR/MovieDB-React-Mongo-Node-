@@ -2,18 +2,18 @@ import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import SliderTabs from '../../common/SliderTabs';
+import SliderTabs from 'components/common/SliderTabs';
 import CollectionForm from './CollectionForm';
-import Loader from '../../common/Loader';
+import Loader from 'components/common/Loader';
 import Collection from './Collection';
 
-import { If } from '../../helpers/conditional-statement';
+import { If } from 'components/helpers/conditional-statement';
 
 import {
   createCollection,
   deleteCollection,
   getCollectionsFromCategory,
-} from '../../../actions';
+} from 'actions';
 
 class CollectionsList extends React.Component {
   static propTypes = {

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { login, register } from '../../../actions';
-import Loader from '../../common/Loader';
-import PageTitle from '../../common/PageTitle';
-import Input from '../../common/Input';
-import Head from '../../common/Head';
+import { login, register } from 'actions';
+import Loader from 'components/common/Loader';
+import PageTitle from 'components/common/PageTitle';
+import Input from 'components/common/Input';
+import Head from 'components/common/Head';
 
-import { If } from '../../helpers/conditional-statement';
+import { If } from 'components/helpers/conditional-statement';
 
 import './index.scss';
 

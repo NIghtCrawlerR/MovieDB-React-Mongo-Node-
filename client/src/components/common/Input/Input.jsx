@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { If } from '../../helpers/conditional-statement';
+import { If } from 'components/helpers/conditional-statement';
 
 import './index.scss';
 

@@ -1,11 +1,11 @@
 import React from "react";
 import axios from "axios";
 
-import ItemsList from "../../ItemsList"
-import Loader from '../../common/Loader';
-import ErrorBoundary from '../../common/ErrorBoundary';
-import PageTitle from '../../common/PageTitle';
-import Input from '../../common/Input';
+import ItemsList from "components/ItemsList"
+import Loader from 'components/common/Loader';
+import ErrorBoundary from 'components/common/ErrorBoundary';
+import PageTitle from 'components/common/PageTitle';
+import Input from 'components/common/Input';
 
 const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
 

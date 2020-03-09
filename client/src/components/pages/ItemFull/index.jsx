@@ -9,23 +9,23 @@ import {
   TelegramShareButton,
 } from 'react-share';
 
-import Head from '../../common/Head';
-import CollectionsSelector from '../../CollectionsSelector';
+import Head from 'components/common/Head';
+import CollectionsSelector from 'components/CollectionsSelector';
 import VideoBlock from './VideoBlock';
 import InfoBlock from './InfoBlock';
-import ItemsRecommended from '../../ItemsRecommended';
-import Loader from '../../common/Loader';
+import ItemsRecommended from 'components/ItemsRecommended';
+import Loader from 'components/common/Loader';
 import Credits from './Credits';
 import MainInfo from './MainInfo';
 import Overview from './Overview';
 import TopInfo from './TopInfo';
-import Tabs from '../../common/Tabs';
+import Tabs from 'components/common/Tabs';
 
 import {
   addItemToWishlist,
   deleteItemFromWishlist,
   getFullItem,
-} from '../../../actions';
+} from 'actions';
 
 import './index.scss';
 

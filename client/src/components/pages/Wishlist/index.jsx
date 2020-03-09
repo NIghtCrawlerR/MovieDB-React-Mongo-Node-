@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import PageHeader from '../../common/PageHeader';
-import Tabs from '../../common/Tabs';
+import PageHeader from 'components/common/PageHeader';
+import Tabs from 'components/common/Tabs';
 import Items from './Items';
 import Filter from './Filter';
 
-import { getWishlist } from '../../../actions';
+import { getWishlist } from 'actions';
 
 import './index.scss';
 

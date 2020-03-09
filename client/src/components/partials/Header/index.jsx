@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SearchField from '../../SearchField';
-import Icon from '../../common/Icon';
+import SearchField from 'components/SearchField';
+import Icon from 'components/common/Icon';
 import UserPopup from './UserPopup';
 import './index.scss';
 
