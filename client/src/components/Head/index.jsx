@@ -2,14 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-function Head(props) {
-  const {
-    title,
-    ogTitle,
-    ogUrl,
-    ogImage,
-  } = props;
-
+const Head = ({ title, ogTitle, ogUrl, ogImage }) => {
   return (
     <Helmet>
       {/* <!-- Primary Meta Tags --> */}

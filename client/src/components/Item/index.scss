@@ -55,11 +55,23 @@
     height: 25px;
     padding: 3px;
     border-radius: 50%;
-    background: #17b589;
     text-align: center;
+    background: #cecece;
     font-size: 12px;
     font-weight: 700;
     color: #fff;
+
+    &.low {
+      background: #f30b3d;
+    }
+
+    &.medium {
+      background: #fab800;
+    }
+
+    &.high {
+      background: #17b589;
+    }
   }
 
   &__actions {

@@ -11,16 +11,11 @@ import Button from 'components/Button';
 import { updateCollections } from "actions"
 
 class CollectionsSelector extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      checked: []
-    };
-  }
-
   handleChange = (e, alias, itemId) => {
-    this.props.updateCollections(e.target.checked, alias, itemId, this.props.itemData)
+    const { target: { checked } } = e;
+    const { itemData } = this.props;
+
+    this.props.updateCollections(checked, alias, itemId, itemData)
   }
 
   render() {

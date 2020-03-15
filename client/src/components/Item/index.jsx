@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import Icon from '../Icon';
 
@@ -85,6 +86,14 @@ class Item extends Component {
       return valFromPrecent.toFixed(2);
     };
 
+    const getRatingColor = (rating) => {
+      const LOW = rating >= 0 && rating <= 4 ? "low" : null;
+      const MEDIUM = rating > 4 && rating < 7 ? "medium" : null;
+      const HIGH = rating >= 7 ? "high" : null;
+
+      return HIGH || MEDIUM || LOW || null;
+    }
+
     const {
       type, title, name, img, slug, id,
       user, genre_ids, vote_average, rating,
@@ -105,6 +114,7 @@ class Item extends Component {
     const itemIds = user ? user[type].map((item) => item.id) : [];
     const searchItem = slug || id;
     const currentItem = this.currentItem();
+    const ratingValue = (+vote_average || +getGameRating(rating)).toFixed(1);
 
     return (
       <div className={`single-item ${type}`}>
@@ -130,8 +140,8 @@ class Item extends Component {
           </div>
           <div className="single-item__info--bottom">
             <If condition={vote_average || rating}>
-              <p className="single-item__rating">
-                {(+vote_average || +getGameRating(rating)).toFixed(1)}
+              <p className={classNames("single-item__rating", getRatingColor(ratingValue))}>
+                {ratingValue}
               </p>
             </If>
             <p className="single-item__actions">

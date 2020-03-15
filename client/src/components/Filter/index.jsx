@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'components/Button';
 
-import './index.css'
+import './index.scss'
 
 const movieApiRoot = process.env.REACT_APP_MOVIE_DB_URL
 const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
@@ -104,7 +104,9 @@ export default class Filter extends Component {
     const getRange = (start, end) => {
       return Array(end - start + 1).fill().map((_, idx) => start + idx)
     }
+
     const years = getRange(1980, new Date().getFullYear());
+
     return (
       <div className="filter__wrap">
         <div className="filter">

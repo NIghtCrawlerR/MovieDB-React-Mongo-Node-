@@ -5,13 +5,7 @@ import classNames from 'classnames';
 
 import './index.scss';
 
-function BrickTabs(props) {
-  const {
-    main,
-    path,
-    tabs,
-  } = props;
-
+const BrickTabs = ({  main, path, tabs }) => {
   return (
     <div className="brick-tabs">
       {tabs.map((tab) => (

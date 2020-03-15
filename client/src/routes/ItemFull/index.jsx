@@ -189,6 +189,8 @@ class ItemFull extends Component {
     const isInWishlist = itemIds.includes(this.props.catalog.itemFullInfo.id);
 
     const tabsFiltered = tabs.filter(tab => !tab.categories || !tab.categories.includes(page))
+    const ratingValue = +vote_average || +getGameRating(rating) || null;
+    const releaseDate = released || release_date || first_air_date || null;
 
     return (
       <div className="item-full overlay" style={backgroundStyle}>
@@ -217,12 +219,12 @@ class ItemFull extends Component {
                 {(original_title || original_name) && <p className="item-full__original-title">{original_title || original_name}</p>}
 
                 <TopInfo
-                  release_date={released || release_date || first_air_date}
-                  runtime={runtime}
-                  playtime={playtime}
+                  release_date={releaseDate}
+                  runtime={runtime || null}
+                  playtime={playtime || null}
                   number_of_seasons={number_of_seasons}
                   number_of_episodes={number_of_episodes}
-                  rating={vote_average || getGameRating(rating)}
+                  rating={ratingValue}
                 />
 
                 {/* Buttons */}
