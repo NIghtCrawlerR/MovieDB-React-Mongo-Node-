@@ -19,10 +19,8 @@ import Header from 'components/partials/Header';
 import Sidebar from 'components/partials/Sidebar';
 import Footer from 'components/partials/Footer';
 import Modal from 'components/Modal';
-import Message from 'components/StatusMessage';
 import Loader from 'components/Loader';
 import ErrorBoundary from 'components/ErrorBoundary';
-import { If } from 'components/helpers/conditional-statement';
 
 // Actions
 import {
@@ -36,17 +34,7 @@ class RootComponent extends React.Component {
   constructor(props) {
     super(props);
 
-    this.logout = this.logout.bind(this);
-    this.showMsg = this.showMsg.bind(this);
-
-    this.state = {
-      showMsg: false,
-      message: {
-        status: 'warning',
-        text: 'message text',
-        accessError: false,
-      },
-    };
+    this.token = localStorage.getItem('token');
   }
 
   componentDidMount() {
@@ -54,57 +42,32 @@ class RootComponent extends React.Component {
 
     getGenres('movie');
     getCollections();
-    this.updateUser();
+    this.verifyUser();
   }
 
-  hideMsg = () => {
-    this.setState({ showMsg: false });
-  };
+  verifyUser() {
+    if (!this.token) return false;
 
-  showMsg = (status, text, accessError, timeout) => {
-    this.setState({
-      showMsg: true,
-      message: {
-        status,
-        text,
-        accessError,
-      },
-    });
-
-    setTimeout(() => {
-      this.setState({ showMsg: false });
-    }, timeout || 5000);
-  }
-
-  updateUser() {
     const { verifyUser } = this.props;
-    const token = localStorage.getItem('token');
-
-    if (!token) return false;
-
-    // verify user
-    verifyUser(token);
+    verifyUser(this.token);
   }
 
-  logout(e) {
+  logout = (e) => {
     e.preventDefault();
 
     const { logout } = this.props;
-
-    logout(localStorage.getItem('token'));
+    logout(this.token);
   }
 
   render() {
     const {
-      history,
+      history: { location: { pathname } },
       user,
       settings: { showLoader },
       collections,
     } = this.props;
 
-    const { showMsg, message } = this.state;
-
-    if (history.location.pathname === '/') {
+    if (pathname === '/') {
       return <Redirect to="/home" />;
     }
     if (showLoader) {
@@ -114,32 +77,67 @@ class RootComponent extends React.Component {
     return (
       <div className="app">
         <Sidebar isLogin={user.isLogin} />
+
         <div className="main-content">
           <ErrorBoundary>
-            <Header {...this.props} onClick={this.logout} />
+            <Header user={user} logout={this.logout} />
           </ErrorBoundary>
 
-          <Route path="/details/:page/:id" render={(props) => (<ErrorBoundary><ItemFull {...props} /></ErrorBoundary>)} />
-          <Route path="/home" render={(props) => (
+          <Route path="/details/:page/:id">
             <ErrorBoundary>
-              <Homepage {...props} collections={collections} />
+              <ItemFull />
             </ErrorBoundary>
-          )} />
-          <Route path="/catalog/:page" render={(props) => (<ErrorBoundary><Catalog {...props} /></ErrorBoundary>)} />
-          <Route path="/collection/:category/:alias" render={(props) => (<ErrorBoundary><Collection {...props} /></ErrorBoundary>)} />
-          <Route path="/collections/:category" render={(props) => (<ErrorBoundary><Category {...props} userData={user} showMsg={this.showMsg} /></ErrorBoundary>)} />
-          <Route path="/wishlist" render={(props) => (<ErrorBoundary><Wishlist {...props} /></ErrorBoundary>)} />
-          <Route path="/search/:page/:role/:id" render={(props) => (<ErrorBoundary><PersonPage {...props} /></ErrorBoundary>)} />
-          <Route path="/login" render={() => (<ErrorBoundary><Auth loginForm /></ErrorBoundary>)} />
-          <Route path="/register" render={() => (<ErrorBoundary><Auth registerForm /></ErrorBoundary>)} />
-          <Route path="/bug-report" render={(props) => (<BugReport {...props} showMsg={this.showMsg} />)} />
+          </Route>
 
-          <If condition={showMsg}>
-            <Message
-              message={message}
-              close={this.hideMsg}
-            />
-          </If>
+          <Route path="/home">
+            <ErrorBoundary>
+              <Homepage collections={collections} />
+            </ErrorBoundary>
+          </Route>
+
+          <Route path="/catalog/:page">
+            <ErrorBoundary>
+              <Catalog />
+            </ErrorBoundary>
+          </Route>
+
+          <Route path="/collection/:category/:alias">
+            <ErrorBoundary>
+              <Collection />
+            </ErrorBoundary>
+          </Route>
+
+          <Route path="/collections/:category">
+            <ErrorBoundary>
+              <Category />
+            </ErrorBoundary>
+          </Route>
+
+          <Route path="/wishlist">
+            <ErrorBoundary>
+              <Wishlist />
+            </ErrorBoundary>
+          </Route>
+
+          <Route path="/search/:page/:role/:id">
+            <ErrorBoundary>
+              <PersonPage />
+            </ErrorBoundary>
+          </Route>
+
+          <Route path="/login">
+            <ErrorBoundary>
+              <Auth loginForm />
+            </ErrorBoundary>
+          </Route>
+
+          <Route path="/register">
+            <ErrorBoundary>
+              <Auth registerForm />
+            </ErrorBoundary>
+          </Route>
+
+          <Route path="/bug-report" component={BugReport} />
 
           <ErrorBoundary>
             <Modal />

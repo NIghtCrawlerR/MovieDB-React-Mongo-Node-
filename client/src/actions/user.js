@@ -4,8 +4,8 @@ import history from '../history';
 import {
   USER_LOG_IN,
   USER_LOG_OUT,
-  USER_VERIFY,
-  USER_GET,
+  VERIFY_USER,
+  GET_USER,
   TOGGLE_MODAL,
   USER_SIGN_IN_ERROR,
   USER_SIGN_IN_SUCCESS,
@@ -148,7 +148,7 @@ export const verifyUser = token => dispatch => {
     .then(({ data }) => {
       if (data.success) {
         dispatch({
-          type: USER_VERIFY,
+          type: VERIFY_USER,
           payload: data.id,
         })
 
@@ -157,7 +157,7 @@ export const verifyUser = token => dispatch => {
           payload: false,
         });
 
-        dispatch(userGet(data.id));
+        dispatch(getUser(data.id));
       } else {
         dispatch({
           type: TOGGLE_MODAL,
@@ -189,14 +189,14 @@ export const verifyUser = token => dispatch => {
     })
 }
 
-export const userGet = userId => dispatch => { //get current user data
+export const getUser = userId => dispatch => { //get current user data
   axios.get(FETCH_CURRENT_USER_URL(userId))
     .then(res => {
       const user = res.data
       const { data } = user;
 
       dispatch({
-        type: USER_GET,
+        type: GET_USER,
         payload: data,
       })
     })

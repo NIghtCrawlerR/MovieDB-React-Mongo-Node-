@@ -1,16 +1,13 @@
 import React from 'react';
 
-function TopInfo(props) {
-  const {
-    release_date,
-    runtime,
-    playtime,
-    number_of_seasons,
-    number_of_episodes,
-    rating,
-  } = props;
-
-  return (
+const TopInfo = ({
+  release_date,
+  runtime,
+  playtime,
+  number_of_seasons,
+  number_of_episodes,
+  rating,
+}) => (
     <div className="info-top mb-2">
       {/* Release date */}
       {release_date && <span>{new Date(release_date).getFullYear()} year</span>}
@@ -26,7 +23,7 @@ function TopInfo(props) {
 
       {/* Number of episodes (TV Shows) */}
       {number_of_episodes && <span>{`${number_of_episodes} Episodes`}</span>}
-      
+
       {/* Rating */}
       {rating && (
         <span>
@@ -36,6 +33,5 @@ function TopInfo(props) {
       )}
     </div>
   );
-}
 
 export default TopInfo;

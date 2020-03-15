@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import Icon from '../Icon';
-
+import Icon from 'components/Icon';
 import CollectionsSelector from 'components/CollectionsSelector';
 import Image from 'components/Image';
 import { Choose, If, Else } from 'components/helpers/conditional-statement';
+import { convertGameRating, getRatingColor } from 'lib';
 
 import {
   addItemToWishlist,
@@ -49,10 +49,10 @@ class Item extends Component {
   }
 
   itemAction = (action) => {
-    const { type, user } = this.props;
+    const { type, user, updateWishlist } = this.props;
     const currentItem = this.currentItem();
 
-    this.props.updateWishlist(type, action, currentItem.id, user.id, !currentItem[action]);
+    updateWishlist(type, action, currentItem.id, user.id, !currentItem[action]);
   }
 
   addToWishlist = () => {
@@ -80,20 +80,6 @@ class Item extends Component {
   }
 
   render() {
-    const getGameRating = (rate) => {
-      const percent = (rate / 5) * 100;
-      const valFromPrecent = (percent * 10) / 100;
-      return valFromPrecent.toFixed(2);
-    };
-
-    const getRatingColor = (rating) => {
-      const LOW = rating >= 0 && rating <= 4 ? "low" : null;
-      const MEDIUM = rating > 4 && rating < 7 ? "medium" : null;
-      const HIGH = rating >= 7 ? "high" : null;
-
-      return HIGH || MEDIUM || LOW || null;
-    }
-
     const {
       type, title, name, img, slug, id,
       user, genre_ids, vote_average, rating,
@@ -114,7 +100,7 @@ class Item extends Component {
     const itemIds = user ? user[type].map((item) => item.id) : [];
     const searchItem = slug || id;
     const currentItem = this.currentItem();
-    const ratingValue = (+vote_average || +getGameRating(rating)).toFixed(1);
+    const ratingValue = (+vote_average || convertGameRating(rating)).toFixed(1);
 
     return (
       <div className={`single-item ${type}`}>

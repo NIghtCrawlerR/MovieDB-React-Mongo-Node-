@@ -1,3 +1,7 @@
+import bg1 from '../assets/images/tab-1.png';
+import bg2 from '../assets/images/tab-2.jpg';
+import bg3 from '../assets/images/tab-3.jpg';
+
 export const MOVIE_API_BASEURL = process.env.REACT_APP_MOVIE_DB_URL;
 export const MOVIE_API_KEY = process.env.REACT_APP_MOVIE_DB_API_KEY;
 
@@ -78,4 +82,45 @@ export const NAVIGATION = [
     icon: 'fas fa-bug',
     link: '/bug-report',
   },
+];
+
+
+/**
+ * TABS
+ */
+export const catalogTabs = [
+  {
+    title: 'Movies',
+    value: 'movies',
+    link: 'movies',
+    exact: 'true',
+    img: bg1,
+  }, {
+    title: 'TV shows',
+    value: 'tv',
+    link: 'tv',
+    img: bg2,
+  }, {
+    title: 'Games',
+    value: 'games',
+    link: 'games',
+    img: bg3,
+  },
+];
+
+export const ITEM_FULL_TABS = [
+  { title: 'Main info', value: 'main-info' },
+  { title: 'Cast and crew', value: 'cast-and-crew', categories: ['games'] },
+  { title: 'Trailers', value: 'trailers' },
+];
+
+/**
+ * SORT OPTIONS
+ */
+
+export const SORT_OPTIONS = [
+  { value: 'popularity.desc', label: 'Popularity' },
+  { value: 'release_date.asc', label: 'Release date ↑ (Old)' },
+  { value: 'release_date.desc', label: 'Release date ↓ (New)' },
+  { value: 'vote_average.desc', label: 'Rating' },
 ];

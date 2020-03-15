@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
 import PageHeader from 'components/PageHeader';
@@ -65,4 +65,4 @@ class Wishlist extends Component {
   }
 }
 
-export default Wishlist;
+export default withRouter(Wishlist);

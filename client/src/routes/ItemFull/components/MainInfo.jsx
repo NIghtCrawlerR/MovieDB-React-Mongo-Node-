@@ -2,20 +2,19 @@ import React from 'react';
 
 import InfoBlock from './InfoBlock';
 
-function MainInfo(props) {
-  const {
-    genres,
-    released,
-    release_date,
-    first_air_date,
-    next_episode_to_air,
-    developers,
-    publishers,
-    production_companies,
-    production_countries,
-    platforms,
-    website,
-  } = props;
+function MainInfo({
+  genres,
+  released,
+  release_date,
+  first_air_date,
+  next_episode_to_air,
+  developers,
+  publishers,
+  production_companies,
+  production_countries,
+  platforms,
+  website,
+}) {
 
   const listFromArray = (array) => array.map((item) => item.name).join(', ');
   const platformsList = (array) => array.map((item) => item.platform.name).join(', ');

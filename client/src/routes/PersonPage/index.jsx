@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios'
 
 import ItemsList from 'components/ItemsList'
@@ -17,7 +18,7 @@ class PersonPage extends Component {
     this.state = {
       person: {},
       credits: [],
-      loadingCredits: false
+      loading: false
     }
   }
 
@@ -36,27 +37,28 @@ class PersonPage extends Component {
   }
 
   getCredits(id) {
-    this.setState({ loadingCredits: true })
-    const { params } = this.props.match
+    this.setState({ loading: true })
+    const { match: { params } } = this.props;
     const page = params.page === 'movies' ? 'movie' : 'tv'
     axios(`https://api.themoviedb.org/3/person/${id}/${page}_credits?api_key=${apiKey}&language=en-US`)
       .then(res => {
         this.setState({
           credits: res.data[params.role],
-          loadingCredits: false
+          loading: false
         })
       })
       .catch(err => console.log(err))
   }
 
   componentDidMount() {
-    const { match } = this.props
-    this.getPersonInfo(match.params.id)
-    this.getCredits(match.params.id)
+    const { match: { params: { id } } } = this.props
+    this.getPersonInfo(id)
+    this.getCredits(id)
   }
 
   render() {
-    const { match } = this.props
+    const { match: { params: { page } } } = this.props;
+
     const {
       person: {
         name,
@@ -66,10 +68,9 @@ class PersonPage extends Component {
         place_of_birth,
         profile_path,
       },
-      credits
-    } = this.state
-
-    const { page } = match.params
+      credits,
+      loading,
+    } = this.state;
 
     return (
       <div className="my-5">
@@ -80,6 +81,7 @@ class PersonPage extends Component {
             <Col xs={3}>
               <Image path={profile_path} size={780} />
             </Col>
+
             <Col xs={9}>
               <h3>{name}</h3>
               <p>Place of birth: {place_of_birth}</p>
@@ -90,11 +92,12 @@ class PersonPage extends Component {
               <p>{biography}</p>
             </Col>
           </Row>
-          <ItemsList loading={this.state.loadingCredits} items={credits} type={page} />
+
+          <ItemsList loading={loading} items={credits} type={page} />
         </div>
       </div>
     )
   }
 }
 
-export default PersonPage;
+export default withRouter(PersonPage);

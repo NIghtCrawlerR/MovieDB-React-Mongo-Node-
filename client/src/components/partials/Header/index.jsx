@@ -10,7 +10,7 @@ import DropdownMenu from 'components/Dropdown/DropdownMenu';
 
 import './index.scss';
 
-const Header = ({ onClick, user: { email, isLogin } }) => {
+const Header = ({ logout, user: { email, isLogin } }) => {
   return (
     <nav className="header">
       <div className="header__content">
@@ -30,7 +30,7 @@ const Header = ({ onClick, user: { email, isLogin } }) => {
               <DropdownMenu right>
                 <UserMenu
                   email={email}
-                  logout={onClick}
+                  logout={logout}
                 />
               </DropdownMenu>
             </Dropdown>

@@ -1,8 +1,8 @@
 import {
   USER_LOG_IN,
   USER_LOG_OUT,
-  USER_VERIFY,
-  USER_GET,
+  VERIFY_USER,
+  GET_USER,
   UPDATE_WISHLIST,
   USER_SIGN_IN_ERROR,
   USER_SIGN_IN_SUCCESS,
@@ -82,7 +82,7 @@ export default function (state = initialState, action) {
     case UPDATE_WISHLIST:
       return updateWishlist(state, action);
 
-    case USER_GET:
+    case GET_USER:
       return setUserState(state, action.payload);
 
     case USER_LOG_IN:
@@ -108,7 +108,7 @@ export default function (state = initialState, action) {
     case USER_LOG_OUT:
       return resetState(state);
 
-    case USER_VERIFY:
+    case VERIFY_USER:
       return {
         ...state,
         isLogin: true,

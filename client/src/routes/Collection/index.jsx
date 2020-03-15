@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from 'react-router-dom';
 import axios from "axios";
 
 import ItemsList from "components/ItemsList"
@@ -116,4 +117,4 @@ class Collection extends React.Component {
   }
 }
 
-export default Collection;
+export default withRouter(Collection);

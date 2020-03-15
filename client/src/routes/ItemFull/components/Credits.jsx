@@ -5,32 +5,26 @@ import axios from 'axios';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
 
+import Image from 'components/Image';
 import InfoBlock from './InfoBlock';
 
 const BASE_URL = process.env.REACT_APP_MOVIE_DB_URL;
 const API_KEY = process.env.REACT_APP_MOVIE_DB_API_KEY;
-const IMAGE_BASEURL = 'http://image.tmdb.org/t/p/w300';
-const IMAGE_DEFAULT = 'https://capenetworks.com/static/images/testimonials/user-icon.svg';
 
-const ProfileImage = (props) => {
-  const { name, category, id, profile_path } = props;
-  const image = profile_path ? IMAGE_BASEURL + profile_path : IMAGE_DEFAULT;
-
-  return (
-    <OverlayTrigger
-      placement="bottom"
-      overlay={
-        <Tooltip>
-          {name}
-        </Tooltip>
-      }
-    >
-      <Link to={`/search/${category}/cast/${id}`} className="cast-profile-link">
-        <img src={image} alt={name} />
-      </Link>
-    </OverlayTrigger>
-  )
-}
+const ProfileImage = ({ name, category, id, profile_path }) => (
+  <OverlayTrigger
+    placement="bottom"
+    overlay={
+      <Tooltip>
+        {name}
+      </Tooltip>
+    }
+  >
+    <Link to={`/search/${category}/cast/${id}`} className="cast-profile-link">
+      <Image path={profile_path} />
+    </Link>
+  </OverlayTrigger>
+)
 
 class Credits extends React.Component {
   constructor() {

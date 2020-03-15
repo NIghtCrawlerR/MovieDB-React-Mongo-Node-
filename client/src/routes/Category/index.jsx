@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -20,22 +21,7 @@ import './index.scss';
 class Category extends React.Component {
   static propTypes = {
     userData: PropTypes.object.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        category: PropTypes.string,
-      }),
-    }).isRequired,
-    showMsg: PropTypes.func,
     categoryCollections: PropTypes.array.isRequired,
-  };
-
-  static defaultProps = {
-    match: {
-      params: {
-        category: ""
-      },
-    },
-    showMsg: () => { },
   };
 
   constructor() {
@@ -114,7 +100,7 @@ class Category extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { userData, match, showMsg, categoryCollections } = this.props;
+    const { userData, match, categoryCollections } = this.props;
     const { params: { category } } = match;
 
     return (
@@ -122,7 +108,6 @@ class Category extends React.Component {
         <If condition={userData.group === "admin"}>
           <CollectionForm
             userData={userData}
-            showMsg={showMsg}
             category={category}
             createCollection={this.createCollection}
           />
@@ -145,12 +130,13 @@ class Category extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  categoryCollections: state.collections.categoryCollections
+const mapStateToProps = ({ collections, user }) => ({
+  categoryCollections: collections.categoryCollections,
+  userData: user,
 })
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   createCollection,
   deleteCollection,
   getCollectionsFromCategory,
-})(Category);
+})(Category));

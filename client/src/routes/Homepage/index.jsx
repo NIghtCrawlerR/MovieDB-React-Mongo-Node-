@@ -5,7 +5,7 @@ import SliderTabs from 'components/SliderTabs';
 import Head from 'components/Head';
 import PageHeader from 'components/PageHeader';
 import PageTitle from 'components/PageTitle';
-import { catalogTabs } from 'utils/tabs';
+import { catalogTabs } from 'config/constants';
 
 import './index.scss';
 
@@ -13,7 +13,7 @@ class Homepage extends React.Component {
   createTabs = (category) => {
     const { collections } = this.props;
 
-    const tabs = collections.filter(collection => collection.category === category).map(collection => {
+    return collections.filter(collection => collection.category === category).map(collection => {
       const { title, alias, image } = collection;
       return {
         title,
@@ -22,8 +22,6 @@ class Homepage extends React.Component {
         image,
       }
     })
-
-    return [...tabs]
   }
 
   render() {

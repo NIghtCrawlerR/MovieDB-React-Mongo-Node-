@@ -26,7 +26,7 @@ import {
   register,
   logout,
   verifyUser,
-  userGet,
+  getUser,
 } from './user';
 
 import {
@@ -52,6 +52,6 @@ export {
   register,
   logout,
   verifyUser,
-  userGet,
+  getUser,
   toggleModal,
 }

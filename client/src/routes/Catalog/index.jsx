@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -11,7 +12,7 @@ import Head from 'components/Head';
 import {
   getMoviesTv,
   getGames,
-  userGet,
+  getUser,
 } from 'actions';
 
 class Catalog extends Component {
@@ -163,8 +164,8 @@ const mapStateToProps = (state) => ({
   moviesGenres: state.collections.moviesGenres,
 });
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   getMoviesTv,
   getGames,
-  userGet,
-})(Catalog);
+  getUser,
+})(Catalog));

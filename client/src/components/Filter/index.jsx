@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import axios from 'axios'
 
-import sortOptions from 'utils/sortOptions'
+import { SORT_OPTIONS } from 'config/constants'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'components/Button';
@@ -149,7 +149,7 @@ export default class Filter extends Component {
                 <Col xs={12} sm={6} md={3} className="my-2">
                   <label className="label--sticky">Sort by:</label>
                   <select className="form-control" name="sort" placeholder="Sort by">
-                    {sortOptions.map((opt, i) => {
+                    {SORT_OPTIONS.map((opt, i) => {
                       return <option key={i} value={opt.value} selected={opt.value === 'popularity.desc'}>{opt.label}</option>
                     })}
                   </select>

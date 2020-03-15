@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 
@@ -21,6 +22,8 @@ import Overview from './components/Overview';
 import TopInfo from './components/TopInfo';
 import Tabs from 'components/Tabs';
 import Image from 'components/Image';
+import { ITEM_FULL_TABS } from 'config/constants';
+import { convertGameRating } from 'lib';
 
 import {
   addItemToWishlist,
@@ -35,23 +38,14 @@ class ItemFull extends Component {
     super();
     this.state = {
       loading: false,
-      tabs: [
-        { title: 'Main info', value: 'main-info' },
-        { title: 'Cast and crew', value: 'cast-and-crew', categories: ['games'] },
-        { title: 'Trailers', value: 'trailers' },
-      ],
       tabSelected: 'main-info',
       shareLink: '',
     };
-
-    this.getItemData = this.getItemData.bind(this);
   }
 
   componentDidMount() {
     const {
-      match: {
-        params: { page, id },
-      },
+      match: { params: { page, id } },
       location: { pathname },
       getFullItem,
     } = this.props;
@@ -73,7 +67,7 @@ class ItemFull extends Component {
     }
   }
 
-  getItemData() {
+  getItemData = () => {
     const {
       match: { params: { page } },
       catalog: {
@@ -104,7 +98,7 @@ class ItemFull extends Component {
     return newItem;
   }
 
-  deleteFromWishlist() {
+  deleteFromWishlist = () => {
     const {
       user: {
         isLogin,
@@ -127,7 +121,7 @@ class ItemFull extends Component {
     }
   }
 
-  addToWishlist() {
+  addToWishlist = () => {
     const {
       user,
       match: { params: { page } },
@@ -149,16 +143,8 @@ class ItemFull extends Component {
   }
 
   render() {
-    const getGameRating = (rate) => {
-      const percent = (rate / 5) * 100;
-      const valFromPrecent = (percent * 10) / 100;
-      return valFromPrecent.toFixed(2);
-    };
-
     const {
-      match: {
-        params: { page, id },
-      },
+      match: { params: { page, id } },
       user,
       catalog: { itemFullInfo },
     } = this.props;
@@ -174,7 +160,7 @@ class ItemFull extends Component {
       next_episode_to_air,
     } = itemFullInfo;
 
-    const { loading, shareLink, tabs, tabSelected } = this.state;
+    const { loading, shareLink, tabSelected } = this.state;
 
     const imageBaseUrl = (size) => (page === 'movies' || page === 'tv' ? `http://image.tmdb.org/t/p/${size}` : '');
 
@@ -186,10 +172,10 @@ class ItemFull extends Component {
     };
 
     const itemIds = user[page].map((item) => item.id);
-    const isInWishlist = itemIds.includes(this.props.catalog.itemFullInfo.id);
+    const isInWishlist = itemIds.includes(itemFullInfo.id);
 
-    const tabsFiltered = tabs.filter(tab => !tab.categories || !tab.categories.includes(page))
-    const ratingValue = +vote_average || +getGameRating(rating) || null;
+    const tabsFiltered = ITEM_FULL_TABS.filter(tab => !tab.categories || !tab.categories.includes(page))
+    const ratingValue = +vote_average || convertGameRating(rating) || null;
     const releaseDate = released || release_date || first_air_date || null;
 
     return (
@@ -241,8 +227,8 @@ class ItemFull extends Component {
                 {
                   this.props.user
                     ? isInWishlist
-                      ? <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist.bind(this)}>In wishlist</Button>
-                      : <Button className="my-4" variant="outline-success" onClick={this.addToWishlist.bind(this)}>Add to wishlist</Button> : null
+                      ? <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist}>In wishlist</Button>
+                      : <Button className="my-4" variant="outline-success" onClick={this.addToWishlist}>Add to wishlist</Button> : null
                 }
 
                 {/* Overview */}
@@ -319,8 +305,8 @@ const mapStateToProps = (state) => ({
   catalog: state.catalog,
 });
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   addItemToWishlist,
   deleteItemFromWishlist,
   getFullItem,
-})(ItemFull);
+})(ItemFull));
