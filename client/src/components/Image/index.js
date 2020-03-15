@@ -16,7 +16,7 @@ const Image = ({ path, size, className }) => {
     <img
       className={classNames("Image", className)}
       src={`${getImageUrl()}`}
-      alt="image"
+      alt=""
     />
   );
 }

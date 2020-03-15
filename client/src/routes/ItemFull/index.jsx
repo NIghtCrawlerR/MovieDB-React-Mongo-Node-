@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Button from 'react-bootstrap/Button';
 
 import {
   FacebookIcon,
@@ -22,6 +21,8 @@ import Overview from './components/Overview';
 import TopInfo from './components/TopInfo';
 import Tabs from 'components/Tabs';
 import Image from 'components/Image';
+import Button from 'components/Button';
+import Icon from 'components/Icon';
 import { ITEM_FULL_TABS } from 'config/constants';
 import { convertGameRating } from 'lib';
 
@@ -227,8 +228,8 @@ class ItemFull extends Component {
                 {
                   this.props.user
                     ? isInWishlist
-                      ? <Button className="my-4" variant="warning" onClick={this.deleteFromWishlist}>In wishlist</Button>
-                      : <Button className="my-4" variant="outline-success" onClick={this.addToWishlist}>Add to wishlist</Button> : null
+                      ? <Button variant="success" onClick={this.deleteFromWishlist}><Icon name="minus" /> In wishlist</Button>
+                      : <Button variant="warning" onClick={this.addToWishlist}><Icon name="plus" /> Add to wishlist</Button> : null
                 }
 
                 {/* Overview */}

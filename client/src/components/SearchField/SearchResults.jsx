@@ -33,15 +33,13 @@ class SearchResults extends React.Component {
           <h3 className="search-results__header">{tabSelected}</h3>
           <div className="search-results__list">
             {data[tabSelected] &&
-              data[tabSelected].map((item) => {
-                return (
-                  <SearchItem
-                    key={item.id}
-                    category={tabSelected}
-                    item={item}
-                  />
-                );
-              })
+              data[tabSelected].map((item) => (
+                <SearchItem
+                  key={item.id}
+                  category={tabSelected}
+                  item={item}
+                />
+              ))
             }
           </div>
         </div>

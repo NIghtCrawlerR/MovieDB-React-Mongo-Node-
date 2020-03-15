@@ -25,6 +25,7 @@ class Wishlist extends Component {
       value: 'games',
     }],
     filterParams: {},
+    searchQuery: '',
   };
 
   componentDidMount() {
@@ -41,13 +42,18 @@ class Wishlist extends Component {
     })
   }
 
+  setSearchQuery = searchQuery => {
+    this.setState({ searchQuery });
+  }
+
   render() {
     const {
       history: {
         location: { pathname },
       },
     } = this.props;
-    const { filterParams } = this.state;
+
+    const { filterParams, searchQuery, tabs } = this.state;
 
     if (pathname === '/wishlist') {
       return <Redirect to="/wishlist/movies" />;
@@ -56,9 +62,12 @@ class Wishlist extends Component {
       <div>
         <PageHeader title="Personal wishlist" />
         <div className="wishlist container-fluid">
-          <Tabs path="/wishlist" tabs={this.state.tabs} link />
-          <Filter applyFilter={this.applyFilter} />
-          <Route path="/wishlist/:collection" render={(props) => (<Items {...props} filterParams={filterParams} />)} />
+          <Tabs path="/wishlist" tabs={tabs} link />
+          <Filter
+            applyFilter={this.applyFilter}
+            setSearchQuery={this.setSearchQuery}
+          />
+          <Route path="/wishlist/:collection" render={(props) => (<Items {...props} filterParams={filterParams} searchQuery={searchQuery} />)} />
         </div>
       </div>
     );

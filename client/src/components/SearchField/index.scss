@@ -25,10 +25,11 @@
 
   .tabs {
     padding: 0 15px;
+    margin-bottom: 10px;
   }
 
   .tab-item {
-    text-transform: capitalize;
+    text-transform: uppercase;
   }
 
   .fa-search {
@@ -47,13 +48,14 @@
   max-height: 400px;
 
   &__wrap {
+    border-top: 1px solid #eaeaea;
     max-height: 300px;
     padding: 0 15px;
     overflow-y: auto;
   }
 
   &__header{
-    margin: 20px 0 30px 0;
+    margin: 10px 0;
     text-transform: uppercase;
   }
 }

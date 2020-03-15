@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { If } from 'components/helpers/conditional-statement';
-import Icon from '../Icon';
+import Icon from 'components/Icon';
+import Button from 'components/Button';
 import './index.css';
 
 const goBack = () => {
@@ -16,10 +17,10 @@ const PageTitle = props => {
     <div className="page-title__wrap">
       <h3 className="page-title">{title}</h3>
       <If condition={buttonBack !== false}>
-        <button className="btn btn-outline-info" onClick={() => goBack()}>
+        <Button outlined onClick={() => goBack()}>
           <Icon name="arrow-left" />
           <span className="ml-2">Back</span>
-        </button>
+        </Button>
       </If>
     </div>
   );

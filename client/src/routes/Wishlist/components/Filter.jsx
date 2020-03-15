@@ -4,30 +4,37 @@ import Input from 'components/Input';
 class Filter extends React.Component {
   state = {
     values: {},
+    searchQuery: '',
   };
 
   changeHandler = (e) => {
     const { name, value } = e.target;
     const { applyFilter } = this.props;
 
-    const values = this.state.values;
+    const { values } = this.state;
 
-    if (value !== '-1') {
+    if (!value || value !== '-1') {
       values[name] = value
     } else {
       delete values[name]
     }
 
     this.setState({ values }, () => {
-      applyFilter(this.state.values)
+      applyFilter(values)
     });
   };
 
+  setSearchQuery = ({ target: { value } }) => {
+    this.setState({ searchQuery: value.toLowerCase() }, (e) => {
+      this.props.setSearchQuery(this.state.searchQuery);
+    })
+  }
+
   render() {
-    const { values } = this.state;
+    const { values, searchQuery } = this.state;
 
     return (
-      <div>
+      <div className="wishlist__filter">
         <select
           name="watched"
           onChange={this.changeHandler}
@@ -42,6 +49,12 @@ class Filter extends React.Component {
           value={values.liked === '1' ? '-1' : '1'}
           label="Only liked"
           onChange={this.changeHandler}
+        />
+        <Input
+          name="title"
+          value={searchQuery}
+          label="Search by title"
+          onChange={this.setSearchQuery}
         />
       </div>
     )

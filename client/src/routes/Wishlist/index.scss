@@ -4,4 +4,14 @@
   .tabs {
     padding: 0 15px;
   }
+
+  &__filter {
+    display: flex;
+    padding: 0 15px;
+    margin: 15px 0;
+
+    .input__group {
+      margin: 0 20px;
+    }
+  }
 }

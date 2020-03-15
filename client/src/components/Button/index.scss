@@ -1,7 +1,7 @@
 .Button {
   display: inline-block;
   font-weight: 400;
-  color: #212529;
+  color: #fff;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -9,14 +9,87 @@
   user-select: none;
   background-color: transparent;
   border: 1px solid transparent;
-  padding: .375rem .75rem;
-  font-size: 1rem;
+  padding: 5px 25px;
+  height: 40px;
+  min-width: 120px;
+  font-size: 16px;
   line-height: 1.5;
-  border-radius: .25rem;
-  transition: all .15s ease-in-out;
+  border-radius: 0;
+  transition: all .2s ease-in-out;
 
   &--default {
     background-color: #17a2b8;
-    color: #fff;
+    border-color: #17a2b8;
+
+    &:hover {
+      background-color: darken($color: #17a2b8, $amount: 5);
+    }
+  }
+
+  &--warning {
+    background-color: #facd04;
+    border-color: #facd04;
+
+    &:hover {
+      background-color: darken($color: #facd04, $amount: 5);
+    }
+  }
+
+  &--danger {
+    background-color: #db0836;
+    border-color: #db0836;
+
+    &:hover {
+      background-color: darken($color: #db0836, $amount: 5);
+    }
+  }
+
+  &--success {
+    background-color: #1ca951;
+    border-color: #1ca951;
+
+    &:hover {
+      background-color: darken($color: #1ca951, $amount: 5);
+    }
+  }
+
+  &--outlined {
+    background-color: transparent;
+
+    &.Button--default {
+      color: #17a2b8;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  
+    &.Button--warning {
+      color: #facd04;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  
+    &.Button--danger {
+      color: #db0836;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  
+    &.Button--success {
+      color: #1ca951;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 0 10px 5px rgba(177, 184, 185, .23);
   }
 }

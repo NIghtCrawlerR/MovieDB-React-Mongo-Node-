@@ -6,8 +6,7 @@ import ItemsList from 'components/ItemsList'
 import Head from 'components/Head'
 import Image from 'components/Image'
 
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import './index.scss';
 
 const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
 
@@ -20,12 +19,6 @@ class PersonPage extends Component {
       credits: [],
       loading: false
     }
-  }
-
-  changePage(page) {
-    this.props.history.push({
-      search: `?page=${page.selected + 1}`
-    })
   }
 
   getPersonInfo(id) {
@@ -52,8 +45,12 @@ class PersonPage extends Component {
 
   componentDidMount() {
     const { match: { params: { id } } } = this.props
-    this.getPersonInfo(id)
-    this.getCredits(id)
+
+    // Get info about actor
+    this.getPersonInfo(id);
+
+    //Get list of movies
+    this.getCredits(id);
   }
 
   render() {
@@ -73,16 +70,16 @@ class PersonPage extends Component {
     } = this.state;
 
     return (
-      <div className="my-5">
+      <div className="person-page">
         <Head title={`Fiction finder - search`} />
 
         <div className="container-fluid">
-          <Row style={{ padding: "0 15px" }}>
-            <Col xs={3}>
+          <div className="person-page__wrap">
+            <div className="person-page__image-wrap">
               <Image path={profile_path} size={780} />
-            </Col>
+            </div>
 
-            <Col xs={9}>
+            <div className="person-page__info">
               <h3>{name}</h3>
               <p>Place of birth: {place_of_birth}</p>
               <p>Birthday: {new Date(birthday).toLocaleDateString()}</p>
@@ -90,8 +87,8 @@ class PersonPage extends Component {
                 <p> Deathday : {new Date(deathday).toLocaleDateString()}</p>
                 : null}
               <p>{biography}</p>
-            </Col>
-          </Row>
+            </div>
+          </div>
 
           <ItemsList loading={loading} items={credits} type={page} />
         </div>

@@ -11,7 +11,7 @@ function Tabs(props) {
   const { tabs, onSelect, path, link, active } = props;
 
   return (
-    <div className="tabs nav mb-3">
+    <div className="tabs nav">
       {
         tabs.map((tab) => (
           <div

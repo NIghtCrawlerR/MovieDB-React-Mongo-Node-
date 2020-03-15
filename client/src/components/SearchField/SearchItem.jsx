@@ -18,9 +18,7 @@ const SearchItem = ({
     overview,
   },
 }) => {
-  const releaseData = (date) => {
-    return `(${new Date(date).getFullYear()})` || null;
-  }
+  const releaseData = (date) => new Date(date).getFullYear() || null;
 
   return (
     <Link to={`/details/${category}/${slug || id}`} key={id}>
@@ -30,10 +28,7 @@ const SearchItem = ({
         </div>
 
         <div className="search-item__body">
-          <h5>
-            {name || title}
-            {releaseData(released || release_date || first_air_date)}
-          </h5>
+          <h5>{name || title} - {releaseData(released || release_date || first_air_date)}</h5>
           <p>{overview ? `${overview.slice(0, 100)}...` : null}</p>
         </div>
       </div>

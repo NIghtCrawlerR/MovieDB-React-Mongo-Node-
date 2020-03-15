@@ -59,8 +59,9 @@ class List extends Component {
 
     const { loading } = this.state;
 
-    const filtered = (items) => {
+    const filtered = idArr => {
       const allItems = user[collection];
+
       const filteredItems = allItems.filter(item => {
         return Object.keys(filterParams).every(key => {
           const filterValue = filterParams[key] === '0' ? false : true;
@@ -71,7 +72,20 @@ class List extends Component {
 
       const ids = filteredItems.map(item => item.id)
 
-      return items.filter(item => ids.includes(item.id));
+      return idArr.filter(item => ids.includes(item.id));
+    }
+
+    const filterByQuery = idArr => {
+      const { searchQuery } = this.props;
+      const items = wishlist[collection];
+
+      const filteredItems = items.filter(item => {
+        const title = item.title || item.name;
+        return title.toLowerCase().includes(searchQuery);
+      })
+
+      const ids = filteredItems.map(item => item.id);
+      return idArr.filter(item => ids.includes(item.id));
     }
 
     if (loading) return <Loader />
@@ -83,7 +97,7 @@ class List extends Component {
         <ItemsList
           wishlist
           loading={false}
-          items={filtered(items)}
+          items={filterByQuery(filtered(items))}
           type={collection}
         />
       </>
