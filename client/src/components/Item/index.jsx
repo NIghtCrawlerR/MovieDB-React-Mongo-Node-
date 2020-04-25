@@ -8,7 +8,7 @@ import CollectionsSelector from 'components/CollectionsSelector';
 import Image from 'components/Image';
 import ItemActions from './components/ItemActions';
 import { If } from 'components/helpers/conditional-statement';
-import { convertGameRating, getRatingColor } from 'lib';
+import { getRatingColor } from 'lib';
 
 import {
   addItemToWishlist,
@@ -99,7 +99,7 @@ class Item extends Component {
     const itemIds = user ? user[type].map((item) => item.id) : [];
 
     const currentItem = this.currentItem();
-    const ratingValue = type === 'games' ? convertGameRating(rating).toFixed(1) : rating;
+    const ratingValue = rating;
 
     return (
       <div className={`single-item ${type}`}>

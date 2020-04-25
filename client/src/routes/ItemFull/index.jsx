@@ -24,7 +24,6 @@ import Image from 'components/Image';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 import { ITEM_FULL_TABS } from 'config/constants';
-import { convertGameRating } from 'lib';
 
 import {
   addItemToWishlist,
@@ -178,7 +177,7 @@ class ItemFull extends Component {
     const isInWishlist = itemIds.includes(itemFullInfo.id);
 
     const tabsFiltered = ITEM_FULL_TABS.filter(tab => !tab.categories || !tab.categories.includes(page))
-    const ratingValue = page === 'games' ? convertGameRating(rating) : rating;
+    const ratingValue = rating;
     const releaseDate = release_date || null;
 
     return (

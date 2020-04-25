@@ -14,16 +14,17 @@ import {
 } from '../config/constants';
 
 export const addItemToWishlist = (collection, item, userId) => (dispatch) => new Promise((resolve, reject) => {
-  axios.post(ADD_TO_WISHLIST_URL,
-    { collection: collection, userId: userId, item: item })
-    .then(res => {
+  axios.post(
+    ADD_TO_WISHLIST_URL,
+    { collection: collection, userId: userId, item: item },
+  )
+    .then(() => {
       dispatch({
         type: UPDATE_WISHLIST,
-        collection: collection,
-        item: item,
+        collection,
+        item,
         do: 'add'
-      })
-      resolve({ success: true })
+      });
     })
     .catch(err => {
       dispatch({
@@ -39,17 +40,15 @@ export const addItemToWishlist = (collection, item, userId) => (dispatch) => new
 export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch) => new Promise((resolve, reject) => {
   axios.post(DELETE_FROM_WISHLIST_URL,
     { collection: collection, itemId: itemId, userId: userId })
-    .then(res => {
-      const item = {
-        id: itemId
-      }
+    .then(() => {
+      const item = { id: itemId };
+
       dispatch({
         type: UPDATE_WISHLIST,
-        collection: collection,
-        item: item,
+        collection,
+        item,
         do: 'delete'
-      })
-      resolve({ success: true })
+      });
     })
     .catch(err => {
       dispatch({
@@ -62,7 +61,12 @@ export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch)
     })
 });
 
-export const updateWishlist = (collection, action, itemId, userId, value) => (dispatch) => {
+/**
+ * 
+ * Function is used to mark item as watched or liked.
+ * It change wishlist item properties to true or false
+ */
+export const updateWishlist = (collection, action, itemId, userId, value) => dispatch => {
   axios.post(UPDATE_WISHLIST_URL, {
     collection, action, itemId, userId, value
   })
