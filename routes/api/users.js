@@ -61,7 +61,7 @@ router.post('/login', (req, res) => {
         success: true,
         message: 'Valid sign in',
         token: doc._id,
-        user: user,
+        user,
       })
     })
 

@@ -74,7 +74,6 @@ class BugReportForm extends Component {
                 value={title}
                 onChange={this.changeHandler}
                 required
-                description="Short description of the bug"
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3">
@@ -84,7 +83,6 @@ class BugReportForm extends Component {
                 value={email}
                 onChange={this.changeHandler}
                 required
-                description="Provide your contact info"
               />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3">

@@ -22,8 +22,6 @@ class AuthForm extends Component {
       password: '',
       passwordConfirm: '',
       errorMessage: '',
-      emailErrorMessage: '',
-      passwordErrorMessage: '',
       loading: false,
     };
   }
@@ -70,8 +68,6 @@ class AuthForm extends Component {
     const {
       email,
       password,
-      emailErrorMessage,
-      passwordErrorMessage,
       passwordConfirm,
     } = this.state;
 
@@ -89,9 +85,7 @@ class AuthForm extends Component {
             value={email}
             onChange={this.changeHandler}
             required
-            errorMessage={<small className="text-red">{emailErrorMessage}</small>}
           />
-          <br />
           <Input
             label="Password"
             type="password"
@@ -99,9 +93,7 @@ class AuthForm extends Component {
             value={password}
             onChange={this.changeHandler}
             required
-            errorMessage={<small className="text-red">{passwordErrorMessage}</small>}
           />
-          <br />
           {registerForm
             ? (
               <Input
@@ -111,7 +103,6 @@ class AuthForm extends Component {
                 value={passwordConfirm}
                 onChange={this.changeHandler}
                 required
-                errorMessage={<small className="text-red">{passwordErrorMessage}</small>}
               />
             ) : null}
 
