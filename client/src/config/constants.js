@@ -10,7 +10,7 @@ export const GAME_API_BASEURL = 'https://rawg.io/api/games';
 const HOST = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '';
 
 
-/***
+/*
  * COLLECTION ENDPOINTS
 */
 export const FETCH_COLLECTIONS_URL = `${HOST}/api/collection/get`;
@@ -21,7 +21,7 @@ export const CREATE_COLLECTION_URL = (userId) => `${HOST}/api/collection/create?
 export const UPDATE_COLLECTION_URL = (alias) => `${HOST}/api/collection/update/${alias}`;
 export const DELETE_COLLECTION_URL = (id) => `${HOST}/api/collection/delete/${id}`;
 
-/***
+/*
  * USER ACTIONS ENDPOINTS
  */
 export const LOGIN_URL = `${HOST}/api/users/login`;
@@ -30,7 +30,7 @@ export const LOGOUT_URL = (token) => `${HOST}/api/users/logout?token=${token}`;
 export const VERIFY_URL = (token) => `${HOST}/api/users/verify?token=${token}`;
 export const FETCH_CURRENT_USER_URL = (userId) => `${HOST}/api/users/current?userId=${userId}`;
 
-/***
+/*
  * WISHLIST ENDPOINTS
  */
 export const FETCH_WISHLIST_URL = `${HOST}/api/wishlist/get`;
@@ -38,14 +38,23 @@ export const ADD_TO_WISHLIST_URL = `${HOST}/api/wishlist/add`;
 export const DELETE_FROM_WISHLIST_URL = `${HOST}/api/wishlist/delete`;
 export const UPDATE_WISHLIST_URL = `${HOST}/api/wishlist/update`;
 
-/***
+/*
+ * CATALOG ENDPOINTS
+ */
+export const GET_GAMES_URL = `${HOST}/api/catalog/games`;
+export const GET_MOVIES_URL = `${HOST}/api/catalog/movies`;
+export const GET_TV_URL = `${HOST}/api/catalog/tv`;
+export const GET_ITEM_FULL_URL = (category, id) => `${HOST}/api/catalog/${category}/${id}`;
+export const GET_ITEM_RECOMMENDED_URL = (category, id) => `${HOST}/api/catalog/${category}/${id}/recommended`;
+
+/*
  * POSTER URL
  */
 
  // available width: 300, 780, 1280, original
 export const MOVIE_POSTER_BASEURL = (width = 300) => `http://image.tmdb.org/t/p/w${width}`;
 
-/**
+/*
  * NAVIGATION
  */
 export const NAVIGATION = [
@@ -85,7 +94,7 @@ export const NAVIGATION = [
 ];
 
 
-/**
+/*
  * TABS
  */
 export const catalogTabs = [
@@ -114,10 +123,9 @@ export const ITEM_FULL_TABS = [
   { title: 'Trailers', value: 'trailers' },
 ];
 
-/**
+/*
  * SORT OPTIONS
  */
-
 export const SORT_OPTIONS = [
   { value: 'popularity.desc', label: 'Popularity' },
   { value: 'release_date.asc', label: 'Release date ↑ (Old)' },

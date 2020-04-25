@@ -7,6 +7,7 @@ import Dropdown from 'components/Dropdown'
 import DropdownActivator from 'components/Dropdown/DropdownActivator'
 import DropdownMenu from 'components/Dropdown/DropdownMenu'
 import Button from 'components/Button';
+// import Input from 'components/Input';
 
 import { updateCollections } from "actions"
 
@@ -37,8 +38,16 @@ class CollectionsSelector extends React.Component {
                   onChange={e => this.handleChange(e, item.alias, itemId)}
                   label={item.title}
                   id={item._id + itemId}
-                  checked={item.items.includes(itemId)}
+                  checked={item.items && item.items.includes(itemId)}
                 />
+                // <Input
+                //   type="checkbox"
+                //   key={item._id}
+                //   onChange={e => this.handleChange(e, item.alias, itemId)}
+                //   label={item.title}
+                //   id={item._id + itemId}
+                //   checked={item.items.includes(itemId)}
+                // />
               ))
             }
           </DropdownMenu>

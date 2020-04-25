@@ -43,7 +43,7 @@ class CollectionForm extends React.Component {
       <div className="collections__form">
         <h3>Create new collection</h3>
         <Input name="title" value={title} onChange={this.onChange} label="Title" />
-        <Input name="aliasName" value={aliasName} onChange={this.onChange} label="Alias name" readonly />
+        <Input name="aliasName" value={aliasName} onChange={this.onChange} label="Alias name" readOnly />
         <div className="mt-2">
           <Button onClick={this.createCollection}>Create</Button>
         </div>

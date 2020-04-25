@@ -120,9 +120,8 @@ router.post('/register', (req, res) => {
   })
 })
 
-router.get('/logout', (req, res, next) => {
-  const { query } = req;
-  const { token } = query;
+router.get('/logout', (req, res) => {
+  const { query: { token } } = req;
 
   UserSession.findOneAndUpdate({
     _id: token,
@@ -145,9 +144,8 @@ router.get('/logout', (req, res, next) => {
   })
 })
 
-router.get('/verify', (req, res, next) => {
-  const { query } = req;
-  const { token } = query;
+router.get('/verify', (req, res) => {
+  const { query: { token } } = req;
 
   UserSession.find({
     _id: token,
@@ -175,8 +173,8 @@ router.get('/verify', (req, res, next) => {
 })
 
 router.get('/current', (req, res) => {
-  const { query } = req;
-  const { userId } = query;
+  const { query: { userId } } = req;
+
   User.find({ _id: userId }, (err, user) => {
     if (err) {
       return res.send({

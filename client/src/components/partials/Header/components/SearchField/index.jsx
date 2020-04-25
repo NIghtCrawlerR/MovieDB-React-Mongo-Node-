@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import SearchResults from './SearchResults';
+import SearchResults from './components/SearchResults';
 import Icon from 'components/Icon';
 import Input from 'components/Input';
 import Dropdown from 'components/Dropdown';
@@ -27,45 +27,33 @@ export default class SearchField extends Component {
     };
   }
 
+  updateState = (category, results) => {
+    this.setState(prevState => ({
+      searchResult: {
+        ...prevState.searchResult,
+        [category]: results,
+      },
+    }));
+  }
+
+  makeRequest = (type, url) => {
+    axios.get(url)
+      .then(({ data }) => {
+        if (data.results.length > 0) {
+          this.updateState(type, data.results);
+        }
+      })
+      .catch((err) => console.log(`Error: ${err}`));
+  }
+
   search(query) {
-    axios.get(`${movieApiRoot}/search/movie?api_key=${apiKey}&language${lang}&query=${query}&page=1`)
-      .then((res) => {
-        if (res.data.results.length > 0) {
-          this.setState((prevState) => ({
-            searchResult: {
-              ...prevState.searchResult,
-              movies: res.data.results,
-            },
-          }));
-        }
-      })
-      .catch((err) => console.log(`Error: ${err}`));
+    const urls = [
+      { type: 'movies', url: `${movieApiRoot}/search/movie?api_key=${apiKey}&language${lang}&query=${query}&page=1` },
+      { type: 'tv', url: `${movieApiRoot}/search/tv?api_key=${apiKey}&language${lang}&query=${query}&page=1` },
+      { type: 'games', url: `${gameApiRoot}/games?search=${query}` },
+    ];
 
-    axios.get(`${movieApiRoot}/search/tv?api_key=${apiKey}&language${lang}&query=${query}&page=1`)
-      .then((res) => {
-        if (res.data.results.length > 0) {
-          this.setState((prevState) => ({
-            searchResult: {
-              ...prevState.searchResult,
-              tv: res.data.results,
-            },
-          }));
-        }
-      })
-      .catch((err) => console.log(`Error: ${err}`));
-
-    axios.get(`${gameApiRoot}/games?search=${query}`)
-      .then((res) => {
-        if (res.data.results.length > 0) {
-          this.setState((prevState) => ({
-            searchResult: {
-              ...prevState.searchResult,
-              games: res.data.results,
-            },
-          }));
-        }
-      })
-      .catch((err) => console.log(`Error: ${err}`));
+    urls.map(({ type, url }) => this.makeRequest(type, url));
   }
 
   isTyping = (event) => {

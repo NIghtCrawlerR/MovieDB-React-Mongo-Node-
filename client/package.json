@@ -27,7 +27,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "uuid": "^7.0.2"
   },
   "proxy": "https://mern-movie-db.herokuapp.com/",
   "scripts": {
@@ -35,7 +36,11 @@
     "build": "react-scripts build",
     "dev": "react-scripts dev",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "./node_modules/.bin/eslint src"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [

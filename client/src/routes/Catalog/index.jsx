@@ -10,7 +10,8 @@ import Pagination from 'components/Pagination';
 import Head from 'components/Head';
 
 import {
-  getMoviesTv,
+  getMovies,
+  getTV,
   getGames,
   getUser,
 } from 'actions';
@@ -33,6 +34,7 @@ class Catalog extends Component {
     } = this.props;
 
     const currentPage = search ? search.match(/\d+/g)[0] : 1;
+
     if (catalog[page].length === 0) {
       this.getItems(currentPage);
     }
@@ -57,28 +59,37 @@ class Catalog extends Component {
 
   getItems(currentPage, options) {
     this.setState({ loading: true });
-    const { match } = this.props;
+    const { match, getTV, getMovies, getGames } = this.props;
     const pageType = match.params.page;
     // if (match.params.page === 'movies') page = 'movie'
 
-    if (pageType === 'tv' || pageType === 'movies') {
-      this.props.getMoviesTv(pageType, currentPage, options)
+    if (pageType === 'tv') {
+      getTV(currentPage, options)
         .then((res) => {
           this.setState({
             loading: false,
             pageCount: res.total_pages,
           });
         })
-        .catch((err) => console.log('Error: ', err));
+        .catch((err) => console.warn('Error: ', err));
+    } else if (pageType === 'movies') {
+      getMovies(currentPage, options)
+        .then((res) => {
+          this.setState({
+            loading: false,
+            pageCount: res.total_pages,
+          });
+        })
+        .catch((err) => console.warn('Error: ', err));
     } else if (pageType === 'games') {
-      this.props.getGames(currentPage)
+      getGames(currentPage)
         .then((res) => {
           this.setState({
             loading: false,
             pageCount: Math.ceil(res.count / 18),
           });
         })
-        .catch((err) => console.log('Error: ', err));
+        .catch((err) => console.warn('Error: ', err));
     }
   }
 
@@ -165,7 +176,8 @@ const mapStateToProps = (state) => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  getMoviesTv,
+  getMovies,
+  getTV,
   getGames,
   getUser,
 })(Catalog));

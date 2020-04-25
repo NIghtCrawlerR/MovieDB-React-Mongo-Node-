@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
 import Item from '../Item'
 import Loader from '../Loader'
 import { Choose, If, Else } from '../helpers/conditional-statement';
@@ -27,23 +28,14 @@ export default class List extends Component {
           </If>
           <Else>
             <div className="items__wrap">
-              {
-                items.map((item, i) => {
-                  const { poster_path, background_image } = item;
-
-                  if (!item) return null;
-
-                  return (
-                    <Item
-                      key={i}
-                      wishlist={wishlist}
-                      {...item}
-                      type={type}
-                      img={poster_path || background_image}
-                    />
-                  )
-                })
-              }
+              {items.map((item, i) => (
+                <Item
+                  key={i}
+                  {...item}
+                  wishlist={wishlist}
+                  type={type}
+                />
+              ))}
             </div>
           </Else>
         </Choose>

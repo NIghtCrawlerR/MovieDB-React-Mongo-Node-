@@ -7,6 +7,11 @@ const Movie = require('../../models/movie.model')
 router.post('/get', (req, res) => {
     const { items, itemType } = req.body;
 
+    // Movie.update({}, { $rename: { name: 'title' } }, { multi: true }, function(err, blocks) {
+    //     if(err) { throw err; }
+    //     console.log('DONE!');
+    //   });
+
     Movie.find({
         'id': {
             $in: items,
@@ -14,6 +19,7 @@ router.post('/get', (req, res) => {
         'itemType': itemType
 
     }, function (err, docs) {
+        // console.log(docs)
         return res.send({
             succes: true,
             message: 'Success',

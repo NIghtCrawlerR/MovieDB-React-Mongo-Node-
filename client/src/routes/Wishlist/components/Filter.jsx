@@ -54,6 +54,7 @@ class Filter extends React.Component {
           name="title"
           value={searchQuery}
           label="Search by title"
+          outlined
           onChange={this.setSearchQuery}
         />
       </div>

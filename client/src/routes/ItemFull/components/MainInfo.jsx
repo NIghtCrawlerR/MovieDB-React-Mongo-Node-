@@ -4,9 +4,7 @@ import InfoBlock from './InfoBlock';
 
 function MainInfo({
   genres,
-  released,
   release_date,
-  first_air_date,
   next_episode_to_air,
   developers,
   publishers,
@@ -25,10 +23,7 @@ function MainInfo({
       {genres && <InfoBlock title="Genres:" data={genres.map((genre) => genre.name).join(', ')} />}
 
       {/* Release date (movies & games) */}
-      {(released || release_date) && <InfoBlock title="Release date:" data={new Date(released || release_date).toLocaleDateString()} />}
-
-      {/* First episode date (tv shows) */}
-      {first_air_date && <InfoBlock title="First air date:" data={new Date(first_air_date).toLocaleDateString()} />}
+      {release_date && <InfoBlock title="Release date:" data={new Date(release_date).toLocaleDateString()} />}
 
       {/* Next episode date (tv shows) */}
       {next_episode_to_air && <InfoBlock title="Next episod date:" data={new Date(next_episode_to_air.air_date).toLocaleDateString()} />}

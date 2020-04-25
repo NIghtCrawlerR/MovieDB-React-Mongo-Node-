@@ -38,6 +38,12 @@ select:-webkit-autofill:focus {
         font-weight: 500;
       }
     }
+
+    &--outlined {
+      border: 1px solid #e8e8e8;
+      background: #fff;
+      padding: 0 5px;
+    }
   }
 
   &__label {
@@ -45,7 +51,6 @@ select:-webkit-autofill:focus {
     top: 8px;
     left: 0;
     color: #929292;
-    pointer-events: none;
     transition: all .3s;
   }
 }

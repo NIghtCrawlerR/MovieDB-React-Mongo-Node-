@@ -25,6 +25,10 @@ class Homepage extends React.Component {
   }
 
   render() {
+    const movies = this.createTabs("movies");
+    const tv = this.createTabs("tv");
+    const games = this.createTabs("games");
+
     return (
       <div className="homapage">
         <Head title="Fiction finder - Collections" />
@@ -35,18 +39,20 @@ class Homepage extends React.Component {
         <div className="container-fluid mt-5">
           <BrickTabs path="/collections" main tabs={catalogTabs} />
 
-          <div className="homepage__collection-group">
+          {!!movies.length && (<div className="homepage__collection-group">
             <PageTitle title="Movies collections" buttonBack={false} />
             <SliderTabs tabs={this.createTabs("movies")} />
-          </div>
-          <div className="homepage__collection-group">
+          </div>)}
+
+          {!!tv.length && (<div className="homepage__collection-group">
             <PageTitle title="TV collections" buttonBack={false} />
             <SliderTabs tabs={this.createTabs("tv")} />
-          </div>
-          <div className="homepage__collection-group">
-            <PageTitle title="Games collections" buttonBack={false} />
-            <SliderTabs tabs={this.createTabs("games")} />
-          </div>
+          </div>)}
+
+        {!!games.length && (<div className="homepage__collection-group">
+          <PageTitle title="Games collections" buttonBack={false} />
+          <SliderTabs tabs={this.createTabs("games")} />
+        </div>)}
         </div>
       </div>
     );

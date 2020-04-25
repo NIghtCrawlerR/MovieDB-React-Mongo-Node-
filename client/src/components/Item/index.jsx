@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { get } from 'lodash';
 
-import Icon from 'components/Icon';
 import CollectionsSelector from 'components/CollectionsSelector';
 import Image from 'components/Image';
-import { Choose, If, Else } from 'components/helpers/conditional-statement';
+import ItemActions from './components/ItemActions';
+import { If } from 'components/helpers/conditional-statement';
 import { convertGameRating, getRatingColor } from 'lib';
 
 import {
@@ -18,29 +19,17 @@ import {
 import './index.scss';
 
 class Item extends Component {
-  getItemData = () => {
-    const {
-      id, type, title, name, slug,
-      genre_ids, genres,
-      poster_path, background_image,
-      vote_average, rating
-    } = this.props;
+  prepareItemData = () => {
+    const { id, slug, title, genres, poster, rating } = this.props;
 
-    const newItem = {
+    return {
       id,
-      title: title || null,
-      name: name || null,
-      genre_ids: genre_ids || null,
-      genres: genres || null,
-      poster_path: poster_path || null,
-      background_image: background_image || null,
-      vote_average: vote_average || null,
-      rating: rating || null,
-      slug: slug || null,
-      itemType: type,
-    };
-
-    return newItem;
+      slug,
+      title,
+      genres,
+      poster,
+      rating,
+    }
   }
 
   currentItem = () => {
@@ -63,7 +52,7 @@ class Item extends Component {
       return !1;
     }
 
-    addItemToWishlist(type, this.getItemData(), user.id);
+    addItemToWishlist(type, this.prepareItemData(), user.id);
   }
 
   deleteFromWishlist = () => {
@@ -79,45 +68,57 @@ class Item extends Component {
     }
   }
 
-  render() {
-    const {
-      type, title, name, img, slug, id,
-      user, genre_ids, vote_average, rating,
-      genres, moviesGenres,
-      wishlist,
-    } = this.props;
+  getGenres = genres => {
+    const { moviesGenres } = this.props;
 
-    let itemGenres = [];
-    if (genre_ids && moviesGenres) {
-      itemGenres = genre_ids.map((id, i) => {
-        const obj = moviesGenres.find((genre) => genre.id === id);
-        return obj ? obj.name : null;
+    if (!genres) return [];
+
+    if (typeof genres[0] === 'number') {
+      return genres.map(id => {
+        const genre = moviesGenres.find((genre) => genre.id === id);
+        return get(genre, 'name');
       });
-    } else if (genres) {
-      itemGenres = genres.map((genre) => genre.name);
     }
 
+    return genres.map((genre) => genre.name);
+  }
+
+  render() {
+    const {
+      type, title, slug, id,
+      user, rating,
+      genres,
+      wishlist,
+      poster,
+    } = this.props;
+
+    // console.log(this.props)
+
+    const itemGenres = this.getGenres(genres, type);
+
     const itemIds = user ? user[type].map((item) => item.id) : [];
-    const searchItem = slug || id;
+
     const currentItem = this.currentItem();
-    const ratingValue = (+vote_average || convertGameRating(rating)).toFixed(1);
+    const ratingValue = type === 'games' ? convertGameRating(rating).toFixed(1) : rating;
 
     return (
       <div className={`single-item ${type}`}>
         <If condition={user.group === 'admin'}>
-          <CollectionsSelector itemId={id} itemData={this.getItemData()} category={type} />
+          <CollectionsSelector itemId={id} itemData={this.prepareItemData()} category={type} />
         </If>
         <div className="single-item__poster-wrap">
-          <Link to={`/details/${type}/${searchItem}`}>
+          <Link to={`/details/${type}/${slug || id}`}>
             <Image
-              path={img}
+              path={poster}
               className="single-item__poster"
             />
           </Link>
         </div>
         <div className="single-item__info">
           <div className="single-item__info--top">
-            <h3 className="single-item__title"><Link to={`/details/${type}/${searchItem}`}>{title || name}</Link></h3>
+            <h3 className="single-item__title">
+              <Link to={`/details/${type}/${slug || id}`}>{title}</Link>
+            </h3>
             <If condition={itemGenres.length > 0}>
               <p className="single-item__genres">
                 <span>{itemGenres.join(', ')}</span>
@@ -125,39 +126,21 @@ class Item extends Component {
             </If>
           </div>
           <div className="single-item__info--bottom">
-            <If condition={vote_average || rating}>
+            <If condition={rating}>
               <p className={classNames("single-item__rating", getRatingColor(ratingValue))}>
                 {ratingValue}
               </p>
             </If>
-            <p className="single-item__actions">
-              {
-                wishlist && currentItem
-                  ? <>
-                    <span className="text-info" onClick={() => this.itemAction('watched')}>
-                      <Icon prefix={currentItem.watched ? 'fas' : 'far'} name="flag" />
-                    </span>
-                    <span className="text-red" title="like" onClick={() => this.itemAction('liked')}>
-                      <Icon prefix={currentItem.liked ? 'fas' : 'far'} name="heart" />
-                    </span>
-                  </> : null
-              }
-
-              <If condition={user}>
-                <Choose>
-                  <If condition={itemIds.includes(id)}>
-                    <span className="ml-auto" title="Remove from wishlist" onClick={this.deleteFromWishlist}>
-                      <Icon name="star text-warning" />
-                    </span>
-                  </If>
-                  <Else>
-                    <span className="ml-auto" title="Add to wishlist" onClick={this.addToWishlist}>
-                      <Icon prefix="far" name="star" />
-                    </span>
-                  </Else>
-                </Choose>
-              </If>
-            </p>
+            <ItemActions
+              wishlist={wishlist}
+              currentItem={currentItem}
+              user={user}
+              itemIds={itemIds}
+              id={id}
+              deleteFromWishlist={this.deleteFromWishlist}
+              addToWishlist={this.addToWishlist}
+              itemAction={this.itemAction}
+            />
           </div>
         </div>
       </div>

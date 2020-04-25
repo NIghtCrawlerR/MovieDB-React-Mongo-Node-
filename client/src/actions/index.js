@@ -1,5 +1,6 @@
 import {
-  getMoviesTv,
+  getMovies,
+  getTV,
   getGames,
   getFullItem,
 } from './catalog';
@@ -34,7 +35,8 @@ import {
 } from './settings';
 
 export {
-  getMoviesTv,
+  getMovies,
+  getTV,
   getGames,
   getFullItem,
   getCollections,

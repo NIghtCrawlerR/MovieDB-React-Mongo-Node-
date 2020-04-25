@@ -79,9 +79,8 @@ class List extends Component {
       const { searchQuery } = this.props;
       const items = wishlist[collection];
 
-      const filteredItems = items.filter(item => {
-        const title = item.title || item.name;
-        return title.toLowerCase().includes(searchQuery);
+      const filteredItems = items.filter(({ title }) => {
+        return (title || '').toLowerCase().includes(searchQuery);
       })
 
       const ids = filteredItems.map(item => item.id);

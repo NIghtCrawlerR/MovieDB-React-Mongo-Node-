@@ -61,53 +61,42 @@ class ItemFull extends Component {
   componentDidUpdate(prevProps) {
     const {
       match: { params: { page, id } },
+      getFullItem,
     } = this.props;
 
     if (id !== prevProps.match.params.id) {
-      this.props.getFullItem(page, id);
+      getFullItem(page, id);
     }
   }
 
-  getItemData = () => {
+  getItemData = (category) => {
     const {
-      match: { params: { page } },
       catalog: {
         itemFullInfo: {
-          id, title, name, slug,
-          genre_ids, genres,
-          poster_path, background_image,
-          vote_average, rating
+          id, title, slug, genres, poster, rating,
         },
       },
     } = this.props;
 
     const newItem = {
       id,
-      title: title || null,
-      name: name || null,
-      genre_ids: genre_ids || null,
-      genres: genres || null,
-      poster_path: poster_path || null,
-      background_image: background_image || null,
-      vote_average: vote_average || null,
-      rating: rating || null,
-      slug: slug || null,
-      itemType: page,
+      title,
+      genres,
+      poster,
+      rating,
+      slug,
+      itemType: category,
       shareLink: '',
     };
 
     return newItem;
   }
 
-  deleteFromWishlist = () => {
+  deleteFromWishlist = (category, itemId) => {
     const {
       user: {
         isLogin,
-        userId,
-      },
-      match: { params: { page } },
-      catalog: {
-        itemFullInfo: { id },
+        id,
       },
       deleteItemFromWishlist,
     } = this.props;
@@ -118,14 +107,13 @@ class ItemFull extends Component {
     }
 
     if (window.confirm('Delete item from wishlist?')) {
-      deleteItemFromWishlist(page, id, userId);
+      deleteItemFromWishlist(category, itemId, id);
     }
   }
 
-  addToWishlist = () => {
+  addToWishlist = (category) => {
     const {
       user,
-      match: { params: { page } },
       addItemToWishlist,
     } = this.props;
 
@@ -134,7 +122,7 @@ class ItemFull extends Component {
       return !1;
     }
 
-    addItemToWishlist(page, this.getItemData(), user.id);
+    addItemToWishlist(category, this.getItemData(category), user.id);
   }
 
   switchTabs = (tabSelected) => {
@@ -151,14 +139,28 @@ class ItemFull extends Component {
     } = this.props;
 
     const {
-      poster_path, background_image, backdrop_path,
-      genres, name, title, original_title, original_name, overview, description,
-      vote_average, rating, platforms, website,
-      released, release_date, developers, publishers,
-      stores, production_companies, production_countries,
-      homepage, number_of_seasons, number_of_episodes,
-      runtime, playtime, first_air_date, videos, name_original,
+      id: itemId,
+      title,
+      poster,
+      backdrop_path,
+      original_title,
+      overview,
+      rating,
+      genres,
+      website,
+      release_date,
+      platforms,
+      stores,
+      publishers,
+      developers,
+      production_companies,
+      production_countries,
+      number_of_seasons,
+      number_of_episodes,
       next_episode_to_air,
+      runtime,
+      playtime,
+      videos,
     } = itemFullInfo;
 
     const { loading, shareLink, tabSelected } = this.state;
@@ -166,7 +168,7 @@ class ItemFull extends Component {
     const imageBaseUrl = (size) => (page === 'movies' || page === 'tv' ? `http://image.tmdb.org/t/p/${size}` : '');
 
     const backgroundStyle = {
-      backgroundImage: `url(${backdrop_path ? imageBaseUrl('w1280') + backdrop_path : background_image})`,
+      backgroundImage: `url(${poster ? imageBaseUrl('w1280') + poster : backdrop_path})`,
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
@@ -176,15 +178,14 @@ class ItemFull extends Component {
     const isInWishlist = itemIds.includes(itemFullInfo.id);
 
     const tabsFiltered = ITEM_FULL_TABS.filter(tab => !tab.categories || !tab.categories.includes(page))
-    const ratingValue = +vote_average || convertGameRating(rating) || null;
-    const releaseDate = released || release_date || first_air_date || null;
+    const ratingValue = page === 'games' ? convertGameRating(rating) : rating;
+    const releaseDate = release_date || null;
 
     return (
       <div className="item-full overlay" style={backgroundStyle}>
         <Head
-          title={name || title}
-          ogTitle={name || title}
-          ogImage={background_image || imageBaseUrl('w780') + poster_path}
+          title={title}
+          ogTitle={title}
           ogUrl={shareLink}
         />
         {loading && <Loader overlay />}
@@ -194,7 +195,7 @@ class ItemFull extends Component {
             {/* Collections selector dropdown */}
             <div style={{ color: '#fff' }}>
               {user.group === 'admin'
-                && <CollectionsSelector itemId={+this.getItemData().id} itemData={this.getItemData()} category={page} />}
+                && <CollectionsSelector itemId={itemId} itemData={this.getItemData(page)} category={page} />}
             </div>
 
             <div className="item-full__info-wrap">
@@ -202,13 +203,13 @@ class ItemFull extends Component {
               <div className="item-full__column-left">
 
                 {/* Top info */}
-                <h3 className="item-full__title">{name || title}</h3>
-                {(original_title || original_name) && <p className="item-full__original-title">{original_title || original_name}</p>}
+                <h3 className="item-full__title">{title}</h3>
+                {original_title && <p className="item-full__original-title">{original_title}</p>}
 
                 <TopInfo
                   release_date={releaseDate}
-                  runtime={runtime || null}
-                  playtime={playtime || null}
+                  runtime={runtime}
+                  playtime={playtime}
                   number_of_seasons={number_of_seasons}
                   number_of_episodes={number_of_episodes}
                   rating={ratingValue}
@@ -228,16 +229,14 @@ class ItemFull extends Component {
                 {
                   this.props.user
                     ? isInWishlist
-                      ? <Button variant="success" onClick={this.deleteFromWishlist}><Icon name="minus" /> In wishlist</Button>
-                      : <Button variant="warning" onClick={this.addToWishlist}><Icon name="plus" /> Add to wishlist</Button> : null
+                      ? <Button variant="success" onClick={() => this.deleteFromWishlist(page, itemId)}><Icon name="minus" /> In wishlist</Button>
+                      : <Button variant="warning" onClick={() => this.addToWishlist(page)}><Icon name="plus" /> Add to wishlist</Button> : null
                 }
 
                 {/* Overview */}
                 <div>
-                  <Image path={poster_path || background_image} size={780} />
-                  <Overview
-                    overview={overview || description}
-                  />
+                  <Image path={poster} size={780} />
+                  <Overview overview={overview} />
                 </div>
               </div>
 
@@ -254,16 +253,14 @@ class ItemFull extends Component {
                   {tabSelected === 'main-info' &&
                     <MainInfo
                       genres={genres}
-                      released={released}
                       release_date={release_date}
-                      first_air_date={first_air_date}
                       next_episode_to_air={next_episode_to_air}
                       developers={developers}
                       publishers={publishers}
                       production_companies={production_companies}
                       production_countries={production_countries}
                       platforms={platforms}
-                      website={homepage || website}
+                      website={website}
                     />
                   }
 
@@ -273,7 +270,7 @@ class ItemFull extends Component {
 
                   {tabSelected === 'trailers' &&
                     <div>
-                      {page === 'games' ? <VideoBlock gameTitle={name_original} /> : null}
+                      {page === 'games' ? <VideoBlock gameTitle={title} /> : null}
 
                       {videos && videos.results.length > 0
                         ? <iframe width="100%" height="400px" title="trailer" src={`https://www.youtube.com/embed/${videos.results[0].key}`} />

@@ -7,48 +7,64 @@ import {
 import axios from 'axios';
 
 import {
-  MOVIE_API_BASEURL,
-  MOVIE_API_KEY,
-  GAME_API_BASEURL,
+  GET_GAMES_URL,
+  GET_MOVIES_URL,
+  GET_TV_URL,
+  GET_ITEM_FULL_URL,
 } from '../config/constants';
 
-const LANG = 'ru'
+const LANG = 'ru';
 
-export const getMoviesTv = (type, page, options) => dispatch => {
-  const genres = options && options.genres ? `&with_genres=${options.genres.join(',')}` : ''
-  const title = options && options.title ? `&with_keywords=${options.title}` : ''
-  const crew = options && options.crew ? `&with_crew=${options.crew}` : ''
-  const sort_by = options && options.sort ? `&sort_by=${options.sort}` : '&sort_by=popularity.desc'
-  const year = options && options.year ? `&${type === 'tv' ? 'first_air_date_year' : 'primary_release_year'}=${options.year}` : ''
+const year = new Date().getFullYear();
+const defaultParams = {
+  language: LANG,
+  primary_release_year: year,
+  include_adult: false,
+  include_video: false,
+}
 
-  return new Promise((resolve, reject) => {
-    let pageType = type
-    if (pageType === 'movies') pageType = 'movie'
+const prepareParams = (params, category, page) => {
+  const { genres, title, crew, sort, year } = params || {};
 
-    axios({
-      method: 'get',
-      url: `${MOVIE_API_BASEURL}/discover/${pageType}`,
-      params: {
-        api_key: MOVIE_API_KEY,
-        language: LANG,
-        primary_release_year: new Date().getFullYear(),
-        sort_by,
-        include_adult: false,
-        include_video: false,
-        page,
-        year,
-        crew,
-        genres,
-        title,
-      }
-    }).then(res => {
-      dispatch({
-        type: GET_MOVIES_TV,
-        pageType: type,
-        list: res.data.results
+  const genresQ = genres ? `&with_genres=${genres.join(',')}` : ''
+  const titleQ = title ? `&with_keywords=${title}` : ''
+  const crewQ = crew ? `&with_crew=${crew}` : ''
+  const sortQ = sort ? `&sort_by=${sort}` : '&sort_by=popularity.desc'
+  const yearQ = year ? `&${category === 'tv' ? 'first_air_date_year' : 'primary_release_year'}=${year}` : ''
+
+  return {
+    sort_by: sortQ,
+    page,
+    year: yearQ,
+    crew: crewQ,
+    genres: genresQ,
+    title: titleQ,
+  }
+}
+
+export const getTV = (page, options) => dispatch => {
+  const params = prepareParams(options, 'tv', page);
+
+  const request = {
+    url: GET_TV_URL,
+    method: 'get',
+    params: {
+      ...defaultParams,
+      ...params
+    }
+  }
+
+  return new Promise((resolve) => {
+    axios(request)
+      .then(({ data }) => {
+        dispatch({
+          type: GET_MOVIES_TV,
+          pageType: 'tv',
+          list: data.data.results
+        });
+
+        resolve(data);
       })
-      resolve(res.data)
-    })
       .catch(err => {
         dispatch({
           type: TOGGLE_MODAL,
@@ -57,19 +73,65 @@ export const getMoviesTv = (type, page, options) => dispatch => {
             err,
           }
         })
-      });
+      })
+  })
+}
+
+
+export const getMovies = (page, options) => dispatch => {
+  const params = prepareParams(options, 'movie', page);
+
+  const request = {
+    url: GET_MOVIES_URL,
+    method: 'get',
+    params: {
+      ...defaultParams,
+      ...params
+    }
+  }
+
+  return new Promise((resolve, reject) => {
+    axios(request)
+      .then(({ data }) => {
+        dispatch({
+          type: GET_MOVIES_TV,
+          pageType: 'movies',
+          list: data.data.results
+        });
+
+        resolve(data);
+      })
+      .catch(err => {
+        dispatch({
+          type: TOGGLE_MODAL,
+          payload: {
+            isOpen: true,
+            err,
+          }
+        })
+      })
   })
 }
 
 export const getGames = (pageNumber, pageSize) => dispatch => {
+  const request = {
+    url: GET_GAMES_URL,
+    method: 'get',
+    params: {
+      page: pageNumber,
+      page_size: 18,
+    }
+  };
+
   return new Promise((resolve, reject) => {
-    axios.get(`${GAME_API_BASEURL}?page=${pageNumber}&page_size=18`)
-      .then(res => {
+    axios(request)
+      .then(({ data }) => {
         dispatch({
           type: GET_GAMES,
-          games: res.data.results
-        })
-        resolve(res.data)
+          games: data.data.results
+        });
+
+        resolve(data);
       })
       .catch(err => {
         dispatch({
@@ -78,35 +140,33 @@ export const getGames = (pageNumber, pageSize) => dispatch => {
             isOpen: true,
             err,
           }
-        })
+        });
+
+        reject(err);
       })
   })
 }
 
 export const getFullItem = (category, id) => dispatch => {
-  return new Promise((resolve, reject) => {
-    category = category === 'movies' ? 'movie' : category;
+  const request = {
+    url: GET_ITEM_FULL_URL(category, id),
+    method: 'get',
+  }
 
-    const requestUrl = category === 'games'
-      ? `${GAME_API_BASEURL}/${id}`
-      : `${MOVIE_API_BASEURL}/${category}/${id}?api_key=${MOVIE_API_KEY}&language=${LANG}&append_to_response=videos`;
-
-    axios.get(requestUrl)
-      .then((res) => {
-        dispatch({
-          type: GET_FULL_ITEM,
-          payload: res.data
-        })
-        resolve()
-      })
-      .catch((err) => {
-        dispatch({
-          type: TOGGLE_MODAL,
-          payload: {
-            isOpen: true,
-            err,
-          }
-        })
+  axios(request)
+    .then((res) => {
+      dispatch({
+        type: GET_FULL_ITEM,
+        payload: res.data.data
       });
-  })
+    })
+    .catch((err) => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
+      })
+    });
 }
