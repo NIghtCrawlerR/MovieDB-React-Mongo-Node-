@@ -66,7 +66,7 @@ class ItemFull extends Component {
     }
   }
 
-  getItemData = (category) => {
+  getItemData = category => {
     const {
       catalog: {
         itemFullInfo: {
@@ -91,21 +91,11 @@ class ItemFull extends Component {
 
   deleteFromWishlist = (category, itemId) => {
     const {
-      user: {
-        isLogin,
-        id,
-      },
+      user: { id },
       deleteItemFromWishlist,
     } = this.props;
 
-    if (!isLogin) {
-      alert('Login to update your collection.');
-      return !1;
-    }
-
-    if (window.confirm('Delete item from wishlist?')) {
-      deleteItemFromWishlist(category, itemId, id);
-    }
+    deleteItemFromWishlist(category, itemId, id);
   }
 
   addToWishlist = (category) => {
@@ -113,11 +103,6 @@ class ItemFull extends Component {
       user,
       addItemToWishlist,
     } = this.props;
-
-    if (!user.isLogin) {
-      alert('Login to update your collection.');
-      return !1;
-    }
 
     addItemToWishlist(category, this.getItemData(category), user.id);
   }

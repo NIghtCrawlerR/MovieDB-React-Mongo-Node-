@@ -15,7 +15,7 @@ router.post('/get', (req, res) => {
 
 	}, function (err, docs) {
 		return res.send({
-			succes: true,
+			success: true,
 			message: 'Success',
 			wishlist: {
 				[itemType]: docs.reverse()
@@ -65,7 +65,7 @@ router.post('/add', (req, res) => {
 			newItem.save()
 				.then(() => addToWishlist())
 				.catch(err => res.send({
-					succes: false,
+					success: false,
 					err,
 				}));
 		} else {

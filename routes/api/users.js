@@ -189,13 +189,13 @@ router.get('/current', (req, res) => {
   User.find({ _id: userId }, (err, user) => {
     if (err) {
       return res.send({
-        succes: false,
+        success: false,
         message: 'Error: Server error. ' + err
       })
     }
 
     return res.send({
-      succes: true,
+      success: true,
       message: 'Success',
       data: prepareUser(user[0]),
     })

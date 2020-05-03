@@ -13,7 +13,16 @@ import {
   UPDATE_WISHLIST_URL,
 } from '../config/constants';
 
-export const addItemToWishlist = (collection, item, userId) => (dispatch) => new Promise((resolve, reject) => {
+import store from '../store';
+
+export const addItemToWishlist = (collection, item, userId) => (dispatch) => {
+  const { user } = store.getState();
+
+  if (!user.isLogin) {
+    alert('Login to add movie to your collection.');
+    return false;
+  }
+
   axios.post(
     ADD_TO_WISHLIST_URL,
     { collection: collection, userId: userId, item: item },
@@ -35,9 +44,11 @@ export const addItemToWishlist = (collection, item, userId) => (dispatch) => new
         }
       })
     })
-});
+};
 
-export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch) => new Promise((resolve, reject) => {
+export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch) => new Promise(() => {
+  if (!window.confirm('Delete item from wishlist?')) return false;
+
   axios.post(DELETE_FROM_WISHLIST_URL,
     { collection: collection, itemId: itemId, userId: userId })
     .then(() => {

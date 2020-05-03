@@ -48,25 +48,13 @@ class Item extends Component {
   addToWishlist = () => {
     const { user, type, addItemToWishlist } = this.props;
 
-    if (!user.isLogin) {
-      alert('Login to add movie to your collection.');
-      return !1;
-    }
-
     addItemToWishlist(type, this.prepareItemData(), user.id);
   }
 
   deleteFromWishlist = () => {
     const { id, user, type, deleteItemFromWishlist } = this.props;
 
-    if (!user.isLogin) {
-      alert('Login to add movie to your collection.');
-      return !1;
-    }
-
-    if (window.confirm('Delete item from wishlist?')) {
-      deleteItemFromWishlist(type, id, user.id);
-    }
+    deleteItemFromWishlist(type, id, user.id);
   }
 
   getGenres = genres => {

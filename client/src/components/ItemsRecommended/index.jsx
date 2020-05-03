@@ -34,10 +34,11 @@ class ItemsRecommended extends Component {
 
     axios(request)
       .then(({ data }) => {
-        this.setState({
-          items: data.data,
-        });
-      });
+        if (data.success) {
+          this.setState({ items: data.data });
+        }
+      })
+      .catch(err => console.error(err))
   }
 
   render() {

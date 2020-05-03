@@ -69,7 +69,7 @@ router.get('/movies', (req, res) => {
       const { results, page, total_pages, total_results } = data;
 
       return res.send({
-        succes: true,
+        success: true,
         page,
         total_results,
         total_pages,
@@ -78,7 +78,7 @@ router.get('/movies', (req, res) => {
     })
     .catch(err => {
       return res.send({
-        succes: false,
+        success: false,
         err,
       })
     })
@@ -90,7 +90,7 @@ router.get('/movies/:id', (req, res) => {
   axios(fullItemRequest(id, 'movie'))
     .then(({ data }) => {
       return res.send({
-        succes: true,
+        success: true,
         data: normalizeDataFull(data),
       })
     })
@@ -102,13 +102,13 @@ router.get('/movies/:id/recommended', (req, res) => {
   axios(recommendationRequest(id, 'movie'))
     .then(({ data }) => {
       return res.send({
-        succes: true,
+        success: true,
         data: normalizeData(data.results),
       })
     })
     .catch(err => {
       return res.send({
-        succes: false,
+        success: false,
         err,
       })
     })
@@ -125,7 +125,7 @@ router.get('/tv', (req, res) => {
       const { results, page, total_pages, total_results } = data;
 
       return res.send({
-        succes: true,
+        success: true,
         page,
         total_results,
         total_pages,
@@ -134,7 +134,7 @@ router.get('/tv', (req, res) => {
     })
     .catch(err => {
       return res.send({
-        succes: false,
+        success: false,
         err,
       })
     })
@@ -146,7 +146,7 @@ router.get('/tv/:id', (req, res) => {
   axios(fullItemRequest(id, 'tv'))
     .then(({ data }) => {
       return res.send({
-        succes: true,
+        success: true,
         data: normalizeDataFull(data),
       })
     })
@@ -158,13 +158,13 @@ router.get('/tv/:id/recommended', (req, res) => {
   axios(recommendationRequest(id, 'tv'))
     .then(({ data }) => {
       return res.send({
-        succes: true,
+        success: true,
         data: normalizeData(data.results),
       })
     })
     .catch(err => {
       return res.send({
-        succes: false,
+        success: false,
         err,
       })
     })
@@ -189,7 +189,7 @@ router.get('/games', (req, res) => {
       const { count, next, previous, results } = data;
 
       return res.send({
-        succes: true,
+        success: true,
         count,
         next,
         previous,
@@ -209,7 +209,7 @@ router.get('/games/:id', (req, res) => {
   axios(request)
     .then(({ data }) => {
       return res.send({
-        succes: true,
+        success: true,
         data: normalizeDataFull(data),
       })
     })
@@ -226,13 +226,13 @@ router.get('/games/:id/recommended', (req, res) => {
   axios(request)
     .then(({ data }) => {
       return res.send({
-        succes: true,
+        success: true,
         data: normalizeData(data.results),
       })
     })
     .catch(err => {
       return res.send({
-        succes: false,
+        success: false,
         err,
       })
     })
