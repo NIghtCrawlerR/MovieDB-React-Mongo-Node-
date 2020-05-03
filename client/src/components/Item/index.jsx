@@ -20,7 +20,7 @@ import './index.scss';
 
 class Item extends Component {
   prepareItemData = () => {
-    const { id, slug, title, genres, poster, rating } = this.props;
+    const { id, slug, title, genres, poster, rating, type } = this.props;
 
     return {
       id,
@@ -29,6 +29,7 @@ class Item extends Component {
       genres,
       poster,
       rating,
+      itemType: type,
     }
   }
 

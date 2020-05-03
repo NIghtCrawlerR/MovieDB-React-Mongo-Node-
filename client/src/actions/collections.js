@@ -90,14 +90,13 @@ export const updateCollections = (checked, alias, itemId, itemData) => (dispatch
 export const getCollectionsFromCategory = (category) => dispatch => {
   return new Promise((resolve, reject) => {
     axios.get(FECTH_COLLECTION_BY_CATEGORY_URL(category))
-      .then(res => {
-        const collections = res.data
+      .then(({ data }) => {
         dispatch({
           type: GET_COLLECTIONS_FROM_CATEGORY,
-          payload: collections,
+          payload: data,
         })
 
-        resolve();
+        resolve(data.length);
       })
       .catch(err => reject(err))
   })

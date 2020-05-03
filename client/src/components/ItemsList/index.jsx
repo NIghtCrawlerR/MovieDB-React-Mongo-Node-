@@ -11,7 +11,7 @@ export default class List extends Component {
   render() {
     const { loading, items, wishlist, type } = this.props;
 
-    if (!items || !items.length) {
+    if (!loading && (!items || !items.length)) {
       return (
         <div className="default-stub">
           <p className="default-stub__text">You have no items in this category.</p>

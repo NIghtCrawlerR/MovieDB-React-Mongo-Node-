@@ -1,6 +1,7 @@
 export const GET_MOVIES_TV = 'GET_MOVIES_TV'
 export const GET_GAMES = 'GET_GAMES'
 export const GET_FULL_ITEM = 'GET_FULL_ITEM'
+export const SET_LOADING = 'SET_LOADING'
 
 export const USER_SIGN_IN = 'USER_SIGN_IN'
 export const USER_LOG_IN = 'USER_LOG_IN'

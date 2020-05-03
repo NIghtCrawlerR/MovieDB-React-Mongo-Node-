@@ -3,6 +3,7 @@ import {
   GET_GAMES,
   GET_FULL_ITEM,
   TOGGLE_MODAL,
+  SET_LOADING,
 } from './types'
 import axios from 'axios';
 
@@ -15,136 +16,105 @@ import {
 
 const LANG = 'ru';
 
-const year = new Date().getFullYear();
 const defaultParams = {
   language: LANG,
-  primary_release_year: year,
   include_adult: false,
   include_video: false,
 }
 
-const prepareParams = (params, category, page) => {
-  const { genres, title, crew, sort, year } = params || {};
-
-  const genresQ = genres ? `&with_genres=${genres.join(',')}` : ''
-  const titleQ = title ? `&with_keywords=${title}` : ''
-  const crewQ = crew ? `&with_crew=${crew}` : ''
-  const sortQ = sort ? `&sort_by=${sort}` : '&sort_by=popularity.desc'
-  const yearQ = year ? `&${category === 'tv' ? 'first_air_date_year' : 'primary_release_year'}=${year}` : ''
-
-  return {
-    sort_by: sortQ,
-    page,
-    year: yearQ,
-    crew: crewQ,
-    genres: genresQ,
-    title: titleQ,
-  }
-}
-
-export const getTV = (page, options) => dispatch => {
-  const params = prepareParams(options, 'tv', page);
+const makeRequest = (url, category, page, dispatch) => {
+  dispatch({
+    type: SET_LOADING,
+    payload: true,
+  });
 
   const request = {
-    url: GET_TV_URL,
+    url,
     method: 'get',
     params: {
+      page,
       ...defaultParams,
-      ...params
     }
   }
 
-  return new Promise((resolve) => {
-    axios(request)
-      .then(({ data }) => {
-        dispatch({
-          type: GET_MOVIES_TV,
-          pageType: 'tv',
-          list: data.data.results
-        });
+  axios(request)
+    .then(({ data }) => {
+      dispatch({
+        type: GET_MOVIES_TV,
+        category,
+        payload: data,
+      });
 
-        resolve(data);
-      })
-      .catch(err => {
-        dispatch({
-          type: TOGGLE_MODAL,
-          payload: {
-            isOpen: true,
-            err,
-          }
-        })
-      })
-  })
+      dispatch({
+        type: SET_LOADING,
+        payload: false,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
+      });
+
+      dispatch({
+        type: SET_LOADING,
+        payload: false,
+      });
+    })
 }
 
-
-export const getMovies = (page, options) => dispatch => {
-  const params = prepareParams(options, 'movie', page);
-
-  const request = {
-    url: GET_MOVIES_URL,
-    method: 'get',
-    params: {
-      ...defaultParams,
-      ...params
-    }
-  }
-
-  return new Promise((resolve, reject) => {
-    axios(request)
-      .then(({ data }) => {
-        dispatch({
-          type: GET_MOVIES_TV,
-          pageType: 'movies',
-          list: data.data.results
-        });
-
-        resolve(data);
-      })
-      .catch(err => {
-        dispatch({
-          type: TOGGLE_MODAL,
-          payload: {
-            isOpen: true,
-            err,
-          }
-        })
-      })
-  })
+export const getTV = page => dispatch => {
+  return makeRequest(GET_TV_URL, 'tv', page, dispatch);
 }
 
-export const getGames = (pageNumber, pageSize) => dispatch => {
+export const getMovies = page => dispatch => {
+  return makeRequest(GET_MOVIES_URL, 'movies', page, dispatch);
+}
+
+export const getGames = page => dispatch => {
+  dispatch({
+    type: SET_LOADING,
+    payload: true,
+  });
+
   const request = {
     url: GET_GAMES_URL,
     method: 'get',
     params: {
-      page: pageNumber,
+      page,
       page_size: 18,
     }
   };
 
-  return new Promise((resolve, reject) => {
-    axios(request)
-      .then(({ data }) => {
-        dispatch({
-          type: GET_GAMES,
-          games: data.data.results
-        });
+  axios(request)
+    .then(({ data }) => {
+      dispatch({
+        type: GET_GAMES,
+        payload: data,
+      });
 
-        resolve(data);
-      })
-      .catch(err => {
-        dispatch({
-          type: TOGGLE_MODAL,
-          payload: {
-            isOpen: true,
-            err,
-          }
-        });
+      dispatch({
+        type: SET_LOADING,
+        payload: false,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        }
+      });
 
-        reject(err);
-      })
-  })
+      dispatch({
+        type: SET_LOADING,
+        payload: false,
+      });
+    })
 }
 
 export const getFullItem = (category, id) => dispatch => {

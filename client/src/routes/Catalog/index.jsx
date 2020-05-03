@@ -17,26 +17,14 @@ import {
 } from 'actions';
 
 class Catalog extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false,
-      pageCount: 1,
-    };
-  }
-
   componentDidMount() {
     const {
-      location: { search },
       match: { params: { page } },
       catalog,
     } = this.props;
 
-    const currentPage = search ? search.match(/\d+/g)[0] : 1;
-
     if (catalog[page].length === 0) {
-      this.getItems(currentPage);
+      this.getItems(this.getCurrentPage());
     }
   }
 
@@ -48,65 +36,39 @@ class Catalog extends Component {
       },
     } = this.props;
 
-    const currentPage = this.currentPage();
-
     if (collection !== prevProps.match.params.collection
       || page !== prevProps.match.params.page
       || search !== prevProps.location.search) {
-      this.getItems(currentPage);
+      this.getItems(this.getCurrentPage());
     }
   }
 
-  getItems(currentPage, options) {
-    this.setState({ loading: true });
-    const { match, getTV, getMovies, getGames } = this.props;
-    const pageType = match.params.page;
-    // if (match.params.page === 'movies') page = 'movie'
+  getItems(currentPage) {
+    const {
+      match: { params: { page } },
+      getTV,
+      getMovies,
+      getGames,
+    } = this.props;
 
-    if (pageType === 'tv') {
-      getTV(currentPage, options)
-        .then((res) => {
-          this.setState({
-            loading: false,
-            pageCount: res.total_pages,
-          });
-        })
-        .catch((err) => console.warn('Error: ', err));
-    } else if (pageType === 'movies') {
-      getMovies(currentPage, options)
-        .then((res) => {
-          this.setState({
-            loading: false,
-            pageCount: res.total_pages,
-          });
-        })
-        .catch((err) => console.warn('Error: ', err));
-    } else if (pageType === 'games') {
-      getGames(currentPage)
-        .then((res) => {
-          this.setState({
-            loading: false,
-            pageCount: Math.ceil(res.count / 18),
-          });
-        })
-        .catch((err) => console.warn('Error: ', err));
+    if (page === 'tv') {
+      getTV(currentPage);
+    } else if (page === 'movies') {
+      getMovies(currentPage);
+    } else if (page === 'games') {
+      getGames(currentPage);
     }
   }
 
-  changePage(page) {
+  changePage = page => {
     const { history } = this.props;
 
     history.push({
       search: `?page=${page.selected + 1}`,
     });
-  }
+  };
 
-  filter(filter) {
-    const currentPage = this.currentPage();
-    this.getItems(currentPage, filter);
-  }
-
-  currentPage() {
+  getCurrentPage() {
     const {
       location: { search },
     } = this.props;
@@ -117,35 +79,29 @@ class Catalog extends Component {
   render() {
     const {
       catalog,
-      location: {
-        search,
-      },
       match: {
         params: { page },
       },
-      moviesGenres,
     } = this.props;
 
-    const currentPage = search ? search.match(/\d+/g)[0] : 1;
-
-    const { loading, pageCount } = this.state;
+    const { loading, totalPages } = catalog;
 
     return (
       <div className="mb-5">
         <Head title={`Fiction finder - catalog - ${page}`} />
+
         <PageHeader title={`${page} catalog`} />
+
         <div className="container-fluid">
-          {page !== 'games'
-            ? <Filter filter={this.filter.bind(this)} moviesGenres={moviesGenres} page={page} />
-            : null}
           <ItemsList loading={loading} items={catalog[page]} type={page} />
-          {pageCount > 1
+
+          {totalPages > 1
             ? (
               <Pagination
                 loading={loading}
-                pageCount={pageCount}
-                currentPage={+currentPage}
-                changePage={this.changePage.bind(this)}
+                totalPages={totalPages}
+                currentPage={+this.getCurrentPage()}
+                changePage={this.changePage}
               />
             )
             : null}
@@ -166,14 +122,9 @@ Catalog.propTypes = {
       collection: PropTypes.string,
     }),
   }).isRequired,
-  moviesGenres: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  catalog: state.catalog,
-  user: state.user,
-  moviesGenres: state.collections.moviesGenres,
-});
+const mapStateToProps = ({ catalog, user }) => ({ catalog, user });
 
 export default withRouter(connect(mapStateToProps, {
   getMovies,

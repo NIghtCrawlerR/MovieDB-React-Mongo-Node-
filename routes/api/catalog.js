@@ -14,6 +14,7 @@ const { normalizeData, normalizeDataFull } = lib;
 /**
  * MOVIES
  */
+
 router.get('/movies', (req, res) => {
   const { query } = req;
 
@@ -32,12 +33,10 @@ router.get('/movies', (req, res) => {
 
       return res.send({
         succes: true,
-        data: {
-          page,
-          total_results,
-          total_pages,
-          results: normalizeData(results),
-        },
+        page,
+        total_results,
+        total_pages,
+        results: normalizeData(results),
       })
     })
     .catch(err => {
@@ -119,12 +118,10 @@ router.get('/tv', (req, res) => {
 
       return res.send({
         succes: true,
-        data: {
-          page,
-          total_results,
-          total_pages,
-          results: normalizeData(results),
-        },
+        page,
+        total_results,
+        total_pages,
+        results: normalizeData(results),
       })
     })
     .catch(err => {
@@ -206,12 +203,10 @@ router.get('/games', (req, res) => {
 
       return res.send({
         succes: true,
-        data: {
-          count,
-          next,
-          previous,
-          results: normalizeData(results),
-        },
+        count,
+        next,
+        previous,
+        results: normalizeData(results),
       })
     })
 })

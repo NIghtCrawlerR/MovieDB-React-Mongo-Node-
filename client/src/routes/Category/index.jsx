@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -47,14 +48,22 @@ class Category extends React.Component {
   }
 
   getCollectionsList(category) {
-    const { getCollectionsFromCategory } = this.props;
+    const {
+      getCollectionsFromCategory,
+      history,
+    } = this.props;
 
-    this.setState({ loading: true })
+    this.setState({ loading: true });
+
     getCollectionsFromCategory(category)
-      .then(() => {
-        this.setState({ loading: false })
+      .then(collectionsCoount => {
+        this.setState({ loading: false });
+
+        if (collectionsCoount === 0) {
+          history.push(`/catalog/${category}`);
+        }
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState({ loading: false })
       })
   }
@@ -100,8 +109,11 @@ class Category extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { userData, match, categoryCollections } = this.props;
-    const { params: { category } } = match;
+    const {
+      userData,
+      match: { params: { category } },
+      categoryCollections,
+    } = this.props;
 
     return (
       <div className="container-fluid my-4">
