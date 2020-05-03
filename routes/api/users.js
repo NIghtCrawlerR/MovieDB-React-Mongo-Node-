@@ -192,7 +192,7 @@ router.get('/current', (req, res) => {
       tv,
       books,
       id,
-      group,
+      isAdmin: group === 'admin',
     }
 
     return res.send({
@@ -204,7 +204,8 @@ router.get('/current', (req, res) => {
 })
 
 router.route('/access/get').get((req, res) => {
-  const email = req.query.email
+  const email = req.query.email;
+
   bot.sendMessage({
     text: `Get access request: user ${email} wants to get permission.`,
     email: email

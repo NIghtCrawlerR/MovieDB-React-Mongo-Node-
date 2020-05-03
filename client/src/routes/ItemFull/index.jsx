@@ -193,7 +193,7 @@ class ItemFull extends Component {
           <div>
             {/* Collections selector dropdown */}
             <div style={{ color: '#fff' }}>
-              {user.group === 'admin'
+              {user.isAdmin
                 && <CollectionsSelector itemId={itemId} itemData={this.getItemData(page)} category={page} />}
             </div>
 

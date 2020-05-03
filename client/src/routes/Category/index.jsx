@@ -51,15 +51,16 @@ class Category extends React.Component {
     const {
       getCollectionsFromCategory,
       history,
+      userData: { isAdmin },
     } = this.props;
 
     this.setState({ loading: true });
 
     getCollectionsFromCategory(category)
-      .then(collectionsCoount => {
+      .then(collectionsCount => {
         this.setState({ loading: false });
 
-        if (collectionsCoount === 0) {
+        if (!isAdmin && collectionsCount === 0) {
           history.push(`/catalog/${category}`);
         }
       })
@@ -117,7 +118,7 @@ class Category extends React.Component {
 
     return (
       <div className="container-fluid my-4">
-        <If condition={userData.group === "admin"}>
+        <If condition={userData.isAdmin}>
           <CollectionForm
             userData={userData}
             category={category}

@@ -20,27 +20,6 @@ const initialState = {
   successMessage: null,
 }
 
-const setUserState = (state, payload) => {
-  const {
-    email,
-    group,
-    id,
-    movies,
-    games,
-    tv,
-  } = payload;
-
-  return {
-    ...state,
-    email,
-    group,
-    id,
-    movies,
-    games,
-    tv,
-  }
-}
-
 const resetState = state => {
   return {
     ...state,
@@ -78,18 +57,20 @@ const updateWishlist = (state, action) => {
 }
 
 export default function (state = initialState, action) {
+  const { payload } = action;
+
   switch (action.type) {
     case UPDATE_WISHLIST:
       return updateWishlist(state, action);
 
     case GET_USER:
-      return setUserState(state, action.payload);
+      return {
+        ...state,
+        ...payload,
+      }
 
     case USER_LOG_IN:
-      const {
-        payload,
-        token,
-      } = action;
+      const { token } = action;
 
       return {
         ...state,
@@ -118,14 +99,14 @@ export default function (state = initialState, action) {
     case USER_SIGN_IN_ERROR:
       return {
         ...state,
-        errorMessage: action.payload,
+        errorMessage: payload,
       }
 
     case USER_SIGN_IN_SUCCESS:
       return {
         ...state,
         errorMessage: null,
-        successMessage: action.payload,
+        successMessage: payload,
       }
 
     default:

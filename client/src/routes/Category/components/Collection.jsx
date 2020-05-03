@@ -22,7 +22,7 @@ class Collection extends React.Component {
           <h3 className="collection-group__title">
             <Link to={`/collection/${category}/${alias}`}>{title}</Link>
           </h3>
-          {userData.group === "admin" &&
+          {userData.isAdmin &&
             <Icon
               name="trash"
               onClick={() => removeColection(id)}
