@@ -4,6 +4,16 @@ const User = require('../../models/user.model')
 const UserSession = require('../../models/user.session.model')
 const bot = require('../../bot')
 
+const prepareUser = ({ email, movies, games, tv, books, _id: id, group }) => ({
+  email,
+  movies,
+  games,
+  tv,
+  books,
+  id,
+  isAdmin: group === 'admin',
+})
+
 router.post('/login', (req, res) => {
   let { email, password } = req.body
 
@@ -45,8 +55,9 @@ router.post('/login', (req, res) => {
       })
     }
 
-    const userSession = new UserSession()
-    userSession.userId = user._id
+    const userSession = new UserSession();
+    userSession.userId = user._id;
+
     userSession.save((err, doc) => {
       if (err) {
         return res.send({
@@ -55,13 +66,13 @@ router.post('/login', (req, res) => {
         })
       }
 
-      req.session.user = doc._id
+      req.session.user = doc._id;
 
       return res.send({
         success: true,
         message: 'Valid sign in',
         token: doc._id,
-        user,
+        user: prepareUser(user),
       })
     })
 
@@ -183,22 +194,10 @@ router.get('/current', (req, res) => {
       })
     }
 
-    const { email, movies, games, tv, books, _id: id, group } = user[0];
-
-    const currentUser = {
-      email,
-      movies,
-      games,
-      tv,
-      books,
-      id,
-      isAdmin: group === 'admin',
-    }
-
     return res.send({
       succes: true,
       message: 'Success',
-      data: currentUser,
+      data: prepareUser(user[0]),
     })
   })
 })

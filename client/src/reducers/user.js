@@ -13,6 +13,7 @@ const initialState = {
   id: null,
   group: null,
   isLogin: false,
+  isAdmin: false,
   movies: [],
   tv: [],
   games: [],
@@ -27,6 +28,7 @@ const resetState = state => {
     id: null,
     group: null,
     isLogin: false,
+    isAdmin: false,
     movies: [],
     tv: [],
     games: [],
@@ -74,14 +76,9 @@ export default function (state = initialState, action) {
 
       return {
         ...state,
-        email: payload.email,
-        id: payload._id,
-        group: payload.group,
+        ...payload,
+        token,
         isLogin: true,
-        movies: payload.movies,
-        tv: payload.tv,
-        games: payload.games,
-        token: token,
         errorMessage: null,
         successMessage: null,
       }
@@ -93,7 +90,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLogin: true,
-        userId: action.userId,
       }
 
     case USER_SIGN_IN_ERROR:

@@ -93,8 +93,6 @@ class Item extends Component {
       poster,
     } = this.props;
 
-    // console.log(this.props)
-
     const itemGenres = this.getGenres(genres, type);
 
     const itemIds = user ? user[type].map((item) => item.id) : [];

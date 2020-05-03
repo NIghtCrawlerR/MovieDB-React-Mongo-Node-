@@ -58,7 +58,7 @@ class List extends Component {
     } = this.props;
 
     const { loading } = this.state;
-    console.log(this.props)
+
     const filtered = idArr => {
       const allItems = user[collection];
 
