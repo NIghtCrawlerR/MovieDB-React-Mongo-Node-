@@ -12,22 +12,59 @@ const MOVIE_API_KEY = 'f173a387483cd86fc18ab172d5d822ae';
 const { normalizeData, normalizeDataFull } = lib;
 
 /**
+ * Request params for TV and Movie items list
+ * 
+ * @param {*} query 
+ * @param {*} type 
+ */
+const catalogRequest = (query, type) => ({
+  url: `${MOVIE_API_URL}/discover/${type}`,
+  method: 'get',
+  params: {
+    api_key: MOVIE_API_KEY,
+    ...query,
+  }
+});
+
+/**
+ * Request params for TV and Movie single item info
+ * 
+ * @param {*} id 
+ * @param {*} type 
+ */
+const fullItemRequest = (id, type) => ({
+  url: `${MOVIE_API_URL}/${type}/${id}`,
+  method: 'get',
+  params: {
+    api_key: MOVIE_API_KEY,
+    language: 'ru',
+    append_to_response: 'videos'
+  }
+});
+
+/**
+ * Request params for TV and Movie recommendation list
+ * 
+ * @param {*} id 
+ * @param {*} type 
+ */
+const recommendationRequest = (id, type) => ({
+  url: `${MOVIE_API_URL}/${type}/${id}/recommendations`,
+  method: 'get',
+  params: {
+    api_key: MOVIE_API_KEY,
+    language: 'ru',
+    page: 1,
+  }
+});
+
+/*
  * MOVIES
  */
-
 router.get('/movies', (req, res) => {
   const { query } = req;
 
-  const request = {
-    url: `${MOVIE_API_URL}/discover/movie`,
-    method: 'get',
-    params: {
-      api_key: MOVIE_API_KEY,
-      ...query,
-    }
-  }
-
-  axios(request)
+  axios(catalogRequest(query, 'movie'))
     .then(({ data }) => {
       const { results, page, total_pages, total_results } = data;
 
@@ -50,17 +87,7 @@ router.get('/movies', (req, res) => {
 router.get('/movies/:id', (req, res) => {
   const { params: { id } } = req;
 
-  const request = {
-    url: `${MOVIE_API_URL}/movie/${id}`,
-    method: 'get',
-    params: {
-      api_key: MOVIE_API_KEY,
-      language: 'ru',
-      append_to_response: 'videos'
-    }
-  }
-
-  axios(request)
+  axios(fullItemRequest(id, 'movie'))
     .then(({ data }) => {
       return res.send({
         succes: true,
@@ -72,17 +99,7 @@ router.get('/movies/:id', (req, res) => {
 router.get('/movies/:id/recommended', (req, res) => {
   const { params: { id } } = req;
 
-  const request = {
-    url: `${MOVIE_API_URL}/movie/${id}/recommendations`,
-    method: 'get',
-    params: {
-      api_key: MOVIE_API_KEY,
-      language: 'ru',
-      page: 1,
-    }
-  }
-
-  axios(request)
+  axios(recommendationRequest(id, 'movie'))
     .then(({ data }) => {
       return res.send({
         succes: true,
@@ -97,22 +114,13 @@ router.get('/movies/:id/recommended', (req, res) => {
     })
 })
 
-/**
+/*
  * TV
  */
 router.get('/tv', (req, res) => {
   const { query } = req;
 
-  const request = {
-    url: `${MOVIE_API_URL}/discover/tv`,
-    method: 'get',
-    params: {
-      api_key: MOVIE_API_KEY,
-      ...query,
-    }
-  }
-
-  axios(request)
+  axios(catalogRequest(query, 'tv'))
     .then(({ data }) => {
       const { results, page, total_pages, total_results } = data;
 
@@ -135,17 +143,7 @@ router.get('/tv', (req, res) => {
 router.get('/tv/:id', (req, res) => {
   const { params: { id } } = req;
 
-  const request = {
-    url: `${MOVIE_API_URL}/tv/${id}`,
-    method: 'get',
-    params: {
-      api_key: MOVIE_API_KEY,
-      language: 'ru',
-      append_to_response: 'videos'
-    }
-  }
-
-  axios(request)
+  axios(fullItemRequest(id, 'tv'))
     .then(({ data }) => {
       return res.send({
         succes: true,
@@ -157,19 +155,8 @@ router.get('/tv/:id', (req, res) => {
 router.get('/tv/:id/recommended', (req, res) => {
   const { params: { id } } = req;
 
-  const request = {
-    url: `${MOVIE_API_URL}/tv/${id}/recommendations`,
-    method: 'get',
-    params: {
-      api_key: MOVIE_API_KEY,
-      language: 'ru',
-      page: 1,
-    }
-  }
-
-  axios(request)
+  axios(recommendationRequest(id, 'tv'))
     .then(({ data }) => {
-
       return res.send({
         succes: true,
         data: normalizeData(data.results),
@@ -183,7 +170,7 @@ router.get('/tv/:id/recommended', (req, res) => {
     })
 })
 
-/**
+/*
  * GAMES
  */
 router.get('/games', (req, res) => {
