@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import ItemsList from 'components/ItemsList'
 import Head from 'components/Head'
-import Image from 'components/Image'
+import { Image } from 'components/UI'
 
 import './index.scss';
 

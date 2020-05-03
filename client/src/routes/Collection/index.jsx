@@ -2,12 +2,10 @@ import React from "react";
 import { withRouter } from 'react-router-dom';
 import axios from "axios";
 
-import ItemsList from "components/ItemsList"
-import Loader from 'components/Loader';
+import ItemsList from 'components/ItemsList';
 import ErrorBoundary from 'components/ErrorBoundary';
 import PageTitle from 'components/PageTitle';
-import Input from 'components/Input';
-import Button from 'components/Button';
+import { Button, Loader, Input } from 'components/UI';
 
 const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
 
@@ -62,11 +60,7 @@ class Collection extends React.Component {
       image,
     }
 
-    axios.post(`${host}/api/collection/update/${alias}`, { values })
-      .then(res => {
-        console.log(res)
-      })
-      .catch(err => console.log(err))
+    axios.post(`${host}/api/collection/update/${alias}`, { values });
   }
 
   render() {

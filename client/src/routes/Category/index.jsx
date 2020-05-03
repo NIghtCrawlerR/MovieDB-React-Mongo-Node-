@@ -1,15 +1,14 @@
 import React from "react";
-import { Redirect } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { Loader } from 'components/UI';
 import SliderTabs from 'components/SliderTabs';
 import CollectionForm from './components/CollectionForm';
-import Loader from 'components/Loader';
 import Collection from './components/Collection';
 
-import { If } from 'components/helpers/conditional-statement';
+import { If } from 'components/helpers/ConditionalRender';
 
 import {
   createCollection,

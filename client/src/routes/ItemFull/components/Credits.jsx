@@ -5,7 +5,7 @@ import axios from 'axios';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
 
-import Image from 'components/Image';
+import { Image } from 'components/UI';
 import InfoBlock from './InfoBlock';
 
 const BASE_URL = process.env.REACT_APP_MOVIE_DB_URL;

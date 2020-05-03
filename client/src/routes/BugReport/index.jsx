@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import Input from 'components/Input';
-import Loader from 'components/Loader';
 import PageTitle from 'components/PageTitle';
 import Head from 'components/Head';
-import Button from 'components/Button';
+import { Button, Loader, Input } from 'components/UI';
 
 class BugReportForm extends Component {
   constructor(props) {

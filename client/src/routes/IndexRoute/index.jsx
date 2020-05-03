@@ -15,11 +15,11 @@ import Collection from 'routes/Collection';
 import BugReport from 'routes/BugReport';
 
 // Components
+import { Loader } from 'components/UI';
 import Header from 'components/partials/Header';
 import Sidebar from 'components/partials/Sidebar';
 import Footer from 'components/partials/Footer';
 import Modal from 'components/Modal';
-import Loader from 'components/Loader';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 // Actions

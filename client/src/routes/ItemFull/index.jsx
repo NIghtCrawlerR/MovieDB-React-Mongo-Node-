@@ -11,18 +11,16 @@ import {
 
 import Head from 'components/Head';
 import CollectionsSelector from 'components/CollectionsSelector';
+import { Button, Loader, Icon, Image, Tabs } from 'components/UI';
+
 import VideoBlock from './components/VideoBlock';
 import InfoBlock from './components/InfoBlock';
 import ItemsRecommended from 'components/ItemsRecommended';
-import Loader from 'components/Loader';
 import Credits from './components/Credits';
 import MainInfo from './components/MainInfo';
 import Overview from './components/Overview';
 import TopInfo from './components/TopInfo';
-import Tabs from 'components/Tabs';
-import Image from 'components/Image';
-import Button from 'components/Button';
-import Icon from 'components/Icon';
+
 import { ITEM_FULL_TABS } from 'config/constants';
 
 import {

@@ -3,7 +3,7 @@ import { Route, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
 import PageHeader from 'components/PageHeader';
-import Tabs from 'components/Tabs';
+import { Tabs } from 'components/UI';
 import Items from './components/Items';
 import Filter from './components/Filter';
 

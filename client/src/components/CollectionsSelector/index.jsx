@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import Dropdown from 'components/Dropdown'
 import DropdownActivator from 'components/Dropdown/DropdownActivator'
 import DropdownMenu from 'components/Dropdown/DropdownMenu'
-import Button from 'components/Button';
+import { Button } from 'components/UI';
 // import Input from 'components/Input';
 
 import { updateCollections } from "actions"

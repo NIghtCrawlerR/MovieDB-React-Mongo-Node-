@@ -1,7 +1,6 @@
 import React from 'react';
 
-import Input from 'components/Input';
-import Button from 'components/Button';
+import { Button, Input } from 'components/UI';
 
 class CollectionForm extends React.Component {
   constructor() {

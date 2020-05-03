@@ -7,6 +7,8 @@ import PageHeader from 'components/PageHeader';
 import PageTitle from 'components/PageTitle';
 import { catalogTabs } from 'config/constants';
 
+import { If } from 'components/helpers/ConditionalRender';
+
 import './index.scss';
 
 class Homepage extends React.Component {
@@ -39,20 +41,26 @@ class Homepage extends React.Component {
         <div className="container-fluid mt-5">
           <BrickTabs path="/collections" main tabs={catalogTabs} />
 
-          {!!movies.length && (<div className="homepage__collection-group">
-            <PageTitle title="Movies collections" buttonBack={false} />
-            <SliderTabs tabs={this.createTabs("movies")} />
-          </div>)}
+          <If condition={!!movies.length}>
+            <div className="homepage__collection-group">
+              <PageTitle title="Movies collections" buttonBack={false} />
+              <SliderTabs tabs={this.createTabs("movies")} />
+            </div>
+          </If>
 
-          {!!tv.length && (<div className="homepage__collection-group">
-            <PageTitle title="TV collections" buttonBack={false} />
-            <SliderTabs tabs={this.createTabs("tv")} />
-          </div>)}
+          <If condition={!!tv.length}>
+            <div className="homepage__collection-group">
+              <PageTitle title="TV collections" buttonBack={false} />
+              <SliderTabs tabs={this.createTabs("tv")} />
+            </div>
+          </If>
 
-        {!!games.length && (<div className="homepage__collection-group">
-          <PageTitle title="Games collections" buttonBack={false} />
-          <SliderTabs tabs={this.createTabs("games")} />
-        </div>)}
+          <If condition={!!games.length}>
+            <div className="homepage__collection-group">
+              <PageTitle title="Games collections" buttonBack={false} />
+              <SliderTabs tabs={this.createTabs("games")} />
+            </div>
+          </If>
         </div>
       </div>
     );

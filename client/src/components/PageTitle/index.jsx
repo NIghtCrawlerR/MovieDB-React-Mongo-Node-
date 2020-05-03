@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { If } from 'components/helpers/conditional-statement';
-import Icon from 'components/Icon';
-import Button from 'components/Button';
+import { If } from 'components/helpers/ConditionalRender';
+import { Button, Icon } from 'components/UI';
+
 import './index.css';
 
 const goBack = () => {

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 import ItemsList from 'components/ItemsList';
 import Head from 'components/Head';
+import { Loader } from 'components/UI';
 
 import { getWishlist } from 'actions';
-import Loader from 'components/Loader';
 
 class List extends Component {
   state = {

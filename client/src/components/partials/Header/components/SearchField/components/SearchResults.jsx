@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Tabs from 'components/Tabs';
+import { Tabs } from 'components/UI';
 import SearchItem from './SearchItem';
 
 class SearchResults extends React.Component {

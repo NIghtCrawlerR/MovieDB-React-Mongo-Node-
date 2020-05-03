@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
-import Icon from '../Icon';
-import { If } from 'components/helpers/conditional-statement';
+import { Icon } from 'components/UI';
+import { If } from 'components/helpers/ConditionalRender';
 
 import './index.scss';
 
 const SCREEN_WIDTH = document.documentElement.clientWidth;
 const SLIDE_WIDTH = 260;
-const VISIBLE_ITEMS_COUNT = Math.floor(SCREEN_WIDTH/SLIDE_WIDTH);
+const VISIBLE_ITEMS_COUNT = Math.floor(SCREEN_WIDTH / SLIDE_WIDTH);
 
 function SliderTabs(props) {
   const {
@@ -43,7 +43,7 @@ function SliderTabs(props) {
               key={i}
               className={loading ? 'loading' : null}
             >
-              <img src={tab.image} className="slider-item__image" alt=""/>
+              <img src={tab.image} className="slider-item__image" alt="" />
               <NavLink
                 key={tab.value}
                 activeClassName="active"

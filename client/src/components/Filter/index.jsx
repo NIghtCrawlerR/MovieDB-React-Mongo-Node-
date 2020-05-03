@@ -5,7 +5,7 @@ import axios from 'axios'
 import { SORT_OPTIONS } from 'config/constants'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Button from 'components/Button';
+import { Button } from 'components/UI';
 
 import './index.scss'
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Image from 'components/Image';
+import { Image } from 'components/UI';
 
 const SearchItem = ({
   category,

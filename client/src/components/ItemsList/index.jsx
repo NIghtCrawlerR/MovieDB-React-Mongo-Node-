@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { Loader } from 'components/UI'
 import Item from '../Item'
-import Loader from '../Loader'
-import { Choose, If, Else } from '../helpers/conditional-statement';
+import { Choose, If, Else } from 'components/helpers/ConditionalRender';
 
 import './index.css'
 

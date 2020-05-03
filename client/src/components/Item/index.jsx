@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { get } from 'lodash';
 
+import { Image } from 'components/UI';
 import CollectionsSelector from 'components/CollectionsSelector';
-import Image from 'components/Image';
 import ItemActions from './components/ItemActions';
-import { If } from 'components/helpers/conditional-statement';
+import { If } from 'components/helpers/ConditionalRender';
 import { getRatingColor } from 'lib';
 
 import {

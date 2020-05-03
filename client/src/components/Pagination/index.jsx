@@ -2,7 +2,7 @@ import React from 'react';
 import ReactPaginate from 'react-paginate';
 import PropTypes from 'prop-types';
 
-import Icon from '../Icon';
+import { Icon } from 'components/UI';
 
 import './index.scss';
 

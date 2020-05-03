@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
-import Loader from 'components/Loader';
+
+import { Loader } from 'components/UI';
 
 const API_KEY = 'acf4573044c691934aba5502699434db';
 
@@ -70,7 +71,7 @@ export default class VideoBlock extends React.Component {
         {loadingVideo
           ? <Loader />
           : game_trailers && game_trailers.length > 0
-            ? 
+            ?
             <Fragment>
               <iframe width="100%" height="400px" title="trailer" src={`https://www.youtube.com/embed/${game_trailers[this.state.currentVideo].video_id}`}></iframe>
               {game_trailers.length > 1 ?

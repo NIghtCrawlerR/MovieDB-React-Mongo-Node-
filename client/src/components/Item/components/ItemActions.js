@@ -1,7 +1,8 @@
 import React from 'react';
+import { get } from 'lodash';
 
-import Icon from 'components/Icon';
-import { Choose, If, Else } from 'components/helpers/conditional-statement';
+import { Icon } from 'components/UI';
+import { Choose, If, Else } from 'components/helpers/ConditionalRender';
 
 const ItemActions = ({
   wishlist,
@@ -15,17 +16,14 @@ const ItemActions = ({
 }) => {
   return (
     <div className="single-item__actions">
-      {
-        wishlist && currentItem
-          ? <>
-            <span className="text-info" onClick={() => itemAction('watched')}>
-              <Icon prefix={currentItem.watched ? 'fas' : 'far'} name="flag" />
-            </span>
-            <span className="text-red" title="like" onClick={() => itemAction('liked')}>
-              <Icon prefix={currentItem.liked ? 'fas' : 'far'} name="heart" />
-            </span>
-          </> : null
-      }
+      <If condition={wishlist && currentItem}>
+        <span className="text-info" onClick={() => itemAction('watched')}>
+          <Icon prefix={get(currentItem, 'watched', false) ? 'fas' : 'far'} name="flag" />
+        </span>
+        <span className="text-red" title="like" onClick={() => itemAction('liked')}>
+          <Icon prefix={get(currentItem, 'liked', false) ? 'fas' : 'far'} name="heart" />
+        </span>
+      </If>
 
       <If condition={user}>
         <Choose>
