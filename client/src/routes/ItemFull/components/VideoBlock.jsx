@@ -6,13 +6,10 @@ import { Loader } from 'components/UI';
 const API_KEY = 'acf4573044c691934aba5502699434db';
 
 export default class VideoBlock extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      game_trailers: [],
-      currentVideo: 0,
-    };
-  }
+  state = {
+    game_trailers: [],
+    currentVideo: 0,
+  };
 
   componentDidMount() {
     const { gameTitle } = this.props;

@@ -3,13 +3,10 @@ import React from 'react';
 import { Button, Input } from 'components/UI';
 
 class CollectionForm extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      title: "",
-      aliasName: "",
-    };
-  }
+  state = {
+    title: "",
+    aliasName: "",
+  };
 
   createCollection = () => {
     const { title, aliasName } = this.state;

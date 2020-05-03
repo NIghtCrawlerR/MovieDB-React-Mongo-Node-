@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import { Icon, Input } from 'components/UI';
-import Dropdown from 'components/Dropdown';
-import DropdownActivator from 'components/Dropdown/DropdownActivator';
-import DropdownMenu from 'components/Dropdown/DropdownMenu';
+import { Dropdown, DropdownActivator, DropdownMenu } from 'components/Dropdown';
 import SearchResults from './components/SearchResults';
 
 import './index.scss';
@@ -15,16 +13,12 @@ const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY;
 const lang = 'ru';
 
 export default class SearchField extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      timeout: 0,
-      searchResult: {},
-      dropdown: false,
-      query: "",
-    };
-  }
+  state = {
+    timeout: 0,
+    searchResult: {},
+    dropdown: false,
+    query: "",
+  };
 
   updateState = (category, results) => {
     this.setState(prevState => ({

@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { flowRight } from 'lodash';
 
+import { If } from 'components/helpers/ConditionalRender';
 import ItemsList from 'components/ItemsList';
-import Filter from 'components/Filter';
 import PageHeader from 'components/PageHeader';
 import Pagination from 'components/Pagination';
 import Head from 'components/Head';
@@ -95,16 +96,14 @@ class Catalog extends Component {
         <div className="container-fluid">
           <ItemsList loading={loading} items={catalog[page]} type={page} />
 
-          {totalPages > 1
-            ? (
-              <Pagination
-                loading={loading}
-                totalPages={totalPages}
-                currentPage={+this.getCurrentPage()}
-                changePage={this.changePage}
-              />
-            )
-            : null}
+          <If condition={totalPages > 1}>
+            <Pagination
+              loading={loading}
+              totalPages={totalPages}
+              currentPage={+this.getCurrentPage()}
+              changePage={this.changePage}
+            />
+          </If>
         </div>
       </div>
     );
@@ -126,9 +125,12 @@ Catalog.propTypes = {
 
 const mapStateToProps = ({ catalog, user }) => ({ catalog, user });
 
-export default withRouter(connect(mapStateToProps, {
-  getMovies,
-  getTV,
-  getGames,
-  getUser,
-})(Catalog));
+export default flowRight(
+  withRouter,
+  connect(mapStateToProps, {
+    getMovies,
+    getTV,
+    getGames,
+    getUser,
+  }),
+)(Catalog);

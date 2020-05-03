@@ -11,20 +11,16 @@ import './index.scss';
 const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
 
 class PersonPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      person: {},
-      credits: [],
-      loading: false
-    }
-  }
+  state = {
+    person: {},
+    credits: [],
+    loading: false,
+  };
 
   getPersonInfo(id) {
     axios(`https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&language=ru`)
-      .then(res => {
-        this.setState({ person: res.data })
+      .then(({ data }) => {
+        this.setState({ person: data })
       })
       .catch(err => console.log(err))
   }

@@ -14,18 +14,14 @@ const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
 const lang = 'ru'
 
 export default class Filter extends Component {
-  constructor() {
-    super()
-
-    this.state = {
-      isTyping: false,
-      timeout: 0,
-      filter: {},
-      genres: null,
-      crew: null,
-      genresOptions: [],
-      peopleOptions: [],
-    }
+  state = {
+    isTyping: false,
+    timeout: 0,
+    filter: {},
+    genres: null,
+    crew: null,
+    genresOptions: [],
+    peopleOptions: [],
   }
 
   componentDidMount() {

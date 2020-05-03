@@ -2,6 +2,7 @@ import React from "react";
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { flowRight } from 'lodash';
 
 import { Loader } from 'components/UI';
 import SliderTabs from 'components/SliderTabs';
@@ -24,14 +25,11 @@ class Category extends React.Component {
     categoryCollections: PropTypes.array.isRequired,
   };
 
-  constructor() {
-    super();
-    this.state = {
-      collections: [],
-      loading: false,
-      tabs: [],
-    };
-  }
+  state = {
+    collections: [],
+    loading: false,
+    tabs: [],
+  };
 
   componentDidMount() {
     const { match: { params: { category } } } = this.props;
@@ -147,8 +145,11 @@ const mapStateToProps = ({ collections, user }) => ({
   userData: user,
 })
 
-export default withRouter(connect(mapStateToProps, {
-  createCollection,
-  deleteCollection,
-  getCollectionsFromCategory,
-})(Category));
+export default flowRight(
+  withRouter,
+  connect(mapStateToProps, {
+    createCollection,
+    deleteCollection,
+    getCollectionsFromCategory,
+  }),
+)(Category);

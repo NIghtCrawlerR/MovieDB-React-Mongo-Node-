@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { flowRight } from 'lodash';
 
 import {
   FacebookIcon,
@@ -32,14 +33,11 @@ import {
 import './index.scss';
 
 class ItemFull extends Component {
-  constructor() {
-    super();
-    this.state = {
-      loading: false,
-      tabSelected: 'main-info',
-      shareLink: '',
-    };
-  }
+  state = {
+    loading: false,
+    tabSelected: 'main-info',
+    shareLink: '',
+  };
 
   componentDidMount() {
     const {
@@ -280,13 +278,12 @@ class ItemFull extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-  catalog: state.catalog,
-});
+const mapStateToProps = ({ user, catalog }) => ({ user, catalog });
 
-export default withRouter(connect(mapStateToProps, {
-  addItemToWishlist,
-  deleteItemFromWishlist,
-  getFullItem,
-})(ItemFull));
+export default flowRight(
+  withRouter,
+  connect(mapStateToProps, {
+    addItemToWishlist,
+    deleteItemFromWishlist,
+    getFullItem,
+  }))(ItemFull);

@@ -2,9 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Icon } from 'components/UI';
-import Dropdown from 'components/Dropdown';
-import DropdownActivator from 'components/Dropdown/DropdownActivator';
-import DropdownMenu from 'components/Dropdown/DropdownMenu';
+import { Dropdown, DropdownActivator, DropdownMenu } from 'components/Dropdown';
 import SearchField from './components/SearchField';
 import UserMenu from './UserMenu';
 

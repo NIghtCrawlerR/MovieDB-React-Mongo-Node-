@@ -10,17 +10,13 @@ import { Button, Loader, Input } from 'components/UI';
 const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
 
 class Collection extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      collections: [],
-      loading: false,
-      title: "",
-      alias: "",
-      image: "",
-    };
-  }
+  state = {
+    collections: [],
+    loading: false,
+    title: "",
+    alias: "",
+    image: "",
+  };
 
   componentDidMount() {
     const { category, alias } = this.props.match.params

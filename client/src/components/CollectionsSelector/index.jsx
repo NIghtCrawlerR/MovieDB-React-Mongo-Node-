@@ -3,11 +3,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
 import Form from 'react-bootstrap/Form'
-import Dropdown from 'components/Dropdown'
-import DropdownActivator from 'components/Dropdown/DropdownActivator'
-import DropdownMenu from 'components/Dropdown/DropdownMenu'
+import { Dropdown, DropdownActivator, DropdownMenu } from 'components/Dropdown';
 import { Button } from 'components/UI';
-// import Input from 'components/Input';
 
 import { updateCollections } from "actions"
 
@@ -40,14 +37,6 @@ class CollectionsSelector extends React.Component {
                   id={item._id + itemId}
                   checked={item.items && item.items.includes(itemId)}
                 />
-                // <Input
-                //   type="checkbox"
-                //   key={item._id}
-                //   onChange={e => this.handleChange(e, item.alias, itemId)}
-                //   label={item.title}
-                //   id={item._id + itemId}
-                //   checked={item.items.includes(itemId)}
-                // />
               ))
             }
           </DropdownMenu>
@@ -66,8 +55,8 @@ CollectionsSelector.defaultProps = {
   collections: [],
 }
 
-const mapStateToProps = state => ({
-  collections: state.collections.collections
+const mapStateToProps = ({ collections }) => ({
+  collections: collections.collections
 })
 
 export default connect(

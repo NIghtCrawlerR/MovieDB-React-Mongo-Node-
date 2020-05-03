@@ -27,16 +27,12 @@ const ProfileImage = ({ name, category, id, profile_path }) => (
 )
 
 class Credits extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      cast: [],
-      directing: [],
-      production: [],
-      writing: [],
-    };
-  }
+  state = {
+    cast: [],
+    directing: [],
+    production: [],
+    writing: [],
+  };
 
   componentDidMount() {
     const { id, category } = this.props;

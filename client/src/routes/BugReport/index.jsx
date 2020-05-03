@@ -6,16 +6,12 @@ import Head from 'components/Head';
 import { Button, Loader, Input } from 'components/UI';
 
 class BugReportForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      title: '',
-      body: '',
-      email: '',
-      loading: false,
-    };
-  }
+  state = {
+    title: '',
+    body: '',
+    email: '',
+    loading: false,
+  };
 
   onSubmit = (e) => {
     e.preventDefault();

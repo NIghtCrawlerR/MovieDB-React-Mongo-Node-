@@ -13,17 +13,13 @@ import { login, register } from 'actions';
 import './index.scss';
 
 class AuthForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      email: '',
-      password: '',
-      passwordConfirm: '',
-      errorMessage: '',
-      loading: false,
-    };
-  }
+  state = {
+    email: '',
+    password: '',
+    passwordConfirm: '',
+    errorMessage: '',
+    loading: false,
+  };
 
   onSubmit = (e) => {
     e.preventDefault();

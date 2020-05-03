@@ -49,9 +49,7 @@ class Modal extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  settings: state.settings
-});
+const mapStateToProps = ({ settings }) => ({ settings });
 
 export default connect(mapStateToProps, {
   toggleModal,

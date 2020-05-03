@@ -135,10 +135,13 @@ class Item extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-  moviesGenres: state.collections.moviesGenres,
-  collections: state.collections.collections,
+const mapStateToProps = ({
+  user,
+  collections: { moviesGenres, collections },
+}) => ({
+  user,
+  moviesGenres,
+  collections,
 });
 
 export default connect(mapStateToProps, {

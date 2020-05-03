@@ -110,6 +110,4 @@ const mapStateToProps = ({ user, collections, wishlist }) => ({
   wishlist,
 })
 
-export default connect(mapStateToProps, {
-  getWishlist,
-})(List);
+export default connect(mapStateToProps, { getWishlist })(List);
