@@ -87,7 +87,7 @@ class Item extends Component {
 
     const itemGenres = this.getGenres(genres, type);
 
-    const itemIds = user ? user[type].map((item) => item.id) : [];
+    const itemIds = user ? (user[type] || []).map((item) => item.id) : [];
 
     const currentItem = this.currentItem();
     const ratingValue = rating;

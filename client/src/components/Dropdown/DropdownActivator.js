@@ -1,19 +1,24 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-class DropdownActivator extends React.Component {
-  render() {
-    const { children, onClick, className } = this.props;
+const DropdownActivator = ({ children, onClick, className }) => (
+  <div
+    className={classNames('dropdown-activator', className)}
+    onClick={onClick}
+  >
+    {children}
+  </div>
+);
 
-    return (
-      <div
-        className={classNames('dropdown-activator', className)}
-        onClick={onClick}
-      >
-        {children}
-      </div>
-    );
-  }
-}
+DropdownActivator.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+};
+
+DropdownActivator.defaultProps = {
+  className: null,
+};
 
 export default DropdownActivator;

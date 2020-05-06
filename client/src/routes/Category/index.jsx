@@ -25,9 +25,7 @@ class Category extends React.Component {
   };
 
   state = {
-    collections: [],
     loading: false,
-    tabs: [],
   };
 
   componentDidMount() {
@@ -70,7 +68,7 @@ class Category extends React.Component {
     createCollection(userData.id, collection);
   }
 
-  createTabs(collections, category) {
+  createTabs = (collections, category) => {
     const all = {
       title: `All ${category}`,
       value: 'all',
@@ -89,19 +87,10 @@ class Category extends React.Component {
     return [all, ...tabs];
   }
 
-  onChange = (e) => {
-    const { name, value } = e.target;
-
-    this.setState({
-      [name]: value,
-      aliasName: value.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-    });
-  }
+  onChange = ({ target: { name, value } }) => this.setState({ [name]: value });
 
   removeColection(id) {
-    if (window.confirm('Delete full collection?')) {
-      this.props.deleteCollection(id);
-    }
+    this.props.deleteCollection(id);
   }
 
   render() {

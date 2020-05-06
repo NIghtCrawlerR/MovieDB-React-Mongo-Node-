@@ -23,6 +23,14 @@ module.exports = {
       "babel",
       "react"
   ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   "rules": {
       "indent": ["error", 2],
       "quotes": [ "error", "single" ],
@@ -44,5 +52,7 @@ module.exports = {
       "react/jsx-props-no-spreading": 0,
       "react/jsx-filename-extension": 0,
       "react/state-in-constructor": 0,
-  }
+      "jsx-a11y/label-has-associated-control": 0,
+      "react/static-property-placement": 0,
+  },
 };

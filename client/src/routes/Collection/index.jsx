@@ -27,25 +27,21 @@ class Collection extends React.Component {
     this.setState({ loading: true });
 
     axios.get(`${host}/api/collection/${category}/${alias}`)
-      .then((res) => {
-        const collections = res.data;
+      .then(({ data }) => {
+        const { title, image } = data;
 
         this.setState({
-          collections,
+          collections: data,
           loading: false,
-          alias: collections.alias,
-          title: collections.title,
-          image: collections.image,
+          alias,
+          title,
+          image,
         });
       })
       .catch((err) => console.log(err));
   }
 
-  changeHandler = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  }
+  changeHandler = ({ target: { name, value } }) => this.setState({ [name]: value });
 
   onSubmit = () => {
     const { title, alias, image } = this.state;

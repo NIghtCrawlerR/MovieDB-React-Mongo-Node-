@@ -5,10 +5,10 @@ import classNames from 'classnames';
 import './index.scss';
 
 const Button = ({
-  onClick, children, type, className, variant, outlined,
+  onClick, children, className, variant, outlined,
 }) => (
   <button
-    type={type}
+    type="button"
     className={classNames('Button', `Button--${variant}`, className, {
       'Button--outlined': outlined,
     })}
@@ -19,15 +19,14 @@ const Button = ({
 );
 
 Button.propTypes = {
-  type: PropTypes.string,
   className: PropTypes.string,
   variant: PropTypes.string,
   outlined: PropTypes.bool,
   onClick: PropTypes.func,
+  children: PropTypes.node.isRequired,
 };
 
 Button.defaultProps = {
-  type: 'button',
   onClick: () => {},
   className: null,
   variant: 'default',

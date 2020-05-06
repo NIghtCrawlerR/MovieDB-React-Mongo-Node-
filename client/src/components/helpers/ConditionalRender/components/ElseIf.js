@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default class ElseIf extends React.Component {
-  render() {
-    const { children } = this.props;
+const ElseIf = ({ children }) => children;
 
-    return children;
-  }
-}
+ElseIf.propTypes = {
+  children: PropTypes.node,
+};
+
+export default ElseIf;

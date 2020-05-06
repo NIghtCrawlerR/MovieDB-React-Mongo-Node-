@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const UserPopup = ({ logout, email }) => (
   <div className="user-menu">
@@ -12,5 +13,10 @@ const UserPopup = ({ logout, email }) => (
     </div>
   </div>
 );
+
+UserPopup.propTypes = {
+  logout: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+};
 
 export default UserPopup;

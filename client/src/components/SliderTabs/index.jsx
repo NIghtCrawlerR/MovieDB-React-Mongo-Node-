@@ -16,60 +16,52 @@ const SCREEN_WIDTH = document.documentElement.clientWidth;
 const SLIDE_WIDTH = 260;
 const VISIBLE_ITEMS_COUNT = Math.floor(SCREEN_WIDTH / SLIDE_WIDTH);
 
-function SliderTabs(props) {
-  const {
-    path,
-    tabs,
-    loading,
-  } = props;
+const SliderTabs = ({ path, tabs, loading }) => (
+  <div className="slider-tabs">
+    <CarouselProvider
+      naturalSlideWidth={30}
+      naturalSlideHeight={125}
+      totalSlides={tabs.length}
+      visibleSlides={VISIBLE_ITEMS_COUNT}
+      dragEnabled={false}
+    >
+      <If condition={tabs.length > VISIBLE_ITEMS_COUNT}>
+        <ButtonBack>
+          <Icon name="chevron-left" />
+        </ButtonBack>
+      </If>
 
-  return (
-    <div className="slider-tabs">
-      <CarouselProvider
-        naturalSlideWidth={30}
-        naturalSlideHeight={125}
-        totalSlides={tabs.length}
-        visibleSlides={VISIBLE_ITEMS_COUNT}
-        dragEnabled={false}
-      >
-        <If condition={tabs.length > VISIBLE_ITEMS_COUNT}>
-          <ButtonBack>
-            <Icon name="chevron-left" />
-          </ButtonBack>
-        </If>
-
-        <Slider>
-          {tabs.map((tab, i) => (
-            <Slide
-              index={1}
-              key={i}
-              className={loading ? 'loading' : null}
+      <Slider>
+        {tabs.map((tab, i) => (
+          <Slide
+            index={1}
+            key={i}
+            className={loading ? 'loading' : null}
+          >
+            <img src={tab.image} className="slider-item__image" alt="" />
+            <NavLink
+              key={tab.value}
+              activeClassName="active"
+              className="slider-item__link"
+              to={`${path}/${tab.link}`}
             >
-              <img src={tab.image} className="slider-item__image" alt="" />
-              <NavLink
-                key={tab.value}
-                activeClassName="active"
-                className="slider-item__link"
-                to={`${path}/${tab.link}`}
-              >
-                <If condition={!loading}>
-                  {tab.title}
-                </If>
-              </NavLink>
-            </Slide>
-          ))}
+              <If condition={!loading}>
+                {tab.title}
+              </If>
+            </NavLink>
+          </Slide>
+        ))}
 
-        </Slider>
-        <If condition={tabs.length > VISIBLE_ITEMS_COUNT}>
-          <ButtonNext>
-            <Icon name="chevron-right" />
-          </ButtonNext>
-        </If>
-      </CarouselProvider>
+      </Slider>
+      <If condition={tabs.length > VISIBLE_ITEMS_COUNT}>
+        <ButtonNext>
+          <Icon name="chevron-right" />
+        </ButtonNext>
+      </If>
+    </CarouselProvider>
 
-    </div>
-  );
-}
+  </div>
+);
 
 SliderTabs.propTypes = {
   path: PropTypes.string,
@@ -77,10 +69,12 @@ SliderTabs.propTypes = {
     title: PropTypes.string,
     text: PropTypes.string,
   })).isRequired,
+  loading: PropTypes.bool,
 };
 
 SliderTabs.defaultProps = {
-  path: '',
+  path: null,
+  loading: false,
 };
 
 export default SliderTabs;

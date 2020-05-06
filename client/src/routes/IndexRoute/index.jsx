@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -46,16 +45,14 @@ class RootComponent extends React.Component {
     this.verifyUser();
   }
 
-  verifyUser() {
+  verifyUser = () => {
     if (!this.token) return false;
 
     const { verifyUser } = this.props;
     verifyUser(this.token);
   }
 
-  logout = (e) => {
-    e.preventDefault();
-
+  logout = () => {
     const { logout } = this.props;
     logout(this.token);
   }

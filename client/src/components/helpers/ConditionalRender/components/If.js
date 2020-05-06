@@ -1,21 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class If extends React.Component {
-  static propTypes = {
-    condition: PropTypes.any,
-  };
-
-  static defaultProps = {
-    condition: null,
-  };
-
-  render() {
-    const { condition, children } = this.props;
-
-    if (condition) {
-      return children;
-    }
-    return null;
+const If = ({ condition, children }) => {
+  if (condition) {
+    return children;
   }
-}
+  return null;
+};
+
+If.propTypes = {
+  condition: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.number,
+    PropTypes.array,
+  ]),
+  children: PropTypes.node,
+};
+
+If.defaultProps = {
+  children: null,
+};
+
+export default If;

@@ -108,7 +108,7 @@ class AuthForm extends Component {
             <p className="info-message info-message--success">{successMessage}</p>
           </If>
           <br />
-          <Button type="submit">
+          <Button onClick={this.onSubmit}>
             {registerForm ? 'Register' : 'Log in'}
           </Button>
         </form>

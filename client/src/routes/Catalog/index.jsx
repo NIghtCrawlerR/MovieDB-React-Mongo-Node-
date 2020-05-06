@@ -24,7 +24,7 @@ class Catalog extends Component {
       catalog,
     } = this.props;
 
-    if (catalog[page].length === 0) {
+    if ((catalog[page] || []).length === 0) {
       this.getItems(this.getCurrentPage());
     }
   }

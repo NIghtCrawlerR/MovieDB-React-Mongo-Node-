@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import BrickTabs from 'components/BrickTabs';
 import SliderTabs from 'components/SliderTabs';
@@ -7,64 +8,58 @@ import PageHeader from 'components/PageHeader';
 import PageTitle from 'components/PageTitle';
 import { catalogTabs } from 'config/constants';
 
-import { If } from 'components/helpers/ConditionalRender';
-
 import './index.scss';
 
-class Homepage extends React.Component {
-  createTabs = (category) => {
-    const { collections } = this.props;
+const Homepage = ({ collections }) => {
+  const createTabs = (category) => collections
+    .filter((collection) => collection.category === category)
+    .map(({ title, alias, image }) => ({
+      title,
+      value: alias,
+      link: `collection/${category}/${alias}`,
+      image,
+    }));
 
-    return collections.filter((collection) => collection.category === category).map((collection) => {
-      const { title, alias, image } = collection;
-      return {
-        title,
-        value: alias,
-        link: `collection/${category}/${alias}`,
-        image,
-      };
-    });
-  }
+  const renderCollection = (collection) => {
+    const tabs = createTabs(collection);
 
-  render() {
-    const movies = this.createTabs('movies');
-    const tv = this.createTabs('tv');
-    const games = this.createTabs('games');
+    if (!tabs.length) return null;
 
     return (
-      <div className="homapage">
-        <Head title="Fiction finder - Collections" />
-        <PageHeader
-          title="Discover your favourite movies, tv shows and games"
-          text="All in one place. Online library with more than 100 000 items. Find here everything you want."
-        />
-        <div className="container-fluid mt-5">
-          <BrickTabs path="/collections" main tabs={catalogTabs} />
-
-          <If condition={!!movies.length}>
-            <div className="homepage__collection-group">
-              <PageTitle title="Movies collections" buttonBack={false} />
-              <SliderTabs tabs={this.createTabs('movies')} />
-            </div>
-          </If>
-
-          <If condition={!!tv.length}>
-            <div className="homepage__collection-group">
-              <PageTitle title="TV collections" buttonBack={false} />
-              <SliderTabs tabs={this.createTabs('tv')} />
-            </div>
-          </If>
-
-          <If condition={!!games.length}>
-            <div className="homepage__collection-group">
-              <PageTitle title="Games collections" buttonBack={false} />
-              <SliderTabs tabs={this.createTabs('games')} />
-            </div>
-          </If>
-        </div>
+      <div className="homepage__collection-group">
+        <PageTitle title="Movies collections" buttonBack={false} />
+        <SliderTabs tabs={tabs} />
       </div>
     );
-  }
-}
+  };
+
+  return (
+    <div className="homapage">
+      <Head title="Fiction finder - Collections" />
+      <PageHeader
+        title="Discover your favourite movies, tv shows and games"
+        text="All in one place. Online library with more than 100 000 items. Find here everything you want."
+      />
+      <div className="container-fluid mt-5">
+        <BrickTabs path="/collections" main tabs={catalogTabs} />
+
+        {renderCollection('movies')}
+        {renderCollection('tv')}
+        {renderCollection('games')}
+      </div>
+    </div>
+  );
+};
+
+Homepage.propTypes = {
+  collections: PropTypes.arrayOf(PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.number),
+    image: PropTypes.string,
+    _id: PropTypes.string,
+    title: PropTypes.string,
+    alias: PropTypes.string,
+    category: PropTypes.string,
+  })).isRequired,
+};
 
 export default Homepage;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
 
 import DropdownActivator from './DropdownActivator';
@@ -7,13 +8,19 @@ import DropdownMenu from './DropdownMenu';
 import './index.scss';
 
 class Dropdown extends React.Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
   state = {
     isOpen: false,
   };
 
   toggleDropdown = () => {
+    const { isOpen } = this.state;
+
     this.setState({
-      isOpen: !this.state.isOpen,
+      isOpen: !isOpen,
     });
   };
 

@@ -8,7 +8,6 @@ import {
 import {
   getCollections,
   createCollection,
-  updateCollection,
   deleteCollection,
   getCollectionsFromCategory,
   updateCollections,
@@ -41,7 +40,6 @@ export {
   getFullItem,
   getCollections,
   createCollection,
-  updateCollection,
   deleteCollection,
   getCollectionsFromCategory,
   updateCollections,

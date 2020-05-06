@@ -5,18 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 import './index.scss';
 
-const Input = (props) => {
-  const {
-    type,
-    error,
-    className,
-    outlined,
-    label,
-    value,
-    errorMessage,
-    ...rest
-  } = props;
-
+const Input = ({
+  type, error, className, outlined, label, value, errorMessage, ...rest
+}) => {
   const id = uuidv4();
 
   return (
@@ -47,6 +38,7 @@ Input.propTypes = {
   value: PropTypes.string,
   required: PropTypes.bool,
   placeholder: PropTypes.string,
+  className: PropTypes.string,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
   outlined: PropTypes.bool,
@@ -62,6 +54,7 @@ Input.defaultProps = {
   value: null,
   required: false,
   placeholder: null,
+  className: null,
   onChange: () => { },
   onClick: () => { },
   outlined: false,

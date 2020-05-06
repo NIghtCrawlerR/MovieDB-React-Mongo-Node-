@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default class Else extends React.Component {
-  render() {
-    const { children } = this.props;
+const Else = ({ children }) => children;
 
-    return children;
-  }
-}
+Else.propTypes = {
+  children: PropTypes.node,
+};
+
+export default Else;

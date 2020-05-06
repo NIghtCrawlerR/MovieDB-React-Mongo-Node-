@@ -27,12 +27,8 @@ class BugReportForm extends Component {
     };
 
     axios.post('/api/movies/bugreport', report)
-      .then((res) => {
-        this.resetForm();
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-      });
+      .then(() => this.resetForm())
+      .catch(() => this.setState({ loading: false }));
   }
 
   resetForm = () => {
@@ -58,10 +54,10 @@ class BugReportForm extends Component {
     return (
       <div className="form__wrap content movie-form__wrap">
         <Head title="Fiction finder - Bug report" />
-        {loading ? <Loader /> : null}
+        {loading ? <Loader overlay /> : null}
         <PageTitle title="Bug report" />
         <br />
-        <form onSubmit={this.onSubmit}>
+        <form>
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3">
               <Input
@@ -91,7 +87,7 @@ class BugReportForm extends Component {
             </div>
           </div>
 
-          <Button type="submit">
+          <Button onClick={this.onSubmit}>
             Send report
           </Button>
         </form>

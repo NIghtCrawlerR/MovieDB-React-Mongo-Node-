@@ -1,14 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { Icon } from 'components/UI';
 import { toggleModal } from 'actions';
+import { Icon } from 'components/UI';
 import { If } from '../helpers/ConditionalRender';
 
 
 import './index.scss';
 
 class Modal extends React.Component {
+  static propTypes = {
+    toggleModal: PropTypes.func.isRequired,
+    settings: PropTypes.shape({
+      isModalOpen: PropTypes.bool,
+      errorBody: PropTypes.string,
+    }),
+  };
+
+  static defaultProps = {
+    settings: {
+      isModalOpen: false,
+      errorBody: null,
+    },
+  };
+
   closeModal = () => {
     const { toggleModal } = this.props;
 

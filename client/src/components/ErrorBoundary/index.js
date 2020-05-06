@@ -1,9 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 import './index.scss';
 
 class ErrorBoundary extends React.Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
   state = {
     hasError: false,
     error: null,
@@ -33,22 +38,25 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    if (this.state.hasError) {
+    const { hasError, error, info } = this.state;
+    const { children } = this.props;
+
+    if (hasError) {
       return (
         <div className="error__wrap">
           <h2>Oops, something went wrong :(</h2>
           <p>
             The error:
-            {this.state.error.toString()}
+            {error.toString()}
           </p>
           <p>
             Where it occured:
-            {this.state.info.componentStack}
+            {info.componentStack}
           </p>
         </div>
       );
     }
-    return this.props.children;
+    return children;
   }
 }
 

@@ -18,7 +18,7 @@ const Tabs = ({
         onClick={() => onSelect(tab.value)}
       >
         <Choose>
-          <If condition={link}>
+          <If condition={!!link}>
             <NavLink to={`${path}/${tab.value}`} className="nav-link">
               {tab.title}
             </NavLink>

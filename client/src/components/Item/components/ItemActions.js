@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import { Icon } from 'components/UI';
@@ -26,7 +27,7 @@ const ItemActions = ({
 
     <If condition={user}>
       <Choose>
-        <If condition={itemIds.includes(id)}>
+        <If condition={!!itemIds.includes(id)}>
           <span className="ml-auto" title="Remove from wishlist" onClick={deleteFromWishlist}>
             <Icon name="star text-warning" />
           </span>
@@ -40,5 +41,26 @@ const ItemActions = ({
     </If>
   </div>
 );
+
+ItemActions.propTypes = {
+  wishlist: PropTypes.bool,
+  currentItem: PropTypes.shape({
+    watched: PropTypes.bool,
+    liked: PropTypes.bool,
+  }),
+  user: PropTypes.object,
+  itemIds: PropTypes.arrayOf(PropTypes.number),
+  id: PropTypes.number.isRequired,
+  deleteFromWishlist: PropTypes.func.isRequired,
+  addToWishlist: PropTypes.func.isRequired,
+  itemAction: PropTypes.func.isRequired,
+};
+
+ItemActions.defaultProps = {
+  wishlist: false,
+  currentItem: {},
+  user: {},
+  itemIds: [],
+};
 
 export default ItemActions;

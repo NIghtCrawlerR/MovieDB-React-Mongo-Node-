@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './index.css';
+import classNames from 'classnames';
 
-function Loader(props) {
-  const { overlay } = props;
+import './index.scss';
 
-  return (
-    <div className={`${overlay ? 'spinner__wrap' : ''}`}>
-      <div className="text-center py-5">
-        <div className="spinner-border text-primary" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      </div>
+const Loader = ({ overlay }) => (
+  <div className={classNames('Loader', {
+    Loader__overlay: overlay,
+  })}
+  >
+    <div className="Loader__inner">
+      <div className="Loader__spinner" />
     </div>
-  );
-}
+  </div>
+);
 
 Loader.propTypes = {
   overlay: PropTypes.bool,

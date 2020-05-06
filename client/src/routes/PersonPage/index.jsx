@@ -17,7 +17,17 @@ class PersonPage extends Component {
     loading: false,
   };
 
-  getPersonInfo(id) {
+  componentDidMount() {
+    const { match: { params: { id } } } = this.props;
+
+    // Get info about actor
+    this.getPersonInfo(id);
+
+    // Get list of movies
+    this.getCredits(id);
+  }
+
+  getPersonInfo = (id) => {
     axios(`https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&language=ru`)
       .then(({ data }) => {
         this.setState({ person: data });
@@ -37,16 +47,6 @@ class PersonPage extends Component {
         });
       })
       .catch((err) => console.log(err));
-  }
-
-  componentDidMount() {
-    const { match: { params: { id } } } = this.props;
-
-    // Get info about actor
-    this.getPersonInfo(id);
-
-    // Get list of movies
-    this.getCredits(id);
   }
 
   render() {
