@@ -10,7 +10,7 @@ const initialState = {
   tv: [],
   games: [],
   itemFullInfo: {},
-  totalPages: 0,
+  pageCount: 0,
 }
 
 export default function (state = initialState, action) {
@@ -20,14 +20,14 @@ export default function (state = initialState, action) {
     case GET_MOVIES_TV:
       return {
         ...state,
-        totalPages: total_pages,
+        pageCount: total_pages,
         [action.category]: results,
       }
 
     case GET_GAMES:
       return {
         ...state,
-        totalPages: (count / 18).toFixed(),
+        pageCount: (count / 18).toFixed(),
         games: results,
       }
 

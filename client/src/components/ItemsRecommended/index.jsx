@@ -8,11 +8,15 @@ import Item from '../Item';
 import { GET_ITEM_RECOMMENDED_URL } from 'config/constants';
 
 class ItemsRecommended extends Component {
+  mounted = false;
+
   state = {
     items: [],
   };
 
   componentDidMount() {
+    this.mounted = true;
+
     this.getRecomended();
   }
 
@@ -22,6 +26,10 @@ class ItemsRecommended extends Component {
     if (prevProps.id !== id) {
       this.getRecomended();
     }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   getRecomended() {
@@ -34,7 +42,7 @@ class ItemsRecommended extends Component {
 
     axios(request)
       .then(({ data }) => {
-        if (data.success) {
+        if (data.success && this.mounted) {
           this.setState({ items: data.data });
         }
       })

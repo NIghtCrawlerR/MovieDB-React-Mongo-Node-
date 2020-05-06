@@ -28,14 +28,6 @@ class Wishlist extends Component {
     searchQuery: '',
   };
 
-  componentDidMount() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      this.props.history.push('/');
-      return !1;
-    }
-  }
-
   applyFilter = (values) => {
     this.setState({
       filterParams: values,

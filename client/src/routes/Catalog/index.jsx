@@ -85,7 +85,7 @@ class Catalog extends Component {
       },
     } = this.props;
 
-    const { loading, totalPages } = catalog;
+    const { loading, pageCount } = catalog;
 
     return (
       <div className="mb-5">
@@ -96,10 +96,10 @@ class Catalog extends Component {
         <div className="container-fluid">
           <ItemsList loading={loading} items={catalog[page]} type={page} />
 
-          <If condition={totalPages > 1}>
+          <If condition={pageCount > 1}>
             <Pagination
               loading={loading}
-              totalPages={totalPages}
+              pageCount={+pageCount}
               currentPage={+this.getCurrentPage()}
               changePage={this.changePage}
             />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+// import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -15,6 +15,7 @@ import Collection from 'routes/Collection';
 import BugReport from 'routes/BugReport';
 
 // Components
+import Route from 'components/Route';
 import { Loader } from 'components/UI';
 import Header from 'components/partials/Header';
 import Sidebar from 'components/partials/Sidebar';
@@ -113,7 +114,7 @@ class RootComponent extends React.Component {
             </ErrorBoundary>
           </Route>
 
-          <Route path="/wishlist">
+          <Route path="/wishlist" privateRoute={true}>
             <ErrorBoundary>
               <Wishlist />
             </ErrorBoundary>
