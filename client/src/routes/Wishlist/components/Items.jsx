@@ -14,7 +14,7 @@ class List extends Component {
 
   componentDidMount() {
     const {
-      match: { params: { collection } }
+      match: { params: { collection } },
     } = this.props;
 
     this.getList(collection);
@@ -42,7 +42,7 @@ class List extends Component {
       this.setState({ loading: true });
       getWishlist(collection, ids)
         .then(() => {
-          this.setState({ loading: false })
+          this.setState({ loading: false });
         });
     }
   }
@@ -59,35 +59,31 @@ class List extends Component {
 
     const { loading } = this.state;
 
-    const filtered = idArr => {
+    const filtered = (idArr) => {
       const allItems = user[collection];
 
-      const filteredItems = allItems.filter(item => {
-        return Object.keys(filterParams).every(key => {
-          const filterValue = filterParams[key] === '0' ? false : true;
+      const filteredItems = allItems.filter((item) => Object.keys(filterParams).every((key) => {
+        const filterValue = filterParams[key] !== '0';
 
-          return filterValue === item[key]
-        })
-      })
+        return filterValue === item[key];
+      }));
 
-      const ids = filteredItems.map(item => item.id)
+      const ids = filteredItems.map((item) => item.id);
 
-      return idArr.filter(item => ids.includes(item.id));
-    }
+      return idArr.filter((item) => ids.includes(item.id));
+    };
 
-    const filterByQuery = idArr => {
+    const filterByQuery = (idArr) => {
       const { searchQuery } = this.props;
       const items = wishlist[collection];
 
-      const filteredItems = items.filter(({ title }) => {
-        return (title || '').toLowerCase().includes(searchQuery);
-      })
+      const filteredItems = items.filter(({ title }) => (title || '').toLowerCase().includes(searchQuery));
 
-      const ids = filteredItems.map(item => item.id);
-      return idArr.filter(item => ids.includes(item.id));
-    }
+      const ids = filteredItems.map((item) => item.id);
+      return idArr.filter((item) => ids.includes(item.id));
+    };
 
-    if (loading) return <Loader />
+    if (loading) return <Loader />;
     const items = wishlist[collection];
 
     return (
@@ -108,6 +104,6 @@ const mapStateToProps = ({ user, collections, wishlist }) => ({
   user,
   collections,
   wishlist,
-})
+});
 
 export default connect(mapStateToProps, { getWishlist })(List);

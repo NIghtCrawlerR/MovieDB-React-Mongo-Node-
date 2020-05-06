@@ -9,27 +9,28 @@ const DEFAULT_IMAGE = 'https://uoslab.com/images/tovary/no_image.jpg';
 const Image = ({ path, size, className }) => {
   const getImageUrl = () => {
     if (!path) return DEFAULT_IMAGE;
+
     return path.includes('https://') ? path : `http://image.tmdb.org/t/p/w${size}${path}`;
   };
 
   return (
     <img
-      className={classNames("Image", className)}
+      className={classNames('Image', className)}
       src={`${getImageUrl()}`}
       alt=""
     />
   );
-}
+};
 
 Image.propTypes = {
   path: PropTypes.string,
   className: PropTypes.string,
   size: PropTypes.number,
-}
+};
 
 Image.defaultProps = {
   path: DEFAULT_IMAGE,
-  className: '',
+  className: null,
   size: 300,
 };
 

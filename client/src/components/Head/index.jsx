@@ -2,21 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-const Head = ({ title, ogTitle, ogUrl, ogImage }) => {
-  return (
-    <Helmet>
-      {/* <!-- Primary Meta Tags --> */}
-      <title>{title}</title>
-      <meta name="title" content={ogTitle} />
-      {/* <!-- Open Graph / Facebook --> */}
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={ogUrl} />
-      <meta property="og:title" content={ogTitle} />
-      <meta property="og:image" content={ogImage} />
+const Head = ({
+  title, ogTitle, ogUrl, ogImage,
+}) => (
+  <Helmet>
+    {/* <!-- Primary Meta Tags --> */}
+    <title>{title}</title>
+    <meta name="title" content={ogTitle} />
+    {/* <!-- Open Graph / Facebook --> */}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:image" content={ogImage} />
 
-    </Helmet>
-  );
-}
+  </Helmet>
+);
 
 Head.propTypes = {
   title: PropTypes.string,

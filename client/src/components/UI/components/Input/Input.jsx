@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import './index.scss';
 
 const Input = (props) => {
-
   const {
     type,
     error,
@@ -37,7 +36,7 @@ const Input = (props) => {
       {errorMessage && errorMessage}
     </div>
   );
-}
+};
 
 Input.propTypes = {
   label: PropTypes.string,
@@ -55,14 +54,14 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
-  label: '',
+  label: null,
   type: 'text',
-  name: '',
-  error: '',
-  errorMessage: '',
-  value: '',
+  name: null,
+  error: null,
+  errorMessage: null,
+  value: null,
   required: false,
-  placeholder: '',
+  placeholder: null,
   onChange: () => { },
   onClick: () => { },
   outlined: false,

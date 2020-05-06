@@ -10,7 +10,7 @@ const goBack = () => {
   window.history.back();
 };
 
-const PageTitle = props => {
+const PageTitle = (props) => {
   const { title, buttonBack } = props;
 
   return (
@@ -24,7 +24,7 @@ const PageTitle = props => {
       </If>
     </div>
   );
-}
+};
 
 PageTitle.propTypes = {
   title: PropTypes.string,
@@ -32,7 +32,7 @@ PageTitle.propTypes = {
 };
 
 PageTitle.defaultProps = {
-  title: "",
+  title: '',
   buttonBack: true,
 };
 

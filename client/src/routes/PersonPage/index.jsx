@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
 
-import ItemsList from 'components/ItemsList'
-import Head from 'components/Head'
-import { Image } from 'components/UI'
+import ItemsList from 'components/ItemsList';
+import Head from 'components/Head';
+import { Image } from 'components/UI';
 
 import './index.scss';
 
-const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY
+const apiKey = process.env.REACT_APP_MOVIE_DB_API_KEY;
 
 class PersonPage extends Component {
   state = {
@@ -20,32 +20,32 @@ class PersonPage extends Component {
   getPersonInfo(id) {
     axios(`https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&language=ru`)
       .then(({ data }) => {
-        this.setState({ person: data })
+        this.setState({ person: data });
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
   }
 
   getCredits(id) {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     const { match: { params } } = this.props;
-    const page = params.page === 'movies' ? 'movie' : 'tv'
+    const page = params.page === 'movies' ? 'movie' : 'tv';
     axios(`https://api.themoviedb.org/3/person/${id}/${page}_credits?api_key=${apiKey}&language=en-US`)
-      .then(res => {
+      .then((res) => {
         this.setState({
           credits: res.data[params.role],
-          loading: false
-        })
+          loading: false,
+        });
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
   }
 
   componentDidMount() {
-    const { match: { params: { id } } } = this.props
+    const { match: { params: { id } } } = this.props;
 
     // Get info about actor
     this.getPersonInfo(id);
 
-    //Get list of movies
+    // Get list of movies
     this.getCredits(id);
   }
 
@@ -67,7 +67,7 @@ class PersonPage extends Component {
 
     return (
       <div className="person-page">
-        <Head title={`Fiction finder - search`} />
+        <Head title="Fiction finder - search" />
 
         <div className="container-fluid">
           <div className="person-page__wrap">
@@ -77,10 +77,22 @@ class PersonPage extends Component {
 
             <div className="person-page__info">
               <h3>{name}</h3>
-              <p>Place of birth: {place_of_birth}</p>
-              <p>Birthday: {new Date(birthday).toLocaleDateString()}</p>
-              {deathday ?
-                <p> Deathday : {new Date(deathday).toLocaleDateString()}</p>
+              <p>
+                Place of birth:
+                {place_of_birth}
+              </p>
+              <p>
+                Birthday:
+                {new Date(birthday).toLocaleDateString()}
+              </p>
+              {deathday
+                ? (
+                  <p>
+                    {' '}
+                    Deathday :
+                    {new Date(deathday).toLocaleDateString()}
+                  </p>
+                )
                 : null}
               <p>{biography}</p>
             </div>
@@ -89,7 +101,7 @@ class PersonPage extends Component {
           <ItemsList loading={loading} items={credits} type={page} />
         </div>
       </div>
-    )
+    );
   }
 }
 

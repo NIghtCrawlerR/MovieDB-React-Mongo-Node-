@@ -51,7 +51,7 @@ export const GET_ITEM_RECOMMENDED_URL = (category, id) => `${HOST}/api/catalog/$
  * POSTER URL
  */
 
- // available width: 300, 780, 1280, original
+// available width: 300, 780, 1280, original
 export const MOVIE_POSTER_BASEURL = (width = 300) => `http://image.tmdb.org/t/p/w${width}`;
 
 /*

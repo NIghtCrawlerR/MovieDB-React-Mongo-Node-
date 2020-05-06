@@ -6,12 +6,13 @@ import ItemsList from 'components/ItemsList';
 
 class Collection extends React.Component {
   render() {
-    const { collection: {
-      id,
-      title,
-      alias,
-      items,
-    },
+    const {
+      collection: {
+        id,
+        title,
+        alias,
+        items,
+      },
       category,
       userData,
       removeColection,
@@ -23,16 +24,17 @@ class Collection extends React.Component {
           <h3 className="collection-group__title">
             <Link to={`/collection/${category}/${alias}`}>{title}</Link>
           </h3>
-          {userData.isAdmin &&
-            <Icon
-              name="trash"
-              onClick={() => removeColection(id)}
-            />
-          }
+          {userData.isAdmin
+            && (
+              <Icon
+                name="trash"
+                onClick={() => removeColection(id)}
+              />
+            )}
         </div>
         <ItemsList items={items} type={category} />
       </div>
-    )
+    );
   }
 }
 

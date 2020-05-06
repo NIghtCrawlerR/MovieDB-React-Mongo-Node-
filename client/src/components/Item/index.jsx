@@ -6,7 +6,6 @@ import { get } from 'lodash';
 
 import { Image } from 'components/UI';
 import CollectionsSelector from 'components/CollectionsSelector';
-import ItemActions from './components/ItemActions';
 import { If } from 'components/helpers/ConditionalRender';
 import { getRatingColor } from 'lib';
 
@@ -15,12 +14,15 @@ import {
   deleteItemFromWishlist,
   updateWishlist,
 } from 'actions';
+import ItemActions from './components/ItemActions';
 
 import './index.scss';
 
 class Item extends Component {
   prepareItemData = () => {
-    const { id, slug, title, genres, poster, rating, type } = this.props;
+    const {
+      id, slug, title, genres, poster, rating, type,
+    } = this.props;
 
     return {
       id,
@@ -30,12 +32,12 @@ class Item extends Component {
       poster,
       rating,
       itemType: type,
-    }
+    };
   }
 
   currentItem = () => {
     const { user, type, id } = this.props;
-    return user[type].find(item => item.id === id);
+    return user[type].find((item) => item.id === id);
   }
 
   itemAction = (action) => {
@@ -52,18 +54,20 @@ class Item extends Component {
   }
 
   deleteFromWishlist = () => {
-    const { id, user, type, deleteItemFromWishlist } = this.props;
+    const {
+      id, user, type, deleteItemFromWishlist,
+    } = this.props;
 
     deleteItemFromWishlist(type, id, user.id);
   }
 
-  getGenres = genres => {
+  getGenres = (genres) => {
     const { moviesGenres } = this.props;
 
     if (!genres) return [];
 
     if (typeof genres[0] === 'number') {
-      return genres.map(id => {
+      return genres.map((id) => {
         const genre = moviesGenres.find((genre) => genre.id === id);
         return get(genre, 'name');
       });
@@ -114,7 +118,7 @@ class Item extends Component {
           </div>
           <div className="single-item__info--bottom">
             <If condition={rating}>
-              <p className={classNames("single-item__rating", getRatingColor(ratingValue))}>
+              <p className={classNames('single-item__rating', getRatingColor(ratingValue))}>
                 {ratingValue}
               </p>
             </If>

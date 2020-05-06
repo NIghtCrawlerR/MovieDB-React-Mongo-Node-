@@ -68,18 +68,22 @@ export default class VideoBlock extends React.Component {
         {loadingVideo
           ? <Loader />
           : game_trailers && game_trailers.length > 0
-            ?
-            <Fragment>
-              <iframe width="100%" height="400px" title="trailer" src={`https://www.youtube.com/embed/${game_trailers[this.state.currentVideo].video_id}`}></iframe>
-              {game_trailers.length > 1 ?
-                game_trailers.map((trailer, i) => (
-                  <button
-                    key={trailer.id}
-                    className={`btn btn-sm mr-2 ${currentVideo === i ? 'btn-warning' : 'btn-info'}`}
-                    onClick={() => this.setState({ currentVideo: i })}>{i}</button>
-                ))
-                : null}
-            </Fragment>
+            ? (
+              <>
+                <iframe width="100%" height="400px" title="trailer" src={`https://www.youtube.com/embed/${game_trailers[this.state.currentVideo].video_id}`} />
+                {game_trailers.length > 1
+                  ? game_trailers.map((trailer, i) => (
+                    <button
+                      key={trailer.id}
+                      className={`btn btn-sm mr-2 ${currentVideo === i ? 'btn-warning' : 'btn-info'}`}
+                      onClick={() => this.setState({ currentVideo: i })}
+                    >
+                      {i}
+                    </button>
+                  ))
+                  : null}
+              </>
+            )
             : null}
       </div>
     );

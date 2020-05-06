@@ -4,8 +4,8 @@ import { Button, Input } from 'components/UI';
 
 class CollectionForm extends React.Component {
   state = {
-    title: "",
-    aliasName: "",
+    title: '',
+    aliasName: '',
   };
 
   createCollection = () => {
@@ -15,12 +15,12 @@ class CollectionForm extends React.Component {
     if (!title || !aliasName) return !1;
 
     const collection = {
-      title: title,
+      title,
       alias: aliasName,
-      category
-    }
+      category,
+    };
 
-    createCollection(collection)
+    createCollection(collection);
   }
 
   onChange = (e) => {
@@ -28,8 +28,8 @@ class CollectionForm extends React.Component {
 
     this.setState({
       [name]: value,
-      aliasName: value.toLowerCase().replace(/[^a-z0-9]/g, "-")
-    })
+      aliasName: value.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+    });
   }
 
   render() {
@@ -44,7 +44,7 @@ class CollectionForm extends React.Component {
           <Button onClick={this.createCollection}>Create</Button>
         </div>
       </div>
-    )
+    );
   }
 }
 

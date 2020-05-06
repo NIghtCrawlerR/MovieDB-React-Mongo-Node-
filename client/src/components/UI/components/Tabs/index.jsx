@@ -7,7 +7,9 @@ import { Choose, If, Else } from 'components/helpers/ConditionalRender';
 
 import './index.scss';
 
-const Tabs = ({ tabs, onSelect, path, link, active }) => (
+const Tabs = ({
+  tabs, onSelect, path, link, active,
+}) => (
   <div className="tabs nav">
     {tabs.map((tab) => (
       <div
@@ -22,9 +24,12 @@ const Tabs = ({ tabs, onSelect, path, link, active }) => (
             </NavLink>
           </If>
           <Else>
-            <div to={`${path}/${tab.value}`} className={classNames("nav-link", {
-              active: active === tab.value,
-            })}>
+            <div
+              to={`${path}/${tab.value}`}
+              className={classNames('nav-link', {
+                active: active === tab.value,
+              })}
+            >
               {tab.title}
             </div>
           </Else>
@@ -35,15 +40,22 @@ const Tabs = ({ tabs, onSelect, path, link, active }) => (
 );
 
 Tabs.propTypes = {
-  tabs: PropTypes.array,
+  tabs: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string,
+    title: PropTypes.string,
+  })),
   path: PropTypes.string,
   onSelect: PropTypes.func,
+  link: PropTypes.string,
+  active: PropTypes.bool,
 };
 
 Tabs.defaultProps = {
   tabs: [],
-  path: "",
+  path: '',
   onSelect: () => { },
+  link: null,
+  active: false,
 };
 
 export default Tabs;

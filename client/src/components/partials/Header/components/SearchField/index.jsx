@@ -17,11 +17,11 @@ export default class SearchField extends Component {
     timeout: 0,
     searchResult: {},
     dropdown: false,
-    query: "",
+    query: '',
   };
 
   updateState = (category, results) => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       searchResult: {
         ...prevState.searchResult,
         [category]: results,

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import { GET_ITEM_RECOMMENDED_URL } from 'config/constants';
 import Slider from '../SliderCustom';
 import PageTitle from '../PageTitle';
 import Item from '../Item';
 
-import { GET_ITEM_RECOMMENDED_URL } from 'config/constants';
 
 class ItemsRecommended extends Component {
   mounted = false;
@@ -38,7 +38,7 @@ class ItemsRecommended extends Component {
     const request = {
       url: GET_ITEM_RECOMMENDED_URL(page, id),
       method: 'get',
-    }
+    };
 
     axios(request)
       .then(({ data }) => {
@@ -46,7 +46,7 @@ class ItemsRecommended extends Component {
           this.setState({ items: data.data });
         }
       })
-      .catch(err => console.error(err))
+      .catch((err) => console.error(err));
   }
 
   render() {

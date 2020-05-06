@@ -1,5 +1,5 @@
 import React from 'react';
-import onClickOutside from "react-onclickoutside";
+import onClickOutside from 'react-onclickoutside';
 
 import DropdownActivator from './DropdownActivator';
 import DropdownMenu from './DropdownMenu';
@@ -22,9 +22,9 @@ class Dropdown extends React.Component {
     this.setState({
       isOpen: false,
     });
-  };
+  }
 
-  renderActivator = children => {
+  renderActivator = (children) => {
     const body = children.find(({ type }) => type === DropdownActivator);
     const { className } = body.props;
 
@@ -38,7 +38,7 @@ class Dropdown extends React.Component {
     );
   }
 
-  renderMenu = children => {
+  renderMenu = (children) => {
     const body = children.find(({ type }) => type === DropdownMenu);
     const { isOpen } = this.state;
     const { left, right } = body.props;
@@ -62,7 +62,7 @@ class Dropdown extends React.Component {
         {this.renderActivator(children)}
         {this.renderMenu(children)}
       </div>
-    )
+    );
   }
 }
 

@@ -51,7 +51,9 @@ class BugReportForm extends Component {
   }
 
   render() {
-    const { title, body, email, loading } = this.state;
+    const {
+      title, body, email, loading,
+    } = this.state;
 
     return (
       <div className="form__wrap content movie-form__wrap">

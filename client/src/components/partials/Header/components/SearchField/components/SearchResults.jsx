@@ -5,7 +5,7 @@ import SearchItem from './SearchItem';
 
 class SearchResults extends React.Component {
   state = {
-    tabSelected: "movies",
+    tabSelected: 'movies',
   }
 
   switchTabs = (tabSelected) => {
@@ -18,9 +18,9 @@ class SearchResults extends React.Component {
     const { tabSelected } = this.state;
     const { data } = this.props;
 
-    const tabs = Object.keys(data).map(key => ({ title: key, value: key }));
+    const tabs = Object.keys(data).map((key) => ({ title: key, value: key }));
 
-    if (!tabs.length) return "Start search"
+    if (!tabs.length) return 'Start search';
 
     return (
       <div className="search-results">
@@ -32,15 +32,14 @@ class SearchResults extends React.Component {
         <div className="search-results__wrap">
           <h3 className="search-results__header">{tabSelected}</h3>
           <div className="search-results__list">
-            {data[tabSelected] &&
-              data[tabSelected].map((item) => (
+            {data[tabSelected]
+              && data[tabSelected].map((item) => (
                 <SearchItem
                   key={item.id}
                   category={tabSelected}
                   item={item}
                 />
-              ))
-            }
+              ))}
           </div>
         </div>
       </div>

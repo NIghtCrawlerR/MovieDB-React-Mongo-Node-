@@ -1,11 +1,11 @@
+import axios from 'axios';
 import {
   GET_MOVIES_TV,
   GET_GAMES,
   GET_FULL_ITEM,
   TOGGLE_MODAL,
   SET_LOADING,
-} from './types'
-import axios from 'axios';
+} from './types';
 
 import {
   GET_GAMES_URL,
@@ -20,7 +20,7 @@ const defaultParams = {
   language: LANG,
   include_adult: false,
   include_video: false,
-}
+};
 
 const makeRequest = (url, category, page, dispatch) => {
   dispatch({
@@ -34,8 +34,8 @@ const makeRequest = (url, category, page, dispatch) => {
     params: {
       page,
       ...defaultParams,
-    }
-  }
+    },
+  };
 
   axios(request)
     .then(({ data }) => {
@@ -50,31 +50,27 @@ const makeRequest = (url, category, page, dispatch) => {
         payload: false,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: TOGGLE_MODAL,
         payload: {
           isOpen: true,
           err,
-        }
+        },
       });
 
       dispatch({
         type: SET_LOADING,
         payload: false,
       });
-    })
-}
+    });
+};
 
-export const getTV = page => dispatch => {
-  return makeRequest(GET_TV_URL, 'tv', page, dispatch);
-}
+export const getTV = (page) => (dispatch) => makeRequest(GET_TV_URL, 'tv', page, dispatch);
 
-export const getMovies = page => dispatch => {
-  return makeRequest(GET_MOVIES_URL, 'movies', page, dispatch);
-}
+export const getMovies = (page) => (dispatch) => makeRequest(GET_MOVIES_URL, 'movies', page, dispatch);
 
-export const getGames = page => dispatch => {
+export const getGames = (page) => (dispatch) => {
   dispatch({
     type: SET_LOADING,
     payload: true,
@@ -86,7 +82,7 @@ export const getGames = page => dispatch => {
     params: {
       page,
       page_size: 18,
-    }
+    },
   };
 
   axios(request)
@@ -101,33 +97,33 @@ export const getGames = page => dispatch => {
         payload: false,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: TOGGLE_MODAL,
         payload: {
           isOpen: true,
           err,
-        }
+        },
       });
 
       dispatch({
         type: SET_LOADING,
         payload: false,
       });
-    })
-}
+    });
+};
 
-export const getFullItem = (category, id) => dispatch => {
+export const getFullItem = (category, id) => (dispatch) => {
   const request = {
     url: GET_ITEM_FULL_URL(category, id),
     method: 'get',
-  }
+  };
 
   axios(request)
     .then((res) => {
       dispatch({
         type: GET_FULL_ITEM,
-        payload: res.data.data
+        payload: res.data.data,
       });
     })
     .catch((err) => {
@@ -136,7 +132,7 @@ export const getFullItem = (category, id) => dispatch => {
         payload: {
           isOpen: true,
           err,
-        }
-      })
+        },
+      });
     });
-}
+};

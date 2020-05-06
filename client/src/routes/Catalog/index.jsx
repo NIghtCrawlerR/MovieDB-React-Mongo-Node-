@@ -33,7 +33,7 @@ class Catalog extends Component {
     const {
       location: { search },
       match: {
-        params: { page, collection }
+        params: { page, collection },
       },
     } = this.props;
 
@@ -61,7 +61,7 @@ class Catalog extends Component {
     }
   }
 
-  changePage = page => {
+  changePage = (page) => {
     const { history } = this.props;
 
     history.push({

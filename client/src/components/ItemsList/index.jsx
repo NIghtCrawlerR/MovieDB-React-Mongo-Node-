@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Loader } from 'components/UI'
-import Item from '../Item'
+import { Loader } from 'components/UI';
 import { Choose, If, Else } from 'components/helpers/ConditionalRender';
+import Item from '../Item';
 
-import './index.css'
+import './index.css';
 
 export default class List extends Component {
   render() {
-    const { loading, items, wishlist, type } = this.props;
+    const {
+      loading, items, wishlist, type,
+    } = this.props;
 
     if (!loading && (!items || !items.length)) {
       return (
@@ -21,7 +23,7 @@ export default class List extends Component {
     }
 
     return (
-      <React.Fragment>
+      <>
         <Choose>
           <If condition={loading}>
             <Loader />
@@ -39,7 +41,7 @@ export default class List extends Component {
             </div>
           </Else>
         </Choose>
-      </React.Fragment>
-    )
+      </>
+    );
   }
 }

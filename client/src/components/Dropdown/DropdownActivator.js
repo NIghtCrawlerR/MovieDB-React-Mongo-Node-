@@ -7,12 +7,12 @@ class DropdownActivator extends React.Component {
 
     return (
       <div
-        className={classNames("dropdown-activator", className)}
+        className={classNames('dropdown-activator', className)}
         onClick={onClick}
       >
         {children}
       </div>
-    )
+    );
   }
 }
 

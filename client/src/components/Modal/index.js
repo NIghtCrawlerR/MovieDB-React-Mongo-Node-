@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Icon } from 'components/UI';
+import { toggleModal } from 'actions';
 import { If } from '../helpers/ConditionalRender';
 
-import { toggleModal } from 'actions';
 
 import './index.scss';
 
@@ -12,7 +12,7 @@ class Modal extends React.Component {
   closeModal = () => {
     const { toggleModal } = this.props;
 
-    toggleModal(false, null)
+    toggleModal(false, null);
   }
 
   render() {
@@ -45,7 +45,7 @@ class Modal extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

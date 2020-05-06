@@ -31,10 +31,10 @@ class Wishlist extends Component {
   applyFilter = (values) => {
     this.setState({
       filterParams: values,
-    })
+    });
   }
 
-  setSearchQuery = searchQuery => {
+  setSearchQuery = (searchQuery) => {
     this.setState({ searchQuery });
   }
 

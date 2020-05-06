@@ -13,7 +13,6 @@ function MainInfo({
   platforms,
   website,
 }) {
-
   const listFromArray = (array) => array.map((item) => item.name).join(', ');
   const platformsList = (array) => array.map((item) => item.platform.name).join(', ');
 

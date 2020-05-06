@@ -15,21 +15,21 @@ class Homepage extends React.Component {
   createTabs = (category) => {
     const { collections } = this.props;
 
-    return collections.filter(collection => collection.category === category).map(collection => {
+    return collections.filter((collection) => collection.category === category).map((collection) => {
       const { title, alias, image } = collection;
       return {
         title,
         value: alias,
         link: `collection/${category}/${alias}`,
         image,
-      }
-    })
+      };
+    });
   }
 
   render() {
-    const movies = this.createTabs("movies");
-    const tv = this.createTabs("tv");
-    const games = this.createTabs("games");
+    const movies = this.createTabs('movies');
+    const tv = this.createTabs('tv');
+    const games = this.createTabs('games');
 
     return (
       <div className="homapage">
@@ -44,21 +44,21 @@ class Homepage extends React.Component {
           <If condition={!!movies.length}>
             <div className="homepage__collection-group">
               <PageTitle title="Movies collections" buttonBack={false} />
-              <SliderTabs tabs={this.createTabs("movies")} />
+              <SliderTabs tabs={this.createTabs('movies')} />
             </div>
           </If>
 
           <If condition={!!tv.length}>
             <div className="homepage__collection-group">
               <PageTitle title="TV collections" buttonBack={false} />
-              <SliderTabs tabs={this.createTabs("tv")} />
+              <SliderTabs tabs={this.createTabs('tv')} />
             </div>
           </If>
 
           <If condition={!!games.length}>
             <div className="homepage__collection-group">
               <PageTitle title="Games collections" buttonBack={false} />
-              <SliderTabs tabs={this.createTabs("games")} />
+              <SliderTabs tabs={this.createTabs('games')} />
             </div>
           </If>
         </div>

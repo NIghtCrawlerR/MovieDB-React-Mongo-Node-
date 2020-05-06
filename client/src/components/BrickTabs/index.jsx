@@ -5,29 +5,27 @@ import classNames from 'classnames';
 
 import './index.scss';
 
-const BrickTabs = ({  main, path, tabs }) => {
-  return (
-    <div className="brick-tabs">
-      {tabs.map((tab) => (
-        <NavLink
-          key={tab.value}
-          activeClassName="active"
-          className={classNames("tab-item", {
-            main,
-          })}
-          to={`${path}/${tab.link}`}
-        >
-          <img src={tab.img} alt=""/>
-          <div className="tab-item__body">
-            <h3 className="tab-item__title">
-              {tab.title}
-            </h3>
-          </div>
-        </NavLink>
-      ))}
-    </div>
-  );
-}
+const BrickTabs = ({ main, path, tabs }) => (
+  <div className="brick-tabs">
+    {tabs.map((tab) => (
+      <NavLink
+        key={tab.value}
+        activeClassName="active"
+        className={classNames('tab-item', {
+          main,
+        })}
+        to={`${path}/${tab.link}`}
+      >
+        <img src={tab.img} alt="" />
+        <div className="tab-item__body">
+          <h3 className="tab-item__title">
+            {tab.title}
+          </h3>
+        </div>
+      </NavLink>
+    ))}
+  </div>
+);
 
 BrickTabs.propTypes = {
   main: PropTypes.bool.isRequired,

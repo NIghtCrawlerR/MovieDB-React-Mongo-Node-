@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -6,16 +6,15 @@ import { flowRight } from 'lodash';
 
 import { Loader } from 'components/UI';
 import SliderTabs from 'components/SliderTabs';
-import CollectionForm from './components/CollectionForm';
-import Collection from './components/Collection';
-
 import { If } from 'components/helpers/ConditionalRender';
-
 import {
   createCollection,
   deleteCollection,
   getCollectionsFromCategory,
 } from 'actions';
+import CollectionForm from './components/CollectionForm';
+import Collection from './components/Collection';
+
 
 import './index.scss';
 
@@ -54,7 +53,7 @@ class Category extends React.Component {
     this.setState({ loading: true });
 
     getCollectionsFromCategory(category)
-      .then(collectionsCount => {
+      .then((collectionsCount) => {
         this.setState({ loading: false });
 
         if (!isAdmin && collectionsCount === 0) {
@@ -62,8 +61,8 @@ class Category extends React.Component {
         }
       })
       .catch(() => {
-        this.setState({ loading: false })
-      })
+        this.setState({ loading: false });
+      });
   }
 
   createCollection = (collection) => {
@@ -75,19 +74,19 @@ class Category extends React.Component {
     const all = {
       title: `All ${category}`,
       value: 'all',
-      link: `catalog/${category}`
-    }
-    const tabs = collections.map(collection => {
+      link: `catalog/${category}`,
+    };
+    const tabs = collections.map((collection) => {
       const { title, alias } = collection;
       return {
         title,
         value: alias,
         link: `collection/${category}/${alias}`,
-        image: collection.image || ""
-      }
-    })
+        image: collection.image || '',
+      };
+    });
 
-    return [all, ...tabs]
+    return [all, ...tabs];
   }
 
   onChange = (e) => {
@@ -95,8 +94,8 @@ class Category extends React.Component {
 
     this.setState({
       [name]: value,
-      aliasName: value.toLowerCase().replace(/[^a-z0-9]/g, "-")
-    })
+      aliasName: value.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+    });
   }
 
   removeColection(id) {
@@ -136,14 +135,14 @@ class Category extends React.Component {
           ))
         )}
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ collections, user }) => ({
   categoryCollections: collections.categoryCollections,
   userData: user,
-})
+});
 
 export default flowRight(
   withRouter,

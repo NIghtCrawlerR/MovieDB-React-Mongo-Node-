@@ -28,7 +28,7 @@ import {
   verifyUser,
   logout,
   getGenres,
-  getCollections
+  getCollections,
 } from 'actions';
 
 class RootComponent extends React.Component {
@@ -161,7 +161,7 @@ function mapStateToProps({
     settings,
     collections,
     genres,
-  }
+  };
 }
 
 export default connect(mapStateToProps, {

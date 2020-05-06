@@ -7,17 +7,17 @@ class ErrorBoundary extends React.Component {
   state = {
     hasError: false,
     error: null,
-    info: null
+    info: null,
   };
 
   componentDidCatch(error, info) {
     this.setState({
       hasError: true,
-      error: error,
-      info: info
+      error,
+      info,
     });
 
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === 'production') {
       this.sendLog(error, info);
     }
   }
@@ -37,8 +37,14 @@ class ErrorBoundary extends React.Component {
       return (
         <div className="error__wrap">
           <h2>Oops, something went wrong :(</h2>
-          <p>The error: {this.state.error.toString()}</p>
-          <p>Where it occured: {this.state.info.componentStack}</p>
+          <p>
+            The error:
+            {this.state.error.toString()}
+          </p>
+          <p>
+            Where it occured:
+            {this.state.info.componentStack}
+          </p>
         </div>
       );
     }

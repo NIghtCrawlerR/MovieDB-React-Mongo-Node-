@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import { Input } from 'components/UI';
 
@@ -15,20 +15,20 @@ class Filter extends React.Component {
     const { values } = this.state;
 
     if (!value || value !== '-1') {
-      values[name] = value
+      values[name] = value;
     } else {
-      delete values[name]
+      delete values[name];
     }
 
     this.setState({ values }, () => {
-      applyFilter(values)
+      applyFilter(values);
     });
   };
 
   setSearchQuery = ({ target: { value } }) => {
     this.setState({ searchQuery: value.toLowerCase() }, (e) => {
       this.props.setSearchQuery(this.state.searchQuery);
-    })
+    });
   }
 
   render() {
@@ -59,7 +59,7 @@ class Filter extends React.Component {
           onChange={this.setSearchQuery}
         />
       </div>
-    )
+    );
   }
 }
 

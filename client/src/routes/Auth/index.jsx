@@ -37,7 +37,7 @@ class AuthForm extends Component {
     if (action === 'login') {
       login({ email, password });
     } else {
-      register({ email, password, passwordConfirm })
+      register({ email, password, passwordConfirm });
     }
   }
 
@@ -128,7 +128,7 @@ function mapStateToProps({
     errorMessage,
     successMessage,
     showLoader,
-  }
+  };
 }
 
 export default connect(mapStateToProps, {

@@ -2,7 +2,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import {
+  CarouselProvider, Slider, Slide, ButtonBack, ButtonNext,
+} from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 import { Icon } from 'components/UI';

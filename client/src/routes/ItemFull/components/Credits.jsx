@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
 import { Image } from 'components/UI';
@@ -11,20 +11,22 @@ import InfoBlock from './InfoBlock';
 const BASE_URL = process.env.REACT_APP_MOVIE_DB_URL;
 const API_KEY = process.env.REACT_APP_MOVIE_DB_API_KEY;
 
-const ProfileImage = ({ name, category, id, profile_path }) => (
+const ProfileImage = ({
+  name, category, id, profile_path,
+}) => (
   <OverlayTrigger
     placement="bottom"
-    overlay={
+    overlay={(
       <Tooltip>
         {name}
       </Tooltip>
-    }
+    )}
   >
     <Link to={`/search/${category}/cast/${id}`} className="cast-profile-link">
       <Image path={profile_path} />
     </Link>
   </OverlayTrigger>
-)
+);
 
 class Credits extends React.Component {
   state = {
@@ -57,19 +59,19 @@ class Credits extends React.Component {
   }
 
   render() {
-    const castListFromArray = (array, category) => {
-      return array.map((member) => (
-        <ProfileImage
-          key={member.id}
-          name={member.name}
-          id={member.id}
-          profile_path={member.profile_path}
-          category={category}
-        />
-      ));
-    };
+    const castListFromArray = (array, category) => array.map((member) => (
+      <ProfileImage
+        key={member.id}
+        name={member.name}
+        id={member.id}
+        profile_path={member.profile_path}
+        category={category}
+      />
+    ));
 
-    const { cast, directing, production, writing } = this.state;
+    const {
+      cast, directing, production, writing,
+    } = this.state;
     const { category } = this.props;
 
     return (

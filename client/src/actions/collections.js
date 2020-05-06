@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 import {
   GET_COLLECTIONS,
   GET_GENRES,
@@ -7,7 +7,7 @@ import {
   DELETE_COLLECTION,
   GET_COLLECTIONS_FROM_CATEGORY,
   TOGGLE_MODAL,
-} from './types'
+} from './types';
 
 import {
   MOVIE_API_BASEURL,
@@ -23,24 +23,24 @@ import {
 
 const lang = 'ru';
 
-export const getCollections = () => dispatch => {
+export const getCollections = () => (dispatch) => {
   axios.get(FETCH_COLLECTIONS_URL)
-    .then(res => {
+    .then((res) => {
       dispatch({
         type: GET_COLLECTIONS,
-        collections: res.data
-      })
+        collections: res.data,
+      });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: TOGGLE_MODAL,
         payload: {
           isOpen: true,
           err,
-        }
-      })
-    })
-}
+        },
+      });
+    });
+};
 
 export const updateCollections = (checked, alias, itemId, itemData) => (dispatch) => {
   const data = {
@@ -63,8 +63,8 @@ export const updateCollections = (checked, alias, itemId, itemData) => (dispatch
           payload: {
             isOpen: true,
             err,
-          }
-        })
+          },
+        });
       });
   } else {
     axios.post(REMOVE_FROM_COLLECTION_URL, data)
@@ -81,46 +81,41 @@ export const updateCollections = (checked, alias, itemId, itemData) => (dispatch
           payload: {
             isOpen: true,
             err,
-          }
-        })
+          },
+        });
       });
   }
 };
 
-export const getCollectionsFromCategory = (category) => dispatch => {
-  return new Promise((resolve, reject) => {
-    axios.get(FECTH_COLLECTION_BY_CATEGORY_URL(category))
-      .then(({ data }) => {
+export const getCollectionsFromCategory = (category) => (dispatch) => new Promise((resolve, reject) => {
+  axios.get(FECTH_COLLECTION_BY_CATEGORY_URL(category))
+    .then(({ data }) => {
+      dispatch({
+        type: GET_COLLECTIONS_FROM_CATEGORY,
+        payload: data,
+      });
+
+      resolve(data.length);
+    })
+    .catch((err) => reject(err));
+});
+
+export const createCollection = (userId, data) => (dispatch) => new Promise((resolve, reject) => {
+  axios.post(CREATE_COLLECTION_URL(userId), { collection: data })
+    .then(({ data }) => {
+      if (data.success) {
         dispatch({
-          type: GET_COLLECTIONS_FROM_CATEGORY,
-          payload: data,
-        })
+          type: CREATE_COLLECTION,
+          payload: data.item,
+        });
+      } else throw new Error(data.message);
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
 
-        resolve(data.length);
-      })
-      .catch(err => reject(err))
-  })
-
-}
-
-export const createCollection = (userId, data) => dispatch => {
-  return new Promise((resolve, reject) => {
-    axios.post(CREATE_COLLECTION_URL(userId), { collection: data })
-      .then(({ data }) => {
-        if (data.success) {
-          dispatch({
-            type: CREATE_COLLECTION,
-            payload: data.item
-          })
-        } else throw new Error(data.message)
-      })
-      .catch(err => {
-        reject(err);
-      })
-  })
-}
-
-export const updateCollection = (alias, values) => dispatch => {
+export const updateCollection = (alias, values) => (dispatch) => {
   axios.post(UPDATE_COLLECTION_URL(alias), values)
     .then(({ data }) => {
       // if (data.success) {
@@ -130,25 +125,23 @@ export const updateCollection = (alias, values) => dispatch => {
       //   })
       // } else throw new Error(data.message)
     })
-    .catch(err => {
-      console.log(err)
-    })
-}
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
-export const deleteCollection = (collectionId) => dispatch => {
-  return new Promise((resolve, reject) => {
-    axios.delete(DELETE_COLLECTION_URL(collectionId))
-      .then(res => {
-        dispatch({
-          type: DELETE_COLLECTION,
-          payload: collectionId
-        })
-      })
-      .catch(err => {
-        reject(err);
-      })
-  })
-}
+export const deleteCollection = (collectionId) => (dispatch) => new Promise((resolve, reject) => {
+  axios.delete(DELETE_COLLECTION_URL(collectionId))
+    .then((res) => {
+      dispatch({
+        type: DELETE_COLLECTION,
+        payload: collectionId,
+      });
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
 
 export const getGenres = (collection) => (dispatch) => {
   axios.get(`${MOVIE_API_BASEURL}/genre/${collection}/list?api_key=${MOVIE_API_KEY}&language=${lang}`)
@@ -162,7 +155,6 @@ export const getGenres = (collection) => (dispatch) => {
             genres: [...genres, ...res.data.genres],
           });
         });
-
     })
     .catch((err) => {
       dispatch({
@@ -170,7 +162,7 @@ export const getGenres = (collection) => (dispatch) => {
         payload: {
           isOpen: true,
           err,
-        }
-      })
+        },
+      });
     });
 };

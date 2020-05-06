@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 
 const Route = ({ children, privateRoute, ...rest }) => {
   const token = localStorage.getItem('token');
-  
+
   if (privateRoute && !token) {
-    return <Redirect to="/login" />
+    return <Redirect to="/login" />;
   }
 
   return (
@@ -15,7 +15,7 @@ const Route = ({ children, privateRoute, ...rest }) => {
       {children}
     </ReactRoute>
   );
-}
+};
 
 Route.propTypes = {
   privateRoute: PropTypes.bool,

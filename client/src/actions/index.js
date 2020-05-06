@@ -31,7 +31,7 @@ import {
 } from './user';
 
 import {
-  toggleModal
+  toggleModal,
 } from './settings';
 
 export {
@@ -56,4 +56,4 @@ export {
   verifyUser,
   getUser,
   toggleModal,
-}
+};

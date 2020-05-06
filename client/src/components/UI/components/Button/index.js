@@ -4,19 +4,19 @@ import classNames from 'classnames';
 
 import './index.scss';
 
-const Button = ({ onClick, children, type, className, variant, outlined }) => {
-    return (
-      <button
-        type={type}
-        className={classNames("Button", `Button--${variant}`, className, {
-          "Button--outlined": outlined,
-        })}
-        onClick={onClick}
-      >
-        {children}
-      </button>
-    );
-}
+const Button = ({
+  onClick, children, type, className, variant, outlined,
+}) => (
+  <button
+    type={type}
+    className={classNames('Button', `Button--${variant}`, className, {
+      'Button--outlined': outlined,
+    })}
+    onClick={onClick}
+  >
+    {children}
+  </button>
+);
 
 Button.propTypes = {
   type: PropTypes.string,
@@ -27,10 +27,10 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  type: "button",
+  type: 'button',
   onClick: () => {},
   className: null,
-  variant: "default",
+  variant: 'default',
   outlined: false,
 };
 

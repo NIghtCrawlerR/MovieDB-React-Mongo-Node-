@@ -1,25 +1,25 @@
-import React from "react";
+import React from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from "axios";
+import axios from 'axios';
 
 import ItemsList from 'components/ItemsList';
 import ErrorBoundary from 'components/ErrorBoundary';
 import PageTitle from 'components/PageTitle';
 import { Button, Loader, Input } from 'components/UI';
 
-const host = process.env.NODE_ENV === "development" ? 'http://localhost:4000' : ''
+const host = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '';
 
 class Collection extends React.Component {
   state = {
     collections: [],
     loading: false,
-    title: "",
-    alias: "",
-    image: "",
+    title: '',
+    alias: '',
+    image: '',
   };
 
   componentDidMount() {
-    const { category, alias } = this.props.match.params
+    const { category, alias } = this.props.match.params;
     this.getCollectionsList(category, alias);
   }
 
@@ -27,8 +27,8 @@ class Collection extends React.Component {
     this.setState({ loading: true });
 
     axios.get(`${host}/api/collection/${category}/${alias}`)
-      .then(res => {
-        const collections = res.data
+      .then((res) => {
+        const collections = res.data;
 
         this.setState({
           collections,
@@ -36,9 +36,9 @@ class Collection extends React.Component {
           alias: collections.alias,
           title: collections.title,
           image: collections.image,
-        })
+        });
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
   }
 
   changeHandler = (e) => {
@@ -54,13 +54,15 @@ class Collection extends React.Component {
       title,
       alias,
       image,
-    }
+    };
 
     axios.post(`${host}/api/collection/update/${alias}`, { values });
   }
 
   render() {
-    const { collections, loading, title, alias, image } = this.state;
+    const {
+      collections, loading, title, alias, image,
+    } = this.state;
     const { match: { params: { category } } } = this.props;
 
     return (
@@ -100,10 +102,9 @@ class Collection extends React.Component {
             <ErrorBoundary>
               <ItemsList items={collections.items} type={category} />
             </ErrorBoundary>
-          )
-        }
+          )}
       </div>
-    )
+    );
   }
 }
 

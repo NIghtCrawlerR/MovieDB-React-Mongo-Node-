@@ -28,12 +28,18 @@ const SearchItem = ({
         </div>
 
         <div className="search-item__body">
-          <h5>{name || title} - {releaseData(released || release_date || first_air_date)}</h5>
+          <h5>
+            {name || title}
+            {' '}
+            -
+            {' '}
+            {releaseData(released || release_date || first_air_date)}
+          </h5>
           <p>{overview ? `${overview.slice(0, 100)}...` : null}</p>
         </div>
       </div>
     </Link>
   );
-}
+};
 
 export default SearchItem;

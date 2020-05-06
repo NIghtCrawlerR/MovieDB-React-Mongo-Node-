@@ -12,10 +12,12 @@ function Icon(props) {
 Icon.propTypes = {
   prefix: PropTypes.string,
   name: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
 };
 
 Icon.defaultProps = {
   prefix: 'fas',
+  onClick: () => {},
 };
 
 export default Icon;

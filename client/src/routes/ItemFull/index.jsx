@@ -12,23 +12,24 @@ import {
 
 import Head from 'components/Head';
 import CollectionsSelector from 'components/CollectionsSelector';
-import { Button, Loader, Icon, Image, Tabs } from 'components/UI';
+import {
+  Button, Loader, Icon, Image, Tabs,
+} from 'components/UI';
 
-import VideoBlock from './components/VideoBlock';
-import InfoBlock from './components/InfoBlock';
 import ItemsRecommended from 'components/ItemsRecommended';
-import Credits from './components/Credits';
-import MainInfo from './components/MainInfo';
-import Overview from './components/Overview';
-import TopInfo from './components/TopInfo';
-
 import { ITEM_FULL_TABS } from 'config/constants';
-
 import {
   addItemToWishlist,
   deleteItemFromWishlist,
   getFullItem,
 } from 'actions';
+import VideoBlock from './components/VideoBlock';
+import InfoBlock from './components/InfoBlock';
+import Credits from './components/Credits';
+import MainInfo from './components/MainInfo';
+import Overview from './components/Overview';
+import TopInfo from './components/TopInfo';
+
 
 import './index.scss';
 
@@ -64,7 +65,7 @@ class ItemFull extends Component {
     }
   }
 
-  getItemData = category => {
+  getItemData = (category) => {
     const {
       catalog: {
         itemFullInfo: {
@@ -157,7 +158,7 @@ class ItemFull extends Component {
     const itemIds = user[page].map((item) => item.id);
     const isInWishlist = itemIds.includes(itemFullInfo.id);
 
-    const tabsFiltered = ITEM_FULL_TABS.filter(tab => !tab.categories || !tab.categories.includes(page))
+    const tabsFiltered = ITEM_FULL_TABS.filter((tab) => !tab.categories || !tab.categories.includes(page));
     const ratingValue = rating;
     const releaseDate = release_date || null;
 
@@ -209,8 +210,20 @@ class ItemFull extends Component {
                 {
                   this.props.user
                     ? isInWishlist
-                      ? <Button variant="success" onClick={() => this.deleteFromWishlist(page, itemId)}><Icon name="minus" /> In wishlist</Button>
-                      : <Button variant="warning" onClick={() => this.addToWishlist(page)}><Icon name="plus" /> Add to wishlist</Button> : null
+                      ? (
+                        <Button variant="success" onClick={() => this.deleteFromWishlist(page, itemId)}>
+                          <Icon name="minus" />
+                          {' '}
+                          In wishlist
+                        </Button>
+                      )
+                      : (
+                        <Button variant="warning" onClick={() => this.addToWishlist(page)}>
+                          <Icon name="plus" />
+                          {' '}
+                          Add to wishlist
+                        </Button>
+                      ) : null
                 }
 
                 {/* Overview */}
@@ -230,33 +243,34 @@ class ItemFull extends Component {
 
                 {/* Tabs content */}
                 <div className="tabs-content">
-                  {tabSelected === 'main-info' &&
-                    <MainInfo
-                      genres={genres}
-                      release_date={release_date}
-                      next_episode_to_air={next_episode_to_air}
-                      developers={developers}
-                      publishers={publishers}
-                      production_companies={production_companies}
-                      production_countries={production_countries}
-                      platforms={platforms}
-                      website={website}
-                    />
-                  }
+                  {tabSelected === 'main-info'
+                    && (
+                      <MainInfo
+                        genres={genres}
+                        release_date={release_date}
+                        next_episode_to_air={next_episode_to_air}
+                        developers={developers}
+                        publishers={publishers}
+                        production_companies={production_companies}
+                        production_countries={production_countries}
+                        platforms={platforms}
+                        website={website}
+                      />
+                    )}
 
-                  {tabSelected === 'cast-and-crew' && page !== 'games' &&
-                    <Credits id={id} category={page} />
-                  }
+                  {tabSelected === 'cast-and-crew' && page !== 'games'
+                    && <Credits id={id} category={page} />}
 
-                  {tabSelected === 'trailers' &&
-                    <div>
-                      {page === 'games' ? <VideoBlock gameTitle={title} /> : null}
+                  {tabSelected === 'trailers'
+                    && (
+                      <div>
+                        {page === 'games' ? <VideoBlock gameTitle={title} /> : null}
 
-                      {videos && videos.results.length > 0
-                        ? <iframe width="100%" height="400px" title="trailer" src={`https://www.youtube.com/embed/${videos.results[0].key}`} />
-                        : null}
-                    </div>
-                  }
+                        {videos && videos.results.length > 0
+                          ? <iframe width="100%" height="400px" title="trailer" src={`https://www.youtube.com/embed/${videos.results[0].key}`} />
+                          : null}
+                      </div>
+                    )}
 
                   {stores
                     && (
@@ -286,4 +300,5 @@ export default flowRight(
     addItemToWishlist,
     deleteItemFromWishlist,
     getFullItem,
-  }))(ItemFull);
+  }),
+)(ItemFull);

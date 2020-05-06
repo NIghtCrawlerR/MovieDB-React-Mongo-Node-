@@ -1,10 +1,10 @@
-import axios from 'axios'
+import axios from 'axios';
 
 import {
   GET_WISHLIST,
   UPDATE_WISHLIST,
   TOGGLE_MODAL,
-} from './types'
+} from './types';
 
 import {
   FETCH_WISHLIST_URL,
@@ -25,32 +25,32 @@ export const addItemToWishlist = (collection, item, userId) => (dispatch) => {
 
   axios.post(
     ADD_TO_WISHLIST_URL,
-    { collection: collection, userId: userId, item: item },
+    { collection, userId, item },
   )
     .then(() => {
       dispatch({
         type: UPDATE_WISHLIST,
         collection,
         item,
-        do: 'add'
+        do: 'add',
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: TOGGLE_MODAL,
         payload: {
           isOpen: true,
           err,
-        }
-      })
-    })
+        },
+      });
+    });
 };
 
 export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch) => new Promise(() => {
   if (!window.confirm('Delete item from wishlist?')) return false;
 
   axios.post(DELETE_FROM_WISHLIST_URL,
-    { collection: collection, itemId: itemId, userId: userId })
+    { collection, itemId, userId })
     .then(() => {
       const item = { id: itemId };
 
@@ -58,28 +58,28 @@ export const deleteItemFromWishlist = (collection, itemId, userId) => (dispatch)
         type: UPDATE_WISHLIST,
         collection,
         item,
-        do: 'delete'
+        do: 'delete',
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: TOGGLE_MODAL,
         payload: {
           isOpen: true,
           err,
-        }
-      })
-    })
+        },
+      });
+    });
 });
 
 /**
- * 
+ *
  * Function is used to mark item as watched or liked.
  * It change wishlist item properties to true or false
  */
-export const updateWishlist = (collection, action, itemId, userId, value) => dispatch => {
+export const updateWishlist = (collection, action, itemId, userId, value) => (dispatch) => {
   axios.post(UPDATE_WISHLIST_URL, {
-    collection, action, itemId, userId, value
+    collection, action, itemId, userId, value,
   })
     .then(() => {
       dispatch({
@@ -95,35 +95,31 @@ export const updateWishlist = (collection, action, itemId, userId, value) => dis
         payload: {
           isOpen: true,
           err,
-        }
-      })
+        },
+      });
     });
 };
 
-//get wishlist items by id arr
-export const getWishlist = (itemType, items) => (dispatch) => {
-  return new Promise((resolve) => {
-    axios.post(FETCH_WISHLIST_URL,
-      { items: items, itemType: itemType })
-      .then(({ data }) => {
-        dispatch({
-          type: GET_WISHLIST,
-          wishlist: data.wishlist,
-          itemType: itemType,
-        });
+// get wishlist items by id arr
+export const getWishlist = (itemType, items) => (dispatch) => new Promise((resolve) => {
+  axios.post(FETCH_WISHLIST_URL,
+    { items, itemType })
+    .then(({ data }) => {
+      dispatch({
+        type: GET_WISHLIST,
+        wishlist: data.wishlist,
+        itemType,
+      });
 
-        resolve();
-      })
-      .catch(err => {
-        dispatch({
-          type: TOGGLE_MODAL,
-          payload: {
-            isOpen: true,
-            err,
-          }
-        })
-      })
-  })
-
-}
-
+      resolve();
+    })
+    .catch((err) => {
+      dispatch({
+        type: TOGGLE_MODAL,
+        payload: {
+          isOpen: true,
+          err,
+        },
+      });
+    });
+});
