@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
+import { WISHLIST_TABS } from 'config/constants';
 import PageHeader from 'components/PageHeader';
 import { Tabs } from 'components/UI';
 import Items from './components/Items';
@@ -9,61 +10,29 @@ import Filter from './components/Filter';
 
 import './index.scss';
 
-class Wishlist extends Component {
-  state = {
-    movies: [],
-    filtered: [],
-    loading: false,
-    tabs: [{
-      title: 'Movies',
-      value: 'movies',
-    }, {
-      title: 'TV Shows',
-      value: 'tv',
-    }, {
-      title: 'Games',
-      value: 'games',
-    }],
-    filterParams: {},
-    searchQuery: '',
-  };
+const Wishlist = ({ history: { location: { pathname } } }) => {
+  const [filterParams, setFilter] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
 
-  applyFilter = (values) => {
-    this.setState({
-      filterParams: values,
-    });
+  if (pathname === '/wishlist') {
+    return <Redirect to="/wishlist/movies" />;
   }
+  return (
+    <div>
+      <PageHeader title="Personal wishlist" />
+      <div className="wishlist container-fluid">
+        <Tabs path="/wishlist" tabs={WISHLIST_TABS} link />
 
-  setSearchQuery = (searchQuery) => {
-    this.setState({ searchQuery });
-  }
-
-  render() {
-    const {
-      history: {
-        location: { pathname },
-      },
-    } = this.props;
-
-    const { filterParams, searchQuery, tabs } = this.state;
-
-    if (pathname === '/wishlist') {
-      return <Redirect to="/wishlist/movies" />;
-    }
-    return (
-      <div>
-        <PageHeader title="Personal wishlist" />
-        <div className="wishlist container-fluid">
-          <Tabs path="/wishlist" tabs={tabs} link />
-          <Filter
-            applyFilter={this.applyFilter}
-            setSearchQuery={this.setSearchQuery}
-          />
-          <Route path="/wishlist/:collection" render={(props) => (<Items {...props} filterParams={filterParams} searchQuery={searchQuery} />)} />
-        </div>
+        <Filter
+          applyFilter={setFilter}
+          setSearchQuery={setSearchQuery}
+        />
+        <Route path="/wishlist/:collection" render={(props) => (
+          <Items {...props} filterParams={filterParams} searchQuery={searchQuery} />
+        )} />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default withRouter(Wishlist);

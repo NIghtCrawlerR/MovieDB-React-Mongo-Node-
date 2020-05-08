@@ -8,10 +8,8 @@ class Filter extends React.Component {
     searchQuery: '',
   };
 
-  changeHandler = (e) => {
-    const { name, value } = e.target;
+  changeHandler = ({ target: { name, value } }) => {
     const { applyFilter } = this.props;
-
     const { values } = this.state;
 
     if (!value || value !== '-1') {
@@ -20,15 +18,16 @@ class Filter extends React.Component {
       delete values[name];
     }
 
-    this.setState({ values }, () => {
-      applyFilter(values);
-    });
+    applyFilter({}) // TODO: not correct sollution, try to solve it
+
+    this.setState({ values }, () => applyFilter(values));
   };
 
   setSearchQuery = ({ target: { value } }) => {
-    this.setState({ searchQuery: value.toLowerCase() }, (e) => {
-      this.props.setSearchQuery(this.state.searchQuery);
-    });
+    const { setSearchQuery } = this.props;
+    const { searchQuery } = this.state;
+
+    this.setState({ searchQuery: value.toLowerCase() }, () => setSearchQuery(searchQuery));
   }
 
   render() {

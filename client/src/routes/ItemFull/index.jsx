@@ -106,11 +106,7 @@ class ItemFull extends Component {
     addItemToWishlist(category, this.getItemData(category), user.id);
   }
 
-  switchTabs = (tabSelected) => {
-    this.setState({
-      tabSelected,
-    });
-  }
+  switchTabs = (tabSelected) => this.setState({ tabSelected });
 
   render() {
     const {
@@ -235,11 +231,7 @@ class ItemFull extends Component {
 
               {/* Right block */}
               <div className="item-full__column-right">
-                <Tabs
-                  tabs={tabsFiltered}
-                  active={tabSelected}
-                  onSelect={this.switchTabs}
-                />
+                <Tabs tabs={tabsFiltered} onSwitch={this.switchTabs} />
 
                 {/* Tabs content */}
                 <div className="tabs-content">

@@ -1,50 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { get } from 'lodash';
 
 import { Tabs } from 'components/UI';
 import SearchItem from './SearchItem';
 
-class SearchResults extends React.Component {
-  state = {
-    tabSelected: 'movies',
-  }
+const SearchResults = ({ data }) => {
+  const [activeTab, setActiveTab] = useState(null);
+  const [tabs, setTabs] = useState([]);
 
-  switchTabs = (tabSelected) => {
-    this.setState({
-      tabSelected,
-    });
-  }
+  useEffect(() => {
+    const newTabs = Object.keys(data).map((key) => ({ title: key, value: key }));
 
-  render() {
-    const { tabSelected } = this.state;
-    const { data } = this.props;
+    setTabs(newTabs);
+    setActiveTab(get(newTabs, '0.value', null));
+  }, [data]);
 
-    const tabs = Object.keys(data).map((key) => ({ title: key, value: key }));
+  if (!tabs.length) return 'Start search';
 
-    if (!tabs.length) return 'Start search';
+  return (
+    <div className="search-results">
+      <Tabs tabs={tabs} onSwitch={(value) => setActiveTab(value)} />
 
-    return (
-      <div className="search-results">
-        <Tabs
-          tabs={tabs}
-          active={tabSelected}
-          onSelect={this.switchTabs}
-        />
-        <div className="search-results__wrap">
-          <h3 className="search-results__header">{tabSelected}</h3>
-          <div className="search-results__list">
-            {data[tabSelected]
-              && data[tabSelected].map((item) => (
-                <SearchItem
-                  key={item.id}
-                  category={tabSelected}
-                  item={item}
-                />
-              ))}
-          </div>
+      <div className="search-results__wrap">
+        <h3 className="search-results__header">{activeTab}</h3>
+        <div className="search-results__list">
+          {data[activeTab]
+            && data[activeTab].map((item) => (
+              <SearchItem
+                key={item.id}
+                category={activeTab}
+                item={item}
+              />
+            ))}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default SearchResults;

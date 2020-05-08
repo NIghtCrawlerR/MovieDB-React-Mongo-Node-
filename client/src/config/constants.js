@@ -123,6 +123,17 @@ export const ITEM_FULL_TABS = [
   { title: 'Trailers', value: 'trailers' },
 ];
 
+export const WISHLIST_TABS = [{
+  title: 'Movies',
+  value: 'movies',
+}, {
+  title: 'TV Shows',
+  value: 'tv',
+}, {
+  title: 'Games',
+  value: 'games',
+}];
+
 /*
  * SORT OPTIONS
  */
