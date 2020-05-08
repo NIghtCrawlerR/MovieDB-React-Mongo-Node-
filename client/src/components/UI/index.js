@@ -3,6 +3,7 @@ import Loader from './components/Loader';
 import Icon from './components/Icon';
 import Image from './components/Image';
 import Input from './components/Input';
+import Checkbox from './components/Checkbox';
 import Tabs from './components/Tabs';
 
 export {
@@ -11,5 +12,6 @@ export {
   Icon,
   Image,
   Input,
+  Checkbox,
   Tabs,
 };

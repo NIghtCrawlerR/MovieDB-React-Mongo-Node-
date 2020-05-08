@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Input } from 'components/UI';
+import { Input, Checkbox } from 'components/UI';
 
 class Filter extends React.Component {
   state = {
@@ -43,8 +43,7 @@ class Filter extends React.Component {
           <option value="0">not watched</option>
           <option value="1">watched</option>
         </select>
-        <Input
-          type="checkbox"
+        <Checkbox
           name="liked"
           value={values.liked === '1' ? '-1' : '1'}
           label="Only liked"

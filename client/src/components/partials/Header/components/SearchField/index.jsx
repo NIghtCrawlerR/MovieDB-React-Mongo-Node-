@@ -75,7 +75,7 @@ export default class SearchField extends Component {
       <div className="search-field">
         <Icon name="search" />
         <Dropdown>
-          <DropdownActivator>
+          <DropdownActivator toggle={false} >
             <Input
               ref={this.searchField}
               type="text"
@@ -84,6 +84,7 @@ export default class SearchField extends Component {
               onChange={this.isTyping}
               onClick={this.showPopup}
               placeholder="Search..."
+              autocomplete="off"
             />
           </DropdownActivator>
           <DropdownMenu left>

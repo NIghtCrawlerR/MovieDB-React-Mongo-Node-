@@ -13,12 +13,13 @@ const DropdownActivator = ({ children, onClick, className }) => (
 
 DropdownActivator.propTypes = {
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   className: PropTypes.string,
 };
 
 DropdownActivator.defaultProps = {
   className: null,
+  onClick: () => {},
 };
 
 export default DropdownActivator;

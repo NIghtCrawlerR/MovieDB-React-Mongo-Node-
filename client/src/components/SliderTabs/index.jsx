@@ -43,7 +43,7 @@ const SliderTabs = ({ path, tabs, loading }) => (
               key={tab.value}
               activeClassName="active"
               className="slider-item__link"
-              to={`${path}/${tab.link}`}
+              to={`/${tab.link}`}
             >
               <If condition={!loading}>
                 {tab.title}

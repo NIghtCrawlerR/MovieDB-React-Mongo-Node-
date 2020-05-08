@@ -16,29 +16,26 @@ class Dropdown extends React.Component {
     isOpen: false,
   };
 
-  toggleDropdown = () => {
+  toggleDropdown = (toggle) => {
     const { isOpen } = this.state;
 
-    this.setState({
-      isOpen: !isOpen,
-    });
+    if (!toggle) {
+      this.setState({ isOpen: true });
+    } else {
+      this.setState({ isOpen: !isOpen });
+    }
   };
 
-
-  handleClickOutside() {
-    this.setState({
-      isOpen: false,
-    });
-  }
+  handleClickOutside = () => this.setState({ isOpen: false });
 
   renderActivator = (children) => {
     const body = children.find(({ type }) => type === DropdownActivator);
-    const { className } = body.props;
+    const { className, toggle } = body.props;
 
     return (
       <DropdownActivator
         className={className}
-        onClick={this.toggleDropdown}
+        onClick={() => this.toggleDropdown(toggle)}
       >
         {body.props.children}
       </DropdownActivator>
