@@ -26,7 +26,6 @@ class Filter extends React.Component {
 
   setSearchQuery = ({ target: { value } }) => {
     const { setSearchQuery } = this.props;
-    const { searchQuery } = this.state;
 
     const newValue = value.toLowerCase();
     setSearchQuery(newValue);

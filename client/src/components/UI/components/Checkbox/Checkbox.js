@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import './index.scss';
 
-const Checkbox = ({ label, ...rest }) => {
+const Checkbox = ({ label, checked, ...rest }) => {
   const id = uuidv4();
 
   return (

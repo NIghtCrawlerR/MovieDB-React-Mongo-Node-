@@ -18,12 +18,13 @@ const DropdownMenu = ({ children, isOpen, left, right }) => {
 
 DropdownMenu.propTypes = {
   children: PropTypes.node.isRequired,
-  isOpen: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool,
   left: PropTypes.bool,
   right: PropTypes.bool,
 };
 
 DropdownMenu.defaultProps = {
+  isOpen: false,
   left: true,
   right: false,
 };

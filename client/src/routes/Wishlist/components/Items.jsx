@@ -14,11 +14,11 @@ const List = ({
   filterParams,
   searchQuery,
 }) => {
+  const [loading, setLoading] = useState(false);
+
   const user = useSelector(({ user }) => user);
   const wishlist = useSelector(({ wishlist }) => wishlist);
   const dispatch = useDispatch();
-
-  const [loading, setLoading] = useState(false);
 
   const getList = (collection) => {
     const ids = get(user, collection, []).map((item) => item.id);
@@ -39,7 +39,7 @@ const List = ({
 
   useEffect(() => {
     getList(collection);
-  }, [collection, user[collection]]);
+  }, [collection, user]);
 
   const filtered = (items) => {
     const wishlistItems = get(user, collection, []);

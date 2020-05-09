@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { GET_ITEM_RECOMMENDED_URL } from 'config/constants';
@@ -7,34 +7,10 @@ import PageTitle from '../PageTitle';
 import Item from '../Item';
 
 
-class ItemsRecommended extends Component {
-  mounted = false;
+const ItemsRecommended = ({ id, page }) => {
+  const [items, setItems] = useState([]);
 
-  state = {
-    items: [],
-  };
-
-  componentDidMount() {
-    this.mounted = true;
-
-    this.getRecomended();
-  }
-
-  componentDidUpdate(prevProps) {
-    const { id } = this.props;
-
-    if (prevProps.id !== id) {
-      this.getRecomended();
-    }
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  getRecomended() {
-    const { page, id } = this.props;
-
+  const getRecomended = () => {
     const request = {
       url: GET_ITEM_RECOMMENDED_URL(page, id),
       method: 'get',
@@ -42,34 +18,39 @@ class ItemsRecommended extends Component {
 
     axios(request)
       .then(({ data }) => {
-        if (data.success && this.mounted) {
-          this.setState({ items: data.data });
+        if (data.success) {
+          setItems(data.data);
         }
       })
       .catch((err) => console.error(err));
   }
 
-  render() {
-    const { items } = this.state;
-    const { page } = this.props;
+  useEffect(() => {
+    getRecomended();
+  }, []);
 
-    return (
-      items && items.length > 0 && (
-        <div className="items-slider mt-5">
-          <PageTitle title="Also you may like:" buttonBack={false} />
-          <Slider>
-            {items.map((item) => (
-              <Item
-                {...item}
-                type={page}
-                key={item.id}
-              />
-            ))}
-          </Slider>
-        </div>
-      )
-    );
-  }
+  useEffect(() => {
+    getRecomended();
+  }, [id]);
+
+
+  return (
+    items && items.length > 0 && (
+      <div className="items-slider mt-5">
+        <PageTitle title="Also you may like:" buttonBack={false} />
+
+        <Slider>
+          {items.map((item) => (
+            <Item
+              {...item}
+              type={page}
+              key={item.id}
+            />
+          ))}
+        </Slider>
+      </div>
+    )
+  );
 }
 
 export default ItemsRecommended;

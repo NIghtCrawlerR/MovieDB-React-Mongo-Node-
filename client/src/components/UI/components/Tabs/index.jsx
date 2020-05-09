@@ -52,13 +52,13 @@ Tabs.propTypes = {
   })),
   path: PropTypes.string,
   onSwitch: PropTypes.func,
-  link: PropTypes.string,
+  link: PropTypes.bool,
 };
 
 Tabs.defaultProps = {
   tabs: [],
   path: '',
-  link: null,
+  link: false,
   onSwitch: () => { },
 };
 

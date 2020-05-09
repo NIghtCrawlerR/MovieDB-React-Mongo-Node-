@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Form from 'react-bootstrap/Form';
 import { Dropdown, DropdownActivator, DropdownMenu } from 'components/Dropdown';
-import { Button } from 'components/UI';
+import { Button, Checkbox } from 'components/UI';
 
 import { updateCollections } from 'actions';
 
@@ -30,11 +29,10 @@ class CollectionsSelector extends React.Component {
           <DropdownMenu>
             {
               collectionsList.map((item) => (
-                <Form.Check
+                <Checkbox
                   key={item._id}
                   onChange={(e) => this.handleChange(e, item.alias, itemId)}
                   label={item.title}
-                  id={item._id + itemId}
                   checked={item.items && item.items.includes(itemId)}
                 />
               ))

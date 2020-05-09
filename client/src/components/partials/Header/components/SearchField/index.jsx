@@ -84,7 +84,7 @@ export default class SearchField extends Component {
               onChange={this.isTyping}
               onClick={this.showPopup}
               placeholder="Search..."
-              autocomplete="off"
+              autoComplete="off"
             />
           </DropdownActivator>
           <DropdownMenu left>
