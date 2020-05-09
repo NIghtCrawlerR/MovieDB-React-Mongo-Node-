@@ -13,7 +13,7 @@ const Input = ({
   return (
     <div className="input__wrap">
       <input
-        className={classNames('input', `input--${type}`, className, {
+        className={classNames('input', className, {
           'input--outlined': outlined,
           'input--error': error,
           'input--active': !!value,

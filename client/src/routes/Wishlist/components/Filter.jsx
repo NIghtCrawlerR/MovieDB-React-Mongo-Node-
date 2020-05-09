@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Input, Checkbox } from 'components/UI';
+import './Filter.scss';
 
 class Filter extends React.Component {
   state = {
@@ -27,14 +28,16 @@ class Filter extends React.Component {
     const { setSearchQuery } = this.props;
     const { searchQuery } = this.state;
 
-    this.setState({ searchQuery: value.toLowerCase() }, () => setSearchQuery(searchQuery));
+    const newValue = value.toLowerCase();
+    setSearchQuery(newValue);
+    this.setState({ searchQuery: newValue });
   }
 
   render() {
     const { values, searchQuery } = this.state;
 
     return (
-      <div className="wishlist__filter">
+      <div className="Filter">
         <select
           name="watched"
           onChange={this.changeHandler}
