@@ -28,7 +28,7 @@ const Wishlist = ({ history: { location: { pathname } } }) => {
           setSearchQuery={setSearchQuery}
         />
         <Route path="/wishlist/:collection" render={(props) => (
-          <Items {...props} filterParams={filterParams} searchQuery={searchQuery} />
+          <Items filterParams={filterParams} searchQuery={searchQuery} />
         )} />
       </div>
     </div>

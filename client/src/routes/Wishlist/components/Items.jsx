@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
+import { get } from 'lodash';
 
 import ItemsList from 'components/ItemsList';
 import Head from 'components/Head';
@@ -7,103 +9,74 @@ import { Loader } from 'components/UI';
 
 import { getWishlist } from 'actions';
 
-class List extends Component {
-  state = {
-    loading: false,
-  };
+const List = ({
+  match: { params: { collection } },
+  filterParams,
+  searchQuery,
+}) => {
+  const user = useSelector(({ user }) => user);
+  const wishlist = useSelector(({ wishlist }) => wishlist);
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    const {
-      match: { params: { collection } },
-    } = this.props;
+  const [loading, setLoading] = useState(false);
 
-    this.getList(collection);
-  }
-
-  componentDidUpdate(prevProps) {
-    const {
-      match: { params: { collection } },
-      user,
-    } = this.props;
-
-    if (
-      collection !== prevProps.match.params.collection
-      || user[collection].length !== prevProps.user[collection].length
-    ) {
-      this.getList(collection);
-    }
-  }
-
-  getList(collection) {
-    const { user, getWishlist } = this.props;
-    const ids = user[collection].map((item) => item.id);
+  const getList = (collection) => {
+    const ids = get(user, collection, []).map((item) => item.id);
 
     if (ids.length) {
-      this.setState({ loading: true });
-      getWishlist(collection, ids)
+      setLoading(true);
+
+      dispatch(getWishlist(collection, ids))
         .then(() => {
-          this.setState({ loading: false });
+          setLoading(false);
         });
     }
   }
 
-  render() {
-    const {
-      match: {
-        params: { collection },
-      },
-      user,
-      wishlist,
-      filterParams,
-    } = this.props;
+  useEffect(() => {
+    getList(collection);
+  }, []);
 
-    const { loading } = this.state;
+  useEffect(() => {
+    getList(collection);
+  }, [collection, user[collection]]);
 
-    const filtered = (idArr) => {
-      const allItems = user[collection];
+  const filtered = (items) => {
+    const wishlistItems = get(user, collection, []);
 
-      const filteredItems = allItems.filter((item) => Object.keys(filterParams).every((key) => {
-        const filterValue = filterParams[key] !== '0';
+    const filteredItems = wishlistItems.filter((item) => Object.keys(filterParams).every((key) => {
+      const filterValue = filterParams[key] !== '0';
 
-        return filterValue === item[key];
-      }));
+      return filterValue === item[key];
+    }));
 
-      const ids = filteredItems.map((item) => item.id);
+    const ids = filteredItems.map(({ id }) => id);
 
-      return idArr.filter((item) => ids.includes(item.id));
-    };
+    return items.filter(({ id }) => ids.includes(id));
+  };
 
-    const filterByQuery = (idArr) => {
-      const { searchQuery } = this.props;
-      const items = wishlist[collection];
+  const filterByQuery = (items) => {
+    const filteredItems = items.filter((item) => {
+      const title = (item.title || '').toLowerCase();
+      return title.includes(searchQuery);
+    });
 
-      const filteredItems = items.filter(({ title }) => (title || '').toLowerCase().includes(searchQuery));
+    return filteredItems;
+  };
 
-      const ids = filteredItems.map((item) => item.id);
-      return idArr.filter((item) => ids.includes(item.id));
-    };
+  const items = get(wishlist, collection, []);
 
-    if (loading) return <Loader />;
-    const items = wishlist[collection];
-
-    return (
-      <>
-        <Head title={`Fiction finder - wishlist - ${collection}`} />
-        <ItemsList
-          wishlist
-          loading={false}
-          items={filterByQuery(filtered(items))}
-          type={collection}
-        />
-      </>
-    );
-  }
+  if (loading) return <Loader />;
+  return (
+    <>
+      <Head title={`Fiction finder - wishlist - ${collection}`} />
+      <ItemsList
+        wishlist
+        items={filterByQuery(filtered(items))}
+        type={collection}
+      />
+    </>
+  );
 }
 
-const mapStateToProps = ({ user, collections, wishlist }) => ({
-  user,
-  collections,
-  wishlist,
-});
-
-export default connect(mapStateToProps, { getWishlist })(List);
+export default withRouter(List);
